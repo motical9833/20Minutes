@@ -87,7 +87,7 @@ namespace ya
 		GameObject* fade = object::Instantiate<GameObject>(eLayerType::Player);
 		fade->SetName(L"FadeObject");
 		Transform* fadeTr = fade->GetComponent<Transform>();
-		fadeTr->SetParent(cameraComp->GetOwner()->GetComponent<Transform>());
+		fadeTr->SetParent(cameraObj->GetComponent<Transform>());
 		fadeTr->SetPosition(Vector3(0.0f, 0.0f, 5.0f));
 		fadeTr->SetScale(Vector3(10.0f, 10.0f, 1.0f));
 		MeshRenderer* fadeMr = fade->AddComponent<MeshRenderer>();
