@@ -105,12 +105,12 @@ namespace ya::renderer
 			, gridShader->GetVSBlobBufferSize()
 			, gridShader->GetInputLayoutAddressOf());
 
-		//// FadeInOut
-		//std::shared_ptr<Shader> fadeShader = Resources::Find<Shader>(L"FadeShader");
-		//GetDevice()->CreateInputLayout(arrLayoutDesc, 3
-		//	, gridShader->GetVSBlobBufferPointer()
-		//	, gridShader->GetVSBlobBufferSize()
-		//	, gridShader->GetInputLayoutAddressOf());
+		// FadeInOut
+		std::shared_ptr<Shader> fadeShader = Resources::Find<Shader>(L"FadeShader");
+		GetDevice()->CreateInputLayout(arrLayoutDesc, 3
+			, gridShader->GetVSBlobBufferPointer()
+			, gridShader->GetVSBlobBufferSize()
+			, gridShader->GetInputLayoutAddressOf());
 
 #pragma endregion
 
@@ -280,11 +280,8 @@ namespace ya::renderer
 		constantBuffers[(UINT)eCBType::Grid] = new ConstantBuffer(eCBType::Grid);
 		constantBuffers[(UINT)eCBType::Grid]->Create(sizeof(GridCB));
 
-		constantBuffers[(UINT)eCBType::Grid] = new ConstantBuffer(eCBType::Grid);
-		constantBuffers[(UINT)eCBType::Grid]->Create(sizeof(GridCB));
-
-		//constanBuffers[(UINT)eCBType::FadeInOut] = new ConstantBuffer(eCBType::FadeInOut);
-		//constanBuffers[(UINT)eCBType::FadeInOut]->Create(sizeof(FadeInOutCB));
+		constantBuffers[(UINT)eCBType::FadeInOut] = new ConstantBuffer(eCBType::FadeInOut);
+		constantBuffers[(UINT)eCBType::FadeInOut]->Create(sizeof(FadeInOutCB));
 	}
 
 	void LoadShader()
@@ -328,12 +325,16 @@ namespace ya::renderer
 		Resources::Insert<Shader>(L"GridShader", gridShader);
 
 
-		//// FadeInOut
-		//std::shared_ptr<Shader> fadeShader = std::make_shared<Shader>();
-		//fadeShader->Create(eShaderStage::VS, L"FadeVS.hlsl", "main");
-		//fadeShader->Create(eShaderStage::PS, L"FadePS.hlsl", "main");
+		// FadeInOut
+		std::shared_ptr<Shader> fadeShader = std::make_shared<Shader>();
+		fadeShader->Create(eShaderStage::VS, L"FadeVS.hlsl", "main");
+		fadeShader->Create(eShaderStage::PS, L"FadePS.hlsl", "main");
 
-		//Resources::Insert<Shader>(L"FadeShader", fadeShader);
+		fadeShader->SetRSState(eRSType::SolidNone);
+		fadeShader->SetDSState(eDSType::NoWrite);
+		fadeShader->SetBSState(eBSType::AlphaBlend);
+
+		Resources::Insert<Shader>(L"FadeShader", fadeShader);
 
 	}
 
@@ -343,6 +344,7 @@ namespace ya::renderer
 		Resources::Load<Texture>(L"DefaultSprite", L"Light.png");
 		Resources::Load<Texture>(L"PlayerSprite", L"Player.png");
 		Resources::Load<Texture>(L"HpBarTexture", L"HpBar.png");
+		Resources::Load<Texture>(L"FadeTexture", L"FadeView.png");
 	}
 
 	void LoadMaterial()
@@ -390,6 +392,16 @@ namespace ya::renderer
 		std::shared_ptr<Material> gridMaterial = std::make_shared<Material>();
 		gridMaterial->SetShader(gridShader);
 		Resources::Insert<Material>(L"GridMaterial", gridMaterial);
+
+		// Fade
+		std::shared_ptr<Texture> fadeTexture = Resources::Find<Texture>(L"FadeTexture");
+		std::shared_ptr<Shader> fadeShader = Resources::Find<Shader>(L"FadeShader");
+		std::shared_ptr<Material> fadeMaterial = std::make_shared<Material>();
+
+		fadeMaterial->SetRenderingMode(eRenderingMode::Transparent);
+		fadeMaterial->SetShader(fadeShader);
+		fadeMaterial->SetTexture(fadeTexture);
+		Resources::Insert<Material>(L"FadeMaterial", fadeMaterial);
 	} 
 
 

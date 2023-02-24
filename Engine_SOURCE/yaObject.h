@@ -5,8 +5,7 @@
 #include "yaSceneManager.h"
 #include "yaTransform.h"
 
-
-namespace ya::gameObject
+namespace ya::object
 {
 	template <typename T>
 	static T* Instantiate(enums::eLayerType type)
@@ -15,7 +14,7 @@ namespace ya::gameObject
 		Scene* scene = SceneManager::GetActiveScene();
 		Layer& layer = scene->GetLayer(type);
 		layer.AddGameObject(gameObj);
-		
+
 		return gameObj;
 	}
 
@@ -34,7 +33,7 @@ namespace ya::gameObject
 	}
 
 	template <typename T>
-	static T* Instantiate(enums::eLayerType type, Transform* parent,bool instantiateInWorldSpace = false)
+	static T* Instantiate(enums::eLayerType type, Vector3 position, Vector3 rotation)
 	{
 		T* gameObj = new T();
 		Scene* scene = SceneManager::GetActiveScene();
@@ -42,13 +41,30 @@ namespace ya::gameObject
 		layer.AddGameObject(gameObj);
 
 		Transform* tr = gameObj->GameObject::GetComponent<Transform>();
-		tr->SetParent(parent);
-
-		if (instantiateInWorldSpace)
-		{
-			
-		}
+		tr->SetPosition(position);
+		tr->SetRotation(rotation);
 
 		return gameObj;
+	}
+
+	template <typename T>
+	static T* Instantiate(enums::eLayerType type, Vector3 position, Vector3 rotation, Transform* parent)
+	{
+		T* gameObj = new T();
+		Scene* scene = SceneManager::GetActiveScene();
+		Layer& layer = scene->GetLayer(type);
+		layer.AddGameObject(gameObj);
+
+		Transform* tr = gameObj->GameObject::GetComponent<Transform>();
+		tr->SetPosition(position);
+		tr->SetRotation(rotation);
+		tr->SetParent(parent);
+
+		return gameObj;
+	}
+
+	void Destroy(GameObject* gameObject)
+	{
+		gameObject->Death();
 	}
 }

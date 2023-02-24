@@ -144,6 +144,9 @@
     <ClCompile Include="yaGridScript.cpp">
       <Filter>Script</Filter>
     </ClCompile>
+    <ClCompile Include="yaFadeScript.cpp">
+      <Filter>Script</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CommonInclude.h">
@@ -247,6 +250,9 @@
     </ClInclude>
     <ClInclude Include="yaObject.h">
       <Filter>GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="yaFadeScript.h">
+      <Filter>Script</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

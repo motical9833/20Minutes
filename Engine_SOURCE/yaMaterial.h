@@ -29,10 +29,13 @@ namespace ya::graphics
 		eRenderingMode GetRenderingMode() { return mMode; }
 		void SetRenderingMode(eRenderingMode mode) { mMode = mode; }
 
+		FadeInOutCB GetFadeCB() { return fCB; }
+
 	private:
 		std::shared_ptr<Shader> mShader;
 		std::shared_ptr<Texture> mTexture;
 		MaterialCB mCB;
+		FadeInOutCB fCB;
 		eRenderingMode mMode;
 	}; 
 }

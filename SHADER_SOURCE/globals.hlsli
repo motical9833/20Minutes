@@ -26,7 +26,8 @@ cbuffer FadeInOut : register(b3)
 {
     float4 position;
     float4 color;
-    float2 uv;
+    float alpha;
+    float value;
 }
 
 SamplerState pointSampler : register(s0);

@@ -36,22 +36,18 @@ namespace ya::renderer
 		Vector4 xyzw;
 		Matrix matrix;
 	};
-
 	CBUFFER(GridCB, CBSLOT_GRID)
 	{
-		//float4 cameraPosition;
-		//float2 cameraScale;
-		//float2 resolution;
 		Vector4 cameraPosition;
 		Vector2 cameraScale;
 		Vector2 resolution;
 	};
-
 	CBUFFER(FadeInOutCB, CBSLOT_GRID)
 	{
 		Vector4 position;
 		Vector4 color;
-		Vector4 uv;
+		float alpha;
+		float value;
 	};
 
 

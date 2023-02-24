@@ -4,14 +4,16 @@ struct VSIn
 {
     float4 Pos : POSITION;
     float4 Color : COLOR;
-    float2 UV : TEXCOORD;
+    float alpha : ALPHA;
+    float value : VALUE;
 };
 
 struct VSOut
 {
     float4 Pos : SV_Position;
     float4 Color : COLOR;
-    float2 UV : TEXCOORD;
+    float alpha : ALPHA;
+    float value : VALUE;
 };
 
 
@@ -25,7 +27,8 @@ VSOut main(VSIn In)
     
     Out.Pos = ProjPosition;
     Out.Color = In.Color;
-    Out.UV = In.UV;
+    Out.alpha = In.alpha;
+    Out.value = In.value;
     
     return Out;
 }
