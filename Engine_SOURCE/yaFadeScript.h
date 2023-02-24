@@ -16,5 +16,6 @@ namespace ya
 
 	private:
 		float currentTime;
+		bool bFade;
 	};
 }

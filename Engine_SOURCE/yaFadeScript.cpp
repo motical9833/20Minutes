@@ -3,10 +3,12 @@
 #include "yaMaterial.h"
 #include "yaGameObject.h"
 #include "yaTime.h"
+#include "yaInput.h"
 
 namespace ya
 {
 	FadeScript::FadeScript()
+		:bFade(false)
 	{
 
 	}
@@ -22,20 +24,30 @@ namespace ya
 	{
 		float time = Time::DeltaTime();
 
-		currentTime += time/2;
-
 		ConstantBuffer* cbBuffer = renderer::constantBuffers[(UINT)eCBType::FadeInOut];
 		renderer::FadeInOutCB fadeData;
 
-		if (fadeData.alpha < 1)
+		if (fadeData.alpha < 1 && bFade == false)
 		{
+			currentTime += time / 2;
 			fadeData.alpha = currentTime;
+
+			if (fadeData.alpha > 1)
+				bFade = true;
 		}
+		else
+		{
+			currentTime -= time / 2;
+			fadeData.alpha = currentTime;
+
+			if (fadeData.alpha < 0)
+				bFade = false;
+		}
+
 
 		cbBuffer->Bind(&fadeData);
 		cbBuffer->SetPipline(eShaderStage::VS);
 		cbBuffer->SetPipline(eShaderStage::PS);
-
 	}
 	void FadeScript::FixedUpdate()
 	{
