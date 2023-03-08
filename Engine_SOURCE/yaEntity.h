@@ -1,7 +1,6 @@
 #pragma once
 #include "yaEngine.h"
 
-
 namespace ya
 {
 	class Entity
@@ -18,7 +17,7 @@ namespace ya
 	private:
 		std::wstring mName;
 		const UINT32 mID;
-
+		
 	};
 }
 

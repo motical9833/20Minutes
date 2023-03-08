@@ -3,7 +3,7 @@
   <PropertyGroup Label="Globals">
     <MSBuildAllProjects Condition="'$(MSBuildVersion)' == '' Or '$(MSBuildVersion)' &lt; '16.0'">$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
     <HasSharedItems>true</HasSharedItems>
-    <ItemsProjectGuid>{bd325216-d3aa-45c7-8b7d-85ebbd1a6fd2}</ItemsProjectGuid>
+    <ItemsProjectGuid>{92c5d7b0-36d7-452c-8a40-d5288fa3fbe8}</ItemsProjectGuid>
   </PropertyGroup>
   <ItemDefinitionGroup>
     <ClCompile>
@@ -14,22 +14,16 @@
     <ProjectCapability Include="SourceItemsFromImports" />
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="$(MSBuildThisFileDirectory)FadePS.hlsl">
+    <FxCompile Include="$(MSBuildThisFileDirectory)DebugPS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
     </FxCompile>
-    <FxCompile Include="$(MSBuildThisFileDirectory)FadeVS.hlsl">
+    <FxCompile Include="$(MSBuildThisFileDirectory)DebugVS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
     </FxCompile>
     <FxCompile Include="$(MSBuildThisFileDirectory)GridPS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
     </FxCompile>
     <FxCompile Include="$(MSBuildThisFileDirectory)GridVS.hlsl">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
-    </FxCompile>
-    <FxCompile Include="$(MSBuildThisFileDirectory)PlayerPS.hlsl">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
-    </FxCompile>
-    <FxCompile Include="$(MSBuildThisFileDirectory)PlayerVS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
     </FxCompile>
     <FxCompile Include="$(MSBuildThisFileDirectory)SpritePS.hlsl">

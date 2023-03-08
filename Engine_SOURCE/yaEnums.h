@@ -2,14 +2,21 @@
 
 namespace ya::enums
 {
+	enum class eSceneType
+	{
+		Tilte,
+		Play,
+		End,
+	};
+
 	enum class eLayerType
 	{
 		None = 0,
 		Camera,
-		Fade,
 		Grid,
 		Monster,
 		Player,
+
 		UI,
 		End = 16,
 	};
@@ -17,14 +24,15 @@ namespace ya::enums
 	enum class eComponentType
 	{
 		None,
-		Transform, //위치 데이터 수정하는 컴포넌트
+		Transform, // 위치 데이터 수정하는 컴포넌트
 		Camera,
 		Mesh,
 		Collider,
+		//Collider2,
 		MeshRenerer,
 		SpriteRenderer,
 		UI,
-		FadeInOut,
+		//FadeOut,FadeIn
 		Script,
 		End,
 	};
@@ -35,13 +43,29 @@ namespace ya::enums
 		Texture,
 		Material,
 		Sound,
-		//Font,
+		/*Font,*/
 		Prefab,
 		MeshData,
 		GraphicShader,
 		ComputeShader,
-
 		Script,
 		End,
 	};
+
+	enum class eColliderType
+	{
+		None,
+		Rect,
+		Circle,
+		Box,
+		Sphere,
+		End,
+	};
+
+	//struct Ray
+	//{
+	//	Vector3 origin;
+	//	Vector3 dest;
+	//};
+
 }

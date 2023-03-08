@@ -1,5 +1,4 @@
 #include "globals.hlsli"
-
 struct VSIn
 {
     float4 Pos : POSITION;
@@ -13,7 +12,6 @@ struct VSOut
     float4 Color : COLOR;
     float2 UV : TEXCOORD;
 };
-
 
 VSOut main(VSIn In)
 {

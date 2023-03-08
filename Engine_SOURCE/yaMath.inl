@@ -20,6 +20,8 @@ using namespace ya::math;
 //------------------------------------------------------------------------------
 // Rectangle operations
 //------------------------------------------------------------------------------
+//namespace ya::math
+
 inline Vector2 Rectangle::Location() const noexcept
 {
     return Vector2(float(x), float(y));
@@ -46,6 +48,7 @@ inline void Rectangle::Inflate(long horizAmount, long vertAmount) noexcept
 //------------------------------------------------------------------------------
 // Static functions
 //------------------------------------------------------------------------------
+
 
 inline ya::math::Rectangle Rectangle::Intersect(const Rectangle& ra, const Rectangle& rb) noexcept
 {
@@ -2656,7 +2659,6 @@ inline Matrix Matrix::CreateOrthographicOffCenterLH(float left, float right, flo
     XMStoreFloat4x4(&R, XMMatrixOrthographicOffCenterLH(left, right, bottom, top, zNearPlane, zFarPlane));
     return R;
 }
-
 
 inline Matrix Matrix::CreateLookAt(const Vector3& eye, const Vector3& target, const Vector3& up) noexcept
 {

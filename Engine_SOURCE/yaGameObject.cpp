@@ -5,17 +5,20 @@ namespace ya
 {
 	GameObject::GameObject()
 		: mState(eState::Active)
+		, mType(eLayerType::None)
+		, mbDontDestroy(false)
 	{
 		mComponents.resize((UINT)eComponentType::End);
 		AddComponent(new Transform());
 	}
+
 	GameObject::~GameObject()
 	{
 		for (Component* comp : mComponents)
 		{
 			if (comp == nullptr)
 				continue;
-
+			
 			delete comp;
 			comp = nullptr;
 		}
@@ -29,6 +32,7 @@ namespace ya
 			scrComp = nullptr;
 		}
 	}
+
 	void GameObject::Initalize()
 	{
 		for (Component* comp : mComponents)
@@ -47,6 +51,7 @@ namespace ya
 			script->Initalize();
 		}
 	}
+
 	void GameObject::Update()
 	{
 		for (Component* comp : mComponents)
@@ -65,6 +70,7 @@ namespace ya
 			script->Update();
 		}
 	}
+
 	void GameObject::FixedUpdate()
 	{
 		for (Component* comp : mComponents)
@@ -83,6 +89,7 @@ namespace ya
 			script->FixedUpdate();
 		}
 	}
+
 	void GameObject::Render()
 	{
 		for (Component* comp : mComponents)
@@ -101,6 +108,7 @@ namespace ya
 			script->Render();
 		}
 	}
+
 	void GameObject::AddComponent(Component* comp)
 	{
 		eComponentType order = comp->GetOrder();
@@ -110,9 +118,9 @@ namespace ya
 			mComponents[(UINT)order] = comp;
 			mComponents[(UINT)order]->SetOwner(this);
 		}
-		else 
+		else
 		{
-			mScripts.push_back(comp);
+			mScripts.push_back(dynamic_cast<Script*>(comp));
 			comp->SetOwner(this);
 		}
 	}

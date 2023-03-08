@@ -1,7 +1,6 @@
 #pragma once
 #include "yaEngine.h"
 
-
 namespace ya
 {
 	class Time
@@ -22,3 +21,5 @@ namespace ya
 		static float			mOneSecond;
 	};
 }
+
+

@@ -1,3 +1,4 @@
+
 cbuffer Transform : register(b0)
 {
     row_major matrix world;
@@ -20,14 +21,6 @@ cbuffer Grid : register(b2)
     float4 cameraPosition;
     float2 cameraScale;
     float2 resolution;
-}
-
-cbuffer FadeInOut : register(b3)
-{
-    float4 position;
-    float4 color;
-    float alpha;
-    float value;
 }
 
 SamplerState pointSampler : register(s0);

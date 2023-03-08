@@ -13,8 +13,10 @@ namespace ya
 			Orthographic,
 		};
 
-		__forceinline static Matrix& GetViewMatrix() { return View; }
-		__forceinline static Matrix& GetProjectionMatrix() { return Projection; }
+		__forceinline static Matrix& GetGpuViewMatrix() { return View; }
+		__forceinline static Matrix& GetGpuProjectionMatrix() { return Projection; }
+		__forceinline static void SetGpuViewMatrix(Matrix view) { View = view; }
+		__forceinline static void SetGpuProjectionMatrix(Matrix projection) { Projection = projection; }
 
 		Camera();
 		virtual ~Camera();
@@ -23,12 +25,11 @@ namespace ya
 		virtual void Update() override;
 		virtual void FixedUpdate() override;
 		virtual void Render() override;
-		
+
 		void CreateViewMatrix();
 		void CreateProjectionMatrix();
 		void RegisterCameraInRenderer();
 
-		//레이어 OnOff
 		void TurnLayerMask(eLayerType layer, bool enable = true);
 		void EnableLayerMasks() { mLayerMasks.set(); }
 		void DisableLayerMasks() { mLayerMasks.reset(); }
@@ -36,13 +37,16 @@ namespace ya
 		void SetProjectionType(eProjectionType type) { mType = type; }
 
 		float GetScale() { return mScale; }
+		Matrix& GetViewMatrix() { return mView; }
+		Matrix& GetProjectionMatrix() { return mProjection; }
+
 
 	private:
 		void sortGameObjects();
 		void renderOpaque();
 		void renderCutout();
 		void renderTransparent();
-		void pushGameObjectToRenderingModes(GameObject* gameobj);
+		void pushGameObjectToRenderingModes(GameObject* gameObj);
 
 	private:
 		static Matrix View;
@@ -51,7 +55,6 @@ namespace ya
 		Matrix mView;
 		Matrix mProjection;
 
-
 		eProjectionType mType;
 		float mAspectRatio;
 
@@ -59,9 +62,7 @@ namespace ya
 		float mFar;
 		float mScale;
 
-		// 배열처럼 사용하면서 메모리를 1비트씩 할당해주는 함수
 		std::bitset<(UINT)eLayerType::End> mLayerMasks;
-
 		std::vector<GameObject*> mOpaqueGameObjects;
 		std::vector<GameObject*> mCutoutGameObjects;
 		std::vector<GameObject*> mTransparentGameObjects;

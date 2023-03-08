@@ -21,7 +21,19 @@ namespace ya
 
 	void PlayerScript::Update()
 	{
-		/*Transform* tr = GetOwner()->GetComponent<Transform>();
+		//Transform* tr = GetOwner()->GetComponent<Transform>();
+		//Vector3 rot = tr->GetRotation();
+		//rot.z += 10.0f * Time::DeltaTime();
+		//tr->SetRotation(rot);
+
+		//if (Input::GetKeyState(eKeyCode::R) == eKeyState::PRESSED)
+		//{
+		//	Vector3 rot = tr->GetRotation();
+		//	rot.z += 10.0f * Time::DeltaTime();
+		//	tr->SetRotation(rot);
+		//}
+
+		Transform* tr = GetOwner()->GetComponent<Transform>();
 
 		Vector3 pos = tr->GetPosition();
 
@@ -50,11 +62,26 @@ namespace ya
 			pos.z -= 3.0f * Time::DeltaTime();
 		}
 
-		tr->SetPosition(pos);*/
+		tr->SetPosition(pos);
 	}
 
 	void PlayerScript::Render()
 	{
+
 	}
 
+	void PlayerScript::OnCollisionEnter(Collider2D* collider)
+	{
+
+	}
+
+	void PlayerScript::OnCollisionStay(Collider2D* collider)
+	{
+
+	}
+
+	void PlayerScript::OnCollisionExit(Collider2D* collider)
+	{
+
+	}
 }

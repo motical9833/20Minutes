@@ -4,7 +4,6 @@
 #include "yaMaterial.h"
 #include "yaBaseRenderer.h"
 
-
 using namespace ya::graphics;
 namespace ya
 {

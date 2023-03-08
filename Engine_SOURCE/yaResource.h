@@ -2,10 +2,9 @@
 #include "yaEntity.h"
 
 using namespace ya::enums;
-
 namespace ya
 {
-	class Resource
+	class Resource : public Entity
 	{
 	public:
 		Resource(eResourceType type);

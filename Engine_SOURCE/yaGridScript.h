@@ -1,6 +1,7 @@
 #pragma once
 #include "yaScript.h"
 #include "yaCamera.h"
+
 namespace ya
 {
 	class GridScript : public Script

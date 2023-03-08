@@ -1,21 +1,23 @@
 #pragma once
-#include "yaScript.h"
+#include "yaGameObject.h"
+
 
 namespace ya
 {
-	class FadeScript : public Script
+	class Player : public GameObject
 	{
 	public:
-		FadeScript();
-		virtual ~FadeScript();
+		Player();
+		virtual ~Player();
 
 		virtual void Initalize();
 		virtual void Update();
 		virtual void FixedUpdate();
 		virtual void Render();
 
+
 	private:
-		float currentTime;
-		bool bFade;
+
 	};
 }
+

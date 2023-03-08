@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -23,7 +23,7 @@
     <Keyword>Win32Proj</Keyword>
     <ProjectGuid>{6dafa788-499e-4b34-98ec-f4075a483b9e}</ProjectGuid>
     <RootNamespace>EngineSOURCE</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.22621.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -154,17 +154,20 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="yaCollider3D.h" />
+    <ClInclude Include="yaCollider2D.h" />
+    <ClInclude Include="yaCollisionManager.h" />
     <ClInclude Include="CommonInclude.h" />
     <ClInclude Include="yaApplication.h" />
     <ClInclude Include="yaBaseRenderer.h" />
     <ClInclude Include="yaCamera.h" />
     <ClInclude Include="yaCameraScript.h" />
+    <ClInclude Include="yaCollider.h" />
     <ClInclude Include="yaComponent.h" />
     <ClInclude Include="yaConstantBuffer.h" />
     <ClInclude Include="yaEngine.h" />
     <ClInclude Include="yaEntity.h" />
     <ClInclude Include="yaEnums.h" />
-    <ClInclude Include="yaFadeScript.h" />
     <ClInclude Include="yaGameObject.h" />
     <ClInclude Include="yaGraphicDevice_DX11.h" />
     <ClInclude Include="yaGraphics.h" />
@@ -175,9 +178,12 @@
     <ClInclude Include="yaMath.h" />
     <ClInclude Include="yaMesh.h" />
     <ClInclude Include="yaMeshRenderer.h" />
+    <ClInclude Include="yaMonster.h" />
     <ClInclude Include="yaObject.h" />
-    <ClInclude Include="yaPlayerMoveScript.h" />
+    <ClInclude Include="yaPlayer.h" />
     <ClInclude Include="yaPlayerScript.h" />
+    <ClInclude Include="yaPlayScene.h" />
+    <ClInclude Include="yaPrefab.h" />
     <ClInclude Include="yaRenderer.h" />
     <ClInclude Include="yaResource.h" />
     <ClInclude Include="yaResources.h" />
@@ -188,17 +194,21 @@
     <ClInclude Include="yaSpriteRenderer.h" />
     <ClInclude Include="yaTexture.h" />
     <ClInclude Include="yaTime.h" />
+    <ClInclude Include="yaTitleScene.h" />
     <ClInclude Include="yaTransform.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="yaCollider3D.cpp" />
+    <ClCompile Include="yaCollider2D.cpp" />
+    <ClCompile Include="yaCollisionManager.cpp" />
     <ClCompile Include="yaApplication.cpp" />
     <ClCompile Include="yaBaseRenderer.cpp" />
     <ClCompile Include="yaCamera.cpp" />
     <ClCompile Include="yaCameraScript.cpp" />
+    <ClCompile Include="yaCollider.cpp" />
     <ClCompile Include="yaComponent.cpp" />
     <ClCompile Include="yaConstantBuffer.cpp" />
     <ClCompile Include="yaEntity.cpp" />
-    <ClCompile Include="yaFadeScript.cpp" />
     <ClCompile Include="yaGameObject.cpp" />
     <ClCompile Include="yaGraphicDevice_DX11.cpp" />
     <ClCompile Include="yaGridScript.cpp" />
@@ -208,8 +218,11 @@
     <ClCompile Include="yaMath.cpp" />
     <ClCompile Include="yaMesh.cpp" />
     <ClCompile Include="yaMeshRenderer.cpp" />
-    <ClCompile Include="yaPlayerMoveScript.cpp" />
+    <ClCompile Include="yaMonster.cpp" />
+    <ClCompile Include="yaPlayer.cpp" />
     <ClCompile Include="yaPlayerScript.cpp" />
+    <ClCompile Include="yaPlayScene.cpp" />
+    <ClCompile Include="yaPrefab.cpp" />
     <ClCompile Include="yaRenderer.cpp" />
     <ClCompile Include="yaResource.cpp" />
     <ClCompile Include="yaResources.cpp" />
@@ -220,6 +233,7 @@
     <ClCompile Include="yaSpriteRenderer.cpp" />
     <ClCompile Include="yaTexture.cpp" />
     <ClCompile Include="yaTime.cpp" />
+    <ClCompile Include="yaTitleScene.cpp" />
     <ClCompile Include="yaTransform.cpp" />
   </ItemGroup>
   <ItemGroup>

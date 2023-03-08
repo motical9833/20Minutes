@@ -1,13 +1,14 @@
 #pragma once
+#include "..\External\DirectXTex\Include\DirectXTex.h"
 #include "yaResource.h"
-#include "..\External\DirectTex\Include\DirectXTex.h"
 #include "yaGraphicDevice_DX11.h"
 
 #ifdef _DEBUG
-#pragma comment(lib, "..\\External\\DirectTex\\lib\\Debug\\DirectxTex.lib")
-#else
-#pragma comment(lib, "..\\External\\DirectTex\\lib\\Release\\DirectxTex.lib")
+#pragma comment(lib, "..\\External\\DirectXTex\\lib\\Debug\\DirectXTex.lib") 
+#else 
+#pragma comment(lib, "..\\External\\DirectXTex\\lib\\Release\\DirectXTex.lib") 
 #endif
+
 
 using namespace ya::enums;
 namespace ya::graphics
@@ -28,4 +29,5 @@ namespace ya::graphics
 		Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> mSRV;
 		D3D11_TEXTURE2D_DESC mDesc;
 	};
+
 }

@@ -4,30 +4,38 @@
 #include "yaApplication.h"
 #include "yaConstantBuffer.h"
 #include "yaRenderer.h"
+#include "yaSceneManager.h"
 
 extern ya::Application application;
 
 namespace ya
 {
 	GridScript::GridScript()
-		:Script()
-		,mCamera(nullptr)
+		: Script()
+		, mCamera(nullptr)
 	{
 
 	}
+
 	GridScript::~GridScript()
 	{
 
 	}
+
 	void GridScript::Initalize()
 	{
-		mCamera = renderer::cameras[0];
+		eSceneType type = SceneManager::GetActiveScene()->GetSceneType();
+		mCamera = renderer::cameras[(UINT)type][0];
 	}
+
 	void GridScript::Update()
 	{
-		//Vector4 cameraPosition;
-		//Vector2 cameraScale;
-		//Vector2 resolution;
+		//	CBUFFER(GridCB, CBSLOT_GRID)
+		//{
+		//	Vector4 cameraPosition;
+		//	Vector2 cameraScale;
+		//	Vector2 resolution;
+		//};
 
 		if (mCamera == nullptr)
 			return;
@@ -46,23 +54,24 @@ namespace ya
 		float height = winRect.bottom - winRect.top;
 		Vector2 resolution(width, height);
 
-		// Constant Buffer 상수버퍼 데이터 묶은 후 파이프라인에 보내기
+		// Constant buffer
 		ConstantBuffer* cb = renderer::constantBuffers[(UINT)eCBType::Grid];
 		renderer::GridCB data;
 		data.cameraPosition = position;
-		data.cameraScale = Vector2(scale,scale);
+		data.cameraScale = Vector2(scale, scale);
 		data.resolution = resolution;
 
 		cb->Bind(&data);
 		cb->SetPipline(eShaderStage::VS);
 		cb->SetPipline(eShaderStage::PS);
-	}
+ 	}
+
 	void GridScript::FixedUpdate()
 	{
-
 	}
+
 	void GridScript::Render()
 	{
-
 	}
+
 }

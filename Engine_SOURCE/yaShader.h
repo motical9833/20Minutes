@@ -22,6 +22,7 @@ namespace ya
 		void* GetVSBlobBufferPointer() { return mVSBlob->GetBufferPointer(); }
 		SIZE_T GetVSBlobBufferSize() { return mVSBlob->GetBufferSize(); }
 
+		void SetTopology(D3D11_PRIMITIVE_TOPOLOGY topology) { mTopology = topology; }
 		void SetRSState(eRSType state) { mRSType = state; }
 		void SetDSState(eDSType state) { mDSType = state; }
 		void SetBSState(eBSType state) { mBSType = state; }
@@ -43,12 +44,8 @@ namespace ya
 		Microsoft::WRL::ComPtr<ID3D11GeometryShader> mGS;
 		Microsoft::WRL::ComPtr<ID3D11PixelShader> mPS;
 
-
-		//// 래스터라이저 스테이트
 		eRSType mRSType;
-		//// 뎁스스텐실 스테이트
 		eDSType mDSType;
-		//// 알파블랜딩
 		eBSType mBSType;
 
 		Microsoft::WRL::ComPtr<ID3DBlob> mErrorBlob;

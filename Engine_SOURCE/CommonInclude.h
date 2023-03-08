@@ -1,22 +1,6 @@
 #pragma once
-//#include <cstdlib>
-//#include <cstring>
-//#include <cstdint>
-//#include <type_traits>
-//
-//#include <string>
-//#include <Windows.h>
-//
-//#include <vector>
-//#include <list>
-//#include <map>
-//
-//#include <cmath>
-//#include <algorithm>
-//#include <limits>
-//#include <memory>
-//#include <filesystem>
-
+#include <cstdlib>
+#include <cstring>
 #include <cstdlib>
 #include <cstring>
 #include <cstdint>
@@ -29,8 +13,6 @@
 
 template<typename E>
 struct enable_bitmask_operators
-
-
 {
 	static constexpr bool enable = false;
 };
@@ -98,3 +80,5 @@ constexpr bool has_flag(E lhs, E rhs)
 }
 
 
+
+//#include "yaMath.h"

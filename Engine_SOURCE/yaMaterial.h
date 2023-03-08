@@ -3,8 +3,7 @@
 #include "yaShader.h"
 #include "yaTexture.h"
 #include "yaRenderer.h"
-#include "yaConstantBuffer.h"
-
+//#include "yaConstantBuffer.h"
 
 using namespace ya::renderer;
 namespace ya::graphics
@@ -17,7 +16,7 @@ namespace ya::graphics
 
 		virtual HRESULT Load(const std::wstring& path) override;
 
-		void SetData(eGPUParam param,void* data);
+		void SetData(eGPUParam param, void* data);
 		void Bind();
 		void Clear();
 
@@ -29,13 +28,11 @@ namespace ya::graphics
 		eRenderingMode GetRenderingMode() { return mMode; }
 		void SetRenderingMode(eRenderingMode mode) { mMode = mode; }
 
-		FadeInOutCB GetFadeCB() { return fCB; }
-
 	private:
 		std::shared_ptr<Shader> mShader;
 		std::shared_ptr<Texture> mTexture;
 		MaterialCB mCB;
-		FadeInOutCB fCB;
 		eRenderingMode mMode;
-	}; 
+	};
 }
+

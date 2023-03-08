@@ -14,6 +14,7 @@ struct VSOut
     float2 WorldPos : POSITION;
 };
 
+
 VSOut main(VSIn In)
 {
     VSOut Out = (VSOut) 0.0f;
@@ -23,10 +24,9 @@ VSOut main(VSIn In)
     worldPos.y = In.Pos.y * cameraScale.y * resolution.y + cameraPosition.y;
     
     const float meshScale = 2.0f;
-    Out.Pos = float4(In.Pos.xy * meshScale, 0.999f,1.0f);
+    Out.Pos = float4(In.Pos.xy * meshScale, 0.999f, 1.0f);
     Out.UV = In.UV;
     Out.WorldPos = worldPos;
     
     return Out;
-
 }

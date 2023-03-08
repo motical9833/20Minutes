@@ -1,6 +1,7 @@
 #pragma once
 #include "yaEngine.h"
 #include "yaResource.h"
+
 namespace ya
 {
 	class Resources
@@ -49,7 +50,7 @@ namespace ya
 		template <typename T>
 		static void Insert(const std::wstring& key, std::shared_ptr<T> resource)
 		{
-			mResources.insert(make_pair(key, std::dynamic_pointer_cast<Resource>(resource)));
+			mResources.insert(std::make_pair(key, std::dynamic_pointer_cast<Resource>(resource)));
 		}
 
 		static void deleteTest()
@@ -60,8 +61,10 @@ namespace ya
 	private:
 		Resources() = delete;
 		~Resources() = delete;
-
+	
 	private:
 		static std::map<std::wstring, std::shared_ptr<Resource>> mResources;
 	};
+
+	
 }

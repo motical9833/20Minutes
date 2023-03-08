@@ -1,4 +1,4 @@
-#include "yaTime.h"
+ï»¿#include "yaTime.h"
 #include "yaApplication.h"
 
 extern ya::Application application;
@@ -13,10 +13,10 @@ namespace ya
 
     void Time::Initialize()
     {
-        //CPU ÀÇ ÃÊ´ç ¹İº¹µÇ´Â ÁÖÆÄ¼ö¸¦ ¾ò¾î¿Â´Ù.
+        //CPU ì˜ ì´ˆë‹¹ ë°˜ë³µë˜ëŠ” ì£¼íŒŒìˆ˜ë¥¼ ì–»ì–´ì˜¨ë‹¤.
         QueryPerformanceFrequency(&mCpuFrequency);
 
-        //ÇÁ·Î±×·¥À» ½ÃÀÛÇßÀ»¶§ÀÇ CPU Å¬·° ¼ö
+        //í”„ë¡œê·¸ë¨ì„ ì‹œì‘í–ˆì„ë•Œì˜ CPU í´ëŸ­ ìˆ˜
         QueryPerformanceCounter(&mPrevFrequency);
     }
 
@@ -24,7 +24,7 @@ namespace ya
     {
         QueryPerformanceCounter(&mCurFrequency);
 
-        float differenceInFrequancy
+        float differenceInFrequancy 
             = static_cast<float>((mCurFrequency.QuadPart - mPrevFrequency.QuadPart));
 
         mDeltaTime = differenceInFrequancy / static_cast<float>(mCpuFrequency.QuadPart);
@@ -37,7 +37,7 @@ namespace ya
         ++iCount;
 
 
-        // 1 ÃÊ¿¡ ÇÑ¹ø
+        // 1 ì´ˆì— í•œë²ˆ
         mOneSecond += mDeltaTime;
         if (1.0f < mOneSecond)
         {
@@ -51,7 +51,7 @@ namespace ya
 
             SetWindowText(hWnd, szFloat);
 
-            // ´©Àû½Ã°£, Ä«¿îÆ® ÃÊ±âÈ­
+            // ëˆ„ì ì‹œê°„, ì¹´ìš´íŠ¸ ì´ˆê¸°í™”
             mOneSecond = 0.f;
             iCount = 0;
         }

@@ -5,21 +5,24 @@
 namespace ya
 {
 	Mesh::Mesh()
-		:Resource(eResourceType::Mesh)
-		,mVBDesc{}
-		,mIBDesc{}
-		,mIndexCount(0)
+		: Resource(eResourceType::Mesh)
+		, mVBDesc{}
+		, mIBDesc{}
+		, mIndexCount(0)
 	{
 
 	}
+
 	Mesh::~Mesh()
 	{
 
 	}
+
 	HRESULT Mesh::Load(const std::wstring& path)
 	{
 		return E_NOTIMPL;
 	}
+
 	bool Mesh::CreateVertexBuffer(void* data, UINT count)
 	{
 		// 버텍스 버퍼
@@ -30,15 +33,16 @@ namespace ya
 
 		D3D11_SUBRESOURCE_DATA subData = {};
 		subData.pSysMem = data;
+
 		if (!GetDevice()->CreateBuffer(&mVBDesc, &subData, mVertexBuffer.GetAddressOf()))
 			return false;
 
 		return true;
 	}
+
 	bool Mesh::CreateIndexBuffer(void* data, UINT count)
 	{
 		mIndexCount = count;
-		// 인덱스 버퍼
 		mIBDesc.ByteWidth = sizeof(UINT) * count;
 		mIBDesc.BindFlags = D3D11_BIND_FLAG::D3D11_BIND_INDEX_BUFFER;
 		mIBDesc.Usage = D3D11_USAGE::D3D11_USAGE_DEFAULT;
@@ -52,6 +56,7 @@ namespace ya
 
 		return true;
 	}
+
 	void Mesh::BindBuffer()
 	{
 		// Input Assembeler 단계에 버텍스버퍼 정보 지정
@@ -61,8 +66,9 @@ namespace ya
 		GetDevice()->BindVertexBuffer(0, 1, mVertexBuffer.GetAddressOf(), &stride, &offset);
 		GetDevice()->BindIndexBuffer(mIndexBuffer.Get(), DXGI_FORMAT_R32_UINT, 0);
 	}
+
 	void Mesh::Render()
 	{
-		GetDevice()->DrawIndexed(mIndexCount,0,0);
+		GetDevice()->DrawIndexed(mIndexCount, 0, 0);
 	}
 }

@@ -1,5 +1,4 @@
 #pragma once
-//#include "CommonInclude.h"
 #include <wrl.h>
 #include "yaMath.h"
 
@@ -16,7 +15,7 @@
 #define CBSLOT_TRANSFORM 0
 #define CBSLOT_MATERIAL 1
 #define CBSLOT_GRID 2
-#define CBSLOT_FADEINOUT 3
+
 
 namespace ya::graphics
 {
@@ -48,19 +47,18 @@ namespace ya::graphics
 
 	enum class eRSType
 	{
-		SolidBack, //기본값
+		SolidBack,
 		SolidFront,
 		SolidNone,
 		WireframeNone,
 		End,
 	};
 
-
 	enum class eDSType
 	{
-		Less, //작았을때 그린다. //기본값
-		Greater, //클떄그린다.
-		NoWrite, //깊이버퍼 안씀
+		Less,
+		Greater,
+		NoWrite,
 		None,
 		End,
 	};
@@ -68,18 +66,19 @@ namespace ya::graphics
 	enum class eBSType
 	{
 		Default,
-		AlphaBlend, // 블랜드 사용 //기본값
-		OneOne, // 투명값 사용X 물체색을 더한다.?
+		AlphaBlend,
+		OneOne,
 		End,
 	};
 
 	enum class eRenderingMode
 	{
-		Opaque, // 투명하지 않은물체
-		cutOut, // 반투명이 없고 100% 불투명하거나 보이지 않는다.
-		Transparent, //투명한 마티리얼을 사실적으로 렌더링 ex)헬멧 바이저등등...
+		Opaque,
+		CutOut,
+		Transparent,
 		End,
 	};
+
 
 	struct GpuBuffer
 	{
@@ -102,7 +101,6 @@ namespace ya::graphics
 		Transform,
 		Material,
 		Grid,
-		FadeInOut,
 		End,
 	};
 
@@ -114,5 +112,16 @@ namespace ya::graphics
 		Vector3,
 		Vector4,
 		Matrix,
+	};
+
+	struct DebugMesh
+	{
+		enums::eColliderType type;
+		math::Vector3 position;
+		math::Vector3 rotation;
+		math::Vector3 scale;
+		float radius;
+		float duration;
+		float time;
 	};
 }

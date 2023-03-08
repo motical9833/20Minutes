@@ -3,27 +3,31 @@
 #include "yaRenderer.h"
 
 using namespace ya::graphics;
+
 namespace ya
 {
-    Shader::Shader()
-		:Resource(eResourceType::GraphicShader)
-		,mTopology(D3D11_PRIMITIVE_TOPOLOGY::D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST)
+	Shader::Shader()
+		: Resource(eResourceType::GraphicShader)
+		, mTopology(D3D11_PRIMITIVE_TOPOLOGY::D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST)
 		, mRSType(eRSType::SolidBack)
 		, mDSType(eDSType::Less)
 		, mBSType(eBSType::AlphaBlend)
-    {
+	{
 
-    }
-    Shader::~Shader()
-    {
+	}
 
-    }
-    HRESULT Shader::Load(const std::wstring& path)
-    {
+	Shader::~Shader()
+	{
+
+	}
+
+	HRESULT Shader::Load(const std::wstring& path)
+	{
 		return E_NOTIMPL;
-    }
-    void Shader::Create(eShaderStage stage, const std::wstring& file, const std::string& funcName)
-    {
+	}
+
+	void Shader::Create(eShaderStage stage, const std::wstring& file, const std::string& funcName)
+	{
 		mErrorBlob = nullptr;
 
 		// Vertex Shader
@@ -32,18 +36,24 @@ namespace ya
 
 		std::wstring shaderPath(path.c_str());
 		shaderPath += file;
-
+		
 		if (stage == graphics::eShaderStage::VS)
 		{
 			D3DCompileFromFile(shaderPath.c_str(), nullptr, D3D_COMPILE_STANDARD_FILE_INCLUDE
-				, funcName.c_str(), "vs_5_0", 0, 0
-				, mVSBlob.GetAddressOf()
-				, mErrorBlob.GetAddressOf());
+								,funcName.c_str() , "vs_5_0", 0, 0
+								, mVSBlob.GetAddressOf()
+								, mErrorBlob.GetAddressOf());
+
+			//if (mErrorBlob)
+			//{
+			//	OutputDebugStringA((char*)mErrorBlob->GetBufferPointer());
+			//	mErrorBlob->Release();
+			//}
 
 			GetDevice()->CreateVertexShader(mVSBlob->GetBufferPointer()
-				, mVSBlob->GetBufferSize()
-				, nullptr
-				, mVS.GetAddressOf());
+														, mVSBlob->GetBufferSize()
+														, nullptr
+														, mVS.GetAddressOf());
 		}
 		else if (stage == graphics::eShaderStage::PS)
 		{
@@ -52,42 +62,34 @@ namespace ya
 				, mPSBlob.GetAddressOf()
 				, mErrorBlob.GetAddressOf());
 
+			//if (mErrorBlob)
+			//{
+			//	OutputDebugStringA((char*)mErrorBlob->GetBufferPointer());
+			//	mErrorBlob->Release();
+			//}
+
 			GetDevice()->CreatePixelShader(mPSBlob->GetBufferPointer()
 				, mPSBlob->GetBufferSize()
 				, nullptr
 				, mPS.GetAddressOf());
 		}
-    }
-    void Shader::Binds()
-    {
+	}
 
+	void Shader::Binds()
+	{
 		GetDevice()->BindPrimitiveTopology(mTopology);
 		GetDevice()->BindInputLayout(mInputLayout.Get());
-        //mContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY::D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-        //mContext->IASetInputLayout(renderer::triangleLayout.Get());
 
-
-		GetDevice()->BindVertexShader(mVS.Get(),nullptr,0);
+		GetDevice()->BindVertexShader(mVS.Get(), nullptr, 0);
 		GetDevice()->BindPixelShader(mPS.Get(), nullptr, 0);
-        //// 생성한 셰이더 세팅
-        //mContext->VSSetShader(renderer::triangleVS.Get(), 0, 0);
-        //mContext->PSSetShader(renderer::trianglePS.Get(), 0, 0);
-
-
 
 		Microsoft::WRL::ComPtr<ID3D11RasterizerState> rs = renderer::rasterizerStates[(UINT)mRSType];
 		Microsoft::WRL::ComPtr<ID3D11DepthStencilState> ds = renderer::depthstencilStates[(UINT)mDSType];
 		Microsoft::WRL::ComPtr<ID3D11BlendState> bs = renderer::blendStates[(UINT)mBSType];
 
-		//GetDevice()->BindRasterizerState(rs.Get());
-		//GetDevice()->BindDepthStencilState(ds.Get());
-		//GetDevice()->BindBlendState(bs.Get());
-		//eRSType mRSType;
-		//eDSType mDSType;
-		//eBSType mBSType;
-
 		GetDevice()->BindRasterizerState(rs.Get());
-		GetDevice()->BindDepthStencilState(ds.Get(),0);
+		GetDevice()->BindDepthStencilState(ds.Get());
 		GetDevice()->BindBlendState(bs.Get());
-    }
-} 
+	}
+
+}

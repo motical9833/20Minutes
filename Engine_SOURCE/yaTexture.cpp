@@ -53,7 +53,7 @@ namespace ya::graphics
 		);
 
 		mSRV->GetResource((ID3D11Resource**)mTexture.GetAddressOf());
-
+	
 		return S_OK;
 	}
 

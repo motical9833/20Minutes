@@ -1,26 +1,34 @@
 #include "yaBaseRenderer.h"
 
-ya::BaseRenderer::BaseRenderer(eComponentType type)
-	:Component(type)
-{
-}
 
-ya::BaseRenderer::~BaseRenderer()
+namespace ya
 {
-}
 
-void ya::BaseRenderer::Initalize()
-{
-}
 
-void ya::BaseRenderer::Update()
-{
-}
 
-void ya::BaseRenderer::FixedUpdate()
-{
-}
+	BaseRenderer::BaseRenderer(eComponentType type)
+		: Component(type)
+	{
+	}
 
-void ya::BaseRenderer::Render()
-{
+	BaseRenderer::~BaseRenderer()
+	{
+	}
+
+	void BaseRenderer::Initalize()
+	{
+	}
+
+	void BaseRenderer::Update()
+	{
+	}
+
+	void BaseRenderer::FixedUpdate()
+	{
+	}
+
+	void BaseRenderer::Render()
+	{
+	}
+
 }

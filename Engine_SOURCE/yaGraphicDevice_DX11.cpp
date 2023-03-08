@@ -138,55 +138,11 @@ namespace ya::graphics
 
 	bool GraphicDevice_DX11::CreateBuffer(D3D11_BUFFER_DESC* desc, D3D11_SUBRESOURCE_DATA* data, ID3D11Buffer** buffer)
 	{
-		//  System -> GPU
 		if (FAILED(mDevice->CreateBuffer(desc, data, buffer)))
 			return false;
 
 		return true;
 	}
-
-	//bool GraphicDevice_DX11::CreateShader()
-	//{
-	//	ID3DBlob* errorBlob = nullptr;
-
-	//	// Vertex Shader
-	//	std::filesystem::path shaderPath = std::filesystem::current_path().parent_path();
-	//	shaderPath += "\\SHADER_SOURCE\\";
-
-	//	std::wstring vsPath(shaderPath.c_str());
-	//	vsPath += L"TriangleVS.hlsl";
-	//	D3DCompileFromFile(vsPath.c_str(), nullptr, D3D_COMPILE_STANDARD_FILE_INCLUDE
-	//		, "VS_Test", "vs_5_0", 0, 0, renderer::triangleVSBlob.GetAddressOf(), &errorBlob);
-
-	//	mDevice->CreateVertexShader(renderer::triangleVSBlob->GetBufferPointer()
-	//		, renderer::triangleVSBlob->GetBufferSize()
-	//		, nullptr, renderer::triangleVS.GetAddressOf());
-
-	//	if (errorBlob)
-	//	{
-	//		OutputDebugStringA((char*)errorBlob->GetBufferPointer());
-	//		errorBlob->Release();
-	//		errorBlob = nullptr;
-	//	}
-
-	//	std::wstring psPath(shaderPath.c_str());
-	//	psPath += L"TrianglePS.hlsl";
-	//	D3DCompileFromFile(psPath.c_str(), nullptr, D3D_COMPILE_STANDARD_FILE_INCLUDE
-	//		, "PS_Test", "ps_5_0", 0, 0, renderer::trianglePSBlob.GetAddressOf(), &errorBlob);
-
-	//	if (errorBlob)
-	//	{
-	//		OutputDebugStringA((char*)errorBlob->GetBufferPointer());
-	//		errorBlob->Release();
-	//		errorBlob = nullptr;
-	//	}
-
-	//	mDevice->CreatePixelShader(renderer::trianglePSBlob->GetBufferPointer()
-	//		, renderer::trianglePSBlob->GetBufferSize()
-	//		, nullptr, renderer::trianglePS.GetAddressOf());
-
-	//	return true;
-	//}
 
 	bool GraphicDevice_DX11::CreateVertexShader(const void* pShaderBytecode, SIZE_T BytecodeLength, ID3D11ClassLinkage* pClassLinkage, ID3D11VertexShader** ppVertexShader)
 	{
@@ -214,7 +170,6 @@ namespace ya::graphics
 
 	bool GraphicDevice_DX11::CreateRasterizerState(const D3D11_RASTERIZER_DESC* pRasterizerDesc, ID3D11RasterizerState** ppRasterizerState)
 	{
-
 		if (FAILED(mDevice->CreateRasterizerState(pRasterizerDesc, ppRasterizerState)))
 			return false;
 
@@ -223,7 +178,6 @@ namespace ya::graphics
 
 	bool GraphicDevice_DX11::CreateDepthStencilState(const D3D11_DEPTH_STENCIL_DESC* pDepthStencilDesc, ID3D11DepthStencilState** ppDepthStencilState)
 	{
-
 		if (FAILED(mDevice->CreateDepthStencilState(pDepthStencilDesc, ppDepthStencilState)))
 			return false;
 
@@ -285,7 +239,6 @@ namespace ya::graphics
 		mContext->Unmap(buffer, 0);
 	}
 
-	//상수 버퍼
 	void GraphicDevice_DX11::SetConstantBuffer(eShaderStage stage, eCBType type, ID3D11Buffer* buffer)
 	{
 		switch (stage)
@@ -313,12 +266,13 @@ namespace ya::graphics
 		}
 	}
 
-	void GraphicDevice_DX11::SetShaderResource(eShaderStage stage, UINT slot,ID3D11ShaderResourceView* const* ppShaderResourceViews)
+	void GraphicDevice_DX11::SetShaderResource(eShaderStage stage, UINT slot
+		, ID3D11ShaderResourceView* const* ppShaderResourceViews)
 	{
 		switch (stage)
 		{
 		case ya::graphics::eShaderStage::VS:
-			mContext->VSSetShaderResources(slot,1,ppShaderResourceViews);
+			mContext->VSSetShaderResources(slot, 1, ppShaderResourceViews);
 			break;
 		case ya::graphics::eShaderStage::HS:
 			mContext->HSSetShaderResources(slot, 1, ppShaderResourceViews);
@@ -381,9 +335,9 @@ namespace ya::graphics
 		mContext->RSSetState(pRasterizerState);
 	}
 
-	void GraphicDevice_DX11::BindDepthStencilState(ID3D11DepthStencilState* pDepthStencilState, UINT* pStencilRef)
+	void GraphicDevice_DX11::BindDepthStencilState(ID3D11DepthStencilState* pDepthStencilState)
 	{
-		mContext->OMSetDepthStencilState(pDepthStencilState,0);
+		mContext->OMSetDepthStencilState(pDepthStencilState, 0);
 	}
 
 	void GraphicDevice_DX11::BindBlendState(ID3D11BlendState* pBlendState)
@@ -418,9 +372,12 @@ namespace ya::graphics
 	{
 		mContext->DrawIndexed(indexCount, StartIndexLocation, BaseVertexLocation);
 	}
+
 	void GraphicDevice_DX11::Present()
 	{
-		// 백버퍼에 그려준다
 		mSwapChain->Present(0, 0);
 	}
+
 }
+
+

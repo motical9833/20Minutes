@@ -1,6 +1,7 @@
 #pragma once
 #include "yaScript.h"
 
+
 namespace ya
 {
 	class PlayerScript : public Script
@@ -13,6 +14,9 @@ namespace ya
 		virtual void Update() override;
 		virtual void Render() override;
 
+		virtual void OnCollisionEnter(Collider2D* collider) override;
+		virtual void OnCollisionStay(Collider2D* collider) override;
+		virtual void OnCollisionExit(Collider2D* collider) override;
 	private:
 
 	};
