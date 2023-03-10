@@ -35,10 +35,9 @@ namespace ya::renderer
 		vertexes[3].color = Vector4(0.f, 0.f, 1.f, 1.f);
 		vertexes[3].uv = Vector2(0.0f, 1.0f);
 
-		// Crate Rect Mesh
+		// Crate Mesh
 		std::shared_ptr<Mesh> mesh = std::make_shared<Mesh>();
 		Resources::Insert<Mesh>(L"RectMesh", mesh);
-
 		mesh->CreateVertexBuffer(vertexes, 4);
 
 		std::vector<UINT> indexes;
@@ -51,71 +50,68 @@ namespace ya::renderer
 		indexes.push_back(0);
 		mesh->CreateIndexBuffer(indexes.data(), indexes.size());
 
-		//
+		// 
 		vertexes[0].pos = Vector4(-0.5f, 0.5f, -0.00001f, 1.0f);
 		vertexes[0].color = Vector4(0.f, 1.f, 0.f, 1.f);
 		vertexes[0].uv = Vector2(0.f, 0.f);
 
-		vertexes[1].pos = Vector4(0.5f, 0.5f, -0.00001f, 1.0f);
+		vertexes[1].pos = Vector4(0.5f, 0.5f, -0.00001, 1.0f);
 		vertexes[1].color = Vector4(1.f, 1.f, 1.f, 1.f);
 		vertexes[1].uv = Vector2(1.0f, 0.0f);
 
-		vertexes[2].pos = Vector4(0.5f, -0.5f, -0.00001f, 1.0f);
+		vertexes[2].pos = Vector4(0.5f, -0.5f, -0.00001, 1.0f);
 		vertexes[2].color = Vector4(1.f, 0.f, 0.f, 1.f);
 		vertexes[2].uv = Vector2(1.0f, 1.0f);
 
-		vertexes[3].pos = Vector4(-0.5f, -0.5f, -0.00001f, 1.0f);
+		vertexes[3].pos = Vector4(-0.5f, -0.5f, -0.00001, 1.0f);
 		vertexes[3].color = Vector4(0.f, 0.f, 1.f, 1.f);
 		vertexes[3].uv = Vector2(0.0f, 1.0f);
 
-		// Crate Debug Rect Mesh
+		// Crate Mesh
 		std::shared_ptr<Mesh> debugmesh = std::make_shared<Mesh>();
 		Resources::Insert<Mesh>(L"DebugRectMesh", debugmesh);
 		debugmesh->CreateVertexBuffer(vertexes, 4);
 		debugmesh->CreateIndexBuffer(indexes.data(), indexes.size());
 
-		//Circle Mesh
-		std::vector<Vertex> circleVertexes;
+		// Circle Mesh
+		std::vector<Vertex> circleVtxes;
 		Vertex center = {};
-		center.pos = Vector4(0.0f, 0.0f, 0.0f,1.0f);
+		center.pos = Vector4(0.0f, 0.0f, -0.00001f, 1.0f);
 		center.color = Vector4(0.0f, 1.0f, 0.0f, 1.0f);
 		center.uv = Vector2::Zero;
 
-		circleVertexes.push_back(center);
+		circleVtxes.push_back(center);
 
 		int iSlice = 80;
 		float fRadius = 0.5f;
 		float fTheta = XM_2PI / (float)iSlice;
-
-		// 삼각함수를 이용한 백터회전
+		
+		
 		for (size_t i = 0; i < iSlice; i++)
 		{
 			Vertex vtx = {};
 			vtx.pos = Vector4
 			(
 				fRadius * cosf(fTheta * (float)i)
-				,fRadius * sinf(fTheta * (float)i)
+				, fRadius * sinf(fTheta * (float)i)
 				, -0.00001f, 1.0f
 			);
 			vtx.color = center.color;
 
-			circleVertexes.push_back(vtx);
+			circleVtxes.push_back(vtx);
 		}
 		indexes.clear();
-
 		for (size_t i = 0; i < iSlice - 2; i++)
 		{
-
 			indexes.push_back(i + 1);
 		}
 		indexes.push_back(1);
 
-		// Crate Circle Mesh
-		std::shared_ptr<Mesh> circleMesh = std::make_shared<Mesh>();
-		Resources::Insert<Mesh>(L"CircleMesh", circleMesh);
-		circleMesh->CreateVertexBuffer(circleVertexes.data(), indexes.size());
-		circleMesh->CreateIndexBuffer(indexes.data(),indexes.size());
-
+		// Crate Mesh
+		std::shared_ptr<Mesh> cirlceMesh = std::make_shared<Mesh>();
+		Resources::Insert<Mesh>(L"CircleMesh", cirlceMesh);
+		cirlceMesh->CreateVertexBuffer(circleVtxes.data(), circleVtxes.size());
+		cirlceMesh->CreateIndexBuffer(indexes.data(), indexes.size());
 	}
 
 	void SetUpState()
@@ -169,11 +165,30 @@ namespace ya::renderer
 			, gridShader->GetVSBlobBufferSize()
 			, gridShader->GetInputLayoutAddressOf());
 
+
 		std::shared_ptr<Shader> debugShader = Resources::Find<Shader>(L"DebugShader");
 		GetDevice()->CreateInputLayout(arrLayoutDesc, 3
 			, debugShader->GetVSBlobBufferPointer()
 			, debugShader->GetVSBlobBufferSize()
 			, debugShader->GetInputLayoutAddressOf());
+
+		std::shared_ptr<Shader> playerShader = Resources::Find<Shader>(L"PlayerShader");
+		GetDevice()->CreateInputLayout(arrLayoutDesc, 3
+			, playerShader->GetVSBlobBufferPointer()
+			, playerShader->GetVSBlobBufferSize()
+			, playerShader->GetInputLayoutAddressOf());
+
+		std::shared_ptr<Shader> monsterShader = Resources::Find<Shader>(L"MonsterShader");
+		GetDevice()->CreateInputLayout(arrLayoutDesc, 3
+			, monsterShader->GetVSBlobBufferPointer()
+			, monsterShader->GetVSBlobBufferSize()
+			, monsterShader->GetInputLayoutAddressOf());
+
+		std::shared_ptr<Shader> leavesShader = Resources::Find<Shader>(L"LeavesShader");
+		GetDevice()->CreateInputLayout(arrLayoutDesc, 3
+			, leavesShader->GetVSBlobBufferPointer()
+			, leavesShader->GetVSBlobBufferSize()
+			, leavesShader->GetInputLayoutAddressOf());
 
 #pragma endregion
 #pragma region sampler state
@@ -321,6 +336,9 @@ namespace ya::renderer
 
 		constantBuffers[(UINT)eCBType::Grid] = new ConstantBuffer(eCBType::Grid);
 		constantBuffers[(UINT)eCBType::Grid]->Create(sizeof(GridCB));
+
+		constantBuffers[(UINT)eCBType::Animation] = new ConstantBuffer(eCBType::Animation);
+		constantBuffers[(UINT)eCBType::Animation]->Create(sizeof(AnimationCB));
 	}
 
 	void LoadShader()
@@ -356,24 +374,37 @@ namespace ya::renderer
 
 		Resources::Insert<Shader>(L"GridShader", gridShader);
 
-		//Debug Shader
+		// Debug Shader
 		std::shared_ptr<Shader> debugShader = std::make_shared<Shader>();
 		debugShader->Create(eShaderStage::VS, L"DebugVS.hlsl", "main");
 		debugShader->Create(eShaderStage::PS, L"DebugPS.hlsl", "main");
 		debugShader->SetRSState(eRSType::SolidNone);
 		debugShader->SetDSState(eDSType::NoWrite);
 		debugShader->SetBSState(eBSType::AlphaBlend);
-		debugShader->SetTopology(D3D11_PRIMITIVE_TOPOLOGY::D3D10_PRIMITIVE_TOPOLOGY_LINESTRIP);
+		debugShader->SetTopology(D3D11_PRIMITIVE_TOPOLOGY::D3D11_PRIMITIVE_TOPOLOGY_LINESTRIP);
 
 		Resources::Insert<Shader>(L"DebugShader", debugShader);
 
-
-		// Player Shader
+		// Player
 		std::shared_ptr<Shader> playerShader = std::make_shared<Shader>();
 		playerShader->Create(eShaderStage::VS, L"SpriteVS.hlsl", "main");
 		playerShader->Create(eShaderStage::PS, L"SpritePS.hlsl", "main");
 
 		Resources::Insert<Shader>(L"PlayerShader", playerShader);
+
+		// Monster
+		std::shared_ptr<Shader> monsterShader = std::make_shared<Shader>();
+		monsterShader->Create(eShaderStage::VS, L"SpriteVS.hlsl", "main");
+		monsterShader->Create(eShaderStage::PS, L"SpritePS.hlsl", "main");
+
+		Resources::Insert<Shader>(L"MonsterShader", monsterShader);
+
+		// leaves
+		std::shared_ptr<Shader> leavesShader = std::make_shared<Shader>();
+		leavesShader->Create(eShaderStage::VS, L"SpriteVS.hlsl", "main");
+		leavesShader->Create(eShaderStage::PS, L"SpritePS.hlsl", "main");
+
+		Resources::Insert<Shader>(L"LeavesShader", leavesShader);
 	}
 
 	void LoadTexture()
@@ -381,7 +412,12 @@ namespace ya::renderer
 		Resources::Load<Texture>(L"SmileTexture", L"Smile.png");
 		Resources::Load<Texture>(L"DefaultSprite", L"Light.png");
 		Resources::Load<Texture>(L"HPBarTexture", L"HPBar.png");
-		Resources::Load<Texture>(L"PlayerSprite", L"Player\\Player.png");
+		Resources::Load<Texture>(L"PlayerSprite", L"Player.png");
+		Resources::Load<Texture>(L"TitleLevesLeftSprite", L"T_TitleLeavesLeft.png");
+		Resources::Load<Texture>(L"TitleLevesRightSprite", L"T_TitleLeavesRight.png");
+		Resources::Load<Texture>(L"BackGroundTexture", L"BackGround.png");
+		Resources::Load<Texture>(L"LogoTexture", L"Logo.png");
+		Resources::Load<Texture>(L"MonsterSprite", L"BrainMonster_0.png");
 	}
 
 	void LoadMaterial()
@@ -429,7 +465,62 @@ namespace ya::renderer
 		// Player
 		std::shared_ptr<Texture> playerTexture = Resources::Find<Texture>(L"PlayerSprite");
 		std::shared_ptr<Shader> playerShader = Resources::Find<Shader>(L"PlayerShader");
+		std::shared_ptr<Material> playerMaterial = std::make_shared<Material>();
+		playerMaterial->SetRenderingMode(eRenderingMode::Transparent);
+		playerMaterial->SetShader(playerShader);
+		playerMaterial->SetTexture(playerTexture);
 
+		Resources::Insert<Material>(L"PlayerMaterial", playerMaterial);
+
+		//Monster
+		std::shared_ptr<Texture> monsterTexture = Resources::Find<Texture>(L"MonsterSprite");
+		std::shared_ptr<Shader> monsterShader = Resources::Find<Shader>(L"MonsterShader");
+		std::shared_ptr<Material> monsterMaterial = std::make_shared<Material>();
+		monsterMaterial->SetRenderingMode(eRenderingMode::Transparent);
+		monsterMaterial->SetShader(monsterShader);
+		monsterMaterial->SetTexture(monsterTexture);
+
+		Resources::Insert<Material>(L"MonsterMaterial", monsterMaterial);
+
+		// UI
+		{
+			std::shared_ptr<Texture> titleLevesLeft = Resources::Find<Texture>(L"TitleLevesLeftSprite");
+			std::shared_ptr<Shader> levesShder_L = Resources::Find<Shader>(L"LeavesShader");
+			std::shared_ptr<Material> leavsLeftMat = std::make_shared<Material>();
+			leavsLeftMat->SetRenderingMode(eRenderingMode::Transparent);
+			leavsLeftMat->SetShader(levesShder_L);
+			leavsLeftMat->SetTexture(titleLevesLeft);
+
+			Resources::Insert<Material>(L"leavsLeftMaterial", leavsLeftMat);
+
+			std::shared_ptr<Texture> titleLevesright = Resources::Find<Texture>(L"TitleLevesRightSprite");
+			std::shared_ptr<Shader> levesShder_R = Resources::Find<Shader>(L"LeavesShader");
+			std::shared_ptr<Material> leavsRightMat = std::make_shared<Material>();
+			leavsRightMat->SetRenderingMode(eRenderingMode::Transparent);
+			leavsRightMat->SetShader(levesShder_R);
+			leavsRightMat->SetTexture(titleLevesright);
+
+			Resources::Insert<Material>(L"leavsRightMaterial", leavsRightMat);
+
+
+			std::shared_ptr<Texture> backgroundTex = Resources::Find<Texture>(L"BackGroundTexture");
+			std::shared_ptr<Shader> backgroundShader = Resources::Find<Shader>(L"UIShader");
+			std::shared_ptr<Material> backgroundMat = std::make_shared<Material>();
+			backgroundMat->SetRenderingMode(eRenderingMode::Transparent);
+			backgroundMat->SetShader(backgroundShader);
+			backgroundMat->SetTexture(backgroundTex);
+
+			Resources::Insert<Material>(L"backgroundMaterial", backgroundMat);
+
+			std::shared_ptr<Texture> logoTexture = Resources::Find<Texture>(L"LogoTexture");
+			std::shared_ptr<Shader> logoShader = Resources::Find<Shader>(L"UIShader");
+			std::shared_ptr<Material> logoMaterial = std::make_shared<Material>();
+			logoMaterial->SetRenderingMode(eRenderingMode::Transparent);
+			logoMaterial->SetShader(logoShader);
+			logoMaterial->SetTexture(logoTexture);
+
+			Resources::Insert<Material>(L"LogoMaterial", logoMaterial);
+		}
 	}
 
 	void Initialize()

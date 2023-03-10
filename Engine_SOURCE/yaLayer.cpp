@@ -2,16 +2,15 @@
 #include "yaRenderer.h"
 #include "yaTransform.h"
 
-
 namespace ya
 {
-	// z 값 정렬
+	// z값 정렬 작성중
 	//static bool CompareGameObjectByZAxis(GameObject* a, GameObject* b)
 	//{
 	//	Transform* aTr = a->GetComponent<Transform>();
 	//	Transform* bTr = b->GetComponent<Transform>();
 
-	//	if (aTr->GetPosition().z < bTr->GetPosition().z)
+	//	if (aTr->GetPosition().z <= bTr->GetPosition().z)
 	//	{
 	//		return true;
 	//	}
@@ -71,6 +70,8 @@ namespace ya
 			obj->FixedUpdate();
 		}
 
+		// sort z axis
+		//std::vector<GameObject*> mGameObjects;
 		//std::sort(mGameObjects.begin(), mGameObjects.end(), CompareGameObjectByZAxis);
 	}
 
@@ -109,7 +110,7 @@ namespace ya
 
 			if (deleteIter != deleteObjects.end())
 			{
-				mGameObjects.erase(iter);
+				iter = mGameObjects.erase(iter);
 			}
 			else
 			{
@@ -149,7 +150,6 @@ namespace ya
 				iter++;
 			}
 		}
-
 		return donts;
 	}
 }

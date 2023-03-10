@@ -24,7 +24,7 @@ namespace ya
 	{
 		Time::Initialize();
 		Input::Initialize();
-		CollisionManager::Initalize();
+		CollisionManager::Initialize();
 		renderer::Initialize();
 		SceneManager::Initalize();
 	}

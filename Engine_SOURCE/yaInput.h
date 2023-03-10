@@ -29,6 +29,7 @@ namespace ya
 		
 		END,
 	};
+
 	enum eKeyState
 	{
 		DOWN,

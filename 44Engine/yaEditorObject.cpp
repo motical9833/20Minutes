@@ -9,7 +9,7 @@ namespace ya
 	}
 	EditorObject::~EditorObject()
 	{
-
+		
 	}
 	void EditorObject::Initalize()
 	{

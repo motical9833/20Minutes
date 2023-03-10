@@ -35,11 +35,9 @@ namespace ya
 		void DisableLayerMasks() { mLayerMasks.reset(); }
 
 		void SetProjectionType(eProjectionType type) { mType = type; }
-
 		float GetScale() { return mScale; }
 		Matrix& GetViewMatrix() { return mView; }
 		Matrix& GetProjectionMatrix() { return mProjection; }
-
 
 	private:
 		void sortGameObjects();

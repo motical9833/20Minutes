@@ -67,6 +67,7 @@ namespace ya
 			
 			return false;
 		}
+		void Life() { mState = eState::Active; }
 		void Pause() { mState = eState::Paused; }
 		void Death() { mState = eState::Dead; }
 		eState GetState() { return mState; }
@@ -78,7 +79,6 @@ namespace ya
 
 	protected:
 		std::vector<Component*> mComponents;
-
 
 	private:
 		eState mState;

@@ -12,15 +12,17 @@
 #include "yaObject.h"
 #include "yaInput.h"
 #include "yaCollider2D.h"
-#include "yaPlayer.h"
 #include "yaMonster.h"
 #include "yaCollisionManager.h"
-
+#include "yaTime.h"
 
 namespace ya
 {
 	TitleScene::TitleScene()
 		: Scene(eSceneType::Tilte)
+		,objTr{}
+		,time(0.0f)
+		,bLoadScene(false)
 	{
 	}
 	TitleScene::~TitleScene()
@@ -36,6 +38,8 @@ namespace ya
 		cameraComp->TurnLayerMask(eLayerType::UI, false);
 		cameraObj->AddComponent<CameraScript>();
 		mainCamera = cameraComp;
+		
+		//renderer::cameras[0] = cameraComp;
 
 		// UI Camera
 		GameObject* cameraUIObj = object::Instantiate<GameObject>(eLayerType::Camera);
@@ -43,75 +47,61 @@ namespace ya
 		cameraUIComp->SetProjectionType(Camera::eProjectionType::Orthographic);
 		cameraUIComp->DisableLayerMasks();
 		cameraUIComp->TurnLayerMask(eLayerType::UI, true);
+		
+		 
+		//left
+		GameObject* leftLeaves = object::Instantiate<GameObject>(eLayerType::None);
+		leftLeaves->SetName(L"leftLeavs");
+		Transform* leftLeavsTr = leftLeaves->GetComponent<Transform>();
+		objTr.push_back(leftLeavsTr);
+		leftLeavsTr->SetPosition(Vector3(-6.0f, 1.0f, 9.9f));
+		leftLeavsTr->SetScale(Vector3(5.0f, 11.0f, 1.0f));
 
-		//SMILE RECT
-		{
-			Player* obj = object::Instantiate<Player>(eLayerType::Player);
-			obj->SetName(L"SMILE");
-			Transform* tr = obj->GetComponent<Transform>();
-			tr->SetPosition(Vector3(2.0f, 0.0f, 5.0f));
-			//tr->SetRotation(Vector3(0.0f, 0.0f, XM_PIDIV2));
-			tr->SetScale(Vector3(1.0f, 1.0f, 1.0f));
-			Collider2D* collider = obj->AddComponent<Collider2D>();
-			collider->SetType(eColliderType::Circle);
-			//collider->SetSize(Vector2(1.5f, 1.5f));
+		SpriteRenderer* leftLevesR = leftLeaves->AddComponent<SpriteRenderer>();
+		std::shared_ptr<Material> leftLeveMat = Resources::Find<Material>(L"leavsLeftMaterial");
+		leftLevesR->SetMaterial(leftLeveMat);
+		std::shared_ptr<Mesh> leftLevesmesh = Resources::Find<Mesh>(L"RectMesh");
+		leftLevesR->SetMesh(leftLevesmesh);
 
-			SpriteRenderer* mr = obj->AddComponent<SpriteRenderer>();
-			std::shared_ptr<Material> mateiral = Resources::Find<Material>(L"RectMaterial");
-			mr->SetMaterial(mateiral);
-			std::shared_ptr<Mesh> mesh = Resources::Find<Mesh>(L"RectMesh");
-			mr->SetMesh(mesh);
-			obj->AddComponent<PlayerScript>();
-			object::DontDestroyOnLoad(obj);
-		}
+		// right
+		GameObject* rightLeaves = object::Instantiate<GameObject>(eLayerType::None);
+		rightLeaves->SetName(L"RightLeavs");
+		Transform* rightLeavsTr = rightLeaves->GetComponent<Transform>();
+		objTr.push_back(rightLeavsTr);
+		rightLeavsTr->SetPosition(Vector3(8.0f, 1.0f, 9.9f));
+		rightLeavsTr->SetScale(Vector3(5.0f, 11.0f, 1.0f));
 
-		{
-			Player* monster = object::Instantiate<Player>(eLayerType::Monster);
-			monster->SetName(L"SMILE2");
-			Transform* mtr = monster->GetComponent<Transform>();
-			mtr->SetPosition(Vector3(0.0f, 0.0f, 5.0f));
-			//tr->SetRotation(Vector3(0.0f, 0.0f, XM_PIDIV2));
-			mtr->SetScale(Vector3(1.0f, 1.0f, 1.0f));
-			Collider2D* collider = monster->AddComponent<Collider2D>();
-			collider->SetType(eColliderType::Circle);
-			//collider->SetSize(Vector2(1.5f, 1.5f));
+		SpriteRenderer* rightLevesR = rightLeaves->AddComponent<SpriteRenderer>();
+		std::shared_ptr<Material> rightLeveMat = Resources::Find<Material>(L"leavsRightMaterial");
+		rightLevesR->SetMaterial(rightLeveMat);
+		std::shared_ptr<Mesh> rightLevesmesh = Resources::Find<Mesh>(L"RectMesh");
+		rightLevesR->SetMesh(rightLevesmesh);
 
-			SpriteRenderer* mr = monster->AddComponent<SpriteRenderer>();
-			std::shared_ptr<Material> mateiral = Resources::Find<Material>(L"RectMaterial");
-			mr->SetMaterial(mateiral);
-			std::shared_ptr<Mesh> mesh = Resources::Find<Mesh>(L"RectMesh");
-			mr->SetMesh(mesh);
-			object::DontDestroyOnLoad(monster);
-		}
+		// Logo
+		GameObject* logo = object::Instantiate<GameObject>(eLayerType::None);
+		logo->SetName(L"Logo");
+		Transform* logoTr = logo->GetComponent<Transform>();
+		logoTr->SetPosition(Vector3(1.0f, 3.0f, 9.9f));
+		logoTr->SetScale(Vector3(7.0f, 7.0f, 1.0f));
 
-		////SMILE RECT CHild
-		//GameObject* child = object::Instantiate<GameObject>(eLayerType::Player);
-		//child->SetName(L"SMILE");
-		//Transform* childTr = child->GetComponent<Transform>();
-		//childTr->SetPosition(Vector3(2.0f, 0.0f, 0.0f));
-		//childTr->SetScale(Vector3(1.0f, 1.0f, 1.0f));
-		//childTr->SetParent(tr);
+		SpriteRenderer* logoRender = logo->AddComponent<SpriteRenderer>();
+		std::shared_ptr<Material> logoMaterial = Resources::Find<Material>(L"LogoMaterial");
+		logoRender->SetMaterial(logoMaterial);
+		std::shared_ptr<Mesh> logoMesh = Resources::Find<Mesh>(L"RectMesh");
+		logoRender->SetMesh(logoMesh);
 
-		//MeshRenderer* childMr = child->AddComponent<MeshRenderer>();
-		//std::shared_ptr<Material> childmateiral = Resources::Find<Material>(L"RectMaterial");
-		//childMr->SetMaterial(childmateiral);
-		//childMr->SetMesh(mesh);
+		//backgroundMaterial
+		GameObject* bg = object::Instantiate<GameObject>(eLayerType::None);
+		bg->SetName(L"bg");
+		Transform* bgTr = bg->GetComponent<Transform>();
+		bgTr->SetPosition(Vector3(0.0f, 0.0f, 10.0f));
+		bgTr->SetScale(Vector3(25.0f, 20.0f, 1.0f));
 
-		//// HPBAR
-		//GameObject* hpBar = object::Instantiate<GameObject>(eLayerType::Player);
-		//hpBar->SetName(L"HPBAR");
-		//Transform* hpBarTR = hpBar->GetComponent<Transform>();
-		//hpBarTR->SetPosition(Vector3(-5.0f, 3.0f, 12.0f));
-		//hpBarTR->SetScale(Vector3(1.0f, 1.0f, 1.0f));
-
-		//SpriteRenderer* hpsr = hpBar->AddComponent<SpriteRenderer>();
-		//hpBar->AddComponent(hpsr);
-		//std::shared_ptr<Mesh> hpmesh = Resources::Find<Mesh>(L"RectMesh");
-		//std::shared_ptr<Material> hpspriteMaterial = Resources::Find<Material>(L"UIMaterial");
-		//hpsr->SetMesh(hpmesh);
-		//hpsr->SetMaterial(hpspriteMaterial);
-
-		CollisionManager::CollisionLayerCheck(eLayerType::Player, eLayerType::Monster, true);
+		SpriteRenderer* bgRender = bg->AddComponent<SpriteRenderer>();
+		std::shared_ptr<Material> bgMat = Resources::Find<Material>(L"backgroundMaterial");
+		bgRender->SetMaterial(bgMat);
+		std::shared_ptr<Mesh> bgMesh = Resources::Find<Mesh>(L"RectMesh");
+		bgRender->SetMesh(bgMesh);
 
 		Scene::Initalize();
 	}
@@ -119,6 +109,21 @@ namespace ya
 	{
 		if (Input::GetKeyDown(eKeyCode::N))
 		{
+			bLoadScene = true;
+		}
+		if(bLoadScene)
+		{
+			objTr[0]->LeftMove();
+			objTr[1]->RightMove();
+			time += Time::DeltaTime();
+		}
+		
+		if (time > 2)
+		{
+			bLoadScene = false;
+			time = 0.0f;
+			objTr[0]->SetPosition(Vector3( - 6.0f, 1.0f, 9.9f));
+			objTr[1]->SetPosition(Vector3(8.0f, 1.0f, 9.9f));
 			SceneManager::LoadScene(eSceneType::Play);
 		}
 

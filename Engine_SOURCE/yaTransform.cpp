@@ -1,6 +1,7 @@
 #include "yaTransform.h"
 #include "yaRenderer.h"
 #include "yaCamera.h"
+#include "yaTime.h"
 
 namespace ya
 {
@@ -80,5 +81,17 @@ namespace ya
 		ConstantBuffer* cb = renderer::constantBuffers[(UINT)eCBType::Transform];
 		cb->Bind(&trCb);
 		cb->SetPipline(eShaderStage::VS);
+	}
+	void Transform::LeftMove()
+	{
+		Vector3 pos = this->GetPosition();
+		pos.x -= 3.0f * Time::DeltaTime();
+		this->SetPosition(pos);
+	}
+	void Transform::RightMove()
+	{
+		Vector3 pos = this->GetPosition();
+		pos.x += 3.0f * Time::DeltaTime();
+		this->SetPosition(pos);
 	}
 }

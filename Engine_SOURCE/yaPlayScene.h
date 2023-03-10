@@ -1,5 +1,6 @@
 #pragma once
 #include "yaScene.h"
+#include "yaPlayer.h"
 
 namespace ya
 {
@@ -17,6 +18,8 @@ namespace ya
 		virtual void OnEnter() override;
 		virtual void OnExit() override;
 
+
 	private:
+		Player* player;
 	};
 }

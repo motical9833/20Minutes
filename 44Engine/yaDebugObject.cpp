@@ -11,6 +11,7 @@ namespace ya
 	{
 
 	}
+
 	void DebugObject::FixedUpdate()
 	{
 		for (Component* comp : mComponents)
@@ -21,4 +22,4 @@ namespace ya
 			comp->FixedUpdate();
 		}
 	}
-} 
+}

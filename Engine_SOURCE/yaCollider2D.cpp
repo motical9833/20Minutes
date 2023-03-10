@@ -5,37 +5,33 @@
 
 namespace ya
 {
-	eColliderType mType;
-	Transform* mTransform;
-
-	Vector2 mSize;
-	Vector2 mCenter;
-	bool mbTrigger;
-
 	UINT Collider2D::ColliderNumber = 0;
 	Collider2D::Collider2D()
-		:Component(eComponentType::Collider)
+		: Component(eComponentType::Collider)
 		, mType(eColliderType::None)
-		,mTransform(nullptr)
-		,mSize(Vector2::One)
-		,mCenter(Vector2::Zero)
+		, mTransform(nullptr)
+		, mSize(Vector2::One)
+		, mCenter(Vector2::Zero)
 		, mbTrigger(false)
 		, mID(0)
+		, mRadius(0.0f)
 	{
 		mID = ColliderNumber++;
 	}
+
 	Collider2D::~Collider2D()
 	{
-
 	}
+
 	void Collider2D::Initalize()
 	{
 		mTransform = GetOwner()->GetComponent<Transform>();
 	}
+
 	void Collider2D::Update()
 	{
-
 	}
+
 	void Collider2D::FixedUpdate()
 	{
 		Vector3 scale = mTransform->GetScale();
@@ -60,69 +56,70 @@ namespace ya
 
 		DebugMesh meshAttribute = {};
 		meshAttribute.position = Vector3(colliderPos.x, colliderPos.y, colliderPos.z);
-		meshAttribute.radius = mSize.x;
-		meshAttribute.rotation = rotation;
+		meshAttribute.radius = mRadius;
+		meshAttribute.rotatation = rotation;
 		meshAttribute.scale = scale;
 		meshAttribute.type = mType;
 
 		renderer::debugMeshes.push_back(meshAttribute);
 	}
+
 	void Collider2D::Render()
 	{
-
 	}
+
 	void Collider2D::OnCollisionEnter(Collider2D* collider)
 	{
 		const std::vector<Script*>& scripts = GetOwner()->GetScripts();
-
 		for (Script* script : scripts)
 		{
 			script->OnCollisionEnter(collider);
 		}
 	}
+
 	void Collider2D::OnCollisionStay(Collider2D* collider)
 	{
 		const std::vector<Script*>& scripts = GetOwner()->GetScripts();
-
 		for (Script* script : scripts)
 		{
 			script->OnCollisionStay(collider);
 		}
 	}
+
 	void Collider2D::OnCollisionExit(Collider2D* collider)
 	{
 		const std::vector<Script*>& scripts = GetOwner()->GetScripts();
-
 		for (Script* script : scripts)
 		{
 			script->OnCollisionExit(collider);
 		}
 	}
+
 	void Collider2D::OnTriggerEnter(Collider2D* collider)
 	{
 		const std::vector<Script*>& scripts = GetOwner()->GetScripts();
-
 		for (Script* script : scripts)
 		{
 			script->OnTriggerEnter(collider);
 		}
 	}
+
 	void Collider2D::OnTriggerStay(Collider2D* collider)
 	{
 		const std::vector<Script*>& scripts = GetOwner()->GetScripts();
-
 		for (Script* script : scripts)
 		{
 			script->OnTriggerStay(collider);
 		}
 	}
+
 	void Collider2D::OnTriggerExit(Collider2D* collider)
 	{
 		const std::vector<Script*>& scripts = GetOwner()->GetScripts();
-
 		for (Script* script : scripts)
 		{
 			script->OnTriggerExit(collider);
 		}
 	}
+
 }

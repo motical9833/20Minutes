@@ -1,5 +1,5 @@
 #pragma once
-#include "..\Engine_SOURCE\yaGameObject.h"
+#include "yaGameObject.h"
 
 
 namespace ya
@@ -11,8 +11,7 @@ namespace ya
 		virtual ~DebugObject();
 
 		virtual void FixedUpdate() override;
-
+	
 	private:
-		GameObject* test;
 	};
 }

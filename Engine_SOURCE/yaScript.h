@@ -24,8 +24,5 @@ namespace ya
 		virtual void OnTriggerExit(Collider2D* collider) {};
 
 	private:
-		//std::vector<Script*> mScripts;
-		//state jump;
-		//state Attack;
 	};
 }

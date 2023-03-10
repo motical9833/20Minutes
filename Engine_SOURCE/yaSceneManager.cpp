@@ -66,7 +66,7 @@ namespace ya
 			mActiveScene->OnExit();
 
 		// 바뀔때 dontDestory 오브젝트는 다음씬으로 같이 넘겨줘야한다.
-		std::vector<GameObject*> gameObjs 
+		std::vector<GameObject*> gameObjs
 			= mActiveScene->GetDontDestroyGameObjects();
 		mActiveScene = mScenes[(UINT)type];
 		

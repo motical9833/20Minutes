@@ -32,6 +32,9 @@ namespace ya
 		Vector3 Right() { return mRight; }
 		Vector3 Up() { return mUp; }
 
+		void LeftMove();
+		void RightMove();
+
 		Matrix& GetWorldMatrix() { return mWorld; }
 
 	private:

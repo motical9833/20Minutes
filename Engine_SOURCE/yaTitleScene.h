@@ -1,5 +1,7 @@
 #pragma once
 #include "yaScene.h"
+#include "yaGameObject.h"
+#include <array>
 
 namespace ya
 {
@@ -18,5 +20,8 @@ namespace ya
 		virtual void OnExit() override;
 
 	private:
+		std::vector<Transform*> objTr;
+		float time;
+		bool bLoadScene;
 	};
 }

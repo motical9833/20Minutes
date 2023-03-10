@@ -96,6 +96,9 @@ namespace ya
 		{
 			if (comp == nullptr)
 				continue;
+			//if (comp->GetOwner()->GetState() == Dead)
+			//	continue;
+
 
 			comp->Render();
 		}

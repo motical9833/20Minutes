@@ -16,7 +16,7 @@ namespace ya
 		void FixedUpdate();
 		void Render();
 		void Release();
-		void DebugRender(graphics::DebugMesh& mesh);
+		void DebugRender(graphics::DebugMesh& mehs);
 
 	private:
 		std::vector<Widget*> mWidgets;

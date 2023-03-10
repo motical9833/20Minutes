@@ -1,7 +1,6 @@
 #pragma once
 #include "yaGameObject.h"
 
-
 namespace ya
 {
 	class Player : public GameObject
@@ -15,9 +14,6 @@ namespace ya
 		virtual void FixedUpdate();
 		virtual void Render();
 
-
 	private:
-
 	};
 }
-

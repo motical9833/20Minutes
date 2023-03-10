@@ -9,7 +9,7 @@ namespace ya
 	public:
 		Collider2D();
 		~Collider2D();
-
+		
 		virtual void Initalize() override;
 		virtual void Update() override;
 		virtual void FixedUpdate() override;
@@ -26,20 +26,21 @@ namespace ya
 		void SetType(eColliderType type) { mType = type; }
 		void SetSize(Vector2 size) { mSize = size; }
 		void SetCenter(Vector2 center) { mCenter = center; }
-		bool IsTrigger() { return mbTrigger; }
+		void SetRadius(float radius) { mRadius = radius; }
+		bool IsTriiger() { return mbTrigger; }
 		UINT GetID() { return mID; }
 		Vector3 GetPosition() { return mPosition; }
-		Vector2 GetSize() { return mSize; }
+
 	private:
 		static UINT ColliderNumber;
 		UINT mID;
 		eColliderType mType;
 		Transform* mTransform;
 
-
 		Vector2 mSize;
 		Vector2 mCenter;
 		Vector3 mPosition;
+		float mRadius;
 		bool mbTrigger;
 	};
 }

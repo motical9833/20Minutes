@@ -15,11 +15,11 @@ namespace ya
 		UINT64 id;
 	};
 
-	//class Scene;
+	//	class Scene;
 	class CollisionManager
 	{
 	public:
-		static void Initalize();
+		static void Initialize();
 		static void Update();
 		static void FixedUpdate();
 		static void Render();
@@ -30,9 +30,7 @@ namespace ya
 		static bool Intersect(Collider2D* left, Collider2D* right);
 
 	private:
-		// 내부에서 1비트씩 사용하는 자료구조
 		static std::bitset<(UINT)eLayerType::End> mLayerCollisionMatrix[(UINT)eLayerType::End];
 		static std::map<UINT64, bool> mCollisionMap;
-
 	};
 }

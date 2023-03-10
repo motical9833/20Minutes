@@ -348,7 +348,7 @@ namespace ya::graphics
 	void GraphicDevice_DX11::Clear()
 	{
 		// 화면 지워주기
-		FLOAT backgroundColor[4] = { 0.2f, 0.2f, 0.2f, 1.0f };
+		FLOAT backgroundColor[4] = { 0.152f, 0.125f, 0.1881f, 1.0f };
 		mContext->ClearRenderTargetView(mRenderTargetView.Get(), backgroundColor);
 		mContext->ClearDepthStencilView(mDepthStencilView.Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.f, 0);
 	}
