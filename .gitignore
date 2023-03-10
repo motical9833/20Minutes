@@ -20,6 +20,7 @@
 *.dylib
 *.dll
 
+
 # Fortran module files
 *.mod
 *.smod
@@ -443,6 +444,19 @@ FodyWeavers.xsd
 !.vscode/launch.json
 !.vscode/extensions.json
 *.code-workspace
+
+External/*
+!External/DirectXTex/
+!External/DirectXTex/lib
+!External/DirectXTex/lib/Debug
+!External/DirectXTex/lib/Debug/DirectXTex.lib
+!External/DirectXTex/lib/Release/DirectXTex.lib
+
+External/*
+!External/DirectXTex/
+!External/DirectXTex/lib
+!External/DirectXTex/lib/Release
+!External/DirectXTex/lib/Release/DirectXTex.lib
 
 # Local History for Visual Studio Code
 .history/
