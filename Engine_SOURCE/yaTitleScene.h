@@ -23,5 +23,6 @@ namespace ya
 		std::vector<Transform*> objTr;
 		float time;
 		bool bLoadScene;
+		GameObject* tSceneCamera;
 	};
 }

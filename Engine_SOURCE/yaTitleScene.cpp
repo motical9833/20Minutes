@@ -32,13 +32,11 @@ namespace ya
 	{
 
 		// Main Camera Game Object
-		GameObject* cameraObj = object::Instantiate<GameObject>(eLayerType::Camera);
-		Camera* cameraComp = cameraObj->AddComponent<Camera>();
-		//cameraComp->RegisterCameraInRenderer();
+		tSceneCamera = object::Instantiate<GameObject>(eLayerType::Camera);
+		Camera* cameraComp = tSceneCamera->AddComponent<Camera>();
 		cameraComp->TurnLayerMask(eLayerType::UI, false);
-		cameraObj->AddComponent<CameraScript>();
+		tSceneCamera->AddComponent<CameraScript>();
 		mainCamera = cameraComp;
-		
 		//renderer::cameras[0] = cameraComp;
 
 		// UI Camera
@@ -48,7 +46,6 @@ namespace ya
 		cameraUIComp->DisableLayerMasks();
 		cameraUIComp->TurnLayerMask(eLayerType::UI, true);
 		
-		 
 		//left
 		GameObject* leftLeaves = object::Instantiate<GameObject>(eLayerType::None);
 		leftLeaves->SetName(L"leftLeavs");
@@ -117,7 +114,6 @@ namespace ya
 			objTr[1]->RightMove();
 			time += Time::DeltaTime();
 		}
-		
 		if (time > 2)
 		{
 			bLoadScene = false;
@@ -126,6 +122,7 @@ namespace ya
 			objTr[1]->SetPosition(Vector3(8.0f, 1.0f, 9.9f));
 			SceneManager::LoadScene(eSceneType::Play);
 		}
+
 
 		Scene::Update();
 	}
@@ -139,6 +136,7 @@ namespace ya
 	}
 	void TitleScene::OnEnter()
 	{
+		mainCamera = tSceneCamera->GetComponent<Camera>();
 	}
 	void TitleScene::OnExit()
 	{

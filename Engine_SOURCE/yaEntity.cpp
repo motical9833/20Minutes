@@ -8,7 +8,7 @@ namespace ya
 	}
 	Entity::Entity(const Entity& other)
 		: mID(reinterpret_cast<UINT32>(this))
-		, mName(other.mName)
+		, mAnimationName(other.mAnimationName)
 	{
 	}
 	Entity::~Entity()

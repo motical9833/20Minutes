@@ -21,5 +21,6 @@ namespace ya
 
 	private:
 		Player* player;
+		GameObject* pSceneCamera;
 	};
 }

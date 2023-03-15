@@ -10,7 +10,7 @@ namespace ya
 		, mActiveAnimation(nullptr)
 		, mbLoop(false)
 	{
-	
+
 	}
 	Animator::~Animator()
 	{
@@ -36,7 +36,7 @@ namespace ya
 
 		if (mActiveAnimation->IsComplete() && mbLoop)
 		{
-			Events* events 
+			Events* events
 				= FindEvents(mActiveAnimation->AnimationName());
 
 			if (events)
@@ -55,8 +55,8 @@ namespace ya
 	}
 
 	bool Animator::Create(const std::wstring& name, std::shared_ptr<Texture> atlas
-						, Vector2 leftTop, Vector2 size, Vector2 offset
-						, UINT columnLegth, UINT spriteLegth, float duration)
+		, Vector2 leftTop, Vector2 size, Vector2 offset
+		, UINT spriteLegth, float duration)
 	{
 		if (atlas == nullptr)
 			return false;
@@ -67,8 +67,8 @@ namespace ya
 
 		animation = new Animation();
 		animation->Create(name, atlas, leftTop
-						 , size, offset, columnLegth
-						 , spriteLegth, duration);
+			, size, offset
+			, spriteLegth, duration);
 
 
 		mAnimations.insert(std::make_pair(name, animation));
@@ -98,11 +98,11 @@ namespace ya
 
 		return iter->second;
 	}
-	void Animator::Play(std::wstring& name, bool loop)
+	void Animator::Play(const std::wstring& name, bool loop)
 	{
 		Animation* prevAnimation = mActiveAnimation;
 		Events* events = FindEvents(prevAnimation->AnimationName());
-		
+
 		if (events)
 			events->mEndEvent();
 
@@ -115,7 +115,7 @@ namespace ya
 		if (events)
 			events->mStartEvent();
 	}
-	
+
 	void Animator::Binds()
 	{
 		if (mActiveAnimation == nullptr)

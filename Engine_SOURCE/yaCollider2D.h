@@ -9,7 +9,7 @@ namespace ya
 	public:
 		Collider2D();
 		~Collider2D();
-		
+
 		virtual void Initalize() override;
 		virtual void Update() override;
 		virtual void FixedUpdate() override;
@@ -30,6 +30,7 @@ namespace ya
 		bool IsTriiger() { return mbTrigger; }
 		UINT GetID() { return mID; }
 		Vector3 GetPosition() { return mPosition; }
+		Vector2 GetSize() { return mSize; }
 
 	private:
 		static UINT ColliderNumber;

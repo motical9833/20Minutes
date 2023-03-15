@@ -412,7 +412,7 @@ namespace ya::renderer
 		Resources::Load<Texture>(L"SmileTexture", L"Smile.png");
 		Resources::Load<Texture>(L"DefaultSprite", L"Light.png");
 		Resources::Load<Texture>(L"HPBarTexture", L"HPBar.png");
-		Resources::Load<Texture>(L"PlayerSprite", L"Player.png");
+		Resources::Load<Texture>(L"PlayerSprite", L"Player\\Player.png");
 		Resources::Load<Texture>(L"TitleLevesLeftSprite", L"T_TitleLeavesLeft.png");
 		Resources::Load<Texture>(L"TitleLevesRightSprite", L"T_TitleLeavesRight.png");
 		Resources::Load<Texture>(L"BackGroundTexture", L"BackGround.png");
@@ -485,7 +485,7 @@ namespace ya::renderer
 		// UI
 		{
 			std::shared_ptr<Texture> titleLevesLeft = Resources::Find<Texture>(L"TitleLevesLeftSprite");
-			std::shared_ptr<Shader> levesShder_L = Resources::Find<Shader>(L"LeavesShader");
+			std::shared_ptr<Shader> levesShder_L = Resources::Find<Shader>(L"UIShader");
 			std::shared_ptr<Material> leavsLeftMat = std::make_shared<Material>();
 			leavsLeftMat->SetRenderingMode(eRenderingMode::Transparent);
 			leavsLeftMat->SetShader(levesShder_L);
@@ -494,7 +494,7 @@ namespace ya::renderer
 			Resources::Insert<Material>(L"leavsLeftMaterial", leavsLeftMat);
 
 			std::shared_ptr<Texture> titleLevesright = Resources::Find<Texture>(L"TitleLevesRightSprite");
-			std::shared_ptr<Shader> levesShder_R = Resources::Find<Shader>(L"LeavesShader");
+			std::shared_ptr<Shader> levesShder_R = Resources::Find<Shader>(L"UIShader");
 			std::shared_ptr<Material> leavsRightMat = std::make_shared<Material>();
 			leavsRightMat->SetRenderingMode(eRenderingMode::Transparent);
 			leavsRightMat->SetShader(levesShder_R);

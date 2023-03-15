@@ -30,6 +30,7 @@ namespace ya
 
 	void Collider2D::Update()
 	{
+
 	}
 
 	void Collider2D::FixedUpdate()
