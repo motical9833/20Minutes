@@ -128,5 +128,8 @@ namespace ya::graphics
 		float time;
 	};
 
+	struct LightAttribute
+	{
 
+	};
 }

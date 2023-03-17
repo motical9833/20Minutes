@@ -44,6 +44,11 @@ namespace ya
 		GetMesh()->Render();
 
 		GetMaterial()->Clear();
+
+		if (animator)
+		{
+			animator->Clear();
+		}
 	}
 
 }

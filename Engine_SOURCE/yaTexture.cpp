@@ -4,6 +4,9 @@
 
 namespace ya::graphics
 {
+
+
+
 	Texture::Texture()
 		: Resource(eResourceType::Texture)
 		, mDesc{}
@@ -14,6 +17,18 @@ namespace ya::graphics
 	Texture::~Texture()
 	{
 
+	}
+
+	void Texture::Clear(UINT startSlot)
+	{
+		ID3D11ShaderResourceView* srv = nullptr;
+
+		GetDevice()->SetShaderResource(eShaderStage::VS, startSlot, &srv);
+		GetDevice()->SetShaderResource(eShaderStage::DS, startSlot, &srv);
+		GetDevice()->SetShaderResource(eShaderStage::GS, startSlot, &srv);
+		GetDevice()->SetShaderResource(eShaderStage::HS, startSlot, &srv);
+		GetDevice()->SetShaderResource(eShaderStage::CS, startSlot, &srv);
+		GetDevice()->SetShaderResource(eShaderStage::PS, startSlot, &srv);
 	}
 
 	//test.cpp
@@ -73,4 +88,5 @@ namespace ya::graphics
 		GetDevice()->SetShaderResource(eShaderStage::CS, 0, &srv);
 		GetDevice()->SetShaderResource(eShaderStage::PS, 0, &srv);
 	}
+
 }

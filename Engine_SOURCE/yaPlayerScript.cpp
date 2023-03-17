@@ -3,6 +3,7 @@
 #include "yaGameObject.h"
 #include "yaInput.h"
 #include "yaTime.h"
+#include "yaAnimator.h"
 
 namespace ya
 {
@@ -17,6 +18,12 @@ namespace ya
 
 	void PlayerScript::Initalize()
 	{
+		Animator* animator = GetOwner()->GetComponent<Animator>();
+		//멤버함수 이기 떄문에 어떤 함수인지 풀네임으로 적어줘야 한다.
+		animator->GetStartEvent(L"pIdle") = std::bind(&PlayerScript::Start, this);
+		animator->GetCompleteEvent(L"pIdle") = std::bind(&PlayerScript::Action, this);
+		animator->GetEndEvent(L"pIdle") = std::bind(&PlayerScript::End, this);
+		animator->GetEvent(L"pIdle",1) = std::bind(&PlayerScript::End, this);
 	}
 
 	void PlayerScript::Update()
@@ -90,6 +97,17 @@ namespace ya
 		}
 
 		tr->SetPosition(pos);*/
+
+		Animator* animator = GetOwner()->GetComponent<Animator>();
+
+		if (Input::GetKey(eKeyCode::N_0))
+		{
+			animator->Play(L"pIdle");
+		}
+		if (Input::GetKey(eKeyCode::N_1))
+		{
+			animator->Play(L"pMove");
+		}
 	}
 
 	void PlayerScript::Render()
@@ -115,4 +133,17 @@ namespace ya
 
 	}
 
+	void PlayerScript::Start()
+	{
+
+	}
+
+	void PlayerScript::Action()
+	{
+
+	}
+	void PlayerScript::End()
+	{
+
+	}
 }

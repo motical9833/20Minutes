@@ -16,6 +16,8 @@ namespace ya
 			Vector2 offset;		// 렌더링 위치 조정하기위한 좌표
 			Vector2 atlasSize;  // 텍스처 이미지의 크기
 			float duration;		// 프레임간에 시간 간격
+			//std::function<void()> action; //해당 스프라이트(인덱스) 에서 실행될 이벤트 함수
+
 
 			Sprite()
 				: leftTop(0.0f, 0.0f)
@@ -31,7 +33,7 @@ namespace ya
 		Animation();
 		~Animation();
 
-		void Update();
+		UINT Update();
 		void FixedUpdate();
 		void Render();
 

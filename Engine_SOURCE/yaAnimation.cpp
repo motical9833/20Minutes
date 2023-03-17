@@ -19,10 +19,10 @@ namespace ya
 	{
 	}
 
-	void Animation::Update()
+	UINT Animation::Update()
 	{
 		if (mbComplete)
-			return;
+			return -1;
 
 		// 시간 체크
 		mTime += Time::DeltaTime();
@@ -33,13 +33,18 @@ namespace ya
 			mTime = 0.0f;
 			++mIndex;
 
+
 			//
 			if (mSpriteSheet.size() <= mIndex)
 			{
 				mbComplete = true;
 				mIndex = mSpriteSheet.size() - 1;
 			}
+
+			return mIndex;
 		}
+
+		return -1;
 	}
 
 	void Animation::FixedUpdate()
@@ -70,7 +75,7 @@ namespace ya
 			sprite.size = Vector2(size.x / width, size.y / height);
 			sprite.offset = offset;
 			sprite.duration = duration;
-			sprite.atlasSize = Vector2(200.0f / width, 200.0f / height);
+			sprite.atlasSize = Vector2(50.0f / width, 50.0f / height);
 
 			mSpriteSheet.push_back(sprite);
 		}
@@ -102,7 +107,15 @@ namespace ya
 
 	void Animation::Clear()
 	{
+		//Texture Clear
+		Texture::Clear(12);
 
+		ConstantBuffer* cb = renderer::constantBuffers[(UINT)eCBType::Animation];
+		renderer::AnimationCB info = {};
+		info.type = (UINT)eAnimationType::None;
+
+		cb->Bind(&info);
+		cb->SetPipline(eShaderStage::PS);
 	}
 
 }
