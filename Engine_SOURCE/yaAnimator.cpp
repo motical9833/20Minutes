@@ -93,6 +93,14 @@ namespace ya
 
 		return iter->second;
 	}
+	//void Animator::FindAnimationAndDuration(const std::wstring& name, float duration)
+	//{
+	//	std::map<std::wstring, Animation*>::iterator iter
+	//		= mAnimations.find(name);
+
+	//	//iter->second->
+	//}
+
 	Animator::Events* Animator::FindEvents(const std::wstring& name)
 	{
 		std::map<std::wstring, Events*>::iterator iter
@@ -139,6 +147,24 @@ namespace ya
 			return;
 
 		mActiveAnimation->Clear();
+	}
+
+	void Animator::Stop()
+	{
+		if (mActiveAnimation == nullptr)
+			return;
+
+		mActiveAnimation->Reset();
+		mActiveAnimation->Idle();
+	}
+
+	void Animator::Start()
+	{
+		if (mActiveAnimation == nullptr)
+			return;
+
+		mActiveAnimation->Reset();
+		mActiveAnimation->Start();
 	}
 
 	std::function<void()>& Animator::GetStartEvent(const std::wstring& name)

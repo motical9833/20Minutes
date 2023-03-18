@@ -176,6 +176,7 @@
     <ClInclude Include="yaGridScript.h" />
     <ClInclude Include="yaInput.h" />
     <ClInclude Include="yaLayer.h" />
+    <ClInclude Include="yaLight.h" />
     <ClInclude Include="yaMaterial.h" />
     <ClInclude Include="yaMath.h" />
     <ClInclude Include="yaMesh.h" />
@@ -198,6 +199,8 @@
     <ClInclude Include="yaTime.h" />
     <ClInclude Include="yaTitleScene.h" />
     <ClInclude Include="yaTransform.h" />
+    <ClInclude Include="yaWeapon.h" />
+    <ClInclude Include="yaWeaponScript.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="yaAnimation.cpp" />
@@ -218,6 +221,7 @@
     <ClCompile Include="yaGridScript.cpp" />
     <ClCompile Include="yaInput.cpp" />
     <ClCompile Include="yaLayer.cpp" />
+    <ClCompile Include="yaLight.cpp" />
     <ClCompile Include="yaMaterial.cpp" />
     <ClCompile Include="yaMath.cpp" />
     <ClCompile Include="yaMesh.cpp" />
@@ -239,6 +243,8 @@
     <ClCompile Include="yaTime.cpp" />
     <ClCompile Include="yaTitleScene.cpp" />
     <ClCompile Include="yaTransform.cpp" />
+    <ClCompile Include="yaWeapon.cpp" />
+    <ClCompile Include="yaWeaponScript.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="yaMath.inl" />

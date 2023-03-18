@@ -47,7 +47,9 @@ namespace ya
 
 		bool IsComplete() { return mbComplete; }
 		std::wstring& AnimationName() { return mAnimationName; }
-
+		void Idle() { mbIdle = true; }
+		void Start() { mbIdle = false; }
+		bool GetIdleState() { return mbIdle; }
 	private:
 		class Animator* mAnimator;
 		std::wstring mAnimationName;
@@ -56,5 +58,6 @@ namespace ya
 		int mIndex;
 		float mTime;
 		bool mbComplete;
+		bool mbIdle;
 	};
 }

@@ -1,6 +1,7 @@
 #pragma once
 #include "yaScene.h"
 #include "yaPlayer.h"
+#include "yaWeapon.h"
 
 namespace ya
 {
@@ -22,5 +23,6 @@ namespace ya
 	private:
 		Player* player;
 		GameObject* pSceneCamera;
+		Weapon* pWeapon;
 	};
 }

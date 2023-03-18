@@ -11,6 +11,7 @@ namespace ya
 		, mIndex(-1)
 		, mTime(0.0f)
 		, mbComplete(false)
+		, mbIdle(false)
 	{
 
 	}
@@ -24,12 +25,16 @@ namespace ya
 		if (mbComplete)
 			return -1;
 
+		if (mbIdle)
+			return mIndex;
+
 		// 시간 체크
 		mTime += Time::DeltaTime();
 
 		// 누적 시간이 해당 프레임의 유지시간을 넘어서면 다음프레임으로 이동
 		if (mSpriteSheet[mIndex].duration < mTime)
 		{
+
 			mTime = 0.0f;
 			++mIndex;
 

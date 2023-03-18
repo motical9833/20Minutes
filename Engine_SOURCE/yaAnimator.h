@@ -44,11 +44,13 @@ namespace ya
 			, UINT spriteLegth, float duration);
 
 		Animation* FindAnimation(const std::wstring& name);
+		//void FindAnimationAndDuration(const std::wstring& name, float duration);
 		Events* FindEvents(const std::wstring& name);
 		void Play(const std::wstring& name, bool loop = true);
-
 		void Binds();
 		void Clear();
+		void Stop();
+		void Start();
 
 		std::function<void()>& GetStartEvent(const std::wstring& name);
 		std::function<void()>& GetCompleteEvent(const std::wstring& name);
@@ -61,5 +63,6 @@ namespace ya
 		std::map<std::wstring, Events*> mEvents;
 		Animation* mActiveAnimation;
 		bool mbLoop;
+		bool mbIdle;
 	};
 }

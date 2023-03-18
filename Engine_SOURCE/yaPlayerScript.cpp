@@ -9,6 +9,7 @@ namespace ya
 {
 	PlayerScript::PlayerScript()
 		: Script()
+		, bMove(false)
 	{
 	}
 
@@ -29,6 +30,9 @@ namespace ya
 	void PlayerScript::Update()
 	{
 		Transform* tr = GetOwner()->GetComponent<Transform>();
+		Animator* animator = GetOwner()->GetComponent<Animator>();
+
+		Vector3 pos = tr->GetPosition();
 		//Vector3 rot = tr->GetRotation();
 		//rot.z += 10.0f * Time::DeltaTime();
 		//tr->SetRotation(rot);
@@ -41,64 +45,56 @@ namespace ya
 		}
 
 
-		if (Input::GetKey(eKeyCode::RIGHT))
+		if (Input::GetKey(eKeyCode::D))
 		{
+			if (bMove == false)
+			{
+				bMove = true;
+				animator->Play(L"pMove");
+			}
+
 			Vector3 pos = tr->GetPosition();
 			pos.x += 6.0f * Time::DeltaTime();
 			tr->SetPosition(pos);
 		}
-		if (Input::GetKey(eKeyCode::LEFT))
+		if (Input::GetKey(eKeyCode::A))
 		{
+			if (bMove == false)
+			{
+				bMove = true;
+				animator->Play(L"pMove");
+			}
+
 			Vector3 pos = tr->GetPosition();
 			pos.x -= 6.0f * Time::DeltaTime();
 			tr->SetPosition(pos);
 		}
 
-		if (Input::GetKey(eKeyCode::UP))
+		if (Input::GetKey(eKeyCode::W))
 		{
+			if (bMove == false)
+			{
+				bMove = true;
+				animator->Play(L"pMove");
+			}
+
 			Vector3 pos = tr->GetPosition();
 			pos.y += 6.0f * Time::DeltaTime();
 			tr->SetPosition(pos);
 		}
-		if (Input::GetKey(eKeyCode::DOWN))
+		if (Input::GetKey(eKeyCode::S))
 		{
+			if (bMove == false)
+			{
+				bMove = true;
+				animator->Play(L"pMove");
+			}
+
 			Vector3 pos = tr->GetPosition();
 			pos.y -= 6.0f * Time::DeltaTime();
 			tr->SetPosition(pos);
 		}
 
-		/*Transform* tr = GetOwner()->GetComponent<Transform>();
-
-		Vector3 pos = tr->GetPosition();
-
-		if (Input::GetKeyState(eKeyCode::D) == eKeyState::PRESSED)
-		{
-			pos.x += 3.0f * Time::DeltaTime();
-		}
-		else if (Input::GetKeyState(eKeyCode::A) == eKeyState::PRESSED)
-		{
-			pos.x -= 3.0f * Time::DeltaTime();
-		}
-		else if (Input::GetKeyState(eKeyCode::W) == eKeyState::PRESSED)
-		{
-			pos.y += 3.0f * Time::DeltaTime();
-		}
-		else if (Input::GetKeyState(eKeyCode::S) == eKeyState::PRESSED)
-		{
-			pos.y -= 3.0f * Time::DeltaTime();
-		}
-		else if (Input::GetKeyState(eKeyCode::Q) == eKeyState::PRESSED)
-		{
-			pos.z += 3.0f * Time::DeltaTime();
-		}
-		else if (Input::GetKeyState(eKeyCode::E) == eKeyState::PRESSED)
-		{
-			pos.z -= 3.0f * Time::DeltaTime();
-		}
-
-		tr->SetPosition(pos);*/
-
-		Animator* animator = GetOwner()->GetComponent<Animator>();
 
 		if (Input::GetKey(eKeyCode::N_0))
 		{
@@ -107,6 +103,16 @@ namespace ya
 		if (Input::GetKey(eKeyCode::N_1))
 		{
 			animator->Play(L"pMove");
+		}
+
+		if (Input::GetKeyState(eKeyCode::A) == eKeyState::NONE &&
+			Input::GetKeyState(eKeyCode::D) == eKeyState::NONE &&
+			Input::GetKeyState(eKeyCode::W) == eKeyState::NONE &&
+			Input::GetKeyState(eKeyCode::S) == eKeyState::NONE &&
+			bMove == true)
+		{
+			animator->Play(L"pIdle");
+			bMove = false;
 		}
 	}
 

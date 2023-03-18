@@ -94,6 +94,12 @@
     <Filter Include="Component\Animator">
       <UniqueIdentifier>{5617f228-a6b1-4d89-8a60-2aea1ca48f8c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Animation">
+      <UniqueIdentifier>{54bde7e6-0ef6-4cac-92f1-3e25f095f63f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Light">
+      <UniqueIdentifier>{46a6b9cb-2dff-4348-b759-374bee0d1a12}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="yaApplication.cpp">
@@ -207,8 +213,21 @@
     <ClCompile Include="yaMonster.cpp">
       <Filter>Component\Script\Contents</Filter>
     </ClCompile>
-    <ClCompile Include="yaAnimator.cpp" />
-    <ClCompile Include="yaAnimation.cpp" />
+    <ClCompile Include="yaAnimation.cpp">
+      <Filter>Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="yaAnimator.cpp">
+      <Filter>Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="yaLight.cpp">
+      <Filter>Light</Filter>
+    </ClCompile>
+    <ClCompile Include="yaWeapon.cpp">
+      <Filter>Component\Script\Contents</Filter>
+    </ClCompile>
+    <ClCompile Include="yaWeaponScript.cpp">
+      <Filter>Component\Script\Contents</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CommonInclude.h">
@@ -337,8 +356,21 @@
     <ClInclude Include="yaMonster.h">
       <Filter>Component\Script\Contents</Filter>
     </ClInclude>
-    <ClInclude Include="yaAnimator.h" />
-    <ClInclude Include="yaAnimation.h" />
+    <ClInclude Include="yaAnimation.h">
+      <Filter>Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="yaAnimator.h">
+      <Filter>Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="yaLight.h">
+      <Filter>Light</Filter>
+    </ClInclude>
+    <ClInclude Include="yaWeapon.h">
+      <Filter>Component\Script\Contents</Filter>
+    </ClInclude>
+    <ClInclude Include="yaWeaponScript.h">
+      <Filter>Component\Script\Contents</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="yaMath.inl">

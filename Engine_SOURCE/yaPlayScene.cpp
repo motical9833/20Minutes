@@ -15,7 +15,7 @@
 #include "yaCollisionManager.h"
 #include "yaMonster.h"
 #include "yaAnimator.h"
-
+#include "yaWeaponScript.h"
 
 namespace ya
 {
@@ -49,7 +49,7 @@ namespace ya
 		player = object::Instantiate<Player>(eLayerType::Player,this);
 		player->SetName(L"Player");
 		Transform* pTr = player->GetComponent<Transform>();
-		pTr->SetPosition(Vector3(0.0f, 0.0f, 10.0f));
+		pTr->SetPosition(Vector3(0.0f, 0.0f, 0.0f));
 		//pTr->SetScale(Vector3(3.0f, 3.0f, 1.0f));
 		Collider2D* pCollider = player->AddComponent<Collider2D>();
 		pCollider->SetType(eColliderType::Rect);
@@ -66,11 +66,29 @@ namespace ya
 		animator->Create(L"pMove", texture, Vector2(0.0f, 33.3f), Vector2(32.0f, 33.3f), Vector2::Zero, 4, 0.15f);
 		animator->Play(L"pIdle", true);
 
+
+		pWeapon = object::Instantiate<Weapon>(eLayerType::Player, this);
+		pWeapon->SetName(L"pWeapon");
+		Transform* weaponTr = pWeapon->AddComponent<Transform>();
+		weaponTr->SetScale(Vector3(2.0f, 2.0f,1.0f));
+		weaponTr->SetParent(pTr);
+		weaponTr->SetPosition(Vector3(0.2f, 0.0f, 0.0f));
+		SpriteRenderer* pWMr = pWeapon->AddComponent<SpriteRenderer>();
+		std::shared_ptr<Material> weaponMaterial = Resources::Find<Material>(L"RevolverMaterial");
+		pWMr->SetMaterial(weaponMaterial);
+		std::shared_ptr<Mesh> revolverMesh = Resources::Find<Mesh>(L"RectMesh");
+		pWMr->SetMesh(revolverMesh);
+		Animator* weaponAni = pWeapon->AddComponent<Animator>();
+		std::shared_ptr<Texture> revolverTexture = Resources::Load<Texture>(L"W_RevolverSprite", L"Weapon\\T_Revolver_SS.png");
+		weaponAni->Create(L"Revolver", revolverTexture, Vector2(0.0f, 0.0f), Vector2(9.0f, 15.0f), Vector2::Zero, 5, 0.0f);
+		weaponAni->Play(L"Revolver", true);
+		pWeapon->AddComponent<WeaponScript>();
+
 		Monster* monster = object::Instantiate<Monster>(eLayerType::Monster, this);
 		monster->SetLayerType(eLayerType::Monster);
 		monster->SetName(L"Monster");
 		Transform* mTr = monster->GetComponent<Transform>();
-		mTr->SetPosition(Vector3(2.0f, 0.0f, 10.0f));
+		mTr->SetPosition(Vector3(2.0f, 0.0f, 0.0f));
 		//mTr->SetScale(Vector3(3.0f,3.0f, 1.0f));
 		Collider2D* mCollider = monster->AddComponent<Collider2D>();
 		mCollider->SetType(eColliderType::Rect);

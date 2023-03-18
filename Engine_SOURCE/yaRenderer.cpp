@@ -190,6 +190,12 @@ namespace ya::renderer
 			, leavesShader->GetVSBlobBufferSize()
 			, leavesShader->GetInputLayoutAddressOf());
 
+		std::shared_ptr<Shader> weaponShader = Resources::Find<Shader>(L"WeaponShader");
+		GetDevice()->CreateInputLayout(arrLayoutDesc, 3
+			, weaponShader->GetVSBlobBufferPointer()
+			, weaponShader->GetVSBlobBufferSize()
+			, weaponShader->GetInputLayoutAddressOf());
+
 #pragma endregion
 #pragma region sampler state
 		D3D11_SAMPLER_DESC samplerDesc = {};
@@ -405,6 +411,13 @@ namespace ya::renderer
 		leavesShader->Create(eShaderStage::PS, L"SpritePS.hlsl", "main");
 
 		Resources::Insert<Shader>(L"LeavesShader", leavesShader);
+
+		// Weapon
+		std::shared_ptr<Shader> weaponShader = std::make_shared<Shader>();
+		weaponShader->Create(eShaderStage::VS, L"SpriteVS.hlsl", "main");
+		weaponShader->Create(eShaderStage::PS, L"SpritePS.hlsl", "main");
+
+		Resources::Insert<Shader>(L"WeaponShader", weaponShader);
 	}
 
 	void LoadTexture()
@@ -418,6 +431,8 @@ namespace ya::renderer
 		Resources::Load<Texture>(L"BackGroundTexture", L"BackGround.png");
 		Resources::Load<Texture>(L"LogoTexture", L"Logo.png");
 		Resources::Load<Texture>(L"MonsterSprite", L"BrainMonster_0.png");
+		Resources::Load<Texture>(L"W_RevolverSprite", L"Weapon\\T_Revolver_SS.png");
+
 	}
 
 	void LoadMaterial()
@@ -481,6 +496,17 @@ namespace ya::renderer
 		monsterMaterial->SetTexture(monsterTexture);
 
 		Resources::Insert<Material>(L"MonsterMaterial", monsterMaterial);
+
+		// Revolver
+		std::shared_ptr<Texture> revolverTexture = Resources::Find<Texture>(L"W_RevolverSprite");
+		std::shared_ptr<Shader> weaponShader = Resources::Find<Shader>(L"WeaponShader");
+		std::shared_ptr<Material> revolverMaterial = std::make_shared<Material>();
+		revolverMaterial->SetRenderingMode(eRenderingMode::Transparent);
+		revolverMaterial->SetShader(weaponShader);
+		revolverMaterial->SetTexture(revolverTexture);
+
+		Resources::Insert<Material>(L"RevolverMaterial", revolverMaterial);
+
 
 		// UI
 		{
