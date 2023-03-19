@@ -24,5 +24,6 @@ namespace ya
 
 	private:
 		bool bMove;
+
 	};
 }
