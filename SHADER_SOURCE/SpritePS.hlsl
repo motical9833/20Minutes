@@ -15,7 +15,7 @@ struct VSOut
 
 //cbuffer time
 //int 0
-
+    
 float4 main(VSOut In) : SV_Target
 {
     float4 color = (float) 0.0f;
@@ -27,9 +27,7 @@ float4 main(VSOut In) : SV_Target
         float2 diff = (atlasSize - spriteSize) / 2.0f;
         float2 UV = (leftTop - diff - offset) + (atlasSize * In.UV);
         
-       if (UV.x < leftTop.x || UV.y < leftTop.y 
-           || UV.x > leftTop.x + spriteSize.x 
-           || UV.y > leftTop.y + spriteSize.y)
+       if (UV.x < leftTop.x || UV.y < leftTop.y || UV.x > leftTop.x  + spriteSize.x || UV.y > leftTop.y + spriteSize.y)
            discard;
          
         color = atlasTexture.Sample(anisotropicSampler, UV);

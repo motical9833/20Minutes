@@ -46,8 +46,14 @@ namespace ya
 		cameraUIComp->DisableLayerMasks();
 		cameraUIComp->TurnLayerMask(eLayerType::UI, true);
 		
+		GameObject* mouseObj = object::Instantiate<GameObject>(eLayerType::UI);
+		mouseObj->SetName(L"MouseObj");
+		mouseObj->DontDestroy(true);
+
+
+
 		//left
-		GameObject* leftLeaves = object::Instantiate<GameObject>(eLayerType::None);
+		GameObject* leftLeaves = object::Instantiate<GameObject>(eLayerType::UI);
 		leftLeaves->SetName(L"leftLeavs");
 		Transform* leftLeavsTr = leftLeaves->GetComponent<Transform>();
 		objTr.push_back(leftLeavsTr);
@@ -61,7 +67,7 @@ namespace ya
 		leftLevesR->SetMesh(leftLevesmesh);
 
 		// right
-		GameObject* rightLeaves = object::Instantiate<GameObject>(eLayerType::None);
+		GameObject* rightLeaves = object::Instantiate<GameObject>(eLayerType::UI);
 		rightLeaves->SetName(L"RightLeavs");
 		Transform* rightLeavsTr = rightLeaves->GetComponent<Transform>();
 		objTr.push_back(rightLeavsTr);
@@ -75,7 +81,7 @@ namespace ya
 		rightLevesR->SetMesh(rightLevesmesh);
 
 		// Logo
-		GameObject* logo = object::Instantiate<GameObject>(eLayerType::None);
+		GameObject* logo = object::Instantiate<GameObject>(eLayerType::UI);
 		logo->SetName(L"Logo");
 		Transform* logoTr = logo->GetComponent<Transform>();
 		logoTr->SetPosition(Vector3(1.0f, 3.0f, 9.9f));
@@ -88,7 +94,7 @@ namespace ya
 		logoRender->SetMesh(logoMesh);
 
 		//backgroundMaterial
-		GameObject* bg = object::Instantiate<GameObject>(eLayerType::None);
+		GameObject* bg = object::Instantiate<GameObject>(eLayerType::UI);
 		bg->SetName(L"bg");
 		Transform* bgTr = bg->GetComponent<Transform>();
 		bgTr->SetPosition(Vector3(0.0f, 0.0f, 10.0f));

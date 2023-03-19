@@ -21,34 +21,34 @@ namespace ya
 
 	void CameraScript::Update()
 	{
-		//Transform* tr = GetOwner()->GetComponent<Transform>();
+		Transform* tr = GetOwner()->GetComponent<Transform>();
 
-		//Vector3 pos = tr->GetPosition();
+		Vector3 pos = tr->GetPosition();
 
-		//if (Input::GetKeyState(eKeyCode::D) == eKeyState::PRESSED)
-		//{
-		//	pos += 100.0f * tr->Right() * Time::DeltaTime();
-		//}
-		//else if (Input::GetKeyState(eKeyCode::A) == eKeyState::PRESSED)
-		//{
-		//	pos += 100.0f * -tr->Right() * Time::DeltaTime();
-		//}
-		//else if (Input::GetKeyState(eKeyCode::W) == eKeyState::PRESSED)
-		//{
-		//	pos += 100.0f * tr->Foward() * Time::DeltaTime();
-		//}
-		//else if (Input::GetKeyState(eKeyCode::S) == eKeyState::PRESSED)
-		//{
-		//	pos += 100.0f * -tr->Foward() * Time::DeltaTime();
-		//}
-		//else if (Input::GetKeyState(eKeyCode::Q) == eKeyState::PRESSED)
-		//{
-		//	pos += 100.0f * tr->Up() * Time::DeltaTime();
-		//}
-		//else if (Input::GetKeyState(eKeyCode::E) == eKeyState::PRESSED)
-		//{
-		//	pos += 100.0f * -tr->Up() * Time::DeltaTime();
-		//}
+		if (Input::GetKey(eKeyCode::D))
+		{
+			pos += 100.0f * tr->Right() * Time::DeltaTime();
+		}
+		else if (Input::GetKey(eKeyCode::A))
+		{
+			pos += 100.0f * -tr->Right() * Time::DeltaTime();
+		}
+		else if (Input::GetKey(eKeyCode::W))
+		{
+			pos += 100.0f * tr->Foward() * Time::DeltaTime();
+		}
+		else if (Input::GetKey(eKeyCode::S))
+		{
+			pos += 100.0f * -tr->Foward() * Time::DeltaTime();
+		}
+		else if (Input::GetKey(eKeyCode::Q))
+		{
+			pos += 100.0f * tr->Up() * Time::DeltaTime();
+		}
+		else if (Input::GetKey(eKeyCode::E))
+		{
+			pos += 100.0f * -tr->Up() * Time::DeltaTime();
+		}
 
 		//tr->SetPosition(pos);
 	}

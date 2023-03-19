@@ -6,7 +6,7 @@ extern ya::Application application;
 namespace ya
 {
 	std::vector<Input::Key> Input::mKeys;
-	math::Vector2 Input::mMousPosition;
+	math::Vector3 Input::mMousPosition;
 	int ASCII[(UINT)eKeyCode::END] =
 	{
 		//Alphabet

@@ -26,10 +26,12 @@ namespace ya
 		mTransform = this->GetOwner()->GetComponent<Transform>();
 		mAnimator = GetOwner()->GetComponent<Animator>();
 		mAnimator->Stop();
+
 	}
 	void WeaponScript::Update()
 	{
-		
+
+
 		if (bReload)
 			Reload();
 		
@@ -48,7 +50,7 @@ namespace ya
 
 		if (bReloading == false && bReload == false)
 		{
-			if (Input::GetKeyDown(eKeyCode::SPACE))
+			if (Input::GetKeyDown(eKeyCode::LBTN))
 			{
 				currentBullet--;
  				if (currentBullet <= 0)

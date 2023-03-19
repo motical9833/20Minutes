@@ -11,10 +11,12 @@ namespace ya
 		: Script()
 		, bMove(false)
 	{
+
 	}
 
 	PlayerScript::~PlayerScript()
 	{
+
 	}
 
 	void PlayerScript::Initalize()
@@ -32,10 +34,6 @@ namespace ya
 		Transform* tr = GetOwner()->GetComponent<Transform>();
 		Animator* animator = GetOwner()->GetComponent<Animator>();
 
-		Vector3 pos = tr->GetPosition();
-		//Vector3 rot = tr->GetRotation();
-		//rot.z += 10.0f * Time::DeltaTime();
-		//tr->SetRotation(rot);
 
 		if (Input::GetKeyState(eKeyCode::R) == eKeyState::PRESSED)
 		{

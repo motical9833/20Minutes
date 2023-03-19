@@ -431,8 +431,11 @@ namespace ya::renderer
 		Resources::Load<Texture>(L"BackGroundTexture", L"BackGround.png");
 		Resources::Load<Texture>(L"LogoTexture", L"Logo.png");
 		Resources::Load<Texture>(L"MonsterSprite", L"BrainMonster_0.png");
+		Resources::Load<Texture>(L"TreeSprite", L"Monster\\T_TreeMonster.png");
+		Resources::Load<Texture>(L"EyeMonsterSprite", L"Monster\\EyeMonster.png");
+		Resources::Load<Texture>(L"BoomerMonsterSprite", L"Monster\\BigBoomer.png");
 		Resources::Load<Texture>(L"W_RevolverSprite", L"Weapon\\T_Revolver_SS.png");
-
+		Resources::Load<Texture>(L"HPHeart", L"UI\\T_HeartAnimation.png");
 	}
 
 	void LoadMaterial()
@@ -497,21 +500,55 @@ namespace ya::renderer
 
 		Resources::Insert<Material>(L"MonsterMaterial", monsterMaterial);
 
-		// Revolver
-		std::shared_ptr<Texture> revolverTexture = Resources::Find<Texture>(L"W_RevolverSprite");
-		std::shared_ptr<Shader> weaponShader = Resources::Find<Shader>(L"WeaponShader");
-		std::shared_ptr<Material> revolverMaterial = std::make_shared<Material>();
-		revolverMaterial->SetRenderingMode(eRenderingMode::Transparent);
-		revolverMaterial->SetShader(weaponShader);
-		revolverMaterial->SetTexture(revolverTexture);
+		// TreeMonster
+		std::shared_ptr<Texture> treeTexture = Resources::Find<Texture>(L"TreeSprite");
+		std::shared_ptr<Shader> treeShader = Resources::Find<Shader>(L"MonsterShader");
+		std::shared_ptr<Material> treeMaterial = std::make_shared<Material>();
+		treeMaterial->SetRenderingMode(eRenderingMode::Transparent);
+		treeMaterial->SetShader(treeShader);
+		treeMaterial->SetTexture(treeTexture);
 
-		Resources::Insert<Material>(L"RevolverMaterial", revolverMaterial);
+		Resources::Insert<Material>(L"TreeMaterial", treeMaterial);
 
+		// EyeMonster
+		std::shared_ptr<Texture> m_EyeTexture = Resources::Find<Texture>(L"EyeMonsterSprite");
+		std::shared_ptr<Shader> m_EyeShader = Resources::Find<Shader>(L"MonsterShader");
+		std::shared_ptr<Material> m_EyeMaterial = std::make_shared<Material>();
+		m_EyeMaterial->SetRenderingMode(eRenderingMode::Transparent);
+		m_EyeMaterial->SetShader(m_EyeShader);
+		m_EyeMaterial->SetTexture(m_EyeTexture);
+
+		Resources::Insert<Material>(L"EyeMonsterMaterial", m_EyeMaterial);
+
+		// BoomerMonster
+		std::shared_ptr<Texture> mBoomerTexture = Resources::Find<Texture>(L"BoomerMonsterSprite");
+		std::shared_ptr<Shader> mBoomerShader = Resources::Find<Shader>(L"MonsterShader");
+		std::shared_ptr<Material> mBoomerMaterial = std::make_shared<Material>();
+		mBoomerMaterial->SetRenderingMode(eRenderingMode::Transparent);
+		mBoomerMaterial->SetShader(mBoomerShader);
+		mBoomerMaterial->SetTexture(mBoomerTexture);
+
+		Resources::Insert<Material>(L"BoomerMonsterMaterial", mBoomerMaterial);
+
+
+
+		//Weapon
+		{
+			// Revolver
+			std::shared_ptr<Texture> revolverTexture = Resources::Find<Texture>(L"W_RevolverSprite");
+			std::shared_ptr<Shader> weaponShader = Resources::Find<Shader>(L"WeaponShader");
+			std::shared_ptr<Material> revolverMaterial = std::make_shared<Material>();
+			revolverMaterial->SetRenderingMode(eRenderingMode::Transparent);
+			revolverMaterial->SetShader(weaponShader);
+			revolverMaterial->SetTexture(revolverTexture);
+
+			Resources::Insert<Material>(L"RevolverMaterial", revolverMaterial);
+		}
 
 		// UI
 		{
 			std::shared_ptr<Texture> titleLevesLeft = Resources::Find<Texture>(L"TitleLevesLeftSprite");
-			std::shared_ptr<Shader> levesShder_L = Resources::Find<Shader>(L"UIShader");
+			std::shared_ptr<Shader> levesShder_L = Resources::Find<Shader>(L"SpriteShader");
 			std::shared_ptr<Material> leavsLeftMat = std::make_shared<Material>();
 			leavsLeftMat->SetRenderingMode(eRenderingMode::Transparent);
 			leavsLeftMat->SetShader(levesShder_L);
@@ -520,7 +557,7 @@ namespace ya::renderer
 			Resources::Insert<Material>(L"leavsLeftMaterial", leavsLeftMat);
 
 			std::shared_ptr<Texture> titleLevesright = Resources::Find<Texture>(L"TitleLevesRightSprite");
-			std::shared_ptr<Shader> levesShder_R = Resources::Find<Shader>(L"UIShader");
+			std::shared_ptr<Shader> levesShder_R = Resources::Find<Shader>(L"SpriteShader");
 			std::shared_ptr<Material> leavsRightMat = std::make_shared<Material>();
 			leavsRightMat->SetRenderingMode(eRenderingMode::Transparent);
 			leavsRightMat->SetShader(levesShder_R);
@@ -530,7 +567,7 @@ namespace ya::renderer
 
 
 			std::shared_ptr<Texture> backgroundTex = Resources::Find<Texture>(L"BackGroundTexture");
-			std::shared_ptr<Shader> backgroundShader = Resources::Find<Shader>(L"UIShader");
+			std::shared_ptr<Shader> backgroundShader = Resources::Find<Shader>(L"SpriteShader");
 			std::shared_ptr<Material> backgroundMat = std::make_shared<Material>();
 			backgroundMat->SetRenderingMode(eRenderingMode::Transparent);
 			backgroundMat->SetShader(backgroundShader);
@@ -539,13 +576,23 @@ namespace ya::renderer
 			Resources::Insert<Material>(L"backgroundMaterial", backgroundMat);
 
 			std::shared_ptr<Texture> logoTexture = Resources::Find<Texture>(L"LogoTexture");
-			std::shared_ptr<Shader> logoShader = Resources::Find<Shader>(L"UIShader");
+			std::shared_ptr<Shader> logoShader = Resources::Find<Shader>(L"SpriteShader");
 			std::shared_ptr<Material> logoMaterial = std::make_shared<Material>();
 			logoMaterial->SetRenderingMode(eRenderingMode::Transparent);
 			logoMaterial->SetShader(logoShader);
 			logoMaterial->SetTexture(logoTexture);
 
 			Resources::Insert<Material>(L"LogoMaterial", logoMaterial);
+
+
+			std::shared_ptr<Texture> hpTexture = Resources::Find<Texture>(L"HPHeart");
+			std::shared_ptr<Shader> hpShader = Resources::Find<Shader>(L"SpriteShader");
+			std::shared_ptr<Material> hpMaterial = std::make_shared<Material>();
+			hpMaterial->SetRenderingMode(eRenderingMode::Transparent);
+			hpMaterial->SetShader(hpShader);
+			hpMaterial->SetTexture(hpTexture);
+
+			Resources::Insert<Material>(L"HpMaterial", hpMaterial);
 		}
 	}
 

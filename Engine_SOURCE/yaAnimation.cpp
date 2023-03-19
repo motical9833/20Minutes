@@ -80,7 +80,7 @@ namespace ya
 			sprite.size = Vector2(size.x / width, size.y / height);
 			sprite.offset = offset;
 			sprite.duration = duration;
-			sprite.atlasSize = Vector2(50.0f / width, 50.0f / height);
+			sprite.atlasSize = Vector2(100.0f / width, 100.0f / height);
 
 			mSpriteSheet.push_back(sprite);
 		}
