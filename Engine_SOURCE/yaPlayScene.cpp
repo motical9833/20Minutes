@@ -201,6 +201,8 @@ namespace ya
 		if (Input::GetKeyDown(eKeyCode::N))
 		{
 			SceneManager::LoadScene(eSceneType::Tilte);
+			player->GetComponent<Transform>()->SetPosition(Vector3(0.0f, 0.0f, 10.0f));
+			player->Life();
 		}
 
 		Transform* tr = pSceneCamera->GetComponent<Transform>();
@@ -221,8 +223,6 @@ namespace ya
 
 	void PlayScene::OnEnter()
 	{
-		//Transform* tr = player->GetComponent<Transform>();
-		//pSceneCamera->GetComponent<Transform>()->SetParent(tr);
 		mainCamera = pSceneCamera->GetComponent<Camera>();
 	}
 
