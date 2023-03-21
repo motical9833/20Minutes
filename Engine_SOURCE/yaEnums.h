@@ -32,6 +32,7 @@ namespace ya::enums
 		MeshRenerer,
 		SpriteRenderer,
 		Animator,
+		Light,
 		UI,
 		//FadeOut,FadeIn
 		Script,
@@ -69,6 +70,13 @@ namespace ya::enums
 		SecondDimension,
 		ThirdDimension,
 		End,
+	};
+	enum class eLightType
+	{
+		Directional,
+		Point,
+		Spot,
+		End, 
 	};
 
 	//struct Ray

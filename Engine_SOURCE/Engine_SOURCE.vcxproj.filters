@@ -228,6 +228,7 @@
     <ClCompile Include="yaWeaponScript.cpp">
       <Filter>Component\Script\Contents</Filter>
     </ClCompile>
+    <ClCompile Include="yaStructedBuffer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CommonInclude.h">
@@ -371,6 +372,7 @@
     <ClInclude Include="yaWeaponScript.h">
       <Filter>Component\Script\Contents</Filter>
     </ClInclude>
+    <ClInclude Include="yaStructedBuffer.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="yaMath.inl">

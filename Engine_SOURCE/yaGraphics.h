@@ -17,7 +17,7 @@
 #define CBSLOT_GRID 2
 #define CBSLOT_ANIMATION 3
 
-
+using namespace ya::math;
 namespace ya::graphics
 {
 	enum class ValidationMode
@@ -116,6 +116,12 @@ namespace ya::graphics
 		Matrix,
 	};
 
+	enum class eSRVType //ShaderResourceView
+	{
+		None,
+		End,
+	};
+
 	struct DebugMesh
 	{
 		enums::eColliderType type;
@@ -130,6 +136,16 @@ namespace ya::graphics
 
 	struct LightAttribute
 	{
+		Vector4 diffuse;
+		Vector4 specular;
+		Vector4 ambient;
+		Vector4 emissive;
+		Vector4 position;
+		Vector4 direction;
 
+		enums::eLightType type;
+		float radius;
+		float angle;
+		int padding;
 	};
 }

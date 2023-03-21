@@ -7,6 +7,7 @@
 #include "yaShader.h"
 #include "yaConstantBuffer.h"
 #include "yaCamera.h"
+#include "yaLight.h"
 
 using namespace ya::math;
 using namespace ya::graphics;
@@ -64,6 +65,7 @@ namespace ya::renderer
 	
 	extern std::vector<Camera*> cameras[];
 	extern std::vector<DebugMesh> debugMeshes;
+	extern std::vector<LightAttribute> lights;
 
 	void Initialize();
 	void Render();
