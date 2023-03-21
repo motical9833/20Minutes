@@ -15,6 +15,7 @@
 #include "yaMonster.h"
 #include "yaCollisionManager.h"
 #include "yaTime.h"
+#include "yaLight.h"
 
 namespace ya
 {
@@ -30,6 +31,23 @@ namespace ya
 	}
 	void TitleScene::Initalize()
 	{
+		{
+			GameObject* directionalLight = object::Instantiate<GameObject>(eLayerType::Player);
+			directionalLight->GetComponent<Transform>()->SetPosition(Vector3(0.0f, 0.0f, -100.0f));
+			Light* lightComp = directionalLight->AddComponent<Light>();
+			lightComp->SetType(eLightType::Directional);
+			lightComp->SetDiffuse(Vector4(1.0f, 1.0f, 1.0f, 1.0f));
+		}
+
+		//{
+		//	GameObject* directionalLight = object::Instantiate<GameObject>(eLayerType::Player);
+		//	directionalLight->GetComponent<Transform>()->SetPosition(Vector3(3.0f, 0.0f, 0.0f));
+		//	Light* lightComp = directionalLight->AddComponent<Light>();
+		//	lightComp->SetType(eLightType::Point);
+		//	lightComp->SetRadius(3.0f);
+		//	lightComp->SetDiffuse(Vector4(0.0f, 1.0f, 0.0f, 1.0f));
+		//}
+
 
 		// Main Camera Game Object
 		tSceneCamera = object::Instantiate<GameObject>(eLayerType::Camera);

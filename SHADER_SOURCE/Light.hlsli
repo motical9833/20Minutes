@@ -16,5 +16,4 @@ struct LightAttribute
     float radius;
     float angle;
     int padding;
-    
 };

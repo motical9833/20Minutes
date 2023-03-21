@@ -29,7 +29,7 @@ namespace ya
 		mAttribute.position = Vector4(position.x, position.y, position.z, 1.0f);
 		mAttribute.direction = Vector4(tr->Right().x, tr->Right().y, tr->Right().z, 1.0f);
 
-		renderer::lights.push_back(mAttribute);
+		renderer::PushLightAttribute(mAttribute);
 	}
 	void Light::Render()
 	{

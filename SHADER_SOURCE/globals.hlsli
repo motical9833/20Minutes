@@ -35,6 +35,12 @@ cbuffer Animation : register(b3)
     uint animationType;
 }
 
+cbuffer NumberOfLight : register(b4)
+{
+    uint numberOfLight;
+}
+
+
 SamplerState pointSampler : register(s0);
 SamplerState linearSampler : register(s1);
 SamplerState anisotropicSampler : register(s2);
@@ -47,3 +53,25 @@ Texture2D defaultTexture : register(t0);
 
 //atlasSize Texture
 Texture2D atlasTexture : register(t12);
+
+void CalculateLight(in out LightColor pLightColor, float3 position, int idx)
+{
+    if(0 == lightAttributes[idx].type)
+    {
+        pLightColor.diffuse += lightAttributes[idx].color.diffuse;
+    }
+    else if (1 == lightAttributes[idx].type) //Point Light
+    {
+        float length = distance(lightAttributes[idx].position.xy,position.xy);
+        
+        if(length < lightAttributes[idx].radius)
+        {
+            float ratio = 1.0f - (length / lightAttributes[idx].radius);
+            pLightColor.diffuse += lightAttributes[idx].color.diffuse * ratio; // * cos(time); //빛의 크기가 커졌다가 작아졌다가 반복 (횃불)
+        }
+    }
+    else
+    {
+        
+    }
+}
