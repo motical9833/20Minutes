@@ -33,6 +33,14 @@ namespace ya
 
 	void PlayScene::Initalize()
 	{
+		{
+			GameObject* directionalLight = object::Instantiate<GameObject>(eLayerType::Player,this);
+			directionalLight->GetComponent<Transform>()->SetPosition(Vector3(0.0f, 0.0f, -100.0f));
+			Light* lightComp = directionalLight->AddComponent<Light>();
+			lightComp->SetType(eLightType::Directional);
+			lightComp->SetDiffuse(Vector4(1.0f, 1.0f, 1.0f, 1.0f));
+		}
+
 		// Main Camera Game Object
 		pSceneCamera = object::Instantiate<GameObject>(eLayerType::Camera,this);
 		Camera* cameraComp = pSceneCamera->AddComponent<Camera>();
