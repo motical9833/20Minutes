@@ -154,8 +154,6 @@ namespace ya
 			m_EyeAnimator->Create(L"EyeMonsterAnimation", m_EyeTexture, Vector2(0.0f, 0.0f), Vector2(40.0f, 40.0f), Vector2::Zero, 3, 0.2f);
 			m_EyeAnimator->Play(L"EyeMonsterAnimation", true);
 
-			//Test
-
 			Monster* mBoomer = object::Instantiate<Monster>(eLayerType::Monster, this);
 			mBoomer->SetLayerType(eLayerType::Monster);
 			mBoomer->SetName(L"BigBoomer");
