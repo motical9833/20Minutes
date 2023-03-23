@@ -402,6 +402,10 @@ namespace ya::renderer
 
 		Resources::Insert<Shader>(L"DebugShader", debugShader);
 
+		// PaintShader
+
+
+
 		// Player
 		std::shared_ptr<Shader> playerShader = std::make_shared<Shader>();
 		playerShader->Create(eShaderStage::VS, L"SpriteVS.hlsl", "main");
@@ -429,6 +433,9 @@ namespace ya::renderer
 		weaponShader->Create(eShaderStage::PS, L"SpritePS.hlsl", "main");
 
 		Resources::Insert<Shader>(L"WeaponShader", weaponShader);
+
+
+
 	}
 
 	void LoadTexture()

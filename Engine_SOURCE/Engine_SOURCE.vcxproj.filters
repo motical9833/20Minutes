@@ -100,6 +100,9 @@
     <Filter Include="Light">
       <UniqueIdentifier>{46a6b9cb-2dff-4348-b759-374bee0d1a12}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resource\Shader\CS">
+      <UniqueIdentifier>{060e9b5a-58a4-4d69-8863-cfc689dcb12d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="yaApplication.cpp">
@@ -229,6 +232,12 @@
       <Filter>Component\Script\Contents</Filter>
     </ClCompile>
     <ClCompile Include="yaStructedBuffer.cpp" />
+    <ClCompile Include="yaComputeShader.cpp">
+      <Filter>Resource\Shader\CS</Filter>
+    </ClCompile>
+    <ClCompile Include="yaPaintShader.cpp">
+      <Filter>Resource\Shader\CS</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CommonInclude.h">
@@ -373,6 +382,12 @@
       <Filter>Component\Script\Contents</Filter>
     </ClInclude>
     <ClInclude Include="yaStructedBuffer.h" />
+    <ClInclude Include="yaComputeShader.h">
+      <Filter>Resource\Shader\CS</Filter>
+    </ClInclude>
+    <ClInclude Include="yaPaintShader.h">
+      <Filter>Resource\Shader\CS</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="yaMath.inl">
