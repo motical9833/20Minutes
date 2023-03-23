@@ -184,7 +184,7 @@ namespace ya
 			hpUiObj.push_back(uiobj);
 			hpUiObj[i]->SetLayerType(eLayerType::UI);
 			hpUiObj[i]->SetName(L"HP" + i);
-			hpUiObj[i]->GetComponent<Transform>()->SetPosition(Vector3(-9.2f + (float)i, 4.8f, 10.0f));
+			hpUiObj[i]->GetComponent<Transform>()->SetPosition(Vector3(-7.5f + (float)i, 4.0f, 10.0f));
 			hpUiObj[i]->GetComponent<Transform>()->SetScale(Vector3(3.0f, 3.0f, 1.0f));
 			hpUiObj[i]->GetComponent<Transform>()->SetParent(cameraUIObj->GetComponent<Transform>());
 			SpriteRenderer* render = hpUiObj[i]->AddComponent<SpriteRenderer>();

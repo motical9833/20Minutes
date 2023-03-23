@@ -126,14 +126,14 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
    hInst = hInstance; // 인스턴스 핸들을 전역 변수에 저장합니다.
 
    HWND hWnd = CreateWindowW(szWindowClass, szTitle, WS_OVERLAPPEDWINDOW,
-      0, 0, 1920, 1080, nullptr, nullptr, hInstance, nullptr);
+      0, 0, 1600, 900, nullptr, nullptr, hInstance, nullptr);
 
    if (!hWnd)
    {
       return FALSE;
    }
 
-   application.SetWindow(hWnd, 1920, 1080);
+   application.SetWindow(hWnd, 1600, 900);
    application.Initalize();
    editor.Initalize();
    ShowWindow(hWnd, nCmdShow);
