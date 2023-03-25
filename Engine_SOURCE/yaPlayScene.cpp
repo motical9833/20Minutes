@@ -16,6 +16,7 @@
 #include "yaMonster.h"
 #include "yaAnimator.h"
 #include "yaWeaponScript.h"
+#include "yaPaintShader.h"
 
 namespace ya
 {
@@ -33,6 +34,25 @@ namespace ya
 
 	void PlayScene::Initalize()
 	{
+		//paint Shader
+		std::shared_ptr<PaintShader> paintShader = Resources::Find<PaintShader>(L"PaintShader");
+		paintShader->SetTarget(Resources::Find<Texture>(L"PaintTexture"));
+		paintShader->OnExcute();
+
+		//SMILE RECT
+		{
+			Player* smile = object::Instantiate<Player>(eLayerType::None);
+			smile->SetName(L"SMILE");
+			Transform* smileTr = smile->GetComponent<Transform>();
+			smileTr->SetPosition(Vector3(-2.0f, 0.0f, 0.0f));
+			SpriteRenderer* smileMr = smile->AddComponent<SpriteRenderer>();
+			std::shared_ptr<Material> mateiral = Resources::Find<Material>(L"RectMaterial");
+			smileMr->SetMaterial(mateiral);
+			std::shared_ptr<Mesh> smileMesh = Resources::Find<Mesh>(L"RectMesh");
+			smileMr->SetMesh(smileMesh);
+			object::DontDestroyOnLoad(smile);
+		}
+
 		{
 			GameObject* directionalLight = object::Instantiate<GameObject>(eLayerType::Player,this);
 			directionalLight->GetComponent<Transform>()->SetPosition(Vector3(0.0f, 0.0f, -100.0f));
