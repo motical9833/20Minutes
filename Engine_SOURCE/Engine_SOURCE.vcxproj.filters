@@ -238,6 +238,12 @@
     <ClCompile Include="yaPaintShader.cpp">
       <Filter>Resource\Shader\CS</Filter>
     </ClCompile>
+    <ClCompile Include="yaBullet.cpp">
+      <Filter>Component\Script\Contents</Filter>
+    </ClCompile>
+    <ClCompile Include="yaBulletScript.cpp">
+      <Filter>Component\Script\Contents</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CommonInclude.h">
@@ -387,6 +393,12 @@
     </ClInclude>
     <ClInclude Include="yaPaintShader.h">
       <Filter>Resource\Shader\CS</Filter>
+    </ClInclude>
+    <ClInclude Include="yaBullet.h">
+      <Filter>Component\Script\Contents</Filter>
+    </ClInclude>
+    <ClInclude Include="yaBulletScript.h">
+      <Filter>Component\Script\Contents</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -37,5 +37,15 @@ namespace ya
 		Animator* mAnimator;
 		Transform* mTransform;
 
+
+		Transform* mTrans;
+		Vector3 mMousePos;
+		Vector3 mPos;
+		Vector3 mRot;
+		Vector3 pPos;
+
+		float circleR;
+		float deg;
+		float objSpeed;
 	};
 }

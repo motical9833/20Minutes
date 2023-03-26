@@ -16,7 +16,7 @@ namespace ya::enums
 		Grid,
 		Monster,
 		Player,
-
+		Bullet,
 		UI,
 		End = 16,
 	};

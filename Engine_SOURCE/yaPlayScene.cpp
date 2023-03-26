@@ -39,6 +39,7 @@ namespace ya
 		paintShader->SetTarget(Resources::Find<Texture>(L"PaintTexture"));
 		paintShader->OnExcute();
 
+
 		//SMILE RECT
 		{
 			Player* smile = object::Instantiate<Player>(eLayerType::None);
@@ -76,43 +77,61 @@ namespace ya
 		cameraUIComp->DisableLayerMasks();
 		cameraUIComp->TurnLayerMask(eLayerType::UI, true);
 
-		player = object::Instantiate<Player>(eLayerType::Player, this);
-		player->SetName(L"Player");
-		Transform* pTr = player->GetComponent<Transform>();
-		pTr->SetPosition(Vector3(-3.0f, 0.0f, 0.0f));
-		pTr->SetScale(Vector3(3.0f, 3.0f, 1.0f));
-		Collider2D* pCollider = player->AddComponent<Collider2D>();
-		pCollider->SetType(eColliderType::Rect);
-		pCollider->SetSize(Vector2(0.2f, 0.2f));
-		SpriteRenderer* pMr = player->AddComponent<SpriteRenderer>();
-		std::shared_ptr<Material> mateiral = Resources::Find<Material>(L"PlayerMaterial");
-		pMr->SetMaterial(mateiral);
-		std::shared_ptr<Mesh> pMesh = Resources::Find<Mesh>(L"RectMesh");
-		pMr->SetMesh(pMesh);
-		player->AddComponent<PlayerScript>();
-		Animator* animator = player->AddComponent<Animator>();
-		std::shared_ptr<Texture> texture = Resources::Load<Texture>(L"Shana", L"Player\\Shana.png");
-		animator->Create(L"pIdle", texture, Vector2(0.0f, 0.0f), Vector2(32.0f, 33.3f), Vector2::Zero, 6, 0.2f);
-		animator->Create(L"pMove", texture, Vector2(0.0f, 33.3f), Vector2(32.0f, 33.3f), Vector2::Zero, 4, 0.15f);
-		animator->Play(L"pIdle", true);
-		//mainCameraTr->SetParent(pTr);
 
-		pWeapon = object::Instantiate<Weapon>(eLayerType::Player, this);
-		pWeapon->SetName(L"pWeapon");
-		Transform* weaponTr = pWeapon->GetComponent<Transform>();
-		weaponTr->SetScale(Vector3(1.5f, 1.5f, 1.0f));
-		weaponTr->SetParent(pTr);
-		weaponTr->SetPosition(Vector3(0.13f, 0.02f, 0.0f));
-		SpriteRenderer* pWMr = pWeapon->AddComponent<SpriteRenderer>();
-		std::shared_ptr<Material> weaponMaterial = Resources::Find<Material>(L"RevolverMaterial");
-		pWMr->SetMaterial(weaponMaterial);
-		std::shared_ptr<Mesh> revolverMesh = Resources::Find<Mesh>(L"RectMesh");
-		pWMr->SetMesh(revolverMesh);
-		Animator* weaponAni = pWeapon->AddComponent<Animator>();
-		std::shared_ptr<Texture> revolverTexture = Resources::Load<Texture>(L"W_RevolverSprite", L"Weapon\\T_Revolver_SS.png");
-		weaponAni->Create(L"Revolver", revolverTexture, Vector2(0.0f, 0.0f), Vector2(16.0f, 15.0f), Vector2::Zero, 5, 0.0f);
-		weaponAni->Play(L"Revolver", true);
-		pWeapon->AddComponent<WeaponScript>();
+		{
+			player = object::Instantiate<Player>(eLayerType::Player, this);
+			player->SetName(L"Player");
+			Transform* pTr = player->GetComponent<Transform>();
+			pTr->SetPosition(Vector3(-3.0f, 0.0f, 0.0f));
+			pTr->SetScale(Vector3(3.0f, 3.0f, 1.0f));
+			Collider2D* pCollider = player->AddComponent<Collider2D>();
+			pCollider->SetType(eColliderType::Rect);
+			pCollider->SetSize(Vector2(0.2f, 0.2f));
+			SpriteRenderer* pMr = player->AddComponent<SpriteRenderer>();
+			std::shared_ptr<Material> mateiral = Resources::Find<Material>(L"PlayerMaterial");
+			pMr->SetMaterial(mateiral);
+			std::shared_ptr<Mesh> pMesh = Resources::Find<Mesh>(L"RectMesh");
+			pMr->SetMesh(pMesh);
+			player->AddComponent<PlayerScript>();
+			Animator* animator = player->AddComponent<Animator>();
+			std::shared_ptr<Texture> texture = Resources::Load<Texture>(L"Shana", L"Player\\Shana.png");
+			animator->Create(L"pIdle", texture, Vector2(0.0f, 0.0f), Vector2(32.0f, 33.3f), Vector2::Zero, 6, 0.2f);
+			animator->Create(L"pMove", texture, Vector2(0.0f, 33.3f), Vector2(32.0f, 33.3f), Vector2::Zero, 4, 0.15f);
+			animator->Play(L"pIdle", true);
+			//mainCameraTr->SetParent(pTr);
+
+			pWeapon = object::Instantiate<Weapon>(eLayerType::Player, this);
+			pWeapon->SetName(L"pWeapon");
+			Transform* weaponTr = pWeapon->GetComponent<Transform>();
+			weaponTr->SetScale(Vector3(1.5f, 1.5f, 1.0f));
+			weaponTr->SetParent(pTr);
+			weaponTr->SetPosition(Vector3(0.13f, 0.02f, 0.0f));
+			SpriteRenderer* pWMr = pWeapon->AddComponent<SpriteRenderer>();
+			std::shared_ptr<Material> weaponMaterial = Resources::Find<Material>(L"RevolverMaterial");
+			pWMr->SetMaterial(weaponMaterial);
+			std::shared_ptr<Mesh> revolverMesh = Resources::Find<Mesh>(L"RectMesh");
+			pWMr->SetMesh(revolverMesh);
+			Animator* weaponAni = pWeapon->AddComponent<Animator>();
+			std::shared_ptr<Texture> revolverTexture = Resources::Load<Texture>(L"W_RevolverSprite", L"Weapon\\T_Revolver_SS.png");
+			weaponAni->Create(L"Revolver", revolverTexture, Vector2(0.0f, 0.0f), Vector2(16.0f, 15.0f), Vector2::Zero, 5, 0.0f);
+			weaponAni->Play(L"Revolver", true);
+			pWeapon->AddComponent<WeaponScript>();
+
+
+			bullet = object::Instantiate<Bullet>(eLayerType::Bullet,this);
+			Transform* bulletTr = bullet->GetComponent<Transform>();
+			bulletTr->SetPosition(Vector3(0.0f, 0.0f, 0.0f));
+			SpriteRenderer* bMr = bullet->AddComponent<SpriteRenderer>();
+			std::shared_ptr<Material> bulletMaterial = Resources::Find<Material>(L"BulletMaterial");
+			bMr->SetMaterial(bulletMaterial);
+			std::shared_ptr<Mesh> bulletMesh = Resources::Find<Mesh>(L"RectMesh");
+			bMr->SetMesh(bulletMesh);
+			Animator* bulletAni = bullet->AddComponent<Animator>();
+			std::shared_ptr<Texture> bulletTexture = Resources::Find<Texture>(L"BulletTexture");
+			bulletAni->Create(L"Bullet", bulletTexture, Vector2(0.0f, 0.0f), Vector2(16.0f, 14.0f), Vector2::Zero, 1, 0.0f);
+			bulletAni->Play(L"Bullet", false);
+
+		}
 
 		// Monster
 		{
@@ -220,6 +239,7 @@ namespace ya
 			hpani[i]->Play(L"hpAniamtion", true);
 		}
 
+
 		CollisionManager::CollisionLayerCheck(eLayerType::Player, eLayerType::Monster, true);
 		Scene::Initalize();
 	}
@@ -231,6 +251,11 @@ namespace ya
 			SceneManager::LoadScene(eSceneType::Tilte);
 			player->GetComponent<Transform>()->SetPosition(Vector3(0.0f, 0.0f, 10.0f));
 			player->Life();
+		}
+
+		if (Input::GetKeyDown(eKeyCode::K))
+		{
+			bullet->Death();
 		}
 
 		Transform* tr = pSceneCamera->GetComponent<Transform>();
