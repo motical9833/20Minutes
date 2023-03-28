@@ -15,7 +15,7 @@ namespace ya
 		virtual void FixedUpdate() override;
 		virtual void Render() override;
 
-		void BindConstantBuffer();
+		void SetConstantBuffer();
 		
 		void SetParent(Transform* parent) { mParent = parent; }
 		Transform* GetParent() { return mParent; }

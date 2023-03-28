@@ -11,7 +11,7 @@ namespace ya
 		: Script()
 		, bMove(false)
 	{
-
+		
 	}
 
 	PlayerScript::~PlayerScript()

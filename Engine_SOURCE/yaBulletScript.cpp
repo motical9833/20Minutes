@@ -1,6 +1,10 @@
 #include "yaBulletScript.h"
 #include "yaTime.h"
-
+#include "yaGameObject.h"
+#include "yaTransform.h"
+#include "yaPlayScene.h"
+#include "yaScene.h"
+#include "yaSceneManager.h"
 
 namespace ya
 {
@@ -15,11 +19,14 @@ namespace ya
 	}
 	void BulletScript::Initalize()
 	{
+		Transform* tr = GetOwner()->GetComponent<Transform>();
 
+		Scene* scene = SceneManager::GetPlaySCene();
+		Player* player = dynamic_cast<PlayScene*>(scene)->GetPlayer();
 	}
 	void BulletScript::Update()
 	{
-
+		
 	}
 	void BulletScript::Render()
 	{
