@@ -122,7 +122,28 @@ namespace ya::graphics
 
 	enum class eSRVType //ShaderResourceView
 	{
-		None,
+		SRV,
+		UAV,
+		End,
+	};
+
+	enum class eTextureSlot
+	{
+		T0,
+		T1,
+		T2,
+		T3,
+		T4,
+		T5,
+		T6,
+		T7,
+
+		CubeT8,
+		CubeT9,
+
+		Array2DT10,
+		Array2DT11,
+
 		End,
 	};
 

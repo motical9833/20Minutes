@@ -53,7 +53,6 @@ namespace ya
 		tSceneCamera = object::Instantiate<GameObject>(eLayerType::Camera);
 		Camera* cameraComp = tSceneCamera->AddComponent<Camera>();
 		cameraComp->TurnLayerMask(eLayerType::UI, false);
-		tSceneCamera->AddComponent<CameraScript>();
 		mainCamera = cameraComp;
 		//renderer::cameras[0] = cameraComp;
 
@@ -63,7 +62,6 @@ namespace ya
 		cameraUIComp->SetProjectionType(Camera::eProjectionType::Orthographic);
 		cameraUIComp->DisableLayerMasks();
 		cameraUIComp->TurnLayerMask(eLayerType::UI, true);
-		
 		GameObject* mouseObj = object::Instantiate<GameObject>(eLayerType::UI);
 		mouseObj->SetName(L"MouseObj");
 		mouseObj->DontDestroy(true);

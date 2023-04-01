@@ -5,11 +5,14 @@
 #include "yaPlayScene.h"
 #include "yaScene.h"
 #include "yaSceneManager.h"
+#include "yaInput.h"
 
 namespace ya
 {
 	BulletScript::BulletScript()
 		:mSpeed(20.0f)
+		, time(0.0f)
+		,direction{}
 	{
 
 	}
@@ -22,11 +25,27 @@ namespace ya
 		Transform* tr = GetOwner()->GetComponent<Transform>();
 
 		Scene* scene = SceneManager::GetPlaySCene();
-		Player* player = dynamic_cast<PlayScene*>(scene)->GetPlayer();
+		Weapon* weapon = dynamic_cast<PlayScene*>(scene)->GetWeapon();
+
+		tr->SetParent(weapon->GetComponent<Transform>());
+		tr->SetPosition(Vector3(0.0f, 0.0f, 0.0f));
+		GetOwner()->Death();
+
 	}
 	void BulletScript::Update()
 	{
-		
+		time += Time::DeltaTime();
+		Transform* tr = GetOwner()->GetComponent<Transform>();
+		Scene* scene = SceneManager::GetPlaySCene();
+		Weapon* weapon = dynamic_cast<PlayScene*>(scene)->GetWeapon();
+
+		Vector3 pos = tr->GetPosition();
+
+		pos.x += direction.x * 3.0f * Time::DeltaTime();
+		pos.y += direction.y * 3.0f * Time::DeltaTime();
+
+		tr->SetPosition(pos);
+
 	}
 	void BulletScript::Render()
 	{

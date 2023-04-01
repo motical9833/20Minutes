@@ -17,7 +17,7 @@ namespace ya
 
 		void SetConstantBuffer();
 		
-		void SetParent(Transform* parent) { mParent = parent; }
+		void SetParent(Transform* parent);
 		Transform* GetParent() { return mParent; }
 
 		Vector3 GetPosition() { return mPosition; };
@@ -25,7 +25,7 @@ namespace ya
 		Vector3 GetScale() { return mScale; };
 
 		void SetPosition(Vector3 position) { mPosition = position; };
-		void SetRotation(Vector3 rotation) { mRotation = rotation; };
+		void SetRotation(Vector3 degree) { mRotation = degree; };
 		void SetScale(Vector3 scale) { mScale = scale; };
 
 		Vector3 Foward() { return mFoward; }

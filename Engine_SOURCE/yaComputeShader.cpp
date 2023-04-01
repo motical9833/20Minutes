@@ -3,6 +3,19 @@
 
 namespace ya::graphics
 {
+	ComputeShader::ComputeShader(UINT ThreadgroupX, UINT ThreadgroupY, UINT ThreadgroupZ)
+		:Resource(eResourceType::ComputeShader)
+		, mCSBlob(nullptr)
+		, mCS(nullptr)
+		, mThreadGroupCountX(ThreadgroupX)
+		, mThreadGroupCountY(ThreadgroupY)
+		, mThreadGroupCountZ(ThreadgroupZ)
+		,mGroupX(0)
+		,mGroupY(0)
+		,mGroupZ(0)
+	{
+
+	}
 	ComputeShader::ComputeShader()
 		:Resource(eResourceType::ComputeShader)
 		,mCSBlob(nullptr)
@@ -10,9 +23,9 @@ namespace ya::graphics
 	    ,mThreadGroupCountX(0)
 	    ,mThreadGroupCountY(0)
 	    ,mThreadGroupCountZ(0)
-	    ,mGroupX(0)
-	    ,mGroupY(0)
-	    ,mGroupZ(0)
+		, mGroupX(0)
+		, mGroupY(0)
+		, mGroupZ(0)
 	{
 		mThreadGroupCountX = 32;
 		mThreadGroupCountY = 32;

@@ -64,6 +64,8 @@ namespace ya::renderer
 	CBUFFER(ParticleSystemCB, CBSLOT_PARTICLESYSTEM)
 	{
 		Vector4 color;
+		UINT elementCount;
+		float deltaTime;
 	};
 
 	//NUMBEROFLIGHT

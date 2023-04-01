@@ -21,6 +21,7 @@ namespace ya
 
 		void Reload();
 
+		void SetBullets(Transform* bullet) { bullets.push_back(bullet); }
 
 		void Start();
 		void Action();
@@ -44,8 +45,11 @@ namespace ya
 		Vector3 mRot;
 		Vector3 pPos;
 
+
 		float circleR;
 		float deg;
 		float objSpeed;
+
+		std::vector<Transform*> bullets;
 	};
 }

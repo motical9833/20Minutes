@@ -36,13 +36,13 @@ namespace ya
 
 		std::wstring shaderPath(path.c_str());
 		shaderPath += file;
-		
+
 		if (stage == graphics::eShaderStage::VS)
 		{
 			D3DCompileFromFile(shaderPath.c_str(), nullptr, D3D_COMPILE_STANDARD_FILE_INCLUDE
-								,funcName.c_str() , "vs_5_0", 0, 0
-								, mVSBlob.GetAddressOf()
-								, mErrorBlob.GetAddressOf());
+				, funcName.c_str(), "vs_5_0", 0, 0
+				, mVSBlob.GetAddressOf()
+				, mErrorBlob.GetAddressOf());
 
 			//if (mErrorBlob)
 			//{
@@ -51,9 +51,9 @@ namespace ya
 			//}
 
 			GetDevice()->CreateVertexShader(mVSBlob->GetBufferPointer()
-														, mVSBlob->GetBufferSize()
-														, nullptr
-														, mVS.GetAddressOf());
+				, mVSBlob->GetBufferSize()
+				, nullptr
+				, mVS.GetAddressOf());
 		}
 		else if (stage == graphics::eShaderStage::PS)
 		{
@@ -73,6 +73,24 @@ namespace ya
 				, nullptr
 				, mPS.GetAddressOf());
 		}
+		else if (stage == graphics::eShaderStage::GS)
+		{
+			D3DCompileFromFile(shaderPath.c_str(), nullptr, D3D_COMPILE_STANDARD_FILE_INCLUDE
+				, funcName.c_str(), "gs_5_0", 0, 0
+				, mGSBlob.GetAddressOf()
+				, mErrorBlob.GetAddressOf());
+
+			//if (mErrorBlob)
+			//{
+			//	OutputDebugStringA((char*)mErrorBlob->GetBufferPointer());
+			//	mErrorBlob->Release();
+			//}
+
+			GetDevice()->CreateGeometryShader(mGSBlob->GetBufferPointer()
+				, mGSBlob->GetBufferSize()
+				, nullptr
+				, mGS.GetAddressOf());
+		}
 	}
 
 	void Shader::Binds()
@@ -81,6 +99,9 @@ namespace ya
 		GetDevice()->BindInputLayout(mInputLayout.Get());
 
 		GetDevice()->BindVertexShader(mVS.Get(), nullptr, 0);
+		GetDevice()->BindHullShader(mHS.Get(), nullptr, 0);
+		GetDevice()->BindDomainShader(mDS.Get(), nullptr, 0);
+		GetDevice()->BindGeometryShader(mGS.Get(), nullptr, 0);
 		GetDevice()->BindPixelShader(mPS.Get(), nullptr, 0);
 
 		Microsoft::WRL::ComPtr<ID3D11RasterizerState> rs = renderer::rasterizerStates[(UINT)mRSType];
