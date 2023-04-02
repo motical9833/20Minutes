@@ -49,7 +49,7 @@ float4 main(VSOut In) : SV_Target
     //if(numberOfLight <= 0)
     //{
     //    lightColor = (LightColor) 1.0f;
-    //}
+    //}``
     
     color *= lightColor.diffuse;
     

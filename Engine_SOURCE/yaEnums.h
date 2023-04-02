@@ -16,7 +16,8 @@ namespace ya::enums
 		Grid,
 		Monster,
 		Player,
-
+		Bullet,
+		Particle,
 		UI,
 		End = 16,
 	};
@@ -32,6 +33,7 @@ namespace ya::enums
 		MeshRenerer,
 		SpriteRenderer,
 		Animator,
+		ParticleSystem,
 		Light,
 		UI,
 		//FadeOut,FadeIn

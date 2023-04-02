@@ -4,6 +4,7 @@
 #include "yaInput.h"
 #include "yaTime.h"
 #include "yaAnimator.h"
+#include "yaResources.h"
 
 namespace ya
 {
@@ -11,7 +12,7 @@ namespace ya
 		: Script()
 		, bMove(false)
 	{
-
+		
 	}
 
 	PlayerScript::~PlayerScript()
@@ -43,7 +44,7 @@ namespace ya
 		}
 
 
-		if (Input::GetKey(eKeyCode::D))
+		if (Input::GetKeyPress(eKeyCode::D))
 		{
 			if (bMove == false)
 			{
@@ -55,7 +56,7 @@ namespace ya
 			pos.x += 6.0f * Time::DeltaTime();
 			tr->SetPosition(pos);
 		}
-		if (Input::GetKey(eKeyCode::A))
+		if (Input::GetKeyPress(eKeyCode::A))
 		{
 			if (bMove == false)
 			{
@@ -68,7 +69,7 @@ namespace ya
 			tr->SetPosition(pos);
 		}
 
-		if (Input::GetKey(eKeyCode::W))
+		if (Input::GetKeyPress(eKeyCode::W))
 		{
 			if (bMove == false)
 			{
@@ -80,7 +81,7 @@ namespace ya
 			pos.y += 6.0f * Time::DeltaTime();
 			tr->SetPosition(pos);
 		}
-		if (Input::GetKey(eKeyCode::S))
+		if (Input::GetKeyPress(eKeyCode::S))
 		{
 			if (bMove == false)
 			{
@@ -94,11 +95,11 @@ namespace ya
 		}
 
 
-		if (Input::GetKey(eKeyCode::N_0))
+		if (Input::GetKeyPress(eKeyCode::N_0))
 		{
 			animator->Play(L"pIdle");
 		}
-		if (Input::GetKey(eKeyCode::N_1))
+		if (Input::GetKeyPress(eKeyCode::N_1))
 		{
 			animator->Play(L"pMove");
 		}

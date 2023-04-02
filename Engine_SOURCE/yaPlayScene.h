@@ -2,6 +2,7 @@
 #include "yaScene.h"
 #include "yaPlayer.h"
 #include "yaWeapon.h"
+#include "yaBullet.h"
 
 namespace ya
 {
@@ -19,10 +20,17 @@ namespace ya
 		virtual void OnEnter() override;
 		virtual void OnExit() override;
 
+		Player* GetPlayer() { return player; }
+		Weapon* GetWeapon() { return pWeapon; }
+		Scene* GetScene() { return this; }
 
 	private:
 		Player* player;
 		GameObject* pSceneCamera;
 		Weapon* pWeapon;
+		std::vector<Bullet*> bullets;
+		Bullet* bullet;
+
+		std::vector<GameObject*> hpUiObj;
 	};
 }

@@ -88,14 +88,6 @@ namespace ya::graphics
 
 		mDepthStencilBufferTexture = std::make_shared<Texture>();
 		mDepthStencilBufferTexture->Create(1600, 900, DXGI_FORMAT_D24_UNORM_S8_UINT, D3D11_BIND_FLAG::D3D11_BIND_DEPTH_STENCIL);
-		// Depth Stencil Buffer
-		if (!CreateTexture(&depthBuffer, mDepthStencilBufferTexture->GetTexture().GetAddressOf()))
-			return;
-
-		// Depth Stencil Buffer View
-		if (FAILED(mDevice->CreateDepthStencilView
-		(mDepthStencilBufferTexture->GetTexture().Get(), nullptr, mDepthStencilBufferTexture->GetDSV().GetAddressOf())))
-			return;
 
 		RECT winRect;
 		GetClientRect(application.GetHwnd(), &winRect);
@@ -195,6 +187,14 @@ namespace ya::graphics
 		return true;
 	}
 
+	bool GraphicDevice_DX11::CreateGeometryShader(const void* pShaderBytecode, SIZE_T BytecodeLength, ID3D11ClassLinkage* pClassLinkage, ID3D11GeometryShader** ppGeometryShader)
+	{
+		if (FAILED(mDevice->CreateGeometryShader(pShaderBytecode, BytecodeLength, pClassLinkage, ppGeometryShader)))
+			return false;
+
+		return true;
+	}
+
 	bool GraphicDevice_DX11::CreatePixelShader(const void* pShaderBytecode, SIZE_T BytecodeLength, ID3D11ClassLinkage* pClassLinkage, ID3D11PixelShader** ppPixelShader)
 	{
 		if (FAILED(mDevice->CreatePixelShader(pShaderBytecode, BytecodeLength, pClassLinkage, ppPixelShader)))
@@ -271,6 +271,21 @@ namespace ya::graphics
 	void GraphicDevice_DX11::BindVertexShader(ID3D11VertexShader* pVertexShader, ID3D11ClassInstance* const* ppClassInstances, UINT NumClassInstances)
 	{
 		mContext->VSSetShader(pVertexShader, ppClassInstances, NumClassInstances);
+	}
+
+	void GraphicDevice_DX11::BindHullShader(ID3D11HullShader* pHullShader, ID3D11ClassInstance* const* ppClassInstances, UINT NumClassInstances)
+	{
+		mContext->HSSetShader(pHullShader, ppClassInstances, NumClassInstances);
+	}
+
+	void GraphicDevice_DX11::BindDomainShader(ID3D11DomainShader* pDomainShader, ID3D11ClassInstance* const* ppClassInstances, UINT NumClassInstances)
+	{
+		mContext->DSSetShader(pDomainShader, ppClassInstances, NumClassInstances);
+	}
+
+	void GraphicDevice_DX11::BindGeometryShader(ID3D11GeometryShader* pGeometryShader, ID3D11ClassInstance* const* ppClassInstances, UINT NumClassInstances)
+	{
+		mContext->GSSetShader(pGeometryShader, ppClassInstances, NumClassInstances);
 	}
 
 	void GraphicDevice_DX11::BindPixelShader(ID3D11PixelShader* pPixelShader, ID3D11ClassInstance* const* ppClassInstances, UINT NumClassInstances)
@@ -439,6 +454,12 @@ namespace ya::graphics
 	void GraphicDevice_DX11::DrawIndexed(UINT indexCount, UINT StartIndexLocation, UINT BaseVertexLocation)
 	{
 		mContext->DrawIndexed(indexCount, StartIndexLocation, BaseVertexLocation);
+		
+	}
+
+	void GraphicDevice_DX11::DrawIndexedInstanced(UINT IndexCountPerInstance, UINT InstanceCount, UINT StartIndexLocation, INT BaseVertexLocation, UINT StartInstanceLocation)
+	{
+		mContext->DrawIndexedInstanced(IndexCountPerInstance, InstanceCount, StartIndexLocation, BaseVertexLocation, StartInstanceLocation);
 	}
 
 	void GraphicDevice_DX11::Present()
@@ -447,5 +468,3 @@ namespace ya::graphics
 	}
 
 }
-
-

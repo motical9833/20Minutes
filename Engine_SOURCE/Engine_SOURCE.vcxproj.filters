@@ -103,13 +103,16 @@
     <Filter Include="Resource\Shader\CS">
       <UniqueIdentifier>{060e9b5a-58a4-4d69-8863-cfc689dcb12d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Graphics\Buffer">
+      <UniqueIdentifier>{c1c37d23-035d-4322-a3ce-96abfb558883}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics\API">
+      <UniqueIdentifier>{7ec7baab-ae6f-4b5f-8666-07aaf9380364}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="yaApplication.cpp">
       <Filter>High Level Interface</Filter>
-    </ClCompile>
-    <ClCompile Include="yaGraphicDevice_DX11.cpp">
-      <Filter>Graphics</Filter>
     </ClCompile>
     <ClCompile Include="yaMath.cpp">
       <Filter>Common\Math</Filter>
@@ -174,9 +177,6 @@
     <ClCompile Include="yaBaseRenderer.cpp">
       <Filter>Renderer</Filter>
     </ClCompile>
-    <ClCompile Include="yaConstantBuffer.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
     <ClCompile Include="yaGridScript.cpp">
       <Filter>Resource\Script</Filter>
     </ClCompile>
@@ -231,11 +231,29 @@
     <ClCompile Include="yaWeaponScript.cpp">
       <Filter>Component\Script\Contents</Filter>
     </ClCompile>
-    <ClCompile Include="yaStructedBuffer.cpp" />
     <ClCompile Include="yaComputeShader.cpp">
       <Filter>Resource\Shader\CS</Filter>
     </ClCompile>
     <ClCompile Include="yaPaintShader.cpp">
+      <Filter>Resource\Shader\CS</Filter>
+    </ClCompile>
+    <ClCompile Include="yaBullet.cpp">
+      <Filter>Component\Script\Contents</Filter>
+    </ClCompile>
+    <ClCompile Include="yaBulletScript.cpp">
+      <Filter>Component\Script\Contents</Filter>
+    </ClCompile>
+    <ClCompile Include="yaConstantBuffer.cpp">
+      <Filter>Graphics\Buffer</Filter>
+    </ClCompile>
+    <ClCompile Include="yaStructedBuffer.cpp">
+      <Filter>Graphics\Buffer</Filter>
+    </ClCompile>
+    <ClCompile Include="yaGraphicDevice_DX11.cpp">
+      <Filter>Graphics\API</Filter>
+    </ClCompile>
+    <ClCompile Include="yaParticleSystem.cpp" />
+    <ClCompile Include="yaParticleShader.cpp">
       <Filter>Resource\Shader\CS</Filter>
     </ClCompile>
   </ItemGroup>
@@ -245,9 +263,6 @@
     </ClInclude>
     <ClInclude Include="yaApplication.h">
       <Filter>High Level Interface</Filter>
-    </ClInclude>
-    <ClInclude Include="yaGraphicDevice_DX11.h">
-      <Filter>Graphics</Filter>
     </ClInclude>
     <ClInclude Include="yaMath.h">
       <Filter>Common\Math</Filter>
@@ -324,9 +339,6 @@
     <ClInclude Include="yaBaseRenderer.h">
       <Filter>Renderer</Filter>
     </ClInclude>
-    <ClInclude Include="yaConstantBuffer.h">
-      <Filter>Graphics</Filter>
-    </ClInclude>
     <ClInclude Include="yaGridScript.h">
       <Filter>Resource\Script</Filter>
     </ClInclude>
@@ -381,11 +393,29 @@
     <ClInclude Include="yaWeaponScript.h">
       <Filter>Component\Script\Contents</Filter>
     </ClInclude>
-    <ClInclude Include="yaStructedBuffer.h" />
     <ClInclude Include="yaComputeShader.h">
       <Filter>Resource\Shader\CS</Filter>
     </ClInclude>
     <ClInclude Include="yaPaintShader.h">
+      <Filter>Resource\Shader\CS</Filter>
+    </ClInclude>
+    <ClInclude Include="yaBullet.h">
+      <Filter>Component\Script\Contents</Filter>
+    </ClInclude>
+    <ClInclude Include="yaBulletScript.h">
+      <Filter>Component\Script\Contents</Filter>
+    </ClInclude>
+    <ClInclude Include="yaConstantBuffer.h">
+      <Filter>Graphics\Buffer</Filter>
+    </ClInclude>
+    <ClInclude Include="yaStructedBuffer.h">
+      <Filter>Graphics\Buffer</Filter>
+    </ClInclude>
+    <ClInclude Include="yaGraphicDevice_DX11.h">
+      <Filter>Graphics\API</Filter>
+    </ClInclude>
+    <ClInclude Include="yaParticleSystem.h" />
+    <ClInclude Include="yaParticleShader.h">
       <Filter>Resource\Shader\CS</Filter>
     </ClInclude>
   </ItemGroup>

@@ -41,7 +41,7 @@ namespace ya
 			, Vector2 leftTop, Vector2 size, Vector2 offset
 			, UINT spriteLegth, float duration);
 
-		void BindShader();
+		void BindShaderResource();
 		void Reset();
 		void Clear();
 

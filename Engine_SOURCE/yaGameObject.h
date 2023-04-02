@@ -40,6 +40,8 @@ namespace ya
 				comp->SetOwner(this);
 			}
 
+			comp->Initalize();
+
 			return comp;
 		}
 		void AddComponent(Component* comp);
@@ -58,6 +60,22 @@ namespace ya
 
 			return nullptr;
 		}
+
+		template <typename T>
+		T* GetScript()
+		{
+			T* script;
+			for (auto c : mScripts)
+			{
+				script = dynamic_cast<T*>(c);
+				
+				if (script != nullptr)
+					return script;
+			}
+
+			return nullptr;
+		}
+
 
 		template <typename T>
 		std::vector<T*> GetComponents()

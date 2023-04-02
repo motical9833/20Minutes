@@ -7,6 +7,7 @@ namespace ya::graphics
 	class ComputeShader : public Resource
 	{
 	public:
+		ComputeShader(UINT ThreadgroupX, UINT ThreadgroupY, UINT ThreadgroupZ);
 		ComputeShader();
 		~ComputeShader();
 

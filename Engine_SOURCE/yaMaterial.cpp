@@ -50,21 +50,38 @@ namespace ya::graphics
 
     }
 
-    void Material::Bind()
+    void Material::BindSRV()
     {
-        if (mTexture)
-            mTexture->BindShader(eShaderStage::PS, 0);
+        for (size_t i = 0; i < (UINT)eTextureSlot::End; i++)
+        {
+            if (mTexture[i] == nullptr)
+                continue;
+
+            mTexture[i]->BindShaderResource(eShaderStage::VS, i);
+            mTexture[i]->BindShaderResource(eShaderStage::HS, i);
+            mTexture[i]->BindShaderResource(eShaderStage::DS, i);
+            mTexture[i]->BindShaderResource(eShaderStage::GS, i);
+            mTexture[i]->BindShaderResource(eShaderStage::PS, i);
+            mTexture[i]->BindShaderResource(eShaderStage::CS, i);
+        }
 
         ConstantBuffer* pCB = renderer::constantBuffers[(UINT)eCBType::Material];
-        pCB->Bind(&mCB);
-        pCB->SetPipline(eShaderStage::VS);
-        pCB->SetPipline(eShaderStage::PS);
+        pCB->Setdata(&mCB);
+        pCB->BindSRV(eShaderStage::VS);
+        pCB->BindSRV(eShaderStage::GS);
+        pCB->BindSRV(eShaderStage::PS);
 
         mShader->Binds();
     }
 
     void Material::Clear()
     {
-        mTexture->Clear();
+        for (size_t i = 0; i < (UINT)eTextureSlot::End; i++)
+        {
+            if (mTexture[i] == nullptr)
+                continue;
+
+            mTexture[i]->Clear();
+        }
     }
 }

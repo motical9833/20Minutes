@@ -23,34 +23,10 @@ namespace ya
 	{
 		Transform* tr = GetOwner()->GetComponent<Transform>();
 
-		Vector3 pos = tr->GetPosition();
+		Transform* pTr = tr->GetParent();
 
-		if (Input::GetKey(eKeyCode::D))
-		{
-			pos += 100.0f * tr->Right() * Time::DeltaTime();
-		}
-		else if (Input::GetKey(eKeyCode::A))
-		{
-			pos += 100.0f * -tr->Right() * Time::DeltaTime();
-		}
-		else if (Input::GetKey(eKeyCode::W))
-		{
-			pos += 100.0f * tr->Foward() * Time::DeltaTime();
-		}
-		else if (Input::GetKey(eKeyCode::S))
-		{
-			pos += 100.0f * -tr->Foward() * Time::DeltaTime();
-		}
-		else if (Input::GetKey(eKeyCode::Q))
-		{
-			pos += 100.0f * tr->Up() * Time::DeltaTime();
-		}
-		else if (Input::GetKey(eKeyCode::E))
-		{
-			pos += 100.0f * -tr->Up() * Time::DeltaTime();
-		}
+		tr->SetPosition(pTr->GetPosition() + Vector3(0.0f, 0.0f, -10.0f));
 
-		//tr->SetPosition(pos);
 	}
 	void CameraScript::Render()
 	{
