@@ -20,8 +20,6 @@ namespace ya
 		virtual void OnEnter() override;
 		virtual void OnExit() override;
 
-		Player* GetPlayer() { return player; }
-		Scene* GetScene() { return this; }
 
 	private:
 		Player* player;

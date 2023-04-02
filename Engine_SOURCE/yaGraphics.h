@@ -17,7 +17,6 @@
 #define CBSLOT_GRID 2
 #define CBSLOT_ANIMATION 3
 #define CBSLOT_NUMBEROFLIGHT 4
-#define CBSLOT_PARTICLESYSTEM 5
 
 using namespace ya::math;
 namespace ya::graphics
@@ -106,7 +105,6 @@ namespace ya::graphics
 		Grid,
 		Animation,
 		Light,
-		ParticleSystem,
 		End,
 	};
 
@@ -150,16 +148,5 @@ namespace ya::graphics
 		float radius;
 		float angle;
 		int padding;
-	};
-
-	struct Particle
-	{
-		Vector4 position;
-		Vector4 direction;
-		
-		float lifeTime;
-		float time;
-		float speed;
-		UINT active;
 	};
 }

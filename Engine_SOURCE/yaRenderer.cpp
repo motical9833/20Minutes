@@ -21,14 +21,6 @@ namespace ya::renderer
 
 	void LoadMesh()
 	{
-		//Point mesh
-		Vertex v = {};
-		std::shared_ptr<Mesh> pointMesh = std::make_shared<Mesh>();
-		Resources::Insert<Mesh>(L"PointMesh", pointMesh);
-		pointMesh->CreateVertexBuffer(&v, 1);
-		UINT pointIndex = 0;
-		pointMesh->CreateIndexBuffer(&pointIndex, 1);
-
 		//RECT
 		vertexes[0].pos = Vector4(-0.5f, 0.5f, 0.0f, 1.0f);
 		vertexes[0].color = Vector4(0.f, 1.f, 0.f, 1.f);
@@ -182,12 +174,6 @@ namespace ya::renderer
 			, debugShader->GetVSBlobBufferPointer()
 			, debugShader->GetVSBlobBufferSize()
 			, debugShader->GetInputLayoutAddressOf());
-
-		std::shared_ptr<Shader> particleShader = Resources::Find<Shader>(L"ParticleShader");
-		GetDevice()->CreateInputLayout(arrLayoutDesc, 3
-			, particleShader->GetVSBlobBufferPointer()
-			, particleShader->GetVSBlobBufferSize()
-			, particleShader->GetInputLayoutAddressOf());
 
 		std::shared_ptr<Shader> playerShader = Resources::Find<Shader>(L"PlayerShader");
 		GetDevice()->CreateInputLayout(arrLayoutDesc, 3
@@ -368,9 +354,6 @@ namespace ya::renderer
 		constantBuffers[(UINT)eCBType::Light] = new ConstantBuffer(eCBType::Light);
 		constantBuffers[(UINT)eCBType::Light]->Create(sizeof(LightCB));
 
-		constantBuffers[(UINT)eCBType::ParticleSystem] = new ConstantBuffer(eCBType::ParticleSystem);
-		constantBuffers[(UINT)eCBType::ParticleSystem]->Create(sizeof(ParticleSystemCB));
-
 		//Structed Buffer
 		lightsBuffer = new StructedBuffer();
 		lightsBuffer->Create(sizeof(LightAttribute), 128, eSRVType::None, nullptr);
@@ -410,7 +393,7 @@ namespace ya::renderer
 
 		Resources::Insert<Shader>(L"GridShader", gridShader);
 
-		 //Debug Shader
+		// Debug Shader
 		std::shared_ptr<Shader> debugShader = std::make_shared<Shader>();
 		debugShader->Create(eShaderStage::VS, L"DebugVS.hlsl", "main");
 		debugShader->Create(eShaderStage::PS, L"DebugPS.hlsl", "main");
@@ -426,15 +409,6 @@ namespace ya::renderer
 		paintShader->Create(L"PaintCS.hlsl", "main");
 		Resources::Insert<PaintShader>(L"PaintShader", paintShader);
 
-		// ParticleShader
-		std::shared_ptr<Shader> particleShader = std::make_shared<Shader>();
-		particleShader->Create(eShaderStage::VS, L"ParticleVS.hlsl", "main");
-		particleShader->Create(eShaderStage::PS, L"ParticlePS.hlsl", "main");
-		particleShader->SetRSState(eRSType::SolidNone);
-		particleShader->SetDSState(eDSType::NoWrite);
-		particleShader->SetBSState(eBSType::AlphaBlend);
-
-		Resources::Insert<Shader>(L"ParticleShader", particleShader);
 
 		// Player
 		std::shared_ptr<Shader> playerShader = std::make_shared<Shader>();
@@ -541,13 +515,6 @@ namespace ya::renderer
 		debugMaterial->SetRenderingMode(eRenderingMode::Transparent);
 		debugMaterial->SetShader(debugShader);
 		Resources::Insert<Material>(L"DebugMaterial", debugMaterial);
-
-		// Debug
-		std::shared_ptr<Shader> particleShader = Resources::Find<Shader>(L"ParticleShader");
-		std::shared_ptr<Material> particleMaterial = std::make_shared<Material>();
-		particleMaterial->SetRenderingMode(eRenderingMode::Transparent);
-		particleMaterial->SetShader(particleShader);
-		Resources::Insert<Material>(L"ParticleMaterial", particleMaterial);
 
 		// Player
 		std::shared_ptr<Texture> playerTexture = Resources::Find<Texture>(L"PlayerSprite");
@@ -720,16 +687,16 @@ namespace ya::renderer
 	}
 	void BindLights()
 	{
-		lightsBuffer->Setdata(lights.data(),lights.size());
-		lightsBuffer->Bind(eShaderStage::VS, 13);
-		lightsBuffer->Bind(eShaderStage::PS, 13);
+		lightsBuffer->Bind(lights.data(),lights.size());
+		lightsBuffer->SetPipeline(eShaderStage::VS, 13);
+		lightsBuffer->SetPipeline(eShaderStage::PS, 13);
 
 		renderer::LightCB trCb = {};
 		trCb.numberOfLigt = lights.size();
 
 		ConstantBuffer* cb = renderer::constantBuffers[(UINT)eCBType::Light];
-		cb->Setdata(&trCb);
-		cb->Bind(eShaderStage::VS);
-		cb->Bind(eShaderStage::PS);
+		cb->Bind(&trCb);
+		cb->SetPipline(eShaderStage::VS);
+		cb->SetPipline(eShaderStage::PS);
 	}
 }

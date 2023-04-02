@@ -61,9 +61,9 @@ namespace ya
 		data.cameraScale = Vector2(scale, scale);
 		data.resolution = resolution;
 
-		cb->Setdata(&data);
-		cb->Bind(eShaderStage::VS);
-		cb->Bind(eShaderStage::PS);
+		cb->Bind(&data);
+		cb->SetPipline(eShaderStage::VS);
+		cb->SetPipline(eShaderStage::PS);
  	}
 
 	void GridScript::FixedUpdate()

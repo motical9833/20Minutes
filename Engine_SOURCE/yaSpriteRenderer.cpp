@@ -29,7 +29,7 @@ namespace ya
 
 	void SpriteRenderer::Render()
 	{
-		GetOwner()->GetComponent<Transform>()->SetConstantBuffer();
+		GetOwner()->GetComponent<Transform>()->BindConstantBuffer();
 
 		GetMaterial()->Bind();
 		GetMesh()->BindBuffer();

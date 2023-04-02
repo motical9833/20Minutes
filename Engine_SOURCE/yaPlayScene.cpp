@@ -17,7 +17,6 @@
 #include "yaAnimator.h"
 #include "yaWeaponScript.h"
 #include "yaPaintShader.h"
-#include "yaParticleSystem.h"
 
 namespace ya
 {
@@ -39,15 +38,6 @@ namespace ya
 		std::shared_ptr<PaintShader> paintShader = Resources::Find<PaintShader>(L"PaintShader");
 		paintShader->SetTarget(Resources::Find<Texture>(L"PaintTexture"));
 		paintShader->OnExcute();
-
-		// Particle
-		//GameObject* particle = object::Instantiate<Player>(eLayerType::Particle,this);
-		//particle->SetName(L"Particle");
-		//Transform* particleTr = particle->GetComponent<Transform>();
-		//particleTr->SetPosition(Vector3(0.0f, 0.0f, 100.0f));
-		//particle->AddComponent<ParticleSystem>();
-
-
 
 
 		//SMILE RECT

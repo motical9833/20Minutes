@@ -71,7 +71,7 @@ namespace ya
 	{
 	}
 
-	void Transform::SetConstantBuffer()
+	void Transform::BindConstantBuffer()
 	{
 		renderer::TransformCB trCb = {};
 		trCb.world = mWorld;
@@ -79,8 +79,8 @@ namespace ya
 		trCb.projection = Camera::GetGpuProjectionMatrix();
 
 		ConstantBuffer* cb = renderer::constantBuffers[(UINT)eCBType::Transform];
-		cb->Setdata(&trCb);
-		cb->Bind(eShaderStage::VS);
+		cb->Bind(&trCb);
+		cb->SetPipline(eShaderStage::VS);
 	}
 	void Transform::LeftMove()
 	{

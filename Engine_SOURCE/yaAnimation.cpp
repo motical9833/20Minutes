@@ -99,8 +99,8 @@ namespace ya
 		info.size = mSpriteSheet[mIndex].size;
 		info.atlasSize = mSpriteSheet[mIndex].atlasSize;
 
-		cb->Setdata(&info);
-		cb->Bind(eShaderStage::PS);
+		cb->Bind(&info);
+		cb->SetPipline(eShaderStage::PS);
 	}
 
 	void Animation::Reset()
@@ -119,8 +119,8 @@ namespace ya
 		renderer::AnimationCB info = {};
 		info.type = (UINT)eAnimationType::None;
 
-		cb->Setdata(&info);
-		cb->Bind(eShaderStage::PS);
+		cb->Bind(&info);
+		cb->SetPipline(eShaderStage::PS);
 	}
 
 }

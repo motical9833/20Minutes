@@ -61,11 +61,6 @@ namespace ya::renderer
 		UINT numberOfLigt;
 	};
 
-	CBUFFER(ParticleSystemCB, CBSLOT_PARTICLESYSTEM)
-	{
-		Vector4 color;
-	};
-
 	//NUMBEROFLIGHT
 
 	extern Vertex vertexes[4];

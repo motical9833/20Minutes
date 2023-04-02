@@ -187,7 +187,6 @@
     <ClInclude Include="yaMonster.h" />
     <ClInclude Include="yaObject.h" />
     <ClInclude Include="yaPaintShader.h" />
-    <ClInclude Include="yaParticleSystem.h" />
     <ClInclude Include="yaPlayer.h" />
     <ClInclude Include="yaPlayerScript.h" />
     <ClInclude Include="yaPlayScene.h" />
@@ -237,7 +236,6 @@
     <ClCompile Include="yaMeshRenderer.cpp" />
     <ClCompile Include="yaMonster.cpp" />
     <ClCompile Include="yaPaintShader.cpp" />
-    <ClCompile Include="yaParticleSystem.cpp" />
     <ClCompile Include="yaPlayer.cpp" />
     <ClCompile Include="yaPlayerScript.cpp" />
     <ClCompile Include="yaPlayScene.cpp" />
