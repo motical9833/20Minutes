@@ -317,6 +317,12 @@ namespace ya::renderer
 			, weaponShader->GetVSBlobBufferSize()
 			, weaponShader->GetInputLayoutAddressOf());
 
+		std::shared_ptr<Shader> bulletShader = Resources::Find<Shader>(L"BulletShader");
+		GetDevice()->CreateInputLayout(arrLayoutDesc, 3
+			, bulletShader->GetVSBlobBufferPointer()
+			, bulletShader->GetVSBlobBufferSize()
+			, bulletShader->GetInputLayoutAddressOf());
+
 
 #pragma endregion
 #pragma region SAMPLER STATE

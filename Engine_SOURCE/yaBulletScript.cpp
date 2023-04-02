@@ -11,7 +11,7 @@
 namespace ya
 {
 	BulletScript::BulletScript()
-		:mSpeed(20.0f)
+		:mSpeed(10.0f)
 		, time(0.0f)
 		,direction{}
 		,mTr(nullptr)
@@ -47,8 +47,8 @@ namespace ya
 			mTr->SetPosition(Vector3::Zero);
 		}
 
-		pos.x += direction.x * 3.0f * Time::DeltaTime();
-		pos.y += direction.y * 3.0f * Time::DeltaTime();
+		pos.x += direction.x * mSpeed * Time::DeltaTime();
+		pos.y += direction.y * mSpeed * Time::DeltaTime();
 
 
 		mTr->SetPosition(pos);

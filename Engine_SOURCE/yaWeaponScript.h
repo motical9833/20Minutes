@@ -43,6 +43,8 @@ namespace ya
 		void End();
 	private:
 
+		void Cheat();
+
 		bool bReload;
 		bool bReloading;
 		float time;

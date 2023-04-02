@@ -43,6 +43,7 @@ namespace ya
 	}
 	void WeaponScript::Update()
 	{
+		Cheat();
 		time += Time::DeltaTime();
 
 		if (mTransform->GetParent()->GetOwner()->IsDead() == true)
@@ -51,36 +52,6 @@ namespace ya
 		}
 
 		WeaponRotate();
-		
-
-		if (Input::GetKeyState(eKeyCode::NUM_0) == eKeyState::DOWN)
-		{
-			BulletCntUP();
-		}
-		if (Input::GetKeyState(eKeyCode::NUM_1) == eKeyState::DOWN)
-		{
-			AttackSpeedUP(10.0f);
-		}
-		if (Input::GetKeyState(eKeyCode::NUM_2) == eKeyState::DOWN)
-		{
-			AttackSpeedDown(10.0f);
-		}
-		if (Input::GetKeyState(eKeyCode::NUM_4) == eKeyState::DOWN)
-		{
-			BulletScaleUp(10.0f);
-		}
-		if (Input::GetKeyState(eKeyCode::NUM_5) == eKeyState::DOWN)
-		{
-			BulletScaleDown(10.0f);
-		}
-		if (Input::GetKeyState(eKeyCode::NUM_7) == eKeyState::DOWN)
-		{
-			BulletSpeedUP(10.0f);
-		}
-		if (Input::GetKeyState(eKeyCode::NUM_8) == eKeyState::DOWN)
-		{
-			BulletSpeedDown(10.0f);
-		}
 
 		if (bReload)
 			Reload();
@@ -129,7 +100,7 @@ namespace ya
 	{
 		for (auto i : bullets)
 		{
-			BulletScript* scripts = i->GetOwner()->GetComponent<BulletScript>();
+			BulletScript* scripts = i->GetOwner()->GetScript<BulletScript>();
 
 			float speed = scripts->Getspeed();
 			speed += (1 + percentage / 100);
@@ -141,7 +112,7 @@ namespace ya
 	{
 		for (auto i : bullets)
 		{
-			BulletScript* scripts = i->GetOwner()->GetComponent<BulletScript>();
+			BulletScript* scripts = i->GetOwner()->GetScript<BulletScript>();
 
 			float speed = scripts->Getspeed();
 			speed += (1 - percentage / 100);
@@ -236,6 +207,38 @@ namespace ya
 	void WeaponScript::End()
 	{
 
+	}
+
+	void WeaponScript::Cheat()
+	{
+		if (Input::GetKeyState(eKeyCode::NUM_0) == eKeyState::DOWN)
+		{
+			BulletCntUP();
+		}
+		if (Input::GetKeyState(eKeyCode::NUM_1) == eKeyState::DOWN)
+		{
+			AttackSpeedUP(10.0f);
+		}
+		if (Input::GetKeyState(eKeyCode::NUM_2) == eKeyState::DOWN)
+		{
+			AttackSpeedDown(10.0f);
+		}
+		if (Input::GetKeyState(eKeyCode::NUM_4) == eKeyState::DOWN)
+		{
+			BulletScaleUp(10.0f);
+		}
+		if (Input::GetKeyState(eKeyCode::NUM_5) == eKeyState::DOWN)
+		{
+			BulletScaleDown(10.0f);
+		}
+		if (Input::GetKeyState(eKeyCode::NUM_7) == eKeyState::DOWN)
+		{
+			BulletSpeedUP(10.0f);
+		}
+		if (Input::GetKeyState(eKeyCode::NUM_8) == eKeyState::DOWN)
+		{
+			BulletSpeedDown(10.0f);
+		}
 	}
 
 	void WeaponScript::Reload()

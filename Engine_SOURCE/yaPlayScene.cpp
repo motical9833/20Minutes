@@ -131,68 +131,27 @@ namespace ya
 			weaponAni->Play(L"Revolver", true);
 			pWeapon->AddComponent<WeaponScript>();
 
-
-
-			//for (size_t i = 0; i < 10; i++)
-			//{
-			//	GameObject* uiobj = object::Instantiate<GameObject>(eLayerType::UI, this);
-			//	hpUiObj.push_back(uiobj);
-			//	hpUiObj[i]->SetLayerType(eLayerType::UI);
-			//	hpUiObj[i]->SetName(L"HP" + i);
-			//	hpUiObj[i]->GetComponent<Transform>()->SetPosition(Vector3(-7.5f + (float)i, 4.0f, 10.0f));
-			//	hpUiObj[i]->GetComponent<Transform>()->SetScale(Vector3(3.0f, 3.0f, 1.0f));
-			//	hpUiObj[i]->GetComponent<Transform>()->SetParent(cameraUIObj->GetComponent<Transform>());
-			//	SpriteRenderer* render = hpUiObj[i]->AddComponent<SpriteRenderer>();
-			//	hpSprite.push_back(render);
-			//	std::shared_ptr<Material> hpMaterial = Resources::Find<Material>(L"HpMaterial");
-			//	hpSprite[i]->SetMaterial(hpMaterial);
-			//	std::shared_ptr<Mesh> hpMesh = Resources::Find<Mesh>(L"RectMesh");
-			//	hpSprite[i]->SetMesh(hpMesh);
-			//	Animator* uiAnimator = hpUiObj[i]->AddComponent<Animator>();
-			//	hpani.push_back(uiAnimator);
-			//	std::shared_ptr<Texture> aniamtionTexture = Resources::Load<Texture>(L"HPHeart", L"UI\\T_HeartAnimation.png");
-			//	hpani[i]->Create(L"hpAniamtion", aniamtionTexture, Vector2(0.0f, 0.0f), Vector2(32.0f, 32.0f), Vector2::Zero, 3, 0.1f);
-			//	hpani[i]->Play(L"hpAniamtion", true);
-			//}
-
-			//for (size_t i = 0; i < 100; i++)
-			//{
-			//	Bullet* bulletobj = object::Instantiate<Bullet>(eLayerType::Bullet, this);
-			//	bullets.push_back(bulletobj);
-			//	bullets[i]->SetLayerType(eLayerType::Bullet);
-			//	bullets[i]->SetName(L"Bullet" + i);
-			//	bullets[i]->GetComponent<Transform>()->SetParent(weaponTr);
-			//	bullets[i]->GetComponent<Transform>()->SetPosition(Vector3(0.0f, 0.0f, 0.0f));
-			//	bullets[i]->GetComponent<Transform>()->SetScale(Vector3(2.0f, 2.0f, 1.0f));
-			//	SpriteRenderer* render = bullets[i]->AddComponent<SpriteRenderer>();
-			//	std::shared_ptr<Material> bulletMaterial = Resources::Find<Material>(L"BulletMaterial");
-			//	render->SetMaterial(bulletMaterial);
-			//	std::shared_ptr<Mesh> bulletMesh = Resources::Find<Mesh>(L"RectMesh");
-			//	render->SetMesh(bulletMesh);
-			//	Animator* bulletAnimator = bullets[i]->AddComponent<Animator>();
-			//	std::shared_ptr<Texture> bulletTexture = Resources::Find<Texture>(L"BulletTexture");
-			//	bulletAnimator->Create(L"Bullet", bulletTexture, Vector2(0.0f, 0.0f), Vector2(16.0f, 14.0f), Vector2::Zero, 1, 0.0f);
-			//	bulletAnimator->Play(L"Bullet", false);
-			//	bullets[i]->AddComponent<BulletScript>();
-			//	pWeapon->GetScript<WeaponScript>()->SetBullets(bullets[i]->GetComponent<Transform>());
-			//}
-
-
-			bullet = object::Instantiate<Bullet>(eLayerType::Bullet,this);
-			Transform* bulletTr = bullet->GetComponent<Transform>();
-			bulletTr->SetParent(weaponTr);
-			bulletTr->SetPosition(Vector3(0.0f, 0.0f, 0.0f));
-			SpriteRenderer* bMr = bullet->AddComponent<SpriteRenderer>();
-			std::shared_ptr<Material> bulletMaterial = Resources::Find<Material>(L"BulletMaterial");
-			bMr->SetMaterial(bulletMaterial);
-			std::shared_ptr<Mesh> bulletMesh = Resources::Find<Mesh>(L"RectMesh");
-			bMr->SetMesh(bulletMesh);
-			Animator* bulletAni = bullet->AddComponent<Animator>();
-			std::shared_ptr<Texture> bulletTexture = Resources::Find<Texture>(L"BulletTexture");
-			bulletAni->Create(L"Bullet", bulletTexture, Vector2(0.0f, 0.0f), Vector2(16.0f, 14.0f), Vector2::Zero, 1, 0.0f);
-			bulletAni->Play(L"Bullet", false);
-			bullet->AddComponent<BulletScript>();
-			pWeapon->GetScript<WeaponScript>()->SetBullets(bulletTr);
+			for (size_t i = 0; i < 100; i++)
+			{
+				Bullet* bulletobj = object::Instantiate<Bullet>(eLayerType::Bullet, this);
+				bullets.push_back(bulletobj);
+				bullets[i]->SetLayerType(eLayerType::Bullet);
+				bullets[i]->SetName(L"Bullet" + i);
+				bullets[i]->GetComponent<Transform>()->SetParent(weaponTr);
+				bullets[i]->GetComponent<Transform>()->SetPosition(Vector3(0.0f, 0.0f, 0.0f));
+				bullets[i]->GetComponent<Transform>()->SetScale(Vector3(2.0f, 2.0f, 1.0f));
+				SpriteRenderer* render = bullets[i]->AddComponent<SpriteRenderer>();
+				std::shared_ptr<Material> bulletMaterial = Resources::Find<Material>(L"BulletMaterial");
+				render->SetMaterial(bulletMaterial);
+				std::shared_ptr<Mesh> bulletMesh = Resources::Find<Mesh>(L"RectMesh");
+				render->SetMesh(bulletMesh);
+				Animator* bulletAnimator = bullets[i]->AddComponent<Animator>();
+				std::shared_ptr<Texture> bulletTexture = Resources::Find<Texture>(L"BulletTexture");
+				bulletAnimator->Create(L"Bullet", bulletTexture, Vector2(0.0f, 0.0f), Vector2(16.0f, 14.0f), Vector2::Zero, 1, 0.0f);
+				bulletAnimator->Play(L"Bullet", false);
+				bullets[i]->AddComponent<BulletScript>();
+				pWeapon->GetScript<WeaponScript>()->SetBullets(bullets[i]->GetComponent<Transform>());
+			}
 		}
 
 		// Monster
