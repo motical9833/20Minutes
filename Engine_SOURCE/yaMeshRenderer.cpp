@@ -29,7 +29,7 @@ namespace ya
 	{
 		GetOwner()->GetComponent<Transform>()->SetConstantBuffer();
 
-		GetMaterial()->BindSRV();
+		GetMaterial()->Bind();
 		GetMesh()->BindBuffer();
 
 		GetMesh()->Render();

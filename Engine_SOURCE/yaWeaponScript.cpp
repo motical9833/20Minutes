@@ -2,7 +2,7 @@
 #include "yaGameObject.h"
 #include "yaInput.h"
 #include "yaTime.h"
-#include "yaBulletScript.h"
+
 
 namespace ya
 {
@@ -23,7 +23,6 @@ namespace ya
 		,deg(0)
 		,objSpeed(1)
 		,pPos{}
-		,bullets{}
 	{
 
 	}
@@ -32,8 +31,8 @@ namespace ya
 
 	}
 	void WeaponScript::Initalize()
-		{
-		mTransform = GetOwner()->GetComponent<Transform>();
+	{
+		mTransform = this->GetOwner()->GetComponent<Transform>();
 		mAnimator = GetOwner()->GetComponent<Animator>();
 		mAnimator->Stop();
 
@@ -41,32 +40,13 @@ namespace ya
 	}
 	void WeaponScript::Update()
 	{
-		if (mTransform->GetParent()->GetOwner()->IsDead() == true)
-		{
-			GetOwner()->Death();
-		}
-
 		mPos = mTrans->GetPosition();
-
-		Vector3 rot = mTransform->GetRotation();
 
 		mMousePos = Input::GetMousePosition();
 		mRot = mTrans->GetRotation();
 		mRot.z = atan2(mMousePos.y - mPos.y, mMousePos.x - mPos.x);
 		mTrans->SetRotation(mRot);
 		
-		if (Input::GetKeyState(eKeyCode::LBTN) == eKeyState::PRESSED)
-		{
-			Vector3 pos = mTransform->GetParent()->GetPosition() + Vector3(0.5f,0.05f,0.0f);
-		    Vector3 dir = Input::GetMousePosition() - pos;
-		    dir.Normalize();
-
-			bullets[0]->SetPosition(pos);
-			bullets[0]->GetOwner()->GetScript<BulletScript>()->Setdir(dir);
-			bullets[0]->SetParent(nullptr);
-			bullets[0]->GetOwner()->Life();
-		}
-
 
 		if (bReload)
 			Reload();

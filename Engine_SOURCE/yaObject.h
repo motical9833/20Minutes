@@ -14,8 +14,6 @@ namespace ya::object
 		Scene* scene = SceneManager::GetActiveScene();
 		Layer& layer = scene->GetLayer(type);
 		layer.AddGameObject(gameObj);
-		gameObj->Initalize();
-
 
 		return gameObj;
 	}

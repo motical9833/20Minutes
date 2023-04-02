@@ -138,7 +138,7 @@ namespace ya
 		if (mActiveAnimation == nullptr)
 			return;
 
-		mActiveAnimation->BindShaderResource();
+		mActiveAnimation->BindShader();
 	}
 
 	void Animator::Clear()

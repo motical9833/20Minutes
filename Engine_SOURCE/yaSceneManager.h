@@ -15,7 +15,7 @@ namespace ya
 
 		static void LoadScene(eSceneType type);
 		static Scene* GetActiveScene() { return mActiveScene; }
-		static Scene* GetPlaySCene() { return mScenes[(UINT)eSceneType::Play]; }
+		static Scene* GetPlayerSCene() { return mScenes[(UINT)eSceneType::Play]; }
 		static Scene* GetScene(eLayerType type) { return mScenes[(UINT)type]; }
 
 	private:

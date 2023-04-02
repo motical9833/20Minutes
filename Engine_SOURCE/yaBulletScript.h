@@ -18,15 +18,11 @@ namespace ya
 		virtual void OnCollisionStay(Collider2D* collider) override;
 		virtual void OnCollisionExit(Collider2D* collider) override;
 
-		void Setdir(Vector3 dir) { direction = dir; }
-
 		void Start();
 		void Action();
 		void End();
 
 	private:
 		float mSpeed;
-		float time;
-		Vector3 direction;
 	};
 }

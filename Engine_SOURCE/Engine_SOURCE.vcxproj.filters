@@ -253,9 +253,6 @@
       <Filter>Graphics\API</Filter>
     </ClCompile>
     <ClCompile Include="yaParticleSystem.cpp" />
-    <ClCompile Include="yaParticleShader.cpp">
-      <Filter>Resource\Shader\CS</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CommonInclude.h">
@@ -415,9 +412,6 @@
       <Filter>Graphics\API</Filter>
     </ClInclude>
     <ClInclude Include="yaParticleSystem.h" />
-    <ClInclude Include="yaParticleShader.h">
-      <Filter>Resource\Shader\CS</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="yaMath.inl">

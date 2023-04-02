@@ -35,21 +35,21 @@ namespace ya
 
 	void GameObject::Initalize()
 	{
-		//for (Component* comp : mComponents)
-		//{
-		//	if (comp == nullptr)
-		//		continue;
+		for (Component* comp : mComponents)
+		{
+			if (comp == nullptr)
+				continue;
 
-		//	comp->Initalize();
-		//}
+			comp->Initalize();
+		}
 
-		//for (Component* script : mScripts)
-		//{
-		//	if (script == nullptr)
-		//		continue;
+		for (Component* script : mScripts)
+		{
+			if (script == nullptr)
+				continue;
 
-		//	script->Initalize();
-		//}
+			script->Initalize();
+		}
 	}
 
 	void GameObject::Update()

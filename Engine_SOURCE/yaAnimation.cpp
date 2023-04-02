@@ -86,9 +86,9 @@ namespace ya
 		}
 	}
 
-	void Animation::BindShaderResource()
+	void Animation::BindShader()
 	{
-		mAtlas->BindShaderResource(eShaderStage::PS, 12);
+		mAtlas->BindShader(eShaderStage::PS, 12);
 
 		ConstantBuffer* cb = renderer::constantBuffers[(UINT)eCBType::Animation];
 
@@ -100,7 +100,7 @@ namespace ya
 		info.atlasSize = mSpriteSheet[mIndex].atlasSize;
 
 		cb->Setdata(&info);
-		cb->BindSRV(eShaderStage::PS);
+		cb->Bind(eShaderStage::PS);
 	}
 
 	void Animation::Reset()
@@ -120,7 +120,7 @@ namespace ya
 		info.type = (UINT)eAnimationType::None;
 
 		cb->Setdata(&info);
-		cb->BindSRV(eShaderStage::PS);
+		cb->Bind(eShaderStage::PS);
 	}
 
 }

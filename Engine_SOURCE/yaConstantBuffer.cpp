@@ -35,7 +35,7 @@ namespace ya::graphics
 		GetDevice()->BindBuffer(buffer.Get(), data, desc.ByteWidth);
 	}
 
-	void ConstantBuffer::BindSRV(eShaderStage stage)
+	void ConstantBuffer::Bind(eShaderStage stage)
 	{
 		GetDevice()->BindConstantBuffer(stage, mType, buffer.Get());
 	}

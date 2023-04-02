@@ -13,7 +13,7 @@ namespace ya::graphics
 
 		bool Create(size_t size);
 		void Setdata(void* data);
-		void BindSRV(eShaderStage stage);
+		void Bind(eShaderStage stage);
 
 		//void SetType(eCBType type) { mType = type; }
 

@@ -62,8 +62,8 @@ namespace ya
 		data.resolution = resolution;
 
 		cb->Setdata(&data);
-		cb->BindSRV(eShaderStage::VS);
-		cb->BindSRV(eShaderStage::PS);
+		cb->Bind(eShaderStage::VS);
+		cb->Bind(eShaderStage::PS);
  	}
 
 	void GridScript::FixedUpdate()

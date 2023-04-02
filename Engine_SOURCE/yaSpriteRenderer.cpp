@@ -31,7 +31,7 @@ namespace ya
 	{
 		GetOwner()->GetComponent<Transform>()->SetConstantBuffer();
 
-		GetMaterial()->BindSRV();
+		GetMaterial()->Bind();
 		GetMesh()->BindBuffer();
 
 		Animator* animator = GetOwner()->GetComponent<Animator>();
