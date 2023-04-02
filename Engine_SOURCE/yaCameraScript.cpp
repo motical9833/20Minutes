@@ -25,27 +25,27 @@ namespace ya
 
 		Vector3 pos = tr->GetPosition();
 
-		if (Input::GetKeyPress(eKeyCode::D))
+		if (Input::GetKey(eKeyCode::D))
 		{
 			pos += 100.0f * tr->Right() * Time::DeltaTime();
 		}
-		else if (Input::GetKeyPress(eKeyCode::A))
+		else if (Input::GetKey(eKeyCode::A))
 		{
 			pos += 100.0f * -tr->Right() * Time::DeltaTime();
 		}
-		else if (Input::GetKeyPress(eKeyCode::W))
+		else if (Input::GetKey(eKeyCode::W))
 		{
 			pos += 100.0f * tr->Foward() * Time::DeltaTime();
 		}
-		else if (Input::GetKeyPress(eKeyCode::S))
+		else if (Input::GetKey(eKeyCode::S))
 		{
 			pos += 100.0f * -tr->Foward() * Time::DeltaTime();
 		}
-		else if (Input::GetKeyPress(eKeyCode::Q))
+		else if (Input::GetKey(eKeyCode::Q))
 		{
 			pos += 100.0f * tr->Up() * Time::DeltaTime();
 		}
-		else if (Input::GetKeyPress(eKeyCode::E))
+		else if (Input::GetKey(eKeyCode::E))
 		{
 			pos += 100.0f * -tr->Up() * Time::DeltaTime();
 		}

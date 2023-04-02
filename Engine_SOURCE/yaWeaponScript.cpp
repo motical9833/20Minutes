@@ -3,7 +3,6 @@
 #include "yaInput.h"
 #include "yaTime.h"
 
-
 namespace ya
 {
 	WeaponScript::WeaponScript()
@@ -15,14 +14,6 @@ namespace ya
 		,mAnimator(nullptr)
 		,maxBullet(6)
 		,currentBullet(6)
-		,mTrans(nullptr)
-		,mMousePos{}
-		,mPos{}
-		,mRot{}
-		,circleR(1)
-		,deg(0)
-		,objSpeed(1)
-		,pPos{}
 	{
 
 	}
@@ -36,17 +27,10 @@ namespace ya
 		mAnimator = GetOwner()->GetComponent<Animator>();
 		mAnimator->Stop();
 
-		mTrans = GetOwner()->GetComponent<Transform>();
 	}
 	void WeaponScript::Update()
 	{
-		mPos = mTrans->GetPosition();
 
-		mMousePos = Input::GetMousePosition();
-		mRot = mTrans->GetRotation();
-		mRot.z = atan2(mMousePos.y - mPos.y, mMousePos.x - mPos.x);
-		mTrans->SetRotation(mRot);
-		
 
 		if (bReload)
 			Reload();
@@ -75,7 +59,6 @@ namespace ya
 				}
 			}
 		}
-
 	}
 	void WeaponScript::Render()
 	{

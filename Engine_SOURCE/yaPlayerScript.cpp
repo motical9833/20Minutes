@@ -43,7 +43,7 @@ namespace ya
 		}
 
 
-		if (Input::GetKeyPress(eKeyCode::D))
+		if (Input::GetKey(eKeyCode::D))
 		{
 			if (bMove == false)
 			{
@@ -55,7 +55,7 @@ namespace ya
 			pos.x += 6.0f * Time::DeltaTime();
 			tr->SetPosition(pos);
 		}
-		if (Input::GetKeyPress(eKeyCode::A))
+		if (Input::GetKey(eKeyCode::A))
 		{
 			if (bMove == false)
 			{
@@ -68,7 +68,7 @@ namespace ya
 			tr->SetPosition(pos);
 		}
 
-		if (Input::GetKeyPress(eKeyCode::W))
+		if (Input::GetKey(eKeyCode::W))
 		{
 			if (bMove == false)
 			{
@@ -80,7 +80,7 @@ namespace ya
 			pos.y += 6.0f * Time::DeltaTime();
 			tr->SetPosition(pos);
 		}
-		if (Input::GetKeyPress(eKeyCode::S))
+		if (Input::GetKey(eKeyCode::S))
 		{
 			if (bMove == false)
 			{
@@ -94,11 +94,11 @@ namespace ya
 		}
 
 
-		if (Input::GetKeyPress(eKeyCode::N_0))
+		if (Input::GetKey(eKeyCode::N_0))
 		{
 			animator->Play(L"pIdle");
 		}
-		if (Input::GetKeyPress(eKeyCode::N_1))
+		if (Input::GetKey(eKeyCode::N_1))
 		{
 			animator->Play(L"pMove");
 		}

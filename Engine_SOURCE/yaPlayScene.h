@@ -2,7 +2,6 @@
 #include "yaScene.h"
 #include "yaPlayer.h"
 #include "yaWeapon.h"
-#include "yaBullet.h"
 
 namespace ya
 {
@@ -25,7 +24,5 @@ namespace ya
 		Player* player;
 		GameObject* pSceneCamera;
 		Weapon* pWeapon;
-		//std::vector<Bullet*> bullets;
-		Bullet* bullet;
 	};
 }

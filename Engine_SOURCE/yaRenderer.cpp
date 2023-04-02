@@ -199,7 +199,6 @@ namespace ya::renderer
 			, weaponShader->GetVSBlobBufferSize()
 			, weaponShader->GetInputLayoutAddressOf());
 
-
 #pragma endregion
 #pragma region sampler state
 		D3D11_SAMPLER_DESC samplerDesc = {};
@@ -438,12 +437,7 @@ namespace ya::renderer
 
 		Resources::Insert<Shader>(L"WeaponShader", weaponShader);
 
-		// Bullet
-		std::shared_ptr<Shader> bulletShader = std::make_shared<Shader>();
-		bulletShader->Create(eShaderStage::VS, L"SpriteVS.hlsl", "main");
-		bulletShader->Create(eShaderStage::PS, L"SpritePS.hlsl", "main");
 
-		Resources::Insert<Shader>(L"BulletShader", bulletShader);
 
 	}
 
@@ -463,9 +457,6 @@ namespace ya::renderer
 		Resources::Load<Texture>(L"BoomerMonsterSprite", L"Monster\\BigBoomer.png");
 		Resources::Load<Texture>(L"W_RevolverSprite", L"Weapon\\T_Revolver_SS.png");
 		Resources::Load<Texture>(L"HPHeart", L"UI\\T_HeartAnimation.png");
-
-		Resources::Load<Texture>(L"BulletTexture", L"Bullet\\BulletEffect.png");
-		Resources::Load<Texture>(L"FireEffect", L"Bullet\\FireEffect.png");
 
 		// Create
 		std::shared_ptr<Texture> uavTexture = std::make_shared<Texture>();
@@ -579,16 +570,6 @@ namespace ya::renderer
 			revolverMaterial->SetTexture(revolverTexture);
 
 			Resources::Insert<Material>(L"RevolverMaterial", revolverMaterial);
-
-			// Bullet
-			std::shared_ptr<Texture> bulletTexture = Resources::Find<Texture>(L"BulletTexture");
-			std::shared_ptr<Shader> bulletShader = Resources::Find<Shader>(L"BulletShader");
-			std::shared_ptr<Material> bulletMaterial = std::make_shared<Material>();
-			bulletMaterial->SetRenderingMode(eRenderingMode::Transparent);
-			bulletMaterial->SetShader(bulletShader);
-			bulletMaterial->SetTexture(bulletTexture);
-
-			Resources::Insert<Material>(L"BulletMaterial", bulletMaterial);
 		}
 
 		// UI
