@@ -1,11 +1,10 @@
 #include "yaBulletScript.h"
 #include "yaTime.h"
 #include "yaGameObject.h"
-#include "yaPlayScene.h"
-#include "yaSceneManager.h"
-#include "yaWeapon.h"
-#include "yaScene.h"
 #include "yaTransform.h"
+#include "yaPlayScene.h"
+#include "yaScene.h"
+#include "yaSceneManager.h"
 #include "yaInput.h"
 
 namespace ya
@@ -14,9 +13,6 @@ namespace ya
 		:mSpeed(20.0f)
 		, time(0.0f)
 		,direction{}
-		,mTr(nullptr)
-		,mWeapon(nullptr)
-		,playScene(nullptr)
 	{
 
 	}
@@ -26,32 +22,29 @@ namespace ya
 	}
 	void BulletScript::Initalize()
 	{
-		mTr = GetOwner()->GetComponent<Transform>();
+		Transform* tr = GetOwner()->GetComponent<Transform>();
 
-		playScene = SceneManager::GetPlaySCene();
-		mWeapon = dynamic_cast<PlayScene*>(playScene)->GetWeapon();
+		Scene* scene = SceneManager::GetPlaySCene();
+		Weapon* weapon = dynamic_cast<PlayScene*>(scene)->GetWeapon();
 
-		mTr->SetParent(mWeapon->GetComponent<Transform>());
-		mTr->SetPosition(Vector3::Zero);
+		tr->SetParent(weapon->GetComponent<Transform>());
+		tr->SetPosition(Vector3(0.0f, 0.0f, 0.0f));
 		GetOwner()->Death();
+
 	}
 	void BulletScript::Update()
 	{
 		time += Time::DeltaTime();
-		Vector3 pos = mTr->GetPosition();
+		Transform* tr = GetOwner()->GetComponent<Transform>();
+		Scene* scene = SceneManager::GetPlaySCene();
+		Weapon* weapon = dynamic_cast<PlayScene*>(scene)->GetWeapon();
 
-		if (time >= 3.0f)
-		{
-			GetOwner()->Death();
-			time = 0;
-			mTr->SetPosition(Vector3::Zero);
-		}
+		Vector3 pos = tr->GetPosition();
 
 		pos.x += direction.x * 3.0f * Time::DeltaTime();
 		pos.y += direction.y * 3.0f * Time::DeltaTime();
 
-
-		mTr->SetPosition(pos);
+		tr->SetPosition(pos);
 
 	}
 	void BulletScript::Render()

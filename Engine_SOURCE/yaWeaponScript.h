@@ -22,21 +22,6 @@ namespace ya
 		void Reload();
 
 		void SetBullets(Transform* bullet) { bullets.push_back(bullet); }
-		void BulletCntUp() { fireBulletCnt++; }
-		void BulletCntDown() { fireBulletCnt--; }
-		void BulletCnt(int count) { fireBulletCnt = count; }
-
-
-		void BulletSpeedUP(float percentage);
-		void BulletSpeedDown(float percentage);
-		void BulletScaleUp(float percentage);
-		void BulletScaleDown(float percentage);
-		void AttackSpeedUP(float percentage);
-		void AttackSpeedDown(float percentage);
-		void BulletCntUP() { fireBulletCnt++; }
-
-		void Fire();
-		void WeaponRotate();
 
 		void Start();
 		void Action();
@@ -49,7 +34,6 @@ namespace ya
 		float reloadTime;
 		int maxBullet;
 		int currentBullet;
-		int fireBulletCnt;
 
 		Animator* mAnimator;
 		Transform* mTransform;
@@ -62,7 +46,6 @@ namespace ya
 		Vector3 pPos;
 
 
-		float fireDelayTime;
 		float circleR;
 		float deg;
 		float objSpeed;
