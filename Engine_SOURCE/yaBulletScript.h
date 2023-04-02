@@ -3,6 +3,9 @@
 
 namespace ya
 {
+	class Weapon;
+	class Scene;
+	class Transform;
 	class BulletScript : public Script
 	{
 
@@ -19,6 +22,8 @@ namespace ya
 		virtual void OnCollisionExit(Collider2D* collider) override;
 
 		void Setdir(Vector3 dir) { direction = dir; }
+		void SetSpeed(float speed) { mSpeed = speed; }
+		float Getspeed() { return mSpeed; }
 
 		void Start();
 		void Action();
@@ -28,5 +33,10 @@ namespace ya
 		float mSpeed;
 		float time;
 		Vector3 direction;
+
+
+		Transform* mTr;
+		Scene* playScene;
+		Weapon* mWeapon;
 	};
 }

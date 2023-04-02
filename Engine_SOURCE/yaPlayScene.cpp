@@ -158,27 +158,41 @@ namespace ya
 			for (size_t i = 0; i < 100; i++)
 			{
 				Bullet* bulletobj = object::Instantiate<Bullet>(eLayerType::Bullet, this);
-				Transform* bulletsTr = bulletobj->GetComponent<Transform>();
-				bulletsTr->SetParent(weaponTr);
-				bulletsTr->SetPosition(Vector3(0.0f, 0.0f, 0.0f));
+				bullets.push_back(bulletobj);
+				bullets[i]->SetLayerType(eLayerType::Bullet);
+				bullets[i]->SetName(L"Bullet" + i);
+				bullets[i]->GetComponent<Transform>()->SetParent(weaponTr);
+				bullets[i]->GetComponent<Transform>()->SetPosition(Vector3(0.0f, 0.0f, 0.0f));
+				bullets[i]->GetComponent<Transform>()->SetScale(Vector3(2.0f, 2.0f, 1.0f));
+				SpriteRenderer* render = bullets[i]->AddComponent<SpriteRenderer>();
+				std::shared_ptr<Material> bulletMaterial = Resources::Find<Material>(L"BulletMaterial");
+				render->SetMaterial(bulletMaterial);
+				std::shared_ptr<Mesh> bulletMesh = Resources::Find<Mesh>(L"RectMesh");
+				render->SetMesh(bulletMesh);
+				Animator* bulletAnimator = bullets[i]->AddComponent<Animator>();
+				std::shared_ptr<Texture> bulletTexture = Resources::Find<Texture>(L"BulletTexture");
+				bulletAnimator->Create(L"Bullet", bulletTexture, Vector2(0.0f, 0.0f), Vector2(16.0f, 14.0f), Vector2::Zero, 1, 0.0f);
+				bulletAnimator->Play(L"Bullet", false);
+				bullets[i]->AddComponent<BulletScript>();
+				pWeapon->GetScript<WeaponScript>()->SetBullets(bullets[i]->GetComponent<Transform>());
 			}
 
 
-			bullet = object::Instantiate<Bullet>(eLayerType::Bullet,this);
-			Transform* bulletTr = bullet->GetComponent<Transform>();
-			bulletTr->SetParent(weaponTr);
-			bulletTr->SetPosition(Vector3(0.0f, 0.0f, 0.0f));
-			SpriteRenderer* bMr = bullet->AddComponent<SpriteRenderer>();
-			std::shared_ptr<Material> bulletMaterial = Resources::Find<Material>(L"BulletMaterial");
-			bMr->SetMaterial(bulletMaterial);
-			std::shared_ptr<Mesh> bulletMesh = Resources::Find<Mesh>(L"RectMesh");
-			bMr->SetMesh(bulletMesh);
-			Animator* bulletAni = bullet->AddComponent<Animator>();
-			std::shared_ptr<Texture> bulletTexture = Resources::Find<Texture>(L"BulletTexture");
-			bulletAni->Create(L"Bullet", bulletTexture, Vector2(0.0f, 0.0f), Vector2(16.0f, 14.0f), Vector2::Zero, 1, 0.0f);
-			bulletAni->Play(L"Bullet", false);
-			bullet->AddComponent<BulletScript>();
-			pWeapon->GetScript<WeaponScript>()->SetBullets(bulletTr);
+			//bullet = object::Instantiate<Bullet>(eLayerType::Bullet,this);
+			//Transform* bulletTr = bullet->GetComponent<Transform>();
+			//bulletTr->SetParent(weaponTr);
+			//bulletTr->SetPosition(Vector3(0.0f, 0.0f, 0.0f));
+			//SpriteRenderer* bMr = bullet->AddComponent<SpriteRenderer>();
+			//std::shared_ptr<Material> bulletMaterial = Resources::Find<Material>(L"BulletMaterial");
+			//bMr->SetMaterial(bulletMaterial);
+			//std::shared_ptr<Mesh> bulletMesh = Resources::Find<Mesh>(L"RectMesh");
+			//bMr->SetMesh(bulletMesh);
+			//Animator* bulletAni = bullet->AddComponent<Animator>();
+			//std::shared_ptr<Texture> bulletTexture = Resources::Find<Texture>(L"BulletTexture");
+			//bulletAni->Create(L"Bullet", bulletTexture, Vector2(0.0f, 0.0f), Vector2(16.0f, 14.0f), Vector2::Zero, 1, 0.0f);
+			//bulletAni->Play(L"Bullet", false);
+			//bullet->AddComponent<BulletScript>();
+			//pWeapon->GetScript<WeaponScript>()->SetBullets(bulletTr);
 		}
 
 		// Monster
