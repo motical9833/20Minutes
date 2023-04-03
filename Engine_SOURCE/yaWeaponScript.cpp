@@ -1,8 +1,9 @@
 #include "yaWeaponScript.h"
-#include "yaGameObject.h"
+#include "yaBulletScript.h"
 #include "yaInput.h"
 #include "yaTime.h"
-#include "yaBulletScript.h"
+#include "yaPlayScene.h"
+#include "yaSceneManager.h"
 
 namespace ya
 {
@@ -26,6 +27,9 @@ namespace ya
 		, bullets{}
 		, fireBulletCnt(1)
 		, fireDelayTime(0.3f)
+		, bulletPos{}
+		, bulletRot{}
+		, firePosObject{}
 	{
 
 	}
@@ -37,9 +41,9 @@ namespace ya
 		{
 		mTransform = GetOwner()->GetComponent<Transform>();
 		mAnimator = GetOwner()->GetComponent<Animator>();
+		mTrans = GetOwner()->GetComponent<Transform>();
 		mAnimator->Stop();
 
-		mTrans = GetOwner()->GetComponent<Transform>();
 	}
 	void WeaponScript::Update()
 	{
@@ -103,7 +107,7 @@ namespace ya
 			BulletScript* scripts = i->GetOwner()->GetScript<BulletScript>();
 
 			float speed = scripts->Getspeed();
-			speed += (1 + percentage / 100);
+			speed *= (1 + percentage / 100);
 
 			scripts->SetSpeed(speed);
 		}
@@ -115,7 +119,7 @@ namespace ya
 			BulletScript* scripts = i->GetOwner()->GetScript<BulletScript>();
 
 			float speed = scripts->Getspeed();
-			speed += (1 - percentage / 100);
+			speed *= (1 - percentage / 100);
 
 			scripts->SetSpeed(speed);
 		}
@@ -155,8 +159,71 @@ namespace ya
 		fireDelayTime *= (1 + percentage / 100);
 	}
 
+	void WeaponScript::ReloadTimeUP(float percentage)
+	{
+		reloadTime *= (1 + percentage / 100);
+	}
+
+	void WeaponScript::ReloadTimeDown(float percentage)
+	{
+		reloadTime *= (1 - percentage / 100);
+	}
+
+	void WeaponScript::BulletCntUP()
+	{
+		if (fireBulletCnt == 3)
+			return;
+		fireBulletCnt++;
+		//FirePosRot();
+	}
+
+	void WeaponScript::BulletCntDown()
+	{
+		if (fireBulletCnt == 1)
+			return;
+		fireBulletCnt--;
+		//FirePosRot();
+	}
+
+	void WeaponScript::FirePosRot()
+	{
+		//switch (fireBulletCnt)
+		//{
+		//case 1:
+		//	for (size_t i = 0; i < 1; i++)
+		//	{
+		//		firePosObject[i]->GetComponent<Transform>()->SetRotation(Vector3(0.0f, 0.0f, 0.0f));
+		//	}
+		//	break;
+		//case 2:
+		//	for (size_t i = 0; i < 2; i++)
+		//	{
+		//		firePosObject[i]->GetComponent<Transform>()->SetRotation(Vector3(0.0f, 0.0f, -10.0f + (i * 20)));
+		//	}
+		//	break;
+		//case 3:
+		//	firePosObject[0]->GetComponent<Transform>()->SetRotation(Vector3(0.0f, 0.0f, 0.0f));
+		//	for (size_t i = 0; i < 2; i++)
+		//	{
+		//		firePosObject[i]->GetComponent<Transform>()->SetRotation(Vector3(0.0f, 0.0f, -10.0f + (i * 20)));
+		//	}
+		//	break;
+		//case 4:
+		//	for (size_t i = 0; i < 2; i++)
+		//	{
+		//		firePosObject[i]->GetComponent<Transform>()->SetRotation(Vector3(0.0f, 0.0f, -40.0f + (i * 20)));
+		//	}
+		//	for (size_t j = 2; j < 4; j++)
+		//	{
+		//		firePosObject[j]->GetComponent<Transform>()->SetRotation(Vector3(0.0f, 0.0f, 40.0f - (j * 20)));
+		//	}
+		//	break;
+		//}
+	}
+
 	void WeaponScript::Fire()
 	{
+
 		if (time >= fireDelayTime)
 		{
 			int a = 0;
@@ -165,7 +232,7 @@ namespace ya
 				if (bullets[i]->GetOwner()->IsDead() == false)
 					continue;
 
-				Vector3 pos = mTransform->GetParent()->GetPosition();// + Vector3(0.5f, 0.05f, 0.0f);
+				Vector3 pos = mTransform->GetParent()->GetPosition() + Vector3(0.5f, 0.04f, 0.0f);
 				Vector3 dir = {};
 
 				Vector3 c = Input::GetMousePosition();
@@ -179,20 +246,18 @@ namespace ya
 					dir = Input::GetMousePosition() - pos + Vector3(-20.0f + (a * 40.0f), -20.0f + (a * 40.0f), 0.0f);
 					break;
 				case 3:
-					dir = Input::GetMousePosition() - pos + Vector3(-40.0f + (a * 40.0f), -40.0f + (a * 40.0f), 0.0f);
-					break;
-				case 4:
+					dir = Input::GetMousePosition() - pos + Vector3(-30.0f + (a * 30.0f), -30.0f + (a * 30.0f), 0.0f);
 					break;
 				}
 
-				//if(fireBulletCnt == 1)
-				//	dir = Input::GetMousePosition() - pos;
-
-				//if (fireBulletCnt == 2)
-				//	dir = Input::GetMousePosition() - pos + Vector3(-20.0f + (a * 40.0f), -20.0f + (a * 40.0f), 0.0f);
-
 
 				dir.Normalize();
+
+				//Vector3 pos = firePosObject[a]->GetComponent<Transform>()->GetPosition() + mTransform->GetParent()->GetPosition();
+				//Vector3 rot = firePosObject[a]->GetComponent<Transform>()->GetRotation() + mTransform->GetParent()->GetRotation();
+
+				//Vector3 v = firePosObject[a]->GetComponent<Transform>()->GetRotation();
+				//Vector3 k = mTransform->GetRotation();
 
 				bullets[i]->SetPosition(pos);
 				bullets[i]->GetOwner()->GetScript<BulletScript>()->Setdir(dir);
@@ -235,6 +300,20 @@ namespace ya
 
 	}
 
+	void WeaponScript::Reset()
+	{
+		float speed = 10.0f;
+		fireBulletCnt = 1;
+		fireDelayTime = 0.3f;
+		maxBullet = 6;
+		currentBullet = 6;
+		reloadTime = 1.0f;
+		bReload = false;
+		bReloading = false;
+		time = 0.0f;
+		mAnimator->Stop();
+	}
+
 	void WeaponScript::Cheat()
 	{
 		if (Input::GetKeyState(eKeyCode::NUM_0) == eKeyState::DOWN)
@@ -249,21 +328,29 @@ namespace ya
 		{
 			AttackSpeedDown(10.0f);
 		}
-		if (Input::GetKeyState(eKeyCode::NUM_4) == eKeyState::DOWN)
+		if (Input::GetKeyState(eKeyCode::NUM_3) == eKeyState::DOWN)
 		{
 			BulletScaleUp(10.0f);
 		}
-		if (Input::GetKeyState(eKeyCode::NUM_5) == eKeyState::DOWN)
+		if (Input::GetKeyState(eKeyCode::NUM_4) == eKeyState::DOWN)
 		{
 			BulletScaleDown(10.0f);
 		}
-		if (Input::GetKeyState(eKeyCode::NUM_7) == eKeyState::DOWN)
+		if (Input::GetKeyState(eKeyCode::NUM_5) == eKeyState::DOWN)
 		{
 			BulletSpeedUP(10.0f);
 		}
-		if (Input::GetKeyState(eKeyCode::NUM_8) == eKeyState::DOWN)
+		if (Input::GetKeyState(eKeyCode::NUM_6) == eKeyState::DOWN)
 		{
 			BulletSpeedDown(10.0f);
+		}
+		if (Input::GetKeyState(eKeyCode::NUM_7) == eKeyState::DOWN)
+		{
+			ReloadTimeDown(10.0f);
+		}
+		if (Input::GetKeyState(eKeyCode::NUM_8) == eKeyState::DOWN)
+		{
+			ReloadTimeUP(10.0f);
 		}
 	}
 

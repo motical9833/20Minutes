@@ -29,6 +29,7 @@ namespace ya
 		void Action();
 		void End();
 
+		void Reset();
 	private:
 		float mSpeed;
 		float time;

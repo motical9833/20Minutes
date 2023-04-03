@@ -82,4 +82,12 @@ namespace ya
 	{
 
 	}
+	void BulletScript::Reset()
+	{
+		time = 0.0f;
+		mSpeed = 10.0f;
+		mTr->SetPosition(Vector3(0.0f, 0.0f, 0.0f));
+		mTr->SetRotation(Vector3(0.0f, 0.0f, 0.0f));
+		mTr->SetScale(Vector3(2.0f, 2.0f, 0.0f));
+	}
 }

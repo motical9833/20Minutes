@@ -131,6 +131,15 @@ namespace ya
 			weaponAni->Play(L"Revolver", true);
 			pWeapon->AddComponent<WeaponScript>();
 
+			for (size_t i = 0; i < 4; i++)
+			{
+				GameObject* firePosObject = object::Instantiate<GameObject>(eLayerType::None, this);
+				firePosObject->SetName(L"FirePosObject" + i);
+				firePosObject->GetComponent<Transform>()->SetParent(weaponTr);
+				firePosObject->GetComponent<Transform>()->SetPosition(Vector3(0.3f, 0.0f, 0.0f));
+				pWeapon->GetScript<WeaponScript>()->SetFirePosObject(firePosObject);
+			}
+
 			for (size_t i = 0; i < 100; i++)
 			{
 				Bullet* bulletobj = object::Instantiate<Bullet>(eLayerType::Bullet, this);
@@ -270,8 +279,16 @@ namespace ya
 		if (Input::GetKeyDown(eKeyCode::N))
 		{
 			SceneManager::LoadScene(eSceneType::Tilte);
-			player->GetComponent<Transform>()->SetPosition(Vector3(0.0f, 0.0f, 10.0f));
+			player->GetComponent<Transform>()->SetPosition(Vector3(0.0f, 0.0f, 0.0f));
+			pWeapon->GetScript<WeaponScript>()->Reset();
 			player->Life();
+			pWeapon->Life();
+
+			for (size_t i = 0; i < bullets.size(); i++)
+			{
+				bullets[i]->GetScript<BulletScript>()->Reset();
+				bullets[i]->Death();
+			}
 		}
 
 		if (Input::GetKeyDown(eKeyCode::K))

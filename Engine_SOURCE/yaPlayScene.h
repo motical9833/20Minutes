@@ -23,6 +23,7 @@ namespace ya
 		Player* GetPlayer() { return player; }
 		Weapon* GetWeapon() { return pWeapon; }
 		Scene* GetScene() { return this; }
+		//std::vector<GameObject*> GetFirePos() { return firePos; }
 
 	private:
 		Player* player;
@@ -31,6 +32,7 @@ namespace ya
 		std::vector<Bullet*> bullets;
 		Bullet* bullet;
 
+		//std::vector<GameObject*> firePos;
 		std::vector<GameObject*> hpUiObj;
 	};
 }

@@ -22,9 +22,8 @@ namespace ya
 		void Reload();
 
 		void SetBullets(Transform* bullet) { bullets.push_back(bullet); }
-		void BulletCntUp() { fireBulletCnt++; }
-		void BulletCntDown() { fireBulletCnt--; }
-		void BulletCnt(int count) { fireBulletCnt = count; }
+		void SetFirePosObject(GameObject* object) { firePosObject.push_back(object); }
+		void BulletCnt(int count) { fireBulletCnt = count; } 
 
 
 		void BulletSpeedUP(float percentage);
@@ -33,7 +32,11 @@ namespace ya
 		void BulletScaleDown(float percentage);
 		void AttackSpeedUP(float percentage);
 		void AttackSpeedDown(float percentage);
-		void BulletCntUP() { fireBulletCnt++; }
+		void ReloadTimeUP(float percentage);
+		void ReloadTimeDown(float percentage);
+		void BulletCntUP();
+		void BulletCntDown();
+		void FirePosRot();
 
 		void Fire();
 		void WeaponRotate();
@@ -41,6 +44,8 @@ namespace ya
 		void Start();
 		void Action();
 		void End();
+
+		void Reset();
 	private:
 
 		void Cheat();
@@ -63,6 +68,8 @@ namespace ya
 		Vector3 mRot;
 		Vector3 pPos;
 
+		Vector3 bulletPos;
+		Vector3 bulletRot;
 
 		float fireDelayTime;
 		float circleR;
@@ -70,5 +77,6 @@ namespace ya
 		float objSpeed;
 
 		std::vector<Transform*> bullets;
+		std::vector<GameObject*> firePosObject;
 	};
 }
