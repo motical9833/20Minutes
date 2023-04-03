@@ -165,16 +165,39 @@ namespace ya
 				if (bullets[i]->GetOwner()->IsDead() == false)
 					continue;
 
-				Vector3 pos = mTransform->GetParent()->GetPosition() + Vector3(0.5f, 0.05f, 0.0f);
-				Vector3 dir = Input::GetMousePosition() - pos + Vector3(-50.0f, -50.0f, 0.0f);
-				dir.Normalize();
+				Vector3 pos = mTransform->GetParent()->GetPosition();// + Vector3(0.5f, 0.05f, 0.0f);
+				Vector3 dir = {};
 
+				Vector3 c = Input::GetMousePosition();
+
+				switch (fireBulletCnt)
+				{
+				case 1:
+					dir = Input::GetMousePosition() - pos;
+					break;
+				case 2:
+					dir = Input::GetMousePosition() - pos + Vector3(-20.0f + (a * 40.0f), -20.0f + (a * 40.0f), 0.0f);
+					break;
+				case 3:
+					dir = Input::GetMousePosition() - pos + Vector3(-40.0f + (a * 40.0f), -40.0f + (a * 40.0f), 0.0f);
+					break;
+				case 4:
+					break;
+				}
+
+				//if(fireBulletCnt == 1)
+				//	dir = Input::GetMousePosition() - pos;
+
+				//if (fireBulletCnt == 2)
+				//	dir = Input::GetMousePosition() - pos + Vector3(-20.0f + (a * 40.0f), -20.0f + (a * 40.0f), 0.0f);
+
+
+				dir.Normalize();
 
 				bullets[i]->SetPosition(pos);
 				bullets[i]->GetOwner()->GetScript<BulletScript>()->Setdir(dir);
 				bullets[i]->SetParent(nullptr);
 				bullets[i]->GetOwner()->Life();
-				currentBullet--;
 				a++;
 
 				if (a >= fireBulletCnt)
@@ -183,11 +206,12 @@ namespace ya
 					break;
 				}
 			}
+			currentBullet--;
 		}
 	}
 	void WeaponScript::WeaponRotate()
 	{
-		mPos = mTrans->GetPosition();
+		mPos = mTrans->GetPosition() + mTrans->GetParent()->GetPosition();
 
 		Vector3 rot = mTransform->GetRotation();
 
@@ -195,6 +219,8 @@ namespace ya
 		mRot = mTrans->GetRotation();
 		mRot.z = atan2(mMousePos.y - mPos.y, mMousePos.x - mPos.x);
 		mTrans->SetRotation(mRot);
+
+
 	}
 	void WeaponScript::Start()
 	{
