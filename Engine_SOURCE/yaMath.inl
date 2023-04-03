@@ -22,6 +22,7 @@ using namespace ya::math;
 //------------------------------------------------------------------------------
 //namespace ya::math
 
+
 inline Vector2 Rectangle::Location() const noexcept
 {
     return Vector2(float(x), float(y));
