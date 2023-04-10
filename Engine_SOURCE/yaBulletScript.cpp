@@ -47,9 +47,11 @@ namespace ya
 			mTr->SetPosition(Vector3::Zero);
 		}
 
-		pos.x += direction.x * mSpeed * Time::DeltaTime();
-		pos.y += direction.y * mSpeed * Time::DeltaTime();
 
+		//pos.x += direction.x * mSpeed * Time::DeltaTime();
+		//pos.y += direction.y * mSpeed * Time::DeltaTime();
+
+		pos += mTr->Right() * mSpeed * Time::DeltaTime();
 
 		mTr->SetPosition(pos);
 

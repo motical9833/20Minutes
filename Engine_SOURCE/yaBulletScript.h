@@ -21,7 +21,7 @@ namespace ya
 		virtual void OnCollisionStay(Collider2D* collider) override;
 		virtual void OnCollisionExit(Collider2D* collider) override;
 
-		void Setdir(Vector3 dir) { direction = dir; }
+		void Setdir(Vector3 dir) { GetOwner()->GetComponent<Transform>()->SetRotation(dir); }
 		void SetSpeed(float speed) { mSpeed = speed; }
 		float Getspeed() { return mSpeed; }
 

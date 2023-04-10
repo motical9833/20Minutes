@@ -187,38 +187,38 @@ namespace ya
 
 	void WeaponScript::FirePosRot()
 	{
-		//switch (fireBulletCnt)
-		//{
-		//case 1:
-		//	for (size_t i = 0; i < 1; i++)
-		//	{
-		//		firePosObject[i]->GetComponent<Transform>()->SetRotation(Vector3(0.0f, 0.0f, 0.0f));
-		//	}
-		//	break;
-		//case 2:
-		//	for (size_t i = 0; i < 2; i++)
-		//	{
-		//		firePosObject[i]->GetComponent<Transform>()->SetRotation(Vector3(0.0f, 0.0f, -10.0f + (i * 20)));
-		//	}
-		//	break;
-		//case 3:
-		//	firePosObject[0]->GetComponent<Transform>()->SetRotation(Vector3(0.0f, 0.0f, 0.0f));
-		//	for (size_t i = 0; i < 2; i++)
-		//	{
-		//		firePosObject[i]->GetComponent<Transform>()->SetRotation(Vector3(0.0f, 0.0f, -10.0f + (i * 20)));
-		//	}
-		//	break;
-		//case 4:
-		//	for (size_t i = 0; i < 2; i++)
-		//	{
-		//		firePosObject[i]->GetComponent<Transform>()->SetRotation(Vector3(0.0f, 0.0f, -40.0f + (i * 20)));
-		//	}
-		//	for (size_t j = 2; j < 4; j++)
-		//	{
-		//		firePosObject[j]->GetComponent<Transform>()->SetRotation(Vector3(0.0f, 0.0f, 40.0f - (j * 20)));
-		//	}
-		//	break;
-		//}
+		switch (fireBulletCnt)
+		{
+		case 1:
+			for (size_t i = 0; i < 1; i++)
+			{
+				firePosObject[i]->GetComponent<Transform>()->SetRotation(Vector3(0.0f, 0.0f, 0.0f));
+			}
+			break;
+		case 2:
+			for (size_t i = 0; i < 2; i++)
+			{
+				firePosObject[i]->GetComponent<Transform>()->SetRotation(Vector3(0.0f, 0.0f, -10.0f + (i * 20)));
+			}
+			break;
+		case 3:
+			firePosObject[0]->GetComponent<Transform>()->SetRotation(Vector3(0.0f, 0.0f, 0.0f));
+			for (size_t i = 0; i < 2; i++)
+			{
+				firePosObject[i]->GetComponent<Transform>()->SetRotation(Vector3(0.0f, 0.0f, -10.0f + (i * 20)));
+			}
+			break;
+		case 4:
+			for (size_t i = 0; i < 2; i++)
+			{
+				firePosObject[i]->GetComponent<Transform>()->SetRotation(Vector3(0.0f, 0.0f, -40.0f + (i * 20)));
+			}	
+			for (size_t j = 2; j < 4; j++)
+			{
+				firePosObject[j]->GetComponent<Transform>()->SetRotation(Vector3(0.0f, 0.0f, 40.0f - (j * 20)));
+			}
+			break;
+		}
 	}
 
 	void WeaponScript::Fire()
@@ -232,35 +232,35 @@ namespace ya
 				if (bullets[i]->GetOwner()->IsDead() == false)
 					continue;
 
-				Vector3 pos = mTransform->GetParent()->GetPosition() + Vector3(0.5f, 0.04f, 0.0f);
-				Vector3 dir = {};
+				//Vector3 pos = mTransform->GetParent()->GetPosition() + Vector3(0.5f, 0.04f, 0.0f);
+				//Vector3 dir = {};
 
-				Vector3 c = Input::GetMousePosition();
+				//Vector3 c = Input::GetMousePosition();
 
-				switch (fireBulletCnt)
-				{
-				case 1:
-					dir = Input::GetMousePosition() - pos;
-					break;
-				case 2:
-					dir = Input::GetMousePosition() - pos + Vector3(-20.0f + (a * 40.0f), -20.0f + (a * 40.0f), 0.0f);
-					break;
-				case 3:
-					dir = Input::GetMousePosition() - pos + Vector3(-30.0f + (a * 30.0f), -30.0f + (a * 30.0f), 0.0f);
-					break;
-				}
+				//switch (fireBulletCnt)
+				//{
+				//case 1:
+				//	dir = Input::GetMousePosition() - pos;
+				//	break;
+				//case 2:
+				//	dir = Input::GetMousePosition() - pos + Vector3(-20.0f + (a * 40.0f), -20.0f + (a * 40.0f), 0.0f);
+				//	break;
+				//case 3:
+				//	dir = Input::GetMousePosition() - pos + Vector3(-30.0f + (a * 30.0f), -30.0f + (a * 30.0f), 0.0f);
+				//	break;
+				//}
 
 
-				dir.Normalize();
+				//dir.Normalize();
 
-				//Vector3 pos = firePosObject[a]->GetComponent<Transform>()->GetPosition() + mTransform->GetParent()->GetPosition();
-				//Vector3 rot = firePosObject[a]->GetComponent<Transform>()->GetRotation() + mTransform->GetParent()->GetRotation();
+				Vector3 pos = firePosObject[a]->GetComponent<Transform>()->GetPosition() + mTransform->GetParent()->GetPosition();
+				Vector3 rot = firePosObject[a]->GetComponent<Transform>()->GetRotation() + mTransform->GetRotation();
 
 				//Vector3 v = firePosObject[a]->GetComponent<Transform>()->GetRotation();
 				//Vector3 k = mTransform->GetRotation();
 
 				bullets[i]->SetPosition(pos);
-				bullets[i]->GetOwner()->GetScript<BulletScript>()->Setdir(dir);
+				bullets[i]->GetOwner()->GetScript<BulletScript>()->Setdir(rot);
 				bullets[i]->SetParent(nullptr);
 				bullets[i]->GetOwner()->Life();
 				a++;

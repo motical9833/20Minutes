@@ -137,6 +137,7 @@ namespace ya
 				firePosObject->SetName(L"FirePosObject" + i);
 				firePosObject->GetComponent<Transform>()->SetParent(weaponTr);
 				firePosObject->GetComponent<Transform>()->SetPosition(Vector3(0.3f, 0.0f, 0.0f));
+				firePosObject->GetComponent<Transform>()->SetRotation(Vector3(0.0f, 0.0f, 0.0f));
 				pWeapon->GetScript<WeaponScript>()->SetFirePosObject(firePosObject);
 			}
 
@@ -147,6 +148,7 @@ namespace ya
 				bullets[i]->SetLayerType(eLayerType::Bullet);
 				bullets[i]->SetName(L"Bullet" + i);
 				bullets[i]->GetComponent<Transform>()->SetParent(weaponTr);
+				bullets[i]->GetComponent<Transform>()->SetPosition(Vector3(0.0f, 0.0f, 0.0f));
 				bullets[i]->GetComponent<Transform>()->SetPosition(Vector3(0.0f, 0.0f, 0.0f));
 				bullets[i]->GetComponent<Transform>()->SetScale(Vector3(2.0f, 2.0f, 1.0f));
 				SpriteRenderer* render = bullets[i]->AddComponent<SpriteRenderer>();
