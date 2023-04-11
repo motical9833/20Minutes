@@ -151,6 +151,9 @@ namespace ya
 				bullets[i]->GetComponent<Transform>()->SetPosition(Vector3(0.0f, 0.0f, 0.0f));
 				bullets[i]->GetComponent<Transform>()->SetPosition(Vector3(0.0f, 0.0f, 0.0f));
 				bullets[i]->GetComponent<Transform>()->SetScale(Vector3(2.0f, 2.0f, 1.0f));
+				Collider2D* bulletColloder = bullets[i]->AddComponent<Collider2D>();
+				bulletColloder->SetType(eColliderType::Rect);
+				bulletColloder->SetSize(Vector2(0.1f, 0.1f));
 				SpriteRenderer* render = bullets[i]->AddComponent<SpriteRenderer>();
 				std::shared_ptr<Material> bulletMaterial = Resources::Find<Material>(L"BulletMaterial");
 				render->SetMaterial(bulletMaterial);
@@ -158,8 +161,9 @@ namespace ya
 				render->SetMesh(bulletMesh);
 				Animator* bulletAnimator = bullets[i]->AddComponent<Animator>();
 				std::shared_ptr<Texture> bulletTexture = Resources::Find<Texture>(L"BulletTexture");
-				bulletAnimator->Create(L"Bullet", bulletTexture, Vector2(0.0f, 0.0f), Vector2(16.0f, 14.0f), Vector2::Zero, 1, 0.0f);
-				bulletAnimator->Play(L"Bullet", false);
+				bulletAnimator->Create(L"BulletAni", bulletTexture, Vector2(0.0f, 0.0f), Vector2(16.0f, 14.0f), Vector2::Zero, 2, 0.0f);
+				bulletAnimator->Play(L"BulletAni", true);
+				bulletAnimator->Stop();
 				bullets[i]->AddComponent<BulletScript>();
 				pWeapon->GetScript<WeaponScript>()->SetBullets(bullets[i]->GetComponent<Transform>());
 			}
@@ -272,6 +276,7 @@ namespace ya
 
 
 		CollisionManager::CollisionLayerCheck(eLayerType::Player, eLayerType::Monster, true);
+		CollisionManager::CollisionLayerCheck(eLayerType::Bullet, eLayerType::Monster, true);
 		Scene::Initalize();
 	}
 

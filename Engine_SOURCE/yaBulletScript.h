@@ -33,11 +33,14 @@ namespace ya
 	private:
 		float mSpeed;
 		float time;
+		float crashTime;
 		Vector3 direction;
 
 
 		Transform* mTr;
 		Scene* playScene;
 		Weapon* mWeapon;
+
+		bool bCrash;
 	};
 }

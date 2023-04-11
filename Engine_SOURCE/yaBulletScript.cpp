@@ -7,16 +7,18 @@
 #include "yaScene.h"
 #include "yaTransform.h"
 #include "yaInput.h"
-
+#include "yaAnimator.h"
 namespace ya
 {
 	BulletScript::BulletScript()
 		:mSpeed(10.0f)
 		, time(0.0f)
+		, crashTime(0.0f)
 		,direction{}
 		,mTr(nullptr)
 		,mWeapon(nullptr)
 		,playScene(nullptr)
+		,bCrash(false)
 	{
 
 	}
@@ -26,13 +28,21 @@ namespace ya
 	}
 	void BulletScript::Initalize()
 	{
+
 		mTr = GetOwner()->GetComponent<Transform>();
 
 		playScene = SceneManager::GetPlaySCene();
 		mWeapon = dynamic_cast<PlayScene*>(playScene)->GetWeapon();
 
-		mTr->SetParent(mWeapon->GetComponent<Transform>());
-		mTr->SetPosition(Vector3::Zero);
+		//mTr->SetParent(mWeapon->GetComponent<Transform>());
+		//mTr->SetPosition(Vector3::Zero);
+
+		Animator* animator = GetOwner()->GetComponent<Animator>();
+		//멤버함수 이기 떄문에 어떤 함수인지 풀네임으로 적어줘야 한다.
+		animator->GetStartEvent(L"BulletAni") = std::bind(&BulletScript::Start, this);
+		animator->GetCompleteEvent(L"BulletAni") = std::bind(&BulletScript::Action, this);
+		animator->GetEndEvent(L"BulletAni") = std::bind(&BulletScript::End, this);
+
 		GetOwner()->Death();
 	}
 	void BulletScript::Update()
@@ -46,7 +56,15 @@ namespace ya
 			time = 0;
 			mTr->SetPosition(Vector3::Zero);
 		}
-
+		else if (bCrash)
+		{
+			crashTime += Time::DeltaTime();
+			if (crashTime >= 0.01f)
+			{
+				Reset();
+				this->GetOwner()->Death();
+			}
+		}
 
 		//pos.x += direction.x * mSpeed * Time::DeltaTime();
 		//pos.y += direction.y * mSpeed * Time::DeltaTime();
@@ -62,7 +80,12 @@ namespace ya
 	}
 	void BulletScript::OnCollisionEnter(Collider2D* collider)
 	{
-
+		if (collider->GetOwner()->GetLayerType() == eLayerType::Monster)
+		{
+			Animator* animator = GetOwner()->GetComponent<Animator>();
+			animator->Play(L"BulletAni",false);
+			animator->Start();
+		}
 	}
 	void BulletScript::OnCollisionStay(Collider2D* collider)
 	{
@@ -82,14 +105,16 @@ namespace ya
 	}
 	void BulletScript::End()
 	{
-
+		bCrash = true;
 	}
 	void BulletScript::Reset()
 	{
 		time = 0.0f;
+		crashTime = 0.0f;
 		mSpeed = 10.0f;
 		mTr->SetPosition(Vector3(0.0f, 0.0f, 0.0f));
 		mTr->SetRotation(Vector3(0.0f, 0.0f, 0.0f));
 		mTr->SetScale(Vector3(2.0f, 2.0f, 0.0f));
+		bCrash = false;
 	}
 }
