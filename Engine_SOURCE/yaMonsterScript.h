@@ -4,30 +4,30 @@
 
 namespace ya
 {
-	class PlayerScript : public Script
+	class MonsterScript : public Script
 	{
 	public:
-		PlayerScript();
-		~PlayerScript();
+		MonsterScript(int hp);
+		~MonsterScript();
 
 		virtual void Initalize() override;
 		virtual void Update() override;
 		virtual void Render() override;
 
+
 		virtual void OnCollisionEnter(Collider2D* collider) override;
 		virtual void OnCollisionStay(Collider2D* collider) override;
 		virtual void OnCollisionExit(Collider2D* collider) override;
 
-		void Move();
 
 		void Start();
 		void Action();
 		void End();
-		void Reset();
+		void HitBullet(int damage);
+
 	private:
-		float immuneTime;
-		bool bMove;
-		bool bHitImmune;
 		int mHp;
+		float mSpeed;
+
 	};
 }

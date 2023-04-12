@@ -256,6 +256,9 @@
     <ClCompile Include="yaParticleShader.cpp">
       <Filter>Resource\Shader\CS</Filter>
     </ClCompile>
+    <ClCompile Include="yaMonsterScript.cpp">
+      <Filter>Component\Script\Contents</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CommonInclude.h">
@@ -417,6 +420,9 @@
     <ClInclude Include="yaParticleSystem.h" />
     <ClInclude Include="yaParticleShader.h">
       <Filter>Resource\Shader\CS</Filter>
+    </ClInclude>
+    <ClInclude Include="yaMonsterScript.h">
+      <Filter>Component\Script\Contents</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

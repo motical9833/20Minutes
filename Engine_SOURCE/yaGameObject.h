@@ -44,6 +44,30 @@ namespace ya
 
 			return comp;
 		}
+
+		template <typename T>
+		T* AddComponent(int a)
+		{
+			T* comp = new T(a);
+			eComponentType order = comp->GetOrder();
+
+			if (order != eComponentType::Script)
+			{
+				mComponents[(UINT)order] = comp;
+				mComponents[(UINT)order]->SetOwner(this);
+			}
+			else
+			{
+				mScripts.push_back(dynamic_cast<Script*>(comp));
+				comp->SetOwner(this);
+			}
+
+			comp->Initalize();
+
+			return comp;
+		}
+
+
 		void AddComponent(Component* comp);
 
 		template <typename T>
@@ -124,4 +148,3 @@ namespace ya
 		//Scene* mScene;
 	};
 }
-

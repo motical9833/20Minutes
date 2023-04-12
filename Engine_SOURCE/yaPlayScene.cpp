@@ -19,6 +19,7 @@
 #include "yaPaintShader.h"
 #include "yaParticleSystem.h"
 #include "yaBulletScript.h"
+#include "yaMonsterScript.h"
 
 namespace ya
 {
@@ -189,6 +190,8 @@ namespace ya
 			std::shared_ptr<Texture> mTexture = Resources::Load<Texture>(L"BrainMonster", L"Monster\\BrainMonster.png");
 			mAnimator->Create(L"BrainMonster_Idle", mTexture, Vector2(0.0f, 0.0f), Vector2(64.0f, 64.0f), Vector2::Zero, 4, 0.1f);
 			mAnimator->Play(L"BrainMonster_Idle", true);
+			m_Brain->AddComponent<MonsterScript>(10);
+
 
 			Monster* m_tree = object::Instantiate<Monster>(eLayerType::Monster, this);
 			m_tree->SetLayerType(eLayerType::Monster);
@@ -228,6 +231,8 @@ namespace ya
 			std::shared_ptr<Texture> m_EyeTexture = Resources::Find<Texture>(L"EyeMonsterSprite");
 			m_EyeAnimator->Create(L"EyeMonsterAnimation", m_EyeTexture, Vector2(0.0f, 0.0f), Vector2(40.0f, 40.0f), Vector2::Zero, 3, 0.2f);
 			m_EyeAnimator->Play(L"EyeMonsterAnimation", true);
+			eyeMonster->AddComponent<MonsterScript>(10);
+
 
 			Monster* mBoomer = object::Instantiate<Monster>(eLayerType::Monster, this);
 			mBoomer->SetLayerType(eLayerType::Monster);
@@ -247,6 +252,7 @@ namespace ya
 			std::shared_ptr<Texture> boomerTexture = Resources::Find<Texture>(L"BoomerMonsterSprite");
 			boomerAnimator->Create(L"BoomerAnimation", boomerTexture, Vector2(0.0f, 0.0f), Vector2(64.0f, 64.0f), Vector2::Zero, 4, 0.2f);
 			boomerAnimator->Play(L"BoomerAnimation", true);
+			mBoomer->AddComponent<MonsterScript>(10);
 		}
 
 

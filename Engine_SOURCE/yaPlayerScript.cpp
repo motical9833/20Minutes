@@ -11,6 +11,9 @@ namespace ya
 	PlayerScript::PlayerScript()
 		: Script()
 		, bMove(false)
+		, mHp(3)
+		, bHitImmune(false)
+		,immuneTime(0.0f)
 	{
 		
 	}
@@ -32,17 +35,54 @@ namespace ya
 
 	void PlayerScript::Update()
 	{
+		Move();
+
+		if (bHitImmune)
+		{
+			immuneTime += Time::DeltaTime();
+
+			if (immuneTime >= 3)
+			{
+				bHitImmune = false;
+				immuneTime = 0;
+			}
+		}
+	}
+
+	void PlayerScript::Render()
+	{
+
+	}
+
+	void PlayerScript::OnCollisionEnter(Collider2D* collider)
+	{
+		if (collider->GetOwner()->GetLayerType() == eLayerType::Monster)
+		{
+			if (bHitImmune)
+				return;
+
+			mHp--;
+			bHitImmune = true;
+
+			if (mHp <= 0)
+				this->GetOwner()->Death();
+		}
+	}
+
+	void PlayerScript::OnCollisionStay(Collider2D* collider)
+	{
+
+	}
+
+	void PlayerScript::OnCollisionExit(Collider2D* collider)
+	{
+
+	}
+
+	void PlayerScript::Move()
+	{
 		Transform* tr = GetOwner()->GetComponent<Transform>();
 		Animator* animator = GetOwner()->GetComponent<Animator>();
-
-
-		if (Input::GetKeyState(eKeyCode::R) == eKeyState::PRESSED)
-		{
-			Vector3 rot = tr->GetRotation();
-			rot.z += 10.0f * Time::DeltaTime();
-			tr->SetRotation(rot);
-		}
-
 
 		if (Input::GetKeyPress(eKeyCode::D))
 		{
@@ -94,16 +134,6 @@ namespace ya
 			tr->SetPosition(pos);
 		}
 
-
-		if (Input::GetKeyPress(eKeyCode::N_0))
-		{
-			animator->Play(L"pIdle");
-		}
-		if (Input::GetKeyPress(eKeyCode::N_1))
-		{
-			animator->Play(L"pMove");
-		}
-
 		if (Input::GetKeyState(eKeyCode::A) == eKeyState::NONE &&
 			Input::GetKeyState(eKeyCode::D) == eKeyState::NONE &&
 			Input::GetKeyState(eKeyCode::W) == eKeyState::NONE &&
@@ -113,29 +143,6 @@ namespace ya
 			animator->Play(L"pIdle");
 			bMove = false;
 		}
-	}
-
-	void PlayerScript::Render()
-	{
-
-	}
-
-	void PlayerScript::OnCollisionEnter(Collider2D* collider)
-	{
-		if (collider->GetOwner()->GetLayerType() == eLayerType::Monster)
-		{
-			this->GetOwner()->Death();
-		}
-	}
-
-	void PlayerScript::OnCollisionStay(Collider2D* collider)
-	{
-
-	}
-
-	void PlayerScript::OnCollisionExit(Collider2D* collider)
-	{
-
 	}
 
 	void PlayerScript::Start()
@@ -148,6 +155,10 @@ namespace ya
 
 	}
 	void PlayerScript::End()
+	{
+
+	}
+	void PlayerScript::Reset()
 	{
 
 	}
