@@ -68,6 +68,15 @@ namespace ya::renderer
 		float deltaTime;
 	};
 
+	CBUFFER(FadeInOutCB, CBSLOT_FADEINOUT)
+	{
+		Vector4 fCameraPosition;
+		Vector2 fCameraScale;
+		Vector2 fResolution;
+		float fadeDeltaTime;
+		Vector3 padding;
+	};
+
 	//NUMBEROFLIGHT
 
 	extern Vertex vertexes[4];

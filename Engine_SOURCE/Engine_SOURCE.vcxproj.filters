@@ -259,6 +259,9 @@
     <ClCompile Include="yaMonsterScript.cpp">
       <Filter>Component\Script\Contents</Filter>
     </ClCompile>
+    <ClCompile Include="yaFadeInOutScript.cpp">
+      <Filter>Component\Script\Contents</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CommonInclude.h">
@@ -422,6 +425,9 @@
       <Filter>Resource\Shader\CS</Filter>
     </ClInclude>
     <ClInclude Include="yaMonsterScript.h">
+      <Filter>Component\Script\Contents</Filter>
+    </ClInclude>
+    <ClInclude Include="yaFadeInOutScript.h">
       <Filter>Component\Script\Contents</Filter>
     </ClInclude>
   </ItemGroup>

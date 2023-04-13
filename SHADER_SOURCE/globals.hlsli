@@ -47,6 +47,15 @@ cbuffer ParticleSystem : register(b5)
     float deltaTime;
 }
 
+cbuffer Fade : register(b6)
+{
+    float4 fCameraPosition;
+    float2 fCameraScale;
+    float2 fResolution;
+    float fadeDeltaTime;
+    float3 padding;
+}
+
 
 SamplerState pointSampler : register(s0);
 SamplerState linearSampler : register(s1);
