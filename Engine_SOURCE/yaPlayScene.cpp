@@ -172,87 +172,10 @@ namespace ya
 
 		// Monster
 		{
-			Monster* m_Brain = object::Instantiate<Monster>(eLayerType::Monster, this);
-			m_Brain->SetLayerType(eLayerType::Monster);
-			m_Brain->SetName(L"Monster");
-			Transform* mTr = m_Brain->GetComponent<Transform>();
-			mTr->SetPosition(Vector3(2.0f, 0.0f, 0.0f));
-			mTr->SetScale(Vector3(3.0f, 3.0f, 1.0f));
-			Collider2D* mCollider = m_Brain->AddComponent<Collider2D>();
-			mCollider->SetType(eColliderType::Rect);
-			mCollider->SetSize(Vector2(0.5f, 0.5f));
-			SpriteRenderer* mMr = m_Brain->AddComponent<SpriteRenderer>();
-			std::shared_ptr<Material> monsterMat = Resources::Find<Material>(L"MonsterMaterial");
-			mMr->SetMaterial(monsterMat);
-			std::shared_ptr<Mesh> mMesh = Resources::Find<Mesh>(L"RectMesh");
-			mMr->SetMesh(mMesh);
-			Animator* mAnimator = m_Brain->AddComponent<Animator>();
-			std::shared_ptr<Texture> mTexture = Resources::Load<Texture>(L"BrainMonster", L"Monster\\BrainMonster.png");
-			mAnimator->Create(L"BrainMonster_Idle", mTexture, Vector2(0.0f, 0.0f), Vector2(64.0f, 64.0f), Vector2::Zero, 4, 0.1f);
-			mAnimator->Play(L"BrainMonster_Idle", true);
-			m_Brain->AddComponent<MonsterScript>(10);
-
-
-			Monster* m_tree = object::Instantiate<Monster>(eLayerType::Monster, this);
-			m_tree->SetLayerType(eLayerType::Monster);
-			m_tree->SetName(L"tree");
-			Transform* mTreeTr = m_tree->GetComponent<Transform>();
-			mTreeTr->SetPosition(Vector3(2.0f, 2.0f, 0.0f));
-			mTreeTr->SetScale(Vector3(2.0f, 2.0f, 1.0f));
-			Collider2D* mTreeCollider = m_tree->AddComponent<Collider2D>();
-			mTreeCollider->SetType(eColliderType::Rect);
-			mTreeCollider->SetSize(Vector2(0.7f, 0.9f));
-			SpriteRenderer* mTreeRender = m_tree->AddComponent<SpriteRenderer>();
-			std::shared_ptr<Material> m_treeMat = Resources::Find<Material>(L"TreeMaterial");
-			mTreeRender->SetMaterial(m_treeMat);
-			std::shared_ptr<Mesh> treeMesh = Resources::Find<Mesh>(L"RectMesh");
-			mTreeRender->SetMesh(treeMesh);
-			Animator* treeAnimator = m_tree->AddComponent<Animator>();
-			std::shared_ptr<Texture> treeTexture = Resources::Find<Texture>(L"TreeSprite");
-			treeAnimator->Create(L"Tree_Idle", treeTexture, Vector2(0.0f, 0.0f), Vector2(110.0f, 160.0f), Vector2::Zero, 3, 0.5f);
-			treeAnimator->Play(L"Tree_Idle", true);
-
-
-			Monster* eyeMonster = object::Instantiate<Monster>(eLayerType::Monster, this);
-			eyeMonster->SetLayerType(eLayerType::Monster);
-			eyeMonster->SetName(L"EyeMonster");
-			Transform* mEyeTr = eyeMonster->GetComponent<Transform>();
-			mEyeTr->SetPosition(Vector3(2.0f, -2.0f, 0.0f));
-			mEyeTr->SetScale(Vector3(3.0f, 3.0f, 1.0f));
-			Collider2D* mEyeCollider = eyeMonster->AddComponent<Collider2D>();
-			mEyeCollider->SetType(eColliderType::Rect);
-			mEyeCollider->SetSize(Vector2(0.3f, 0.3f));
-			SpriteRenderer* mEyeRender = eyeMonster->AddComponent<SpriteRenderer>();
-			std::shared_ptr<Material> m_EyeMat = Resources::Find<Material>(L"EyeMonsterMaterial");
-			mEyeRender->SetMaterial(m_EyeMat);
-			std::shared_ptr<Mesh> m_EyeMesh = Resources::Find<Mesh>(L"RectMesh");
-			mEyeRender->SetMesh(m_EyeMesh);
-			Animator* m_EyeAnimator = eyeMonster->AddComponent<Animator>();
-			std::shared_ptr<Texture> m_EyeTexture = Resources::Find<Texture>(L"EyeMonsterSprite");
-			m_EyeAnimator->Create(L"EyeMonsterAnimation", m_EyeTexture, Vector2(0.0f, 0.0f), Vector2(40.0f, 40.0f), Vector2::Zero, 3, 0.2f);
-			m_EyeAnimator->Play(L"EyeMonsterAnimation", true);
-			eyeMonster->AddComponent<MonsterScript>(10);
-
-
-			Monster* mBoomer = object::Instantiate<Monster>(eLayerType::Monster, this);
-			mBoomer->SetLayerType(eLayerType::Monster);
-			mBoomer->SetName(L"BigBoomer");
-			Transform* mboomerTr = mBoomer->GetComponent<Transform>();
-			mboomerTr->SetPosition(Vector3(4.0f, 0.0f, 0.0f));
-			mboomerTr->SetScale(Vector3(2.0f, 2.0f, 1.0f));
-			Collider2D* mBoomerCollider = mBoomer->AddComponent<Collider2D>();
-			mBoomerCollider->SetType(eColliderType::Rect);
-			mBoomerCollider->SetSize(Vector2(0.5f, 0.5f));
-			SpriteRenderer* mBoomerRender = mBoomer->AddComponent<SpriteRenderer>();
-			std::shared_ptr<Material> mBoomerMat = Resources::Find<Material>(L"BoomerMonsterMaterial");
-			mBoomerRender->SetMaterial(mBoomerMat);
-			std::shared_ptr<Mesh> mBoomerMesh = Resources::Find<Mesh>(L"RectMesh");
-			mBoomerRender->SetMesh(mBoomerMesh);
-			Animator* boomerAnimator = mBoomer->AddComponent<Animator>();
-			std::shared_ptr<Texture> boomerTexture = Resources::Find<Texture>(L"BoomerMonsterSprite");
-			boomerAnimator->Create(L"BoomerAnimation", boomerTexture, Vector2(0.0f, 0.0f), Vector2(64.0f, 64.0f), Vector2::Zero, 4, 0.2f);
-			boomerAnimator->Play(L"BoomerAnimation", true);
-			mBoomer->AddComponent<MonsterScript>(10);
+			CreateBrainMonster();
+			CreateEyeMonster();
+			CreateTreeMonster();
+			CreateBommerMonster();
 		}
 
 
@@ -304,11 +227,6 @@ namespace ya
 			}
 		}
 
-		if (Input::GetKeyDown(eKeyCode::K))
-		{
-			bullet->Death();
-		}
-
 		Transform* tr = pSceneCamera->GetComponent<Transform>();
 		Vector3 pos = tr->GetPosition();
 
@@ -333,5 +251,108 @@ namespace ya
 	void PlayScene::OnExit()
 	{
 
+	}
+	void PlayScene::CreateBrainMonster()
+	{
+		Monster* m_Brain = object::Instantiate<Monster>(eLayerType::Monster, this);
+		m_Brain->SetLayerType(eLayerType::Monster);
+		m_Brain->SetName(L"Monster");
+		M_DefaultTr(m_Brain, Vector3(2.0f, 0.0f, 0.0f), Vector3(3.0f, 3.0f, 1.0f));
+		CreateCollider(m_Brain, eColliderType::Rect, Vector2(0.5f, 0.5f));
+		CreateSpriteRenderer(m_Brain, L"MonsterMaterial");
+		Animator* mAnimator = m_Brain->AddComponent<Animator>();
+		std::shared_ptr<Texture> mTexture = Resources::Find<Texture>(L"BrainMonster");
+		mAnimator->Create(L"BrainMonster_Idle", mTexture, Vector2(0.0f, 0.0f), Vector2(64.0f, 64.0f), Vector2::Zero, 4, 0.1f);
+		mAnimator->Play(L"BrainMonster_Idle", true);
+		m_Brain->AddComponent<MonsterScript>(10);
+	}
+	void PlayScene::CreateTreeMonster()
+	{
+		Monster* m_tree = object::Instantiate<Monster>(eLayerType::Monster, this);
+		m_tree->SetLayerType(eLayerType::Monster);
+		m_tree->SetName(L"tree");
+		M_DefaultTr(m_tree, Vector3(2.0f, 2.0f, 0.0f), Vector3(2.0f, 2.0f, 1.0f));
+		CreateCollider(m_tree, eColliderType::Rect, Vector2(0.7f, 0.9f));
+		CreateSpriteRenderer(m_tree, L"TreeMaterial");
+		Animator* treeAnimator = m_tree->AddComponent<Animator>();
+		std::shared_ptr<Texture> treeTexture = Resources::Find<Texture>(L"TreeSprite");
+		treeAnimator->Create(L"Tree_Idle", treeTexture, Vector2(0.0f, 0.0f), Vector2(110.0f, 160.0f), Vector2::Zero, 3, 0.5f);
+		treeAnimator->Play(L"Tree_Idle", true);
+	}
+	void PlayScene::CreateEyeMonster()
+	{
+		Monster* eyeMonster = object::Instantiate<Monster>(eLayerType::Monster, this);
+		eyeMonster->SetLayerType(eLayerType::Monster);
+		eyeMonster->SetName(L"EyeMonster");
+		M_DefaultTr(eyeMonster, Vector3(2.0f, -2.0f, 0.0f), Vector3(3.0f, 3.0f, 1.0f));
+		CreateCollider(eyeMonster, eColliderType::Rect, Vector2(0.3f, 0.3f));
+		CreateSpriteRenderer(eyeMonster, L"EyeMonsterMaterial");
+		Animator* m_EyeAnimator = eyeMonster->AddComponent<Animator>();
+		std::shared_ptr<Texture> m_EyeTexture = Resources::Find<Texture>(L"EyeMonsterSprite");
+		m_EyeAnimator->Create(L"EyeMonsterAnimation", m_EyeTexture, Vector2(0.0f, 0.0f), Vector2(40.0f, 40.0f), Vector2::Zero, 3, 0.2f);
+		m_EyeAnimator->Play(L"EyeMonsterAnimation", true);
+		eyeMonster->AddComponent<MonsterScript>(10);
+	}
+	void PlayScene::CreateBommerMonster()
+	{
+		Monster* mBoomer = object::Instantiate<Monster>(eLayerType::Monster, this);
+		mBoomer->SetLayerType(eLayerType::Monster);
+		mBoomer->SetName(L"BigBoomer");
+		M_DefaultTr(mBoomer, Vector3(4.0f, 0.0f, 0.0f), Vector3(2.0f, 2.0f, 1.0f));
+		CreateCollider(mBoomer, eColliderType::Rect,Vector2(0.5f,0.5f));
+		CreateSpriteRenderer(mBoomer, L"BoomerMonsterMaterial");
+		Animator* boomerAnimator = mBoomer->AddComponent<Animator>();
+		std::shared_ptr<Texture> boomerTexture = Resources::Find<Texture>(L"BoomerMonsterSprite");
+		std::shared_ptr<Texture> deathTexture = Resources::Find<Texture>(L"M_DeathFX");
+		boomerAnimator->Create(L"BoomerAnimation", boomerTexture, Vector2(0.0f, 0.0f), Vector2(64.0f, 64.0f), Vector2::Zero, 4, 0.2f);
+		boomerAnimator->Create(L"BoomerDeathAnimation", deathTexture, Vector2(0.0f, 0.0f), Vector2(40.0f, 40.0f), Vector2::Zero, 4, 1.0f);
+		boomerAnimator->Play(L"BoomerAnimation", true);
+		mBoomer->AddComponent<MonsterScript>(10);
+	}
+
+	void PlayScene::CreateCollider(auto* object, eColliderType type,Vector2 size)
+	{
+		Collider2D* collider = object->AddComponent<Collider2D>();
+		collider->SetType(type);
+		collider->SetSize(size);
+	}
+
+	void PlayScene::M_DefaultTr(auto* object,Vector3 pos,Vector3 scale)
+	{
+		Transform* mboomerTr = object->GetComponent<Transform>();
+		mboomerTr->SetPosition(pos);
+		mboomerTr->SetScale(scale);
+	}
+
+	void PlayScene::CreateDeathFX()
+	{
+		GameObject* deathObj = object::Instantiate<GameObject>(eLayerType::None, this);
+		deathObj->Death();
+		Transform* deathObjTr = deathObj->GetComponent<Transform>();
+		deathObjTr->SetPosition(Vector3(0.0f, 0.0f, 0.0f));
+		deathObjTr->SetScale(Vector3(3.0f, 3.0f, 1.0f));
+		SpriteRenderer* deathRender = deathObj->AddComponent<SpriteRenderer>();
+		std::shared_ptr<Material> deathMr = Resources::Find<Material>(L"M_DeathMaterial");
+		deathRender->SetMaterial(deathMr);
+		std::shared_ptr<Mesh> deathMesh = Resources::Find<Mesh>(L"RectMesh");
+		deathRender->SetMesh(deathMesh);
+		Animator* deathAni = deathObj->AddComponent<Animator>();
+		std::shared_ptr<Texture> deathTexture = Resources::Find<Texture>(L"M_DeathFX");
+		deathAni->Create(L"BoomerAnimation", deathTexture, Vector2(0.0f, 0.0f), Vector2(40.0f, 40.0f), Vector2::Zero, 4, 0.2f);
+		deathAni->Play(L"BoomerAnimation", false);
+	}
+
+	void PlayScene::CreateSpriteRenderer(auto* object, const std::wstring& materialKey)
+	{
+		SpriteRenderer* spriteRender = object->AddComponent<SpriteRenderer>();
+		std::shared_ptr<Material> material = Resources::Find<Material>(materialKey);
+		spriteRender->SetMaterial(material);
+		std::shared_ptr<Mesh> mesh = Resources::Find<Mesh>(L"RectMesh");
+		spriteRender->SetMesh(mesh);
+	}
+
+	void PlayScene::CreateAnimator(auto* object)
+	{
+		
 	}
 }

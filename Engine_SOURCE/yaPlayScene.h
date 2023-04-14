@@ -25,6 +25,18 @@ namespace ya
 		Scene* GetScene() { return this; }
 		//std::vector<GameObject*> GetFirePos() { return firePos; }
 
+		void CreateBrainMonster();
+		void CreateTreeMonster();
+		void CreateEyeMonster();
+		void CreateBommerMonster();
+
+		void CreateCollider(auto* monster, eColliderType type,Vector2 size);
+		void CreateDeathFX();
+		void CreateSpriteRenderer(auto* object, const std::wstring& materialKey);
+		void CreateAnimator(auto* object);
+
+		void M_DefaultTr(auto* object, Vector3 pos, Vector3 scale);
+
 	private:
 		Player* player;
 		GameObject* pSceneCamera;

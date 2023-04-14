@@ -495,6 +495,7 @@ namespace ya::renderer
 		Resources::Load<Texture>(L"BackGroundTexture", L"BackGround.png");
 		Resources::Load<Texture>(L"LogoTexture", L"Logo.png");
 		Resources::Load<Texture>(L"MonsterSprite", L"BrainMonster_0.png");
+		Resources::Load<Texture>(L"BrainMonster", L"Monster\\BrainMonster.png");
 		Resources::Load<Texture>(L"TreeSprite", L"Monster\\T_TreeMonster.png");
 		Resources::Load<Texture>(L"EyeMonsterSprite", L"Monster\\EyeMonster.png");
 		Resources::Load<Texture>(L"BoomerMonsterSprite", L"Monster\\BigBoomer.png");
@@ -502,6 +503,7 @@ namespace ya::renderer
 		Resources::Load<Texture>(L"HPHeart", L"UI\\T_HeartAnimation.png");
 		Resources::Load<Texture>(L"BulletTexture", L"Bullet\\BulletEffect.png");
 		Resources::Load<Texture>(L"FireEffect", L"Bullet\\FireEffect.png");
+		Resources::Load<Texture>(L"M_DeathFX", L"Monster\\T_DeathFX.png");
 #pragma endregion
 #pragma region DYNAMIC TEXTURE
 		std::shared_ptr<Texture> uavTexture = std::make_shared<Texture>();
@@ -676,6 +678,15 @@ namespace ya::renderer
 		hpMaterial->SetTexture(eTextureSlot::T0, hpTexture);
 
 		Resources::Insert<Material>(L"HpMaterial", hpMaterial);
+
+		std::shared_ptr<Texture> m_DeathTexture = Resources::Find<Texture>(L"M_DeathFX");
+		std::shared_ptr<Shader> m_DeathShader = Resources::Find<Shader>(L"SpriteShader");
+		std::shared_ptr<Material> m_DeathMaterial = std::make_shared<Material>();
+		m_DeathMaterial->SetRenderingMode(eRenderingMode::Transparent);
+		m_DeathMaterial->SetShader(m_DeathShader);
+		m_DeathMaterial->SetTexture(eTextureSlot::T0, m_DeathTexture);
+
+		Resources::Insert<Material>(L"M_DeathMaterial", m_DeathMaterial);
 #pragma endregion
 	}
 
