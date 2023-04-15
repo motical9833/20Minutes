@@ -11,9 +11,7 @@
 #include "yaGridScript.h"
 #include "yaObject.h"
 #include "yaInput.h"
-#include "yaPlayer.h"
 #include "yaCollisionManager.h"
-#include "yaMonster.h"
 #include "yaAnimator.h"
 #include "yaWeaponScript.h"
 #include "yaPaintShader.h"
@@ -23,6 +21,7 @@
 
 namespace ya
 {
+
 	PlayScene::PlayScene()
 		: Scene(eSceneType::Play)
 		, player(nullptr)
@@ -219,6 +218,10 @@ namespace ya
 			pWeapon->GetScript<WeaponScript>()->Reset();
 			player->Life();
 			pWeapon->Life();
+			mBoomerMonsters[0]->GetScript<MonsterScript>()->Reset();
+			mBrainMonsters[0]->GetScript<MonsterScript>()->Reset();
+			mEyeMonsters[0]->GetScript<MonsterScript>()->Reset();
+
 
 			for (size_t i = 0; i < bullets.size(); i++)
 			{
@@ -262,9 +265,13 @@ namespace ya
 		CreateSpriteRenderer(m_Brain, L"MonsterMaterial");
 		Animator* mAnimator = m_Brain->AddComponent<Animator>();
 		std::shared_ptr<Texture> mTexture = Resources::Find<Texture>(L"BrainMonster");
-		mAnimator->Create(L"BrainMonster_Idle", mTexture, Vector2(0.0f, 0.0f), Vector2(64.0f, 64.0f), Vector2::Zero, 4, 0.1f);
-		mAnimator->Play(L"BrainMonster_Idle", true);
+		std::shared_ptr<Texture> deathTexture = Resources::Find<Texture>(L"M_DeathFX");
+		mAnimator->Create(L"m_Idle", mTexture, Vector2(0.0f, 0.0f), Vector2(64.0f, 64.0f), Vector2::Zero, 4, 0.1f);
+		mAnimator->Create(L"DeathAnimation", deathTexture, Vector2(0.0f, 0.0f), Vector2(40.0f, 40.0f), Vector2::Zero, 4, 0.1f);
+		mAnimator->Play(L"m_Idle", true);
 		m_Brain->AddComponent<MonsterScript>(10);
+		mBrainMonsters.push_back(m_Brain);
+
 	}
 	void PlayScene::CreateTreeMonster()
 	{
@@ -276,8 +283,10 @@ namespace ya
 		CreateSpriteRenderer(m_tree, L"TreeMaterial");
 		Animator* treeAnimator = m_tree->AddComponent<Animator>();
 		std::shared_ptr<Texture> treeTexture = Resources::Find<Texture>(L"TreeSprite");
-		treeAnimator->Create(L"Tree_Idle", treeTexture, Vector2(0.0f, 0.0f), Vector2(110.0f, 160.0f), Vector2::Zero, 3, 0.5f);
-		treeAnimator->Play(L"Tree_Idle", true);
+		std::shared_ptr<Texture> deathTexture = Resources::Find<Texture>(L"M_DeathFX");
+		treeAnimator->Create(L"m_Idle", treeTexture, Vector2(0.0f, 0.0f), Vector2(110.0f, 160.0f), Vector2::Zero, 3, 0.5f);
+		treeAnimator->Play(L"m_Idle", true);
+		mTreeMonsters.push_back(m_tree);
 	}
 	void PlayScene::CreateEyeMonster()
 	{
@@ -289,9 +298,12 @@ namespace ya
 		CreateSpriteRenderer(eyeMonster, L"EyeMonsterMaterial");
 		Animator* m_EyeAnimator = eyeMonster->AddComponent<Animator>();
 		std::shared_ptr<Texture> m_EyeTexture = Resources::Find<Texture>(L"EyeMonsterSprite");
-		m_EyeAnimator->Create(L"EyeMonsterAnimation", m_EyeTexture, Vector2(0.0f, 0.0f), Vector2(40.0f, 40.0f), Vector2::Zero, 3, 0.2f);
-		m_EyeAnimator->Play(L"EyeMonsterAnimation", true);
+		std::shared_ptr<Texture> deathTexture = Resources::Find<Texture>(L"M_DeathFX");
+		m_EyeAnimator->Create(L"m_Idle", m_EyeTexture, Vector2(0.0f, 0.0f), Vector2(40.0f, 40.0f), Vector2::Zero, 3, 0.2f);
+		m_EyeAnimator->Create(L"DeathAnimation", deathTexture, Vector2(0.0f, 0.0f), Vector2(40.0f, 40.0f), Vector2::Zero, 4, 0.1f);
+		m_EyeAnimator->Play(L"m_Idle", true);
 		eyeMonster->AddComponent<MonsterScript>(10);
+		mEyeMonsters.push_back(eyeMonster);
 	}
 	void PlayScene::CreateBommerMonster()
 	{
@@ -304,10 +316,11 @@ namespace ya
 		Animator* boomerAnimator = mBoomer->AddComponent<Animator>();
 		std::shared_ptr<Texture> boomerTexture = Resources::Find<Texture>(L"BoomerMonsterSprite");
 		std::shared_ptr<Texture> deathTexture = Resources::Find<Texture>(L"M_DeathFX");
-		boomerAnimator->Create(L"BoomerAnimation", boomerTexture, Vector2(0.0f, 0.0f), Vector2(64.0f, 64.0f), Vector2::Zero, 4, 0.2f);
-		boomerAnimator->Create(L"BoomerDeathAnimation", deathTexture, Vector2(0.0f, 0.0f), Vector2(40.0f, 40.0f), Vector2::Zero, 4, 1.0f);
-		boomerAnimator->Play(L"BoomerAnimation", true);
+		boomerAnimator->Create(L"m_Idle", boomerTexture, Vector2(0.0f, 0.0f), Vector2(64.0f, 64.0f), Vector2::Zero, 4, 0.2f);
+		boomerAnimator->Create(L"DeathAnimation", deathTexture, Vector2(0.0f, 0.0f), Vector2(40.0f, 40.0f), Vector2::Zero, 4, 0.1f);
+		boomerAnimator->Play(L"m_Idle", true);
 		mBoomer->AddComponent<MonsterScript>(10);
+		mBoomerMonsters.push_back(mBoomer);
 	}
 
 	void PlayScene::CreateCollider(auto* object, eColliderType type,Vector2 size)
@@ -338,8 +351,8 @@ namespace ya
 		deathRender->SetMesh(deathMesh);
 		Animator* deathAni = deathObj->AddComponent<Animator>();
 		std::shared_ptr<Texture> deathTexture = Resources::Find<Texture>(L"M_DeathFX");
-		deathAni->Create(L"BoomerAnimation", deathTexture, Vector2(0.0f, 0.0f), Vector2(40.0f, 40.0f), Vector2::Zero, 4, 0.2f);
-		deathAni->Play(L"BoomerAnimation", false);
+		deathAni->Create(L"m_Idle", deathTexture, Vector2(0.0f, 0.0f), Vector2(40.0f, 40.0f), Vector2::Zero, 4, 0.2f);
+		deathAni->Play(L"m_Idle", false);
 	}
 
 	void PlayScene::CreateSpriteRenderer(auto* object, const std::wstring& materialKey)

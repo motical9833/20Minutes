@@ -23,11 +23,14 @@ namespace ya
 		void Start();
 		void Action();
 		void End();
-		void HitBullet(int damage);
+		void TakeDamage(int damage);
+		void Reset();
 
 	private:
-		int mHp;
+		int mCurrentHp;
+		int mMaxHp;
 		float mSpeed;
 
+		Vector2 mColliderSize;
 	};
 }

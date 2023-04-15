@@ -27,6 +27,7 @@ namespace ya
 		void SetSize(Vector2 size) { mSize = size; }
 		void SetCenter(Vector2 center) { mCenter = center; }
 		void SetRadius(float radius) { mRadius = radius; }
+		void SetScriptOff(bool mbool) { mScriptOff = mbool; }
 		bool IsTriiger() { return mbTrigger; }
 		UINT GetID() { return mID; }
 		Vector3 GetPosition() { return mPosition; }
@@ -43,5 +44,6 @@ namespace ya
 		Vector3 mPosition;
 		float mRadius;
 		bool mbTrigger;
+		bool mScriptOff;
 	};
 }

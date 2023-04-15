@@ -80,7 +80,7 @@ namespace ya
 	}
 	void BulletScript::OnCollisionEnter(Collider2D* collider)
 	{
-		if (collider->GetOwner()->GetLayerType() == eLayerType::Monster)
+		if (collider->GetOwner()->GetLayerType() == eLayerType::Monster && collider->GetOwner()->GetState() == (UINT)GameObject::eState::Active)
 		{
 			Animator* animator = GetOwner()->GetComponent<Animator>();
 			animator->Play(L"BulletAni",false);

@@ -15,6 +15,7 @@ namespace ya
 		, mbTrigger(false)
 		, mID(0)
 		, mRadius(0.0f)
+		, mScriptOff(false)
 	{
 		mID = ColliderNumber++;
 	}
@@ -37,6 +38,9 @@ namespace ya
 
 	void Collider2D::FixedUpdate()
 	{
+		if (mScriptOff)
+			return;
+
 		Vector3 scale = mTransform->GetScale();
 		scale *= Vector3(mSize.x, mSize.y, 1.0f);
 
@@ -73,6 +77,9 @@ namespace ya
 
 	void Collider2D::OnCollisionEnter(Collider2D* collider)
 	{
+		if (mScriptOff)
+			return;
+
 		const std::vector<Script*>& scripts = GetOwner()->GetScripts();
 		for (Script* script : scripts)
 		{
@@ -82,6 +89,9 @@ namespace ya
 
 	void Collider2D::OnCollisionStay(Collider2D* collider)
 	{
+		if (mScriptOff)
+			return;
+
 		const std::vector<Script*>& scripts = GetOwner()->GetScripts();
 		for (Script* script : scripts)
 		{
@@ -91,6 +101,9 @@ namespace ya
 
 	void Collider2D::OnCollisionExit(Collider2D* collider)
 	{
+		if (mScriptOff)
+			return;
+
 		const std::vector<Script*>& scripts = GetOwner()->GetScripts();
 		for (Script* script : scripts)
 		{
@@ -100,6 +113,9 @@ namespace ya
 
 	void Collider2D::OnTriggerEnter(Collider2D* collider)
 	{
+		if (mScriptOff)
+			return;
+
 		const std::vector<Script*>& scripts = GetOwner()->GetScripts();
 		for (Script* script : scripts)
 		{
@@ -109,6 +125,9 @@ namespace ya
 
 	void Collider2D::OnTriggerStay(Collider2D* collider)
 	{
+		if (mScriptOff)
+			return;
+
 		const std::vector<Script*>& scripts = GetOwner()->GetScripts();
 		for (Script* script : scripts)
 		{
@@ -118,6 +137,9 @@ namespace ya
 
 	void Collider2D::OnTriggerExit(Collider2D* collider)
 	{
+		if (mScriptOff)
+			return;
+
 		const std::vector<Script*>& scripts = GetOwner()->GetScripts();
 		for (Script* script : scripts)
 		{

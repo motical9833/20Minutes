@@ -3,6 +3,7 @@
 #include "yaPlayer.h"
 #include "yaWeapon.h"
 #include "yaBullet.h"
+#include "yaMonster.h"
 
 namespace ya
 {
@@ -43,6 +44,11 @@ namespace ya
 		Weapon* pWeapon;
 		std::vector<Bullet*> bullets;
 		Bullet* bullet;
+
+		std::vector<Monster*> mBrainMonsters;		
+		std::vector<Monster*> mTreeMonsters;
+		std::vector<Monster*> mEyeMonsters;
+		std::vector<Monster*> mBoomerMonsters;
 
 		//std::vector<GameObject*> firePos;
 		std::vector<GameObject*> hpUiObj;
