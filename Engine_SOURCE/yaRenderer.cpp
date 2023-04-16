@@ -504,6 +504,7 @@ namespace ya::renderer
 		Resources::Load<Texture>(L"BulletTexture", L"Bullet\\BulletEffect.png");
 		Resources::Load<Texture>(L"FireEffect", L"Bullet\\FireEffect.png");
 		Resources::Load<Texture>(L"M_DeathFX", L"Monster\\T_DeathFX.png");
+		Resources::Load<Texture>(L"S_Thunder", L"Skill\\T_Thunder.png");
 #pragma endregion
 #pragma region DYNAMIC TEXTURE
 		std::shared_ptr<Texture> uavTexture = std::make_shared<Texture>();
@@ -687,6 +688,15 @@ namespace ya::renderer
 		m_DeathMaterial->SetTexture(eTextureSlot::T0, m_DeathTexture);
 
 		Resources::Insert<Material>(L"M_DeathMaterial", m_DeathMaterial);
+
+		std::shared_ptr<Texture> thunderTexture = Resources::Find<Texture>(L"S_Thunder");
+		std::shared_ptr<Shader> thunderShader = Resources::Find<Shader>(L"SpriteShader");
+		std::shared_ptr<Material> thunderMaterial = std::make_shared<Material>();
+		thunderMaterial->SetRenderingMode(eRenderingMode::Transparent);
+		thunderMaterial->SetShader(thunderShader);
+		thunderMaterial->SetTexture(eTextureSlot::T0, thunderTexture);
+
+		Resources::Insert<Material>(L"ThunderMaterial", thunderMaterial);
 #pragma endregion
 	}
 

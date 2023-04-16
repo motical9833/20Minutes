@@ -262,6 +262,12 @@
     <ClCompile Include="yaFadeInOutScript.cpp">
       <Filter>Component\Script\Contents</Filter>
     </ClCompile>
+    <ClCompile Include="yaThunderScript.cpp">
+      <Filter>Component\Script\Contents</Filter>
+    </ClCompile>
+    <ClCompile Include="yaSkillManager.cpp">
+      <Filter>Component\Script\Contents</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CommonInclude.h">
@@ -428,6 +434,12 @@
       <Filter>Component\Script\Contents</Filter>
     </ClInclude>
     <ClInclude Include="yaFadeInOutScript.h">
+      <Filter>Component\Script\Contents</Filter>
+    </ClInclude>
+    <ClInclude Include="yaThunderScript.h">
+      <Filter>Component\Script\Contents</Filter>
+    </ClInclude>
+    <ClInclude Include="yaSkillManager.h">
       <Filter>Component\Script\Contents</Filter>
     </ClInclude>
   </ItemGroup>

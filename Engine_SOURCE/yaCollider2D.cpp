@@ -28,7 +28,6 @@ namespace ya
 	void Collider2D::Initalize()
 	{
 		mTransform = GetOwner()->GetComponent<Transform>();
-		
 	}
 
 	void Collider2D::Update()

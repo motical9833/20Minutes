@@ -5,6 +5,7 @@
 
 namespace ya
 {
+	class PlayScene;
 	class WeaponScript : public Script
 	{
 	public:
@@ -57,6 +58,7 @@ namespace ya
 		int maxBullet;
 		int currentBullet;
 		int fireBulletCnt;
+		int clickCnt;
 
 		Animator* mAnimator;
 		Transform* mTransform;
@@ -76,6 +78,7 @@ namespace ya
 		float deg;
 		float objSpeed;
 
+		PlayScene* pScene;
 		std::vector<Transform*> bullets;
 		std::vector<GameObject*> firePosObject;
 	};

@@ -7,6 +7,7 @@ namespace ya
 	class MonsterScript : public Script
 	{
 	public:
+		MonsterScript();
 		MonsterScript(int hp);
 		~MonsterScript();
 
@@ -30,6 +31,7 @@ namespace ya
 		int mCurrentHp;
 		int mMaxHp;
 		float mSpeed;
+		int mDamage;
 
 		Vector2 mColliderSize;
 	};

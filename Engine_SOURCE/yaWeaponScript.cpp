@@ -12,10 +12,11 @@ namespace ya
 		, bReloading(false)
 		, time(0.0f)
 		, reloadTime(1.0f)
-		, mTransform(nullptr)
-		, mAnimator(nullptr)
 		, maxBullet(6)
 		, currentBullet(6)
+		, clickCnt(0)
+		, mTransform(nullptr)
+		, mAnimator(nullptr)
 		, mTrans(nullptr)
 		, mMousePos{}
 		, mPos{}
@@ -38,12 +39,13 @@ namespace ya
 
 	}
 	void WeaponScript::Initalize()
-		{
+	{
 		mTransform = GetOwner()->GetComponent<Transform>();
 		mAnimator = GetOwner()->GetComponent<Animator>();
 		mTrans = GetOwner()->GetComponent<Transform>();
 		mAnimator->Stop();
 
+		pScene = dynamic_cast<PlayScene*>(SceneManager::GetPlaySCene());
 	}
 	void WeaponScript::Update()
 	{
@@ -248,7 +250,33 @@ namespace ya
 					break;
 				}
 			}
+			clickCnt++;
 			currentBullet--;
+
+
+			//for (auto i : bullets)
+			//{
+			//	BulletScript* scripts = i->GetOwner()->GetScript<BulletScript>();
+
+			//	float speed = scripts->Getspeed();
+			//	speed *= (1 + percentage / 100);
+
+			//	scripts->SetSpeed(speed);
+			//}
+
+			if (clickCnt%2 == 0)
+			{
+				for (auto i : pScene->GetThunders())
+				{
+					if (i->IsDead() == false)
+						continue;
+
+					Vector3 pos = Input::GetMousePosition();
+
+					i->GetComponent<Transform>()->SetPosition(pos);
+					i->Life();
+				}
+			}
 		}
 	}
 	void WeaponScript::WeaponRotate()

@@ -5,13 +5,15 @@
 #include "yaTime.h"
 #include "yaAnimator.h"
 #include "yaResources.h"
+#include "yaPlayScene.h"
 
 namespace ya
 {
 	PlayerScript::PlayerScript()
 		: Script()
 		, bMove(false)
-		, mHp(3)
+		, mCurrentHP(0)
+		, mMaxHP(3)
 		, bHitImmune(false)
 		,immuneTime(0.0f)
 	{
@@ -58,14 +60,14 @@ namespace ya
 	{
 		if (collider->GetOwner()->GetLayerType() == eLayerType::Monster)
 		{
-			if (bHitImmune)
-				return;
+			//if (bHitImmune)
+			//	return;
 
-			mHp--;
-			bHitImmune = true;
+			//mCurrentHP--;
+			//bHitImmune = true;
 
-			if (mHp <= 0)
-				this->GetOwner()->Death();
+			//if (mCurrentHP <= 0)
+			//	this->GetOwner()->Death();
 		}
 	}
 
@@ -160,6 +162,17 @@ namespace ya
 	}
 	void PlayerScript::Reset()
 	{
+		SetCurrentHP();
+	}
+	void PlayerScript::TakeDamage(int damage)
+	{
+		if (bHitImmune)
+			return;
 
+		mCurrentHP -= damage;
+		bHitImmune = true;
+
+		if (mCurrentHP <= 0)
+			this->GetOwner()->Death();
 	}
 }

@@ -24,7 +24,9 @@ namespace ya
 		Player* GetPlayer() { return player; }
 		Weapon* GetWeapon() { return pWeapon; }
 		Scene* GetScene() { return this; }
-		//std::vector<GameObject*> GetFirePos() { return firePos; }
+		std::vector<Bullet*> GetBullet() { return bullets; }
+		std::vector<GameObject*> GetThunders() { return thunders; }
+
 
 		void CreateBrainMonster();
 		void CreateTreeMonster();
@@ -43,6 +45,7 @@ namespace ya
 		GameObject* pSceneCamera;
 		Weapon* pWeapon;
 		std::vector<Bullet*> bullets;
+		std::vector<GameObject*> thunders;
 		Bullet* bullet;
 
 		std::vector<Monster*> mBrainMonsters;		

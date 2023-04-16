@@ -8,17 +8,22 @@
 #include "yaTransform.h"
 #include "yaInput.h"
 #include "yaAnimator.h"
+#include "yaMonsterScript.h"
+
+
 namespace ya
 {
 	BulletScript::BulletScript()
 		:mSpeed(10.0f)
 		, time(0.0f)
 		, crashTime(0.0f)
+		, mDamage(10)
 		,direction{}
 		,mTr(nullptr)
 		,mWeapon(nullptr)
 		,playScene(nullptr)
 		,bCrash(false)
+		,bThunder(false)
 	{
 
 	}
@@ -85,6 +90,8 @@ namespace ya
 			Animator* animator = GetOwner()->GetComponent<Animator>();
 			animator->Play(L"BulletAni",false);
 			animator->Start();
+
+			collider->GetOwner()->GetScript<MonsterScript>()->TakeDamage(mDamage);
 		}
 	}
 	void BulletScript::OnCollisionStay(Collider2D* collider)
@@ -106,6 +113,11 @@ namespace ya
 	void BulletScript::End()
 	{
 		bCrash = true;
+
+		if (bThunder)
+		{
+
+		}
 	}
 	void BulletScript::Reset()
 	{

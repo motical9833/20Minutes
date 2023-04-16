@@ -34,7 +34,9 @@ namespace ya
 		float mSpeed;
 		float time;
 		float crashTime;
+		int mDamage;
 		Vector3 direction;
+
 
 
 		Transform* mTr;
@@ -42,5 +44,6 @@ namespace ya
 		Weapon* mWeapon;
 
 		bool bCrash;
+		bool bThunder;
 	};
 }

@@ -1,13 +1,24 @@
 #include "yaMonsterScript.h"
 #include "yaGameObject.h"
 #include "yaAnimator.h"
+#include "yaPlayerScript.h"
 
 namespace ya
 {
+	MonsterScript::MonsterScript()
+		:mCurrentHp(NULL)
+		, mMaxHp(NULL)
+		, mSpeed(NULL)
+		, mDamage(1)
+		, mColliderSize{}
+	{
+
+	}
 	MonsterScript::MonsterScript(int hp)
 		:mCurrentHp(hp)
 		,mMaxHp(hp)
 		,mSpeed(5)
+		,mDamage(1)
 		,mColliderSize{}
 	{
 	}
@@ -16,10 +27,11 @@ namespace ya
 	}
 	void MonsterScript::Initalize()
 	{
+		if (mMaxHp == NULL)
+			return;
+
 		Animator* animator = GetOwner()->GetComponent<Animator>();
-
 		animator->GetCompleteEvent(L"DeathAnimation") = std::bind(&MonsterScript::End, this);
-
 		mColliderSize = GetOwner()->GetComponent<Collider2D>()->GetSize();
 	}
 	void MonsterScript::Update()
@@ -30,24 +42,18 @@ namespace ya
 	}
 	void MonsterScript::OnCollisionEnter(Collider2D* collider)
 	{
-		if (collider->GetOwner()->GetLayerType() == eLayerType::Bullet)
+		if (collider->GetOwner()->GetLayerType() == eLayerType::Player)
 		{
-			mCurrentHp--;
-
-			if (mCurrentHp <= 0)
-			{
-				Animator* ani = GetOwner()->GetComponent<Animator>();
-				this->GetOwner()->GetComponent<Collider2D>()->SetScriptOff(true);
-				this->GetOwner()->SetLayerType(eLayerType::None);
-				ani->Play(L"DeathAnimation", false);
-			}
+			collider->GetOwner()->GetScript<PlayerScript>()->TakeDamage(mDamage);
 		}
 	}
 	void MonsterScript::OnCollisionStay(Collider2D* collider)
 	{
+
 	}
 	void MonsterScript::OnCollisionExit(Collider2D* collider)
 	{
+
 	}
 	void MonsterScript::Start()
 	{
@@ -65,11 +71,16 @@ namespace ya
 	}
 	void MonsterScript::TakeDamage(int damage)
 	{
+		if (mCurrentHp == NULL)
+			return;
+
 		mCurrentHp -= damage;
 
 		if (mCurrentHp <= 0)
 		{
 			Animator* ani = GetOwner()->GetComponent<Animator>();
+			this->GetOwner()->GetComponent<Collider2D>()->SetScriptOff(true);
+			this->GetOwner()->SetLayerType(eLayerType::None);
 			ani->Play(L"DeathAnimation", false);
 		}
 	}

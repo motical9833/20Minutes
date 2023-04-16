@@ -1,14 +1,13 @@
 #pragma once
 #include "yaScript.h"
 
-
 namespace ya
 {
-	class PlayerScript : public Script
+	class ThunderScript : public Script
 	{
 	public:
-		PlayerScript();
-		~PlayerScript();
+		ThunderScript();
+		~ThunderScript();
 
 		virtual void Initalize() override;
 		virtual void Update() override;
@@ -24,16 +23,8 @@ namespace ya
 		void Action();
 		void End();
 		void Reset();
-		
-		void TakeDamage(int damage);
-		void SetMaxHP(int value) { mMaxHP = value; }
-		void SetCurrentHP() { mCurrentHP = mMaxHP; }
-
 	private:
-		float immuneTime;
-		bool bMove;
-		bool bHitImmune;
-		int mCurrentHP;
-		int mMaxHP;
+
+		int mDamage;
 	};
 }

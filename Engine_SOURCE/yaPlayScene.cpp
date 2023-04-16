@@ -18,6 +18,7 @@
 #include "yaParticleSystem.h"
 #include "yaBulletScript.h"
 #include "yaMonsterScript.h"
+#include "yaThunderScript.h"
 
 namespace ya
 {
@@ -93,6 +94,7 @@ namespace ya
 
 		{
 			player = object::Instantiate<Player>(eLayerType::Player, this);
+			player->SetLayerType(eLayerType::Player);
 			player->SetName(L"Player");
 			Transform* pTr = player->GetComponent<Transform>();
 			pTr->SetPosition(Vector3(-3.0f, 0.0f, 0.0f));
@@ -113,6 +115,8 @@ namespace ya
 			mainCameraTr->SetParent(pTr);
 			mainCameraTr->SetPosition(pTr->GetPosition() + Vector3(0.0f,0.0f,-10.0f));
 			player->AddComponent<PlayerScript>();
+			player->GetScript<PlayerScript>()->Reset(); 
+
 
 			pWeapon = object::Instantiate<Weapon>(eLayerType::Player, this);
 			pWeapon->SetName(L"pWeapon");
@@ -166,6 +170,30 @@ namespace ya
 				bulletAnimator->Stop();
 				bullets[i]->AddComponent<BulletScript>();
 				pWeapon->GetScript<WeaponScript>()->SetBullets(bullets[i]->GetComponent<Transform>());
+			}
+
+			for (size_t i = 0; i < 20; i++)
+			{
+				GameObject* thunderObject = object::Instantiate<GameObject>(eLayerType::Bullet, this);
+				thunders.push_back(thunderObject);
+				thunders[i]->SetLayerType(eLayerType::Bullet);
+				thunders[i]->GetComponent<Transform>()->SetScale(Vector3(1.0f, 5.0f, 1.0f));
+				thunders[i]->GetComponent<Transform>()->SetPosition(Vector3::Zero);
+				Collider2D* thunderCollider = thunders[i]->AddComponent<Collider2D>();
+				thunderCollider->SetType(eColliderType::Rect);
+				thunderCollider->SetSize(Vector2(1.0f,0.2f));
+				thunderCollider->SetCenter(Vector2(0.0f, -2.0f));
+				SpriteRenderer* render = thunders[i]->AddComponent<SpriteRenderer>();
+				std::shared_ptr<Material> thunderMaterial = Resources::Find<Material>(L"ThunderMaterial");
+				render->SetMaterial(thunderMaterial);
+				std::shared_ptr<Mesh> thunderMesh = Resources::Find<Mesh>(L"RectMesh");
+				render->SetMesh(thunderMesh);
+				Animator* thunderAnimator = thunders[i]->AddComponent<Animator>();
+				std::shared_ptr<Texture>thunderTexture = Resources::Find<Texture>(L"S_Thunder");
+				thunderAnimator->Create(L"ThunderAni", thunderTexture, Vector2::Zero, Vector2(32.0f, 450.0f), Vector2::Zero, 8, 0.05f);
+				thunderAnimator->Play(L"ThunderAni", false);
+				thunders[i]->AddComponent<ThunderScript>();
+				thunders[i]->Death();
 			}
 		}
 
@@ -269,7 +297,7 @@ namespace ya
 		mAnimator->Create(L"m_Idle", mTexture, Vector2(0.0f, 0.0f), Vector2(64.0f, 64.0f), Vector2::Zero, 4, 0.1f);
 		mAnimator->Create(L"DeathAnimation", deathTexture, Vector2(0.0f, 0.0f), Vector2(40.0f, 40.0f), Vector2::Zero, 4, 0.1f);
 		mAnimator->Play(L"m_Idle", true);
-		m_Brain->AddComponent<MonsterScript>(10);
+		m_Brain->AddComponent<MonsterScript>(50);
 		mBrainMonsters.push_back(m_Brain);
 
 	}
@@ -286,6 +314,7 @@ namespace ya
 		std::shared_ptr<Texture> deathTexture = Resources::Find<Texture>(L"M_DeathFX");
 		treeAnimator->Create(L"m_Idle", treeTexture, Vector2(0.0f, 0.0f), Vector2(110.0f, 160.0f), Vector2::Zero, 3, 0.5f);
 		treeAnimator->Play(L"m_Idle", true);
+		m_tree->AddComponent<MonsterScript>();
 		mTreeMonsters.push_back(m_tree);
 	}
 	void PlayScene::CreateEyeMonster()
@@ -302,7 +331,7 @@ namespace ya
 		m_EyeAnimator->Create(L"m_Idle", m_EyeTexture, Vector2(0.0f, 0.0f), Vector2(40.0f, 40.0f), Vector2::Zero, 3, 0.2f);
 		m_EyeAnimator->Create(L"DeathAnimation", deathTexture, Vector2(0.0f, 0.0f), Vector2(40.0f, 40.0f), Vector2::Zero, 4, 0.1f);
 		m_EyeAnimator->Play(L"m_Idle", true);
-		eyeMonster->AddComponent<MonsterScript>(10);
+		eyeMonster->AddComponent<MonsterScript>(50);
 		mEyeMonsters.push_back(eyeMonster);
 	}
 	void PlayScene::CreateBommerMonster()
@@ -319,7 +348,7 @@ namespace ya
 		boomerAnimator->Create(L"m_Idle", boomerTexture, Vector2(0.0f, 0.0f), Vector2(64.0f, 64.0f), Vector2::Zero, 4, 0.2f);
 		boomerAnimator->Create(L"DeathAnimation", deathTexture, Vector2(0.0f, 0.0f), Vector2(40.0f, 40.0f), Vector2::Zero, 4, 0.1f);
 		boomerAnimator->Play(L"m_Idle", true);
-		mBoomer->AddComponent<MonsterScript>(10);
+		mBoomer->AddComponent<MonsterScript>(50);
 		mBoomerMonsters.push_back(mBoomer);
 	}
 
