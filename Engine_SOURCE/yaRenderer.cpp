@@ -525,188 +525,64 @@ namespace ya::renderer
 	void LoadMaterial()
 	{
 #pragma region DEFAULT MATERIAL
-		std::shared_ptr <Texture> texture = Resources::Find<Texture>(L"PaintTexture");
-		std::shared_ptr<Shader> shader = Resources::Find<Shader>(L"RectShader");
-		std::shared_ptr<Material> material = std::make_shared<Material>();
-		material->SetShader(shader);
-		material->SetTexture(eTextureSlot::T0, texture);
-		Resources::Insert<Material>(L"RectMaterial", material);
+		CreateMaterial(L"PaintTexture", L"RectShader", eRenderingMode::Transparent, L"RectMaterial");
 #pragma endregion
 #pragma region SPRITE MATERIAL
-		std::shared_ptr <Texture> spriteTexture = Resources::Find<Texture>(L"DefaultSprite");
-		std::shared_ptr<Shader> spriteShader = Resources::Find<Shader>(L"SpriteShader");
-		std::shared_ptr<Material> spriteMaterial = std::make_shared<Material>();
-		spriteMaterial->SetRenderingMode(eRenderingMode::Transparent);
-		spriteMaterial->SetShader(spriteShader);
-		spriteMaterial->SetTexture(eTextureSlot::T0, spriteTexture);
-		Resources::Insert<Material>(L"SpriteMaterial", spriteMaterial);
+		CreateMaterial(L"DefaultSprite", L"SpriteShader", eRenderingMode::Transparent, L"SpriteMaterial");
 #pragma endregion
 #pragma region UI MATERIAL
-		std::shared_ptr <Texture> uiTexture = Resources::Find<Texture>(L"HPBarTexture");
-		std::shared_ptr<Shader> uiShader = Resources::Find<Shader>(L"UIShader");
-		std::shared_ptr<Material> uiMaterial = std::make_shared<Material>();
-		uiMaterial->SetRenderingMode(eRenderingMode::Transparent);
-		uiMaterial->SetShader(uiShader);
-		uiMaterial->SetTexture(eTextureSlot::T0, uiTexture);
-		Resources::Insert<Material>(L"UIMaterial", uiMaterial);
+		CreateMaterial(L"HPBarTexture", L"UIShader", eRenderingMode::Transparent, L"UIMaterial");
 #pragma endregion
 #pragma region GRID MATERIAL
-		std::shared_ptr<Shader> gridShader = Resources::Find<Shader>(L"GridShader");
-		std::shared_ptr<Material> gridMaterial = std::make_shared<Material>();
-		gridMaterial->SetShader(gridShader);
-		Resources::Insert<Material>(L"GridMaterial", gridMaterial);
+		CreateMaterial(L"GridShader", L"GridMaterial");
 #pragma endregion
 #pragma region DEBUG MATERIAL
-		std::shared_ptr<Shader> debugShader = Resources::Find<Shader>(L"DebugShader");
-		std::shared_ptr<Material> debugMaterial = std::make_shared<Material>();
-		debugMaterial->SetRenderingMode(eRenderingMode::Transparent);
-		debugMaterial->SetShader(debugShader);
-		Resources::Insert<Material>(L"DebugMaterial", debugMaterial);
+		CreateMaterial(L"DebugShader", eRenderingMode::Transparent, L"DebugMaterial");
 #pragma endregion
 #pragma region PARTICLE MATERIAL
-		std::shared_ptr<Shader> particleShader = Resources::Find<Shader>(L"ParticleShader");
-		std::shared_ptr<Material> particleMaterial = std::make_shared<Material>();
-		particleMaterial->SetRenderingMode(eRenderingMode::Transparent);
-		particleMaterial->SetShader(particleShader);
-		Resources::Insert<Material>(L"ParticleMaterial", particleMaterial);
+		CreateMaterial(L"ParticleShader", eRenderingMode::Transparent, L"ParticleMaterial");
 #pragma endregion
 #pragma region PLAYER MATERIAL
-		std::shared_ptr<Texture> playerTexture = Resources::Find<Texture>(L"PlayerSprite");
-		std::shared_ptr<Shader> playerShader = Resources::Find<Shader>(L"PlayerShader");
-		std::shared_ptr<Material> playerMaterial = std::make_shared<Material>();
-		playerMaterial->SetRenderingMode(eRenderingMode::Transparent);
-		playerMaterial->SetShader(playerShader);
-		playerMaterial->SetTexture(eTextureSlot::T0, playerTexture);
-
-		Resources::Insert<Material>(L"PlayerMaterial", playerMaterial);
+		CreateMaterial(L"PlayerSprite", L"PlayerShader", eRenderingMode::Transparent, L"PlayerMaterial");
 #pragma endregion
 #pragma region DEFAULT MATERIAL
-		std::shared_ptr<Texture> monsterTexture = Resources::Find<Texture>(L"MonsterSprite");
-		std::shared_ptr<Shader> monsterShader = Resources::Find<Shader>(L"MonsterShader");
-		std::shared_ptr<Material> monsterMaterial = std::make_shared<Material>();
-		monsterMaterial->SetRenderingMode(eRenderingMode::Transparent);
-		monsterMaterial->SetShader(monsterShader);
-		monsterMaterial->SetTexture(eTextureSlot::T0, monsterTexture);
-
-		Resources::Insert<Material>(L"MonsterMaterial", monsterMaterial);
+		CreateMaterial(L"MonsterSprite", L"MonsterShader", eRenderingMode::Transparent, L"MonsterMaterial");
 #pragma endregion
 #pragma region MONSTERS MATERIAL
 		// TreeMonster
-		std::shared_ptr<Texture> treeTexture = Resources::Find<Texture>(L"TreeSprite");
-		std::shared_ptr<Shader> treeShader = Resources::Find<Shader>(L"MonsterShader");
-		std::shared_ptr<Material> treeMaterial = std::make_shared<Material>();
-		treeMaterial->SetRenderingMode(eRenderingMode::Transparent);
-		treeMaterial->SetShader(treeShader);
-		treeMaterial->SetTexture(eTextureSlot::T0, treeTexture);
-
-		Resources::Insert<Material>(L"TreeMaterial", treeMaterial);
+		CreateMaterial(L"TreeSprite", L"MonsterShader", eRenderingMode::Transparent, L"TreeMaterial");
 
 		// EyeMonster
-		std::shared_ptr<Texture> m_EyeTexture = Resources::Find<Texture>(L"EyeMonsterSprite");
-		std::shared_ptr<Shader> m_EyeShader = Resources::Find<Shader>(L"MonsterShader");
-		std::shared_ptr<Material> m_EyeMaterial = std::make_shared<Material>();
-		m_EyeMaterial->SetRenderingMode(eRenderingMode::Transparent);
-		m_EyeMaterial->SetShader(m_EyeShader);
-		m_EyeMaterial->SetTexture(eTextureSlot::T0, m_EyeTexture);
-
-		Resources::Insert<Material>(L"EyeMonsterMaterial", m_EyeMaterial);
+		CreateMaterial(L"EyeMonsterSprite", L"MonsterShader", eRenderingMode::Transparent, L"EyeMonsterMaterial");
 
 		// BoomerMonster
-		std::shared_ptr<Texture> mBoomerTexture = Resources::Find<Texture>(L"BoomerMonsterSprite");
-		std::shared_ptr<Shader> mBoomerShader = Resources::Find<Shader>(L"MonsterShader");
-		std::shared_ptr<Material> mBoomerMaterial = std::make_shared<Material>();
-		mBoomerMaterial->SetRenderingMode(eRenderingMode::Transparent);
-		mBoomerMaterial->SetShader(mBoomerShader);
-		mBoomerMaterial->SetTexture(eTextureSlot::T0, mBoomerTexture);
+		CreateMaterial(L"BoomerMonsterSprite", L"MonsterShader", eRenderingMode::Transparent, L"BoomerMonsterMaterial");
 
-		Resources::Insert<Material>(L"BoomerMonsterMaterial", mBoomerMaterial);
 #pragma endregion
 #pragma region WEAPON MATERIAL
 		// Revolver
-		std::shared_ptr<Texture> revolverTexture = Resources::Find<Texture>(L"W_RevolverSprite");
-		std::shared_ptr<Shader> weaponShader = Resources::Find<Shader>(L"WeaponShader");
-		std::shared_ptr<Material> revolverMaterial = std::make_shared<Material>();
-		revolverMaterial->SetRenderingMode(eRenderingMode::Transparent);
-		revolverMaterial->SetShader(weaponShader);
-		revolverMaterial->SetTexture(eTextureSlot::T0, revolverTexture);
-
-		Resources::Insert<Material>(L"RevolverMaterial", revolverMaterial);
-
+		CreateMaterial(L"W_RevolverSprite", L"SpriteShader", eRenderingMode::Transparent, L"RevolverMaterial");
 		// Bullet
-		std::shared_ptr<Texture> bulletTexture = Resources::Find<Texture>(L"BulletTexture");
-		std::shared_ptr<Shader> bulletShader = Resources::Find<Shader>(L"BulletShader");
-		std::shared_ptr<Material> bulletMaterial = std::make_shared<Material>();
-		bulletMaterial->SetRenderingMode(eRenderingMode::Transparent);
-		bulletMaterial->SetShader(bulletShader);
-		bulletMaterial->SetTexture(eTextureSlot::T0, bulletTexture);
-
-		Resources::Insert<Material>(L"BulletMaterial", bulletMaterial);
+		CreateMaterial(L"BulletTexture", L"SpriteShader", eRenderingMode::Transparent, L"BulletMaterial");
 #pragma endregion
 #pragma region UI MATERIAL
-		std::shared_ptr<Texture> titleLevesLeft = Resources::Find<Texture>(L"TitleLevesLeftSprite");
-		std::shared_ptr<Shader> levesShder_L = Resources::Find<Shader>(L"SpriteShader");
-		std::shared_ptr<Material> leavsLeftMat = std::make_shared<Material>();
-		leavsLeftMat->SetRenderingMode(eRenderingMode::Transparent);
-		leavsLeftMat->SetShader(levesShder_L);
-		leavsLeftMat->SetTexture(eTextureSlot::T0, titleLevesLeft);
+		CreateMaterial(L"TitleLevesLeftSprite", L"SpriteShader", eRenderingMode::Transparent, L"leavsLeftMaterial");
 
-		Resources::Insert<Material>(L"leavsLeftMaterial", leavsLeftMat);
+		CreateMaterial(L"TitleLevesRightSprite", L"SpriteShader", eRenderingMode::Transparent, L"leavsRightMaterial");
 
-		std::shared_ptr<Texture> titleLevesright = Resources::Find<Texture>(L"TitleLevesRightSprite");
-		std::shared_ptr<Shader> levesShder_R = Resources::Find<Shader>(L"SpriteShader");
-		std::shared_ptr<Material> leavsRightMat = std::make_shared<Material>();
-		leavsRightMat->SetRenderingMode(eRenderingMode::Transparent);
-		leavsRightMat->SetShader(levesShder_R);
-		leavsRightMat->SetTexture(eTextureSlot::T0, titleLevesright);
+		CreateMaterial(L"BackGroundTexture", L"SpriteShader", eRenderingMode::Transparent, L"backgroundMaterial");
 
-		Resources::Insert<Material>(L"leavsRightMaterial", leavsRightMat);
+		CreateMaterial(L"LogoTexture", L"SpriteShader", eRenderingMode::Transparent, L"LogoMaterial");
+#pragma endregion
+#pragma region PlayerUI
+		CreateMaterial(L"HPHeart", L"SpriteShader", eRenderingMode::Transparent, L"HpMaterial");
+#pragma endregion
+#pragma region EFFECT MATERIAL
+		CreateMaterial(L"M_DeathFX", L"SpriteShader", eRenderingMode::Transparent, L"M_DeathMaterial");
 
-		std::shared_ptr<Texture> backgroundTex = Resources::Find<Texture>(L"BackGroundTexture");
-		std::shared_ptr<Shader> backgroundShader = Resources::Find<Shader>(L"SpriteShader");
-		std::shared_ptr<Material> backgroundMat = std::make_shared<Material>();
-		backgroundMat->SetRenderingMode(eRenderingMode::Transparent);
-		backgroundMat->SetShader(backgroundShader);
-		backgroundMat->SetTexture(eTextureSlot::T0, backgroundTex);
+		CreateMaterial(L"S_Thunder", L"SpriteShader", eRenderingMode::Transparent, L"ThunderMaterial");
 
-		Resources::Insert<Material>(L"backgroundMaterial", backgroundMat);
-
-		std::shared_ptr<Texture> logoTexture = Resources::Find<Texture>(L"LogoTexture");
-		std::shared_ptr<Shader> logoShader = Resources::Find<Shader>(L"SpriteShader");
-		std::shared_ptr<Material> logoMaterial = std::make_shared<Material>();
-		logoMaterial->SetRenderingMode(eRenderingMode::Transparent);
-		logoMaterial->SetShader(logoShader);
-		logoMaterial->SetTexture(eTextureSlot::T0, logoTexture);
-
-		Resources::Insert<Material>(L"LogoMaterial", logoMaterial);
-
-		std::shared_ptr<Texture> hpTexture = Resources::Find<Texture>(L"HPHeart");
-		std::shared_ptr<Shader> hpShader = Resources::Find<Shader>(L"SpriteShader");
-		std::shared_ptr<Material> hpMaterial = std::make_shared<Material>();
-		hpMaterial->SetRenderingMode(eRenderingMode::Transparent);
-		hpMaterial->SetShader(hpShader);
-		hpMaterial->SetTexture(eTextureSlot::T0, hpTexture);
-
-		Resources::Insert<Material>(L"HpMaterial", hpMaterial);
-
-		std::shared_ptr<Texture> m_DeathTexture = Resources::Find<Texture>(L"M_DeathFX");
-		std::shared_ptr<Shader> m_DeathShader = Resources::Find<Shader>(L"SpriteShader");
-		std::shared_ptr<Material> m_DeathMaterial = std::make_shared<Material>();
-		m_DeathMaterial->SetRenderingMode(eRenderingMode::Transparent);
-		m_DeathMaterial->SetShader(m_DeathShader);
-		m_DeathMaterial->SetTexture(eTextureSlot::T0, m_DeathTexture);
-
-		Resources::Insert<Material>(L"M_DeathMaterial", m_DeathMaterial);
-
-		std::shared_ptr<Texture> thunderTexture = Resources::Find<Texture>(L"S_Thunder");
-		std::shared_ptr<Shader> thunderShader = Resources::Find<Shader>(L"SpriteShader");
-		std::shared_ptr<Material> thunderMaterial = std::make_shared<Material>();
-		thunderMaterial->SetRenderingMode(eRenderingMode::Transparent);
-		thunderMaterial->SetShader(thunderShader);
-		thunderMaterial->SetTexture(eTextureSlot::T0, thunderTexture);
-
-		Resources::Insert<Material>(L"ThunderMaterial", thunderMaterial);
-
-		std::shared_ptr<Texture> pulseTexture = Resources::Find<Texture>(L"S_Pulse");
+		CreateMaterial(L"S_Pulse", L"SpriteShader", eRenderingMode::Transparent, L"PulseMaterial");
 
 #pragma endregion
 	}
@@ -731,6 +607,36 @@ namespace ya::renderer
 
 		delete lightsBuffer;
 		lightsBuffer = nullptr;
+	}
+
+	void CreateMaterial(const std::wstring& textureKey, const std::wstring& keyName)
+	{
+		std::shared_ptr<Shader> shader = Resources::Find<Shader>(textureKey);
+		std::shared_ptr<Material> material = std::make_shared<Material>();
+		material->SetShader(shader);
+		Resources::Insert<Material>(keyName, material);
+	}
+
+	void CreateMaterial(const std::wstring& shaderKey, eRenderingMode eRenderMode, const std::wstring& keyName)
+	{
+		std::shared_ptr<Shader> shader = Resources::Find<Shader>(shaderKey);
+		std::shared_ptr<Material> material = std::make_shared<Material>();
+		material->SetRenderingMode(eRenderingMode::Transparent);
+		material->SetShader(shader);
+		Resources::Insert<Material>(keyName, material);
+
+	}
+
+	void CreateMaterial(const std::wstring& textureKey, const std::wstring& shaderKey, eRenderingMode eRenderMode, const std::wstring& keyName)
+	{
+		std::shared_ptr<Texture> texture = Resources::Find<Texture>(textureKey);
+		std::shared_ptr<Shader> shader = Resources::Find<Shader>(shaderKey);
+		std::shared_ptr<Material> material = std::make_shared<Material>();
+		material->SetRenderingMode(eRenderMode);
+		material->SetShader(shader);
+		material->SetTexture(eTextureSlot::T0, texture);
+
+		Resources::Insert<Material>(keyName, material);
 	}
 
 	void Render()

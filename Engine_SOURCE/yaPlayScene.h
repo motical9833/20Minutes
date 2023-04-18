@@ -46,6 +46,7 @@ namespace ya
 		Player* player;
 		GameObject* pSceneCamera;
 		GameObject* skillManager;
+		GameObject* pulseObject;
 		Weapon* pWeapon;
 		std::vector<Bullet*> bullets;
 		std::vector<GameObject*> thunders;

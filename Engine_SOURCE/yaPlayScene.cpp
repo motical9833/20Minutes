@@ -172,11 +172,13 @@ namespace ya
 				pWeapon->GetScript<WeaponScript>()->SetBullets(bullets[i]->GetComponent<Transform>());
 			}
 
+
+			// SKill
 			for (size_t i = 0; i < 20; i++)
 			{
-				GameObject* thunderObject = object::Instantiate<GameObject>(eLayerType::Thunder, this);
+				GameObject* thunderObject = object::Instantiate<GameObject>(eLayerType::Skill, this);
 				thunders.push_back(thunderObject);
-				thunders[i]->SetLayerType(eLayerType::Thunder);
+				thunders[i]->SetLayerType(eLayerType::Skill);
 				thunders[i]->GetComponent<Transform>()->SetScale(Vector3(1.0f, 5.0f, 1.0f));
 				thunders[i]->GetComponent<Transform>()->SetPosition(Vector3::Zero);
 				Collider2D* thunderCollider = thunders[i]->AddComponent<Collider2D>();
@@ -195,6 +197,12 @@ namespace ya
 				thunders[i]->AddComponent<ThunderScript>();
 				thunders[i]->Death();
 			}
+
+			// 원형 콜라이더 작성 해야됨
+			pulseObject = object::Instantiate<GameObject>(eLayerType::Skill, this);
+			pulseObject->SetLayerType(eLayerType::Skill);
+
+
 		}
 
 		// Monster
@@ -236,7 +244,7 @@ namespace ya
 
 		CollisionManager::CollisionLayerCheck(eLayerType::Player, eLayerType::Monster, true);
 		CollisionManager::CollisionLayerCheck(eLayerType::Bullet, eLayerType::Monster, true);
-		CollisionManager::CollisionLayerCheck(eLayerType::Thunder, eLayerType::Monster, true);
+		CollisionManager::CollisionLayerCheck(eLayerType::Skill, eLayerType::Monster, true);
 		Scene::Initalize();
 	}
 

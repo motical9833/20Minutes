@@ -96,6 +96,9 @@ namespace ya::renderer
 	void Render();
 	void Release();
 
+	void CreateMaterial(const std::wstring& textureKey, const std::wstring& keyName);
+	void CreateMaterial(const std::wstring& textureKey, eRenderingMode eRenderMode, const std::wstring& keyName);
+	void CreateMaterial(const std::wstring& textureKey, const std::wstring& shaderKey, eRenderingMode eRenderMode, const std::wstring& keyName);
 	//Renderer
 	void PushLightAttribute(LightAttribute lightAttribute);
 	void BindLights();
