@@ -3,6 +3,7 @@
 
 namespace ya
 {
+	//class PlayScene;
 	class SkillManager : public Script
 	{
 		public:
@@ -14,7 +15,10 @@ namespace ya
 			virtual void FixedUpdate();
 			virtual void Render();
 
-	private:
 
+			void ThunderEnchant(Vector3 Enchantobject);
+
+	private:	
+		//PlayScene* pscene;
 	};
 }

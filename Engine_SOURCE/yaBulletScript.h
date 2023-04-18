@@ -30,6 +30,7 @@ namespace ya
 		void End();
 
 		void Reset();
+		void ThunderEnchantOn() { bThunder = true; };
 	private:
 		float mSpeed;
 		float time;
@@ -40,7 +41,6 @@ namespace ya
 
 
 		Transform* mTr;
-		Scene* playScene;
 		Weapon* mWeapon;
 
 		bool bCrash;

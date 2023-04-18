@@ -9,19 +9,19 @@
 #include "yaInput.h"
 #include "yaAnimator.h"
 #include "yaMonsterScript.h"
-
+#include "yaSkillManager.h"
+#include "yaPlayScene.h"
 
 namespace ya
 {
 	BulletScript::BulletScript()
 		:mSpeed(10.0f)
-		, time(0.0f)
-		, crashTime(0.0f)
-		, mDamage(10)
+		,time(0.0f)
+		,crashTime(0.0f)
+		,mDamage(10)
 		,direction{}
 		,mTr(nullptr)
 		,mWeapon(nullptr)
-		,playScene(nullptr)
 		,bCrash(false)
 		,bThunder(false)
 	{
@@ -36,7 +36,7 @@ namespace ya
 
 		mTr = GetOwner()->GetComponent<Transform>();
 
-		playScene = SceneManager::GetPlaySCene();
+		Scene* playScene = SceneManager::GetPlaySCene();
 		mWeapon = dynamic_cast<PlayScene*>(playScene)->GetWeapon();
 
 		//mTr->SetParent(mWeapon->GetComponent<Transform>());
@@ -92,6 +92,9 @@ namespace ya
 			animator->Start();
 
 			collider->GetOwner()->GetScript<MonsterScript>()->TakeDamage(mDamage);
+
+			if (bThunder)
+				SceneManager::GetPlayScene()->GetSkillManager()->GetScript<SkillManager>()->ThunderEnchant(collider->GetOwner()->GetComponent<Transform>()->GetPosition() + Vector3(0.0f,2.0f,0.0f));
 		}
 	}
 	void BulletScript::OnCollisionStay(Collider2D* collider)
@@ -128,5 +131,6 @@ namespace ya
 		mTr->SetRotation(Vector3(0.0f, 0.0f, 0.0f));
 		mTr->SetScale(Vector3(2.0f, 2.0f, 0.0f));
 		bCrash = false;
+		bThunder = false;
 	}
 }

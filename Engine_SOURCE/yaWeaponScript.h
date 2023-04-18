@@ -24,7 +24,7 @@ namespace ya
 
 		void SetBullets(Transform* bullet) { bullets.push_back(bullet); }
 		void SetFirePosObject(GameObject* object) { firePosObject.push_back(object); }
-		void BulletCnt(int count) { fireBulletCnt = count; } 
+		void BulletCnt(int count) { oneShotFire = count; } 
 
 
 		void BulletSpeedUP(float percentage);
@@ -57,8 +57,8 @@ namespace ya
 		float reloadTime;
 		int maxBullet;
 		int currentBullet;
-		int fireBulletCnt;
-		int clickCnt;
+		int oneShotFire;
+		int allFireBulletCnt;
 
 		Animator* mAnimator;
 		Transform* mTransform;

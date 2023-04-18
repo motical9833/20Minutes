@@ -40,9 +40,12 @@ namespace ya
 
 		void M_DefaultTr(auto* object, Vector3 pos, Vector3 scale);
 
+		GameObject* GetSkillManager() { return skillManager; };
+
 	private:
 		Player* player;
 		GameObject* pSceneCamera;
+		GameObject* skillManager;
 		Weapon* pWeapon;
 		std::vector<Bullet*> bullets;
 		std::vector<GameObject*> thunders;

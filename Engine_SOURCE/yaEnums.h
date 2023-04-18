@@ -17,6 +17,7 @@ namespace ya::enums
 		Monster,
 		Player,
 		Bullet,
+		Thunder,
 		Particle,
 		UI,
 		End = 16,

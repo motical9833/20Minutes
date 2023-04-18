@@ -60,6 +60,8 @@ namespace ya
 	{
 		this->GetOwner()->Death();
 		this->GetOwner()->GetComponent<Transform>()->SetPosition(Vector3::Zero);
+		Animator* animator = GetOwner()->GetComponent<Animator>();
+		animator->Play(L"ThunderAni", false);
 	}
 	void ThunderScript::Reset()
 	{

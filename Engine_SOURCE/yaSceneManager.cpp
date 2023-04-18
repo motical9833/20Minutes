@@ -78,4 +78,10 @@ namespace ya
 
 		mActiveScene->OnEnter();
 	}
+	PlayScene* SceneManager::GetPlayScene()
+	{
+		PlayScene* scene = (PlayScene*)mScenes[(UINT)eSceneType::Play];
+
+		return scene;
+	}
 }

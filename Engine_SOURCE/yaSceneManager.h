@@ -3,6 +3,7 @@
 
 namespace ya
 {
+	class PlayScene;
 	class SceneManager
 	{
 	public:
@@ -16,6 +17,7 @@ namespace ya
 		static void LoadScene(eSceneType type);
 		static Scene* GetActiveScene() { return mActiveScene; }
 		static Scene* GetPlaySCene() { return mScenes[(UINT)eSceneType::Play]; }
+		static PlayScene* GetPlayScene();
 		static Scene* GetScene(eLayerType type) { return mScenes[(UINT)type]; }
 
 	private:

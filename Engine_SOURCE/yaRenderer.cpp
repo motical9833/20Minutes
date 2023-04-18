@@ -505,6 +505,14 @@ namespace ya::renderer
 		Resources::Load<Texture>(L"FireEffect", L"Bullet\\FireEffect.png");
 		Resources::Load<Texture>(L"M_DeathFX", L"Monster\\T_DeathFX.png");
 		Resources::Load<Texture>(L"S_Thunder", L"Skill\\T_Thunder.png");
+		Resources::Load<Texture>(L"S_Gale", L"Skill\\T_Gale.png");
+		Resources::Load<Texture>(L"S_GhostPet", L"Skill\\T_GhostPet_SS.png");
+		Resources::Load<Texture>(L"S_DragonEgg", L"Skill\\T_DragonEgg.png");
+		Resources::Load<Texture>(L"S_Dragon", L"Skill\\T_DragonSS.png");
+		Resources::Load<Texture>(L"S_Shield", L"Skill\\T_Shield.png");
+		Resources::Load<Texture>(L"S_MagicLens", L"Skill\\T_MagicLens.png");
+		Resources::Load<Texture>(L"S_Curse", L"Skill\\T_CurseFX.png");
+		Resources::Load<Texture>(L"S_Freeze", L"Skill\\T_FreezeFX.png");
 #pragma endregion
 #pragma region DYNAMIC TEXTURE
 		std::shared_ptr<Texture> uavTexture = std::make_shared<Texture>();
@@ -697,6 +705,9 @@ namespace ya::renderer
 		thunderMaterial->SetTexture(eTextureSlot::T0, thunderTexture);
 
 		Resources::Insert<Material>(L"ThunderMaterial", thunderMaterial);
+
+		std::shared_ptr<Texture> pulseTexture = Resources::Find<Texture>(L"S_Pulse");
+
 #pragma endregion
 	}
 

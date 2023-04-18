@@ -4,6 +4,7 @@
 #include "yaTime.h"
 #include "yaPlayScene.h"
 #include "yaSceneManager.h"
+#include "yaSkillManager.h"
 
 namespace ya
 {
@@ -14,7 +15,7 @@ namespace ya
 		, reloadTime(1.0f)
 		, maxBullet(6)
 		, currentBullet(6)
-		, clickCnt(0)
+		, allFireBulletCnt(0)
 		, mTransform(nullptr)
 		, mAnimator(nullptr)
 		, mTrans(nullptr)
@@ -26,7 +27,7 @@ namespace ya
 		, objSpeed(1)
 		, pPos{}
 		, bullets{}
-		, fireBulletCnt(1)
+		, oneShotFire(1)
 		, fireDelayTime(0.3f)
 		, bulletPos{}
 		, bulletRot{}
@@ -173,23 +174,23 @@ namespace ya
 
 	void WeaponScript::BulletCntUP()
 	{
-		if (fireBulletCnt == 3)
+		if (oneShotFire == 3)
 			return;
-		fireBulletCnt++;
+		oneShotFire++;
 		FirePosRot();
 	}
 
 	void WeaponScript::BulletCntDown()
 	{
-		if (fireBulletCnt == 1)
+		if (oneShotFire == 1)
 			return;
-		fireBulletCnt--;
+		oneShotFire--;
 		FirePosRot();
 	}
 
 	void WeaponScript::FirePosRot()
 	{
-		switch (fireBulletCnt)
+		switch (oneShotFire)
 		{
 		case 1:
 			for (size_t i = 0; i < 1; i++)
@@ -226,6 +227,15 @@ namespace ya
 	void WeaponScript::Fire()
 	{
 
+		// 이동 변환 행렬
+		Vector3 pos = Input::GetMousePosition();
+		Matrix position;
+		position.Translation(pos);
+
+		Matrix mWorld = position;
+
+		Vector3 vla = Vector3::Transform(Vector3::Zero,mWorld);
+
 		if (time >= fireDelayTime)
 		{
 			int a = 0;
@@ -242,15 +252,20 @@ namespace ya
 				bullets[i]->SetParent(nullptr);
 				bullets[i]->GetOwner()->Life();
 				bullets[i]->GetOwner()->GetComponent<Animator>()->Stop();
+				allFireBulletCnt++;
 				a++;
 
-				if (a >= fireBulletCnt)
+				if (allFireBulletCnt % 2 == 0)
+				{
+					bullets[i]->GetOwner()->GetScript<BulletScript>()->ThunderEnchantOn();
+				}
+
+				if (a >= oneShotFire)
 				{
 					time = 0;
 					break;
 				}
 			}
-			clickCnt++;
 			currentBullet--;
 
 
@@ -264,19 +279,19 @@ namespace ya
 			//	scripts->SetSpeed(speed);
 			//}
 
-			if (clickCnt%2 == 0)
-			{
-				for (auto i : pScene->GetThunders())
-				{
-					if (i->IsDead() == false)
-						continue;
+			//if (clickCnt%2 == 0)
+			//{
+			//	for (auto i : pScene->GetThunders())
+			//	{
+			//		if (i->IsDead() == false)
+			//			continue;
 
-					Vector3 pos = Input::GetMousePosition();
+			//		Vector3 pos = Input::GetMousePosition();
 
-					i->GetComponent<Transform>()->SetPosition(pos);
-					i->Life();
-				}
-			}
+			//		i->GetComponent<Transform>()->SetPosition(pos);
+			//		i->Life();
+			//	}
+			//}
 		}
 	}
 	void WeaponScript::WeaponRotate()
@@ -308,7 +323,7 @@ namespace ya
 	void WeaponScript::Reset()
 	{
 		float speed = 10.0f;
-		fireBulletCnt = 1;
+		oneShotFire = 1;
 		fireDelayTime = 0.3f;
 		maxBullet = 6;
 		currentBullet = 6;

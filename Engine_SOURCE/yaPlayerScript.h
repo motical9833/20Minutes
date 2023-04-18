@@ -35,5 +35,7 @@ namespace ya
 		bool bHitImmune;
 		int mCurrentHP;
 		int mMaxHP;
+
+		bool mShield;
 	};
 }

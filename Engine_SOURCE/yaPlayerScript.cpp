@@ -6,6 +6,7 @@
 #include "yaAnimator.h"
 #include "yaResources.h"
 #include "yaPlayScene.h"
+#include "yaSkillManager.h"
 
 namespace ya
 {
@@ -15,7 +16,8 @@ namespace ya
 		, mCurrentHP(0)
 		, mMaxHP(3)
 		, bHitImmune(false)
-		,immuneTime(0.0f)
+		, immuneTime(0.0f)
+		, mShield(false)
 	{
 		
 	}

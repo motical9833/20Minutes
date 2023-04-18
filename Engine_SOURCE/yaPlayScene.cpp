@@ -19,7 +19,7 @@
 #include "yaBulletScript.h"
 #include "yaMonsterScript.h"
 #include "yaThunderScript.h"
-
+#include "yaSkillManager.h"
 namespace ya
 {
 
@@ -174,9 +174,9 @@ namespace ya
 
 			for (size_t i = 0; i < 20; i++)
 			{
-				GameObject* thunderObject = object::Instantiate<GameObject>(eLayerType::Bullet, this);
+				GameObject* thunderObject = object::Instantiate<GameObject>(eLayerType::Thunder, this);
 				thunders.push_back(thunderObject);
-				thunders[i]->SetLayerType(eLayerType::Bullet);
+				thunders[i]->SetLayerType(eLayerType::Thunder);
 				thunders[i]->GetComponent<Transform>()->SetScale(Vector3(1.0f, 5.0f, 1.0f));
 				thunders[i]->GetComponent<Transform>()->SetPosition(Vector3::Zero);
 				Collider2D* thunderCollider = thunders[i]->AddComponent<Collider2D>();
@@ -230,15 +230,19 @@ namespace ya
 			hpani[i]->Play(L"hpAniamtion", true);
 		}
 
+		skillManager = object::Instantiate<GameObject>(eLayerType::None, this);
+		skillManager->AddComponent<SkillManager>();
+
 
 		CollisionManager::CollisionLayerCheck(eLayerType::Player, eLayerType::Monster, true);
 		CollisionManager::CollisionLayerCheck(eLayerType::Bullet, eLayerType::Monster, true);
+		CollisionManager::CollisionLayerCheck(eLayerType::Thunder, eLayerType::Monster, true);
 		Scene::Initalize();
 	}
 
 	void PlayScene::Update()
 	{
-
+		 
 		if (Input::GetKeyDown(eKeyCode::N))
 		{
 			SceneManager::LoadScene(eSceneType::Tilte);
