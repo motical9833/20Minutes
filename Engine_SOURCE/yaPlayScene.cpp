@@ -203,6 +203,17 @@ namespace ya
 			pulseObject->SetLayerType(eLayerType::Skill);
 
 
+			for (size_t i = 0; i < 20; i++)
+			{
+				gales.push_back(CreateSkillObject(eColliderType::Rect, L"GaleMaterial"));
+				Animator* galesAnimator = gales[i]->AddComponent<Animator>();
+				std::shared_ptr<Texture> galesTexture = Resources::Find<Texture>(L"S_Gale");
+				galesAnimator->Create(L"galeAni", galesTexture, Vector2::Zero, Vector2(96.0f, 96.0f), Vector2::Zero, 3, 0.01f);
+				galesAnimator->Play(L"galeAni", true);
+				gales[i]->Death();
+			}
+			gales[0]->Life();
+
 		}
 
 		// Monster
@@ -247,6 +258,7 @@ namespace ya
 		CollisionManager::CollisionLayerCheck(eLayerType::Skill, eLayerType::Monster, true);
 		Scene::Initalize();
 	}
+
 
 	void PlayScene::Update()
 	{
@@ -371,6 +383,23 @@ namespace ya
 		collider->SetSize(size);
 	}
 
+	GameObject* PlayScene::CreateSkillObject(eColliderType type, const std::wstring& materialKey)
+	{
+		GameObject* object = object::Instantiate<GameObject>(eLayerType::Skill, this);
+		object->SetLayerType(eLayerType::Skill);
+		object->GetComponent<Transform>()->SetScale(Vector3::One);
+		object->GetComponent<Transform>()->SetPosition(Vector3::Zero);
+		Collider2D* collider = object->AddComponent<Collider2D>();
+		collider->SetType(type);
+		SpriteRenderer* render = object->AddComponent<SpriteRenderer>();
+		std::shared_ptr<Material> material = Resources::Find<Material>(materialKey);
+		render->SetMaterial(material);
+		std::shared_ptr<Mesh> mesh = Resources::Find<Mesh>(L"RectMesh");
+		render->SetMesh(mesh);
+
+		return object;
+	}
+
 	void PlayScene::M_DefaultTr(auto* object,Vector3 pos,Vector3 scale)
 	{
 		Transform* mboomerTr = object->GetComponent<Transform>();
@@ -405,8 +434,11 @@ namespace ya
 		spriteRender->SetMesh(mesh);
 	}
 
-	void PlayScene::CreateAnimator(auto* object)
-	{
-		
-	}
+	//void PlayScene::CreateAnimator(auto* object, const std::wstring& animatorKey)
+	//{
+	//	Animator* animator = object->AddComponent<Animator>();
+	//	std::shared_ptr<Texture> texture = Resources::Find<Texture>(animatorKey);
+	//	animator->Create(L"animation", thunderTexture, Vector2::Zero, Vector2(32.0f, 450.0f), Vector2::Zero, 8, 0.05f);
+	//	object->Death();
+	//}
 }

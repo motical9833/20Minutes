@@ -36,8 +36,8 @@ namespace ya
 		void CreateCollider(auto* monster, eColliderType type,Vector2 size);
 		void CreateDeathFX();
 		void CreateSpriteRenderer(auto* object, const std::wstring& materialKey);
-		void CreateAnimator(auto* object);
-
+		//void CreateAnimator(auto* object, const std::wstring& animatorKey);
+		GameObject* CreateSkillObject(eColliderType type, const std::wstring& materialKey);
 		void M_DefaultTr(auto* object, Vector3 pos, Vector3 scale);
 
 		GameObject* GetSkillManager() { return skillManager; };
@@ -50,6 +50,7 @@ namespace ya
 		Weapon* pWeapon;
 		std::vector<Bullet*> bullets;
 		std::vector<GameObject*> thunders;
+		std::vector<GameObject*> gales;
 		Bullet* bullet;
 
 		std::vector<Monster*> mBrainMonsters;		

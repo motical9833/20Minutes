@@ -16,7 +16,7 @@ namespace ya::renderer
 	Camera* mainCamera = nullptr;
 	std::vector<Camera*> cameras[(UINT)eSceneType::End];
 	std::vector<DebugMesh> debugMeshes;
-	std::vector<LightAttribute> lights;
+	std::vector<LightAttribute> lights; 
 	StructedBuffer* lightsBuffer = nullptr;
 
 
@@ -584,6 +584,7 @@ namespace ya::renderer
 
 		CreateMaterial(L"S_Pulse", L"SpriteShader", eRenderingMode::Transparent, L"PulseMaterial");
 
+		CreateMaterial(L"S_Gale", L"SpriteShader", eRenderingMode::Transparent, L"GaleMaterial");
 #pragma endregion
 	}
 
