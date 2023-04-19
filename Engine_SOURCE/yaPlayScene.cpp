@@ -20,6 +20,8 @@
 #include "yaMonsterScript.h"
 #include "yaThunderScript.h"
 #include "yaSkillManager.h"
+#include "GaleScript.h"
+
 namespace ya
 {
 
@@ -207,13 +209,13 @@ namespace ya
 			{
 				gales.push_back(CreateSkillObject(eColliderType::Rect, L"GaleMaterial"));
 				Animator* galesAnimator = gales[i]->AddComponent<Animator>();
+				gales[i]->GetComponent<Transform>()->SetScale(Vector3(2.0f, 2.0f, 1.0f));
 				std::shared_ptr<Texture> galesTexture = Resources::Find<Texture>(L"S_Gale");
 				galesAnimator->Create(L"galeAni", galesTexture, Vector2::Zero, Vector2(96.0f, 96.0f), Vector2::Zero, 3, 0.01f);
 				galesAnimator->Play(L"galeAni", true);
 				gales[i]->Death();
+				gales[i]->AddComponent<GaleScript>();
 			}
-			gales[0]->Life();
-
 		}
 
 		// Monster
@@ -273,12 +275,24 @@ namespace ya
 			mBoomerMonsters[0]->GetScript<MonsterScript>()->Reset();
 			mBrainMonsters[0]->GetScript<MonsterScript>()->Reset();
 			mEyeMonsters[0]->GetScript<MonsterScript>()->Reset();
-
+			
 
 			for (size_t i = 0; i < bullets.size(); i++)
 			{
 				bullets[i]->GetScript<BulletScript>()->Reset();
 				bullets[i]->Death();
+			}
+
+			for (size_t i = 0; i < gales.size(); i++)
+			{
+				gales[i]->GetScript<GaleScript>()->Reset();
+				gales[i]->Death();
+			}
+
+			for (size_t i = 0; i < thunders.size(); i++)
+			{
+				thunders[i]->GetScript<ThunderScript>()->Reset();
+				thunders[i]->Death();
 			}
 		}
 
@@ -433,12 +447,4 @@ namespace ya
 		std::shared_ptr<Mesh> mesh = Resources::Find<Mesh>(L"RectMesh");
 		spriteRender->SetMesh(mesh);
 	}
-
-	//void PlayScene::CreateAnimator(auto* object, const std::wstring& animatorKey)
-	//{
-	//	Animator* animator = object->AddComponent<Animator>();
-	//	std::shared_ptr<Texture> texture = Resources::Find<Texture>(animatorKey);
-	//	animator->Create(L"animation", thunderTexture, Vector2::Zero, Vector2(32.0f, 450.0f), Vector2::Zero, 8, 0.05f);
-	//	object->Death();
-	//}
 }

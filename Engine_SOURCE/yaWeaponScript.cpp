@@ -211,31 +211,26 @@ namespace ya
 				firePosObject[i]->GetComponent<Transform>()->SetRotation(Vector3(0.0f, 0.0f, -0.05f + (i * 0.05f)));
 			}
 			break;
-		     //case 4:
-			//for (size_t i = 0; i < 2; i++)
-			//{
-			//	firePosObject[i]->GetComponent<Transform>()->SetRotation(Vector3(0.0f, 0.0f, -0.5f + (i * 20)));
-			//}
-			//for (size_t j = 2; j < 4; j++)
-			//{
-			//	firePosObject[j]->GetComponent<Transform>()->SetRotation(Vector3(0.0f, 0.0f, 0.5f - (j * 20)));
-			//}
-			//break;
 		}
+	}
+
+	void WeaponScript::ReloadSkill()
+	{
+		Gale();
+	}
+
+	void WeaponScript::Gale()
+	{
+		Vector3 pos = mTransform->GetParent()->GetPosition();
+		Vector3 dir = Input::GetMousePosition() - pos;
+
+		dir.Normalize();
+
+		pScene->GetSkillManager()->GetScript<SkillManager>()->GaleFire(pos, dir);
 	}
 
 	void WeaponScript::Fire()
 	{
-
-		// 이동 변환 행렬
-		Vector3 pos = Input::GetMousePosition();
-		Matrix position;
-		position.Translation(pos);
-
-		Matrix mWorld = position;
-
-		Vector3 vla = Vector3::Transform(Vector3::Zero,mWorld);
-
 		if (time >= fireDelayTime)
 		{
 			int a = 0;
@@ -376,6 +371,7 @@ namespace ya
 
 	void WeaponScript::Reload()
 	{
+		ReloadSkill();
 		mAnimator->Play(L"Revolver");
 		mAnimator->Start();
 		bReload = false;

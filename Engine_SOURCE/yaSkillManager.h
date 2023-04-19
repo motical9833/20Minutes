@@ -17,6 +17,7 @@ namespace ya
 
 
 			void ThunderEnchant(Vector3 Enchantobject);
+			void GaleFire(Vector3 pos, Vector3 dir);
 
 	private:	
 		//PlayScene* pscene;

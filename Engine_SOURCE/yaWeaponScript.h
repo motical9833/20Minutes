@@ -38,6 +38,9 @@ namespace ya
 		void BulletCntUP();
 		void BulletCntDown();
 		void FirePosRot();
+		void ReloadSkill();
+
+		void Gale();
 
 		void Fire();
 		void WeaponRotate();
@@ -53,6 +56,7 @@ namespace ya
 
 		bool bReload;
 		bool bReloading;
+
 		float time;
 		float reloadTime;
 		int maxBullet;

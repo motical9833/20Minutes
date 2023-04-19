@@ -26,7 +26,7 @@ namespace ya
 		Scene* GetScene() { return this; }
 		std::vector<Bullet*> GetBullet() { return bullets; }
 		std::vector<GameObject*> GetThunders() { return thunders; }
-
+		std::vector<GameObject*> GetGale() { return gales; }
 
 		void CreateBrainMonster();
 		void CreateTreeMonster();
