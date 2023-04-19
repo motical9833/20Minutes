@@ -116,11 +116,6 @@ namespace ya
 	void BulletScript::End()
 	{
 		bCrash = true;
-
-		if (bThunder)
-		{
-
-		}
 	}
 	void BulletScript::Reset()
 	{

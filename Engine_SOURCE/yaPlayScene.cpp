@@ -21,7 +21,7 @@
 #include "yaThunderScript.h"
 #include "yaSkillManager.h"
 #include "GaleScript.h"
-
+#include "yaHolyShieldScript.h"
 namespace ya
 {
 
@@ -207,7 +207,7 @@ namespace ya
 
 			for (size_t i = 0; i < 20; i++)
 			{
-				gales.push_back(CreateSkillObject(eColliderType::Rect, L"GaleMaterial"));
+				gales.push_back(CreateSkillObject(eColliderType::Rect, eLayerType::Skill, L"GaleMaterial"));
 				Animator* galesAnimator = gales[i]->AddComponent<Animator>();
 				gales[i]->GetComponent<Transform>()->SetScale(Vector3(2.0f, 2.0f, 1.0f));
 				std::shared_ptr<Texture> galesTexture = Resources::Find<Texture>(L"S_Gale");
@@ -216,8 +216,41 @@ namespace ya
 				gales[i]->Death();
 				gales[i]->AddComponent<GaleScript>();
 			}
+
+			holyShield = CreateSkillObject(eColliderType::Rect,eLayerType::Skill, L"HolyShieldMaterial");
+			holyShield->GetComponent<Transform>()->SetParent(pTr);
+			Animator* shieldAnimator = holyShield->AddComponent<Animator>();
+			std::shared_ptr<Texture> ShieldIdle = Resources::Find<Texture>(L"S_HolyShieldIdle");
+			std::shared_ptr<Texture> ShieldIHit = Resources::Find<Texture>(L"S_HolyShieldIHit");
+			std::shared_ptr<Texture> shieldBreak = Resources::Find<Texture>(L"S_HolyShieldBreak");
+			shieldAnimator->Create(L"HolyShieldIdle", ShieldIdle, Vector2::Zero, Vector2(48.0f, 48.0f), Vector2::Zero, 7, 0.1f);
+			shieldAnimator->Create(L"HolyShieldIHit", ShieldIHit, Vector2::Zero, Vector2(48.0f, 48.0f), Vector2::Zero, 5, 0.1f);
+			shieldAnimator->Create(L"HolyShieldBreak", shieldBreak, Vector2::Zero, Vector2(52.0f, 52.0f), Vector2::Zero, 3, 0.1f);
+			shieldAnimator->Play(L"HolyShieldIdle", true);
+			holyShield->AddComponent<HolyShieldScript>();
 		}
 
+		for (size_t i = 0; i < 20; i++)
+		{
+			GameObject* freeze = object::Instantiate<GameObject>(eLayerType::Skill, this);
+			freeze->GetComponent<Transform>()->SetPosition(Vector3::Zero);
+			freeze->GetComponent<Transform>()->SetScale(Vector3(2.0f, 2.0f, 1.0f));
+			freeze->SetLayerType(eLayerType::Skill);
+			SpriteRenderer* FreezeRender = freeze->AddComponent<SpriteRenderer>();
+			std::shared_ptr<Material> freezeMaterial = Resources::Find<Material>(L"FreezeMaterial");
+			FreezeRender->SetMaterial(freezeMaterial);
+			std::shared_ptr<Mesh> freezeMesh = Resources::Find<Mesh>(L"RectMesh");
+			FreezeRender->SetMesh(freezeMesh);
+
+			Animator* freezeAnimator = freeze->AddComponent<Animator>();
+			std::shared_ptr<Texture> freezeTexture = Resources::Find<Texture>(L"S_Freeze");
+
+			freezeAnimator->Create(L"freezeAni", freezeTexture, Vector2::Zero, Vector2(64.0f, 64.0f), Vector2::Zero, 5, 0.1f);
+			freezeAnimator->Play(L"freezeAni",true);
+			freeze->Death();
+			freezes.push_back(freeze);
+		}
+		freezes[0]->Life();
 		// Monster
 		{
 			CreateBrainMonster();
@@ -326,7 +359,7 @@ namespace ya
 		Monster* m_Brain = object::Instantiate<Monster>(eLayerType::Monster, this);
 		m_Brain->SetLayerType(eLayerType::Monster);
 		m_Brain->SetName(L"Monster");
-		M_DefaultTr(m_Brain, Vector3(2.0f, 0.0f, 0.0f), Vector3(3.0f, 3.0f, 1.0f));
+		M_DefaultTr(m_Brain, Vector3(4.0f, 0.0f, 0.0f), Vector3::Zero);
 		CreateCollider(m_Brain, eColliderType::Rect, Vector2(0.5f, 0.5f));
 		CreateSpriteRenderer(m_Brain, L"MonsterMaterial");
 		Animator* mAnimator = m_Brain->AddComponent<Animator>();
@@ -397,12 +430,12 @@ namespace ya
 		collider->SetSize(size);
 	}
 
-	GameObject* PlayScene::CreateSkillObject(eColliderType type, const std::wstring& materialKey)
+	GameObject* PlayScene::CreateSkillObject(eColliderType type, eLayerType layertype, const std::wstring& materialKey)
 	{
 		GameObject* object = object::Instantiate<GameObject>(eLayerType::Skill, this);
 		object->SetLayerType(eLayerType::Skill);
 		object->GetComponent<Transform>()->SetScale(Vector3::One);
-		object->GetComponent<Transform>()->SetPosition(Vector3::Zero);
+		object->GetComponent<Transform>()->SetPosition(Vector3(0.0f,0.0f,0.0f));
 		Collider2D* collider = object->AddComponent<Collider2D>();
 		collider->SetType(type);
 		SpriteRenderer* render = object->AddComponent<SpriteRenderer>();

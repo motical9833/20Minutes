@@ -18,8 +18,14 @@ namespace ya
 
 			void ThunderEnchant(Vector3 Enchantobject);
 			void GaleFire(Vector3 pos, Vector3 dir);
+			void HolyShield();
+
+			void HolyShieldBreak();
 
 	private:	
-		//PlayScene* pscene;
+		bool bShieldOn;
+		bool bShield;
+
+		float shieldTime;
 	};
 }

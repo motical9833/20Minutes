@@ -27,6 +27,7 @@ namespace ya
 		std::vector<Bullet*> GetBullet() { return bullets; }
 		std::vector<GameObject*> GetThunders() { return thunders; }
 		std::vector<GameObject*> GetGale() { return gales; }
+		GameObject* GetShield() { return holyShield; }
 
 		void CreateBrainMonster();
 		void CreateTreeMonster();
@@ -37,7 +38,7 @@ namespace ya
 		void CreateDeathFX();
 		void CreateSpriteRenderer(auto* object, const std::wstring& materialKey);
 		//void CreateAnimator(auto* object, const std::wstring& animatorKey);
-		GameObject* CreateSkillObject(eColliderType type, const std::wstring& materialKey);
+		GameObject* CreateSkillObject(eColliderType type, eLayerType layertype, const std::wstring& materialKey);
 		void M_DefaultTr(auto* object, Vector3 pos, Vector3 scale);
 
 		GameObject* GetSkillManager() { return skillManager; };
@@ -51,6 +52,8 @@ namespace ya
 		std::vector<Bullet*> bullets;
 		std::vector<GameObject*> thunders;
 		std::vector<GameObject*> gales;
+		std::vector<GameObject*> freezes;
+		GameObject* holyShield;
 		Bullet* bullet;
 
 		std::vector<Monster*> mBrainMonsters;		

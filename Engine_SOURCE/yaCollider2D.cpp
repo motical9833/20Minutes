@@ -47,28 +47,60 @@ namespace ya
 		Vector3 rotation = mTransform->GetRotation();
 
 		Vector3 position = mTransform->GetPosition();
-		Vector3 colliderPos = position + Vector3(mCenter.x, mCenter.y, 0.0f);
-		mPosition = colliderPos;
 
-		Matrix scaleMatrix = Matrix::CreateScale(scale);
-		Matrix rotationMatrix;
-		rotationMatrix = Matrix::CreateRotationX(rotation.x);
-		rotationMatrix *= Matrix::CreateRotationY(rotation.y);
-		rotationMatrix *= Matrix::CreateRotationZ(rotation.z);
 
-		Matrix positionMatrix;
-		positionMatrix.Translation(Vector3(colliderPos.x, colliderPos.y, colliderPos.z));
+		if (GetOwner()->GetComponent<Transform>()->GetParent())
+		{
+			Vector3 colliderPos = position + Vector3(mCenter.x, mCenter.y, 0.0f) + GetOwner()->GetComponent<Transform>()->GetParent()->GetPosition();
 
-		Matrix worldMatrix = scaleMatrix * rotationMatrix * positionMatrix;
+			mPosition = colliderPos;
 
-		DebugMesh meshAttribute = {};
-		meshAttribute.position = Vector3(colliderPos.x, colliderPos.y, colliderPos.z);
-		meshAttribute.radius = mRadius;
-		meshAttribute.rotatation = rotation + mRotation;
-		meshAttribute.scale = scale;
-		meshAttribute.type = mType;
+			Matrix scaleMatrix = Matrix::CreateScale(scale);
+			Matrix rotationMatrix;
+			rotationMatrix = Matrix::CreateRotationX(rotation.x);
+			rotationMatrix *= Matrix::CreateRotationY(rotation.y);
+			rotationMatrix *= Matrix::CreateRotationZ(rotation.z);
 
-		renderer::debugMeshes.push_back(meshAttribute);
+			Matrix positionMatrix;
+			positionMatrix.Translation(Vector3(colliderPos.x, colliderPos.y, colliderPos.z));
+
+			Matrix worldMatrix = scaleMatrix * rotationMatrix * positionMatrix;
+
+			DebugMesh meshAttribute = {};
+			meshAttribute.position = Vector3(colliderPos.x, colliderPos.y, colliderPos.z);
+			meshAttribute.radius = mRadius;
+			meshAttribute.rotatation = rotation + mRotation;
+			meshAttribute.scale = scale;
+			meshAttribute.type = mType;
+
+			renderer::debugMeshes.push_back(meshAttribute);
+		}
+		else
+		{
+			Vector3 colliderPos = position + Vector3(mCenter.x, mCenter.y, 0.0f);
+
+			mPosition = colliderPos;
+
+			Matrix scaleMatrix = Matrix::CreateScale(scale);
+			Matrix rotationMatrix;
+			rotationMatrix = Matrix::CreateRotationX(rotation.x);
+			rotationMatrix *= Matrix::CreateRotationY(rotation.y);
+			rotationMatrix *= Matrix::CreateRotationZ(rotation.z);
+
+			Matrix positionMatrix;
+			positionMatrix.Translation(Vector3(colliderPos.x, colliderPos.y, colliderPos.z));
+
+			Matrix worldMatrix = scaleMatrix * rotationMatrix * positionMatrix;
+
+			DebugMesh meshAttribute = {};
+			meshAttribute.position = Vector3(colliderPos.x, colliderPos.y, colliderPos.z);
+			meshAttribute.radius = mRadius;
+			meshAttribute.rotatation = rotation + mRotation;
+			meshAttribute.scale = scale;
+			meshAttribute.type = mType;
+
+			renderer::debugMeshes.push_back(meshAttribute);
+		}
 	}
 
 	void Collider2D::Render()

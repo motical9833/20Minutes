@@ -271,6 +271,9 @@
     <ClCompile Include="GaleScript.cpp">
       <Filter>Component\Script\Contents</Filter>
     </ClCompile>
+    <ClCompile Include="yaHolyShieldScript.cpp">
+      <Filter>Component\Script\Contents</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CommonInclude.h">
@@ -446,6 +449,9 @@
       <Filter>Component\Script\Contents</Filter>
     </ClInclude>
     <ClInclude Include="GaleScript.h">
+      <Filter>Component\Script\Contents</Filter>
+    </ClInclude>
+    <ClInclude Include="yaHolyShieldScript.h">
       <Filter>Component\Script\Contents</Filter>
     </ClInclude>
   </ItemGroup>

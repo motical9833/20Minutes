@@ -513,6 +513,9 @@ namespace ya::renderer
 		Resources::Load<Texture>(L"S_MagicLens", L"Skill\\T_MagicLens.png");
 		Resources::Load<Texture>(L"S_Curse", L"Skill\\T_CurseFX.png");
 		Resources::Load<Texture>(L"S_Freeze", L"Skill\\T_FreezeFX.png");
+		Resources::Load<Texture>(L"S_HolyShieldIdle", L"Skill\\T_HolyShield.png");
+		Resources::Load<Texture>(L"S_HolyShieldIHit", L"Skill\\T_HolyShieldRegen.png");
+		Resources::Load<Texture>(L"S_HolyShieldBreak", L"Skill\\T_HolyShieldBreak.png");
 #pragma endregion
 #pragma region DYNAMIC TEXTURE
 		std::shared_ptr<Texture> uavTexture = std::make_shared<Texture>();
@@ -585,6 +588,11 @@ namespace ya::renderer
 		CreateMaterial(L"S_Pulse", L"SpriteShader", eRenderingMode::Transparent, L"PulseMaterial");
 
 		CreateMaterial(L"S_Gale", L"SpriteShader", eRenderingMode::Transparent, L"GaleMaterial");
+
+		CreateMaterial(L"T_HolyShield", L"SpriteShader", eRenderingMode::Transparent, L"HolyShieldMaterial");
+
+		CreateMaterial(L"S_Freeze", L"SpriteShader", eRenderingMode::Transparent, L"FreezeMaterial");
+
 #pragma endregion
 	}
 

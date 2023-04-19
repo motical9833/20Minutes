@@ -1,14 +1,14 @@
 #pragma once
 #include "yaScript.h"
 
-
 namespace ya
 {
-	class PlayerScript : public Script
+	class Player;
+	class HolyShieldScript : public Script
 	{
 	public:
-		PlayerScript();
-		~PlayerScript();
+		HolyShieldScript();
+		~HolyShieldScript();
 
 		virtual void Initalize() override;
 		virtual void Update() override;
@@ -18,27 +18,15 @@ namespace ya
 		virtual void OnCollisionStay(Collider2D* collider) override;
 		virtual void OnCollisionExit(Collider2D* collider) override;
 
-		void Move();
-
 		void Start();
 		void Action();
 		void End();
 		void Reset();
-		
-		void TakeDamage(int damage);
-		void SetMaxHP(int value) { mMaxHP = value; }
-		void SetCurrentHP() { mCurrentHP = mMaxHP; }
-		void ShieldOn() { bShield = true; }
+
+		void Break();
 
 	private:
-		float immuneTime;
-		bool bMove;
-		bool bHitImmune;
-		int mCurrentHP;
-		int mMaxHP;
-		
+		Player* player;
 		float rotTime;
-
-		bool bShield;
 	};
 }

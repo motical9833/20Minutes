@@ -47,6 +47,7 @@ namespace ya
 		mAnimator->Stop();
 
 		pScene = dynamic_cast<PlayScene*>(SceneManager::GetPlaySCene());
+
 	}
 	void WeaponScript::Update()
 	{

@@ -5,9 +5,9 @@
 #include "yaTime.h"
 #include "yaAnimator.h"
 #include "yaResources.h"
-#include "yaPlayScene.h"
 #include "yaSkillManager.h"
-
+#include "yaSceneManager.h"
+#include "yaPlayScene.h"
 namespace ya
 {
 	PlayerScript::PlayerScript()
@@ -17,7 +17,7 @@ namespace ya
 		, mMaxHP(3)
 		, bHitImmune(false)
 		, immuneTime(0.0f)
-		, mShield(false)
+		, bShield(true)
 		, rotTime(0.0f)
 	{
 		
@@ -43,7 +43,7 @@ namespace ya
 		Move();
 		rotTime += Time::DeltaTime();
 
-		GetOwner()->GetComponent<Collider2D>()->SetRotation(Vector3(0.0f, 0.0f, rotTime * 100));
+		//GetOwner()->GetComponent<Collider2D>()->SetRotation(Vector3(0.0f, 0.0f, rotTime * 100));
 
 		if (bHitImmune)
 		{
@@ -167,6 +167,14 @@ namespace ya
 	{
 		if (bHitImmune)
 			return;
+
+		if (bShield)
+		{
+			bShield = false;
+			bHitImmune = true;
+			SceneManager::GetPlayScene()->GetSkillManager()->GetScript<SkillManager>()->HolyShieldBreak();
+			return;
+		}
 
 		mCurrentHP -= damage;
 		bHitImmune = true;

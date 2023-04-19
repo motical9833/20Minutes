@@ -2,9 +2,15 @@
 #include "yaSceneManager.h"
 #include "yaPlayScene.h"
 #include "GaleScript.h"
+#include "yaTime.h"
+#include "yaPlayerScript.h"
+#include "yaHolyShieldScript.h"
 namespace ya
 {
 	SkillManager::SkillManager()
+		: bShieldOn(false)
+		, bShield(false)
+		, shieldTime(0.0f)
 	{
 
 	}
@@ -18,7 +24,21 @@ namespace ya
 	}
 	void SkillManager::Update()
 	{
+		if (bShieldOn)
+		{
+			if (bShield == false)
+			{
+				shieldTime += Time::DeltaTime();
 
+				if (shieldTime > 30)
+				{
+					HolyShield();
+					bShield = true;
+					bShieldOn = false;
+					shieldTime = 0;
+				}
+			}
+		}
 	}
 	void SkillManager::FixedUpdate()
 	{
@@ -59,5 +79,18 @@ namespace ya
 			SceneManager::GetPlayScene()->GetGale()[i]->Life();
 			break;
 		}
+	}
+	void SkillManager::HolyShield()
+	{
+		GameObject* shield = SceneManager::GetPlayScene()->GetShield();
+		shield->Life();
+		SceneManager::GetPlayScene()->GetPlayer()->GetScript<PlayerScript>()->ShieldOn();
+	}
+	void SkillManager::HolyShieldBreak()
+	{
+		bShieldOn = true;
+		bShield = false;
+		//SceneManager::GetPlayScene()->GetShield()->Death();
+		SceneManager::GetPlayScene()->GetShield()->GetScript<HolyShieldScript>()->Break();
 	}
 }
