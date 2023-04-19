@@ -16,6 +16,7 @@ namespace ya
 		, mID(0)
 		, mRadius(0.0f)
 		, mScriptOff(false)
+		, mRotation(Vector3::Zero)
 	{
 		mID = ColliderNumber++;
 	}
@@ -63,7 +64,7 @@ namespace ya
 		DebugMesh meshAttribute = {};
 		meshAttribute.position = Vector3(colliderPos.x, colliderPos.y, colliderPos.z);
 		meshAttribute.radius = mRadius;
-		meshAttribute.rotatation = rotation;
+		meshAttribute.rotatation = rotation + mRotation;
 		meshAttribute.scale = scale;
 		meshAttribute.type = mType;
 

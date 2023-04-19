@@ -18,6 +18,7 @@ namespace ya
 		, bHitImmune(false)
 		, immuneTime(0.0f)
 		, mShield(false)
+		, rotTime(0.0f)
 	{
 		
 	}
@@ -40,6 +41,9 @@ namespace ya
 	void PlayerScript::Update()
 	{
 		Move();
+		rotTime += Time::DeltaTime();
+
+		GetOwner()->GetComponent<Collider2D>()->SetRotation(Vector3(0.0f, 0.0f, rotTime * 100));
 
 		if (bHitImmune)
 		{
@@ -62,14 +66,7 @@ namespace ya
 	{
 		if (collider->GetOwner()->GetLayerType() == eLayerType::Monster)
 		{
-			//if (bHitImmune)
-			//	return;
-
-			//mCurrentHP--;
-			//bHitImmune = true;
-
-			//if (mCurrentHP <= 0)
-			//	this->GetOwner()->Death();
+			int a = 0;
 		}
 	}
 
