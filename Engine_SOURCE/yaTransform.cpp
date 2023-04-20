@@ -60,6 +60,8 @@ namespace ya
 		position.Translation(mPosition);
 
 		mWorld = scale * rotation * position;
+		mNoScaleWorld = rotation * position;
+
 
 		mFoward = Vector3::TransformNormal(Vector3::Forward, rotation);
 		mRight = Vector3::TransformNormal(Vector3::Right, rotation);
@@ -71,7 +73,7 @@ namespace ya
 
 		if (mParent)
 		{
-			mWorld *= mParent->mWorld;
+			mWorld *= mParent->mNoScaleWorld;
 		}
 	}
 

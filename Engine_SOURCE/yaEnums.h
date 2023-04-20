@@ -18,6 +18,7 @@ namespace ya::enums
 		Player,
 		Bullet,
 		Skill,
+		Skill_Buff,
 		Particle,
 		UI,
 		End = 16,

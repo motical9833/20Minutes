@@ -85,6 +85,8 @@ namespace ya
 	}
 	void BulletScript::OnCollisionEnter(Collider2D* collider)
 	{
+		int a = 0;
+
 		if (collider->GetOwner()->GetLayerType() == eLayerType::Monster && collider->GetOwner()->GetState() == (UINT)GameObject::eState::Active)
 		{
 			Animator* animator = GetOwner()->GetComponent<Animator>();

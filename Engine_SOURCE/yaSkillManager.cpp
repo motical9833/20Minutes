@@ -90,7 +90,6 @@ namespace ya
 	{
 		bShieldOn = true;
 		bShield = false;
-		//SceneManager::GetPlayScene()->GetShield()->Death();
 		SceneManager::GetPlayScene()->GetShield()->GetScript<HolyShieldScript>()->Break();
 	}
 }

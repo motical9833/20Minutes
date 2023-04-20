@@ -1,14 +1,15 @@
 #pragma once
 #include "yaScript.h"
-#include "yaPlayer.h"
+
 
 namespace ya
 {
-	class HolyShieldScript : public Script
+	class Player;
+	class FreezeScript : public Script
 	{
 	public:
-		HolyShieldScript();
-		~HolyShieldScript();
+		FreezeScript();
+		~FreezeScript();
 
 		virtual void Initalize() override;
 		virtual void Update() override;
@@ -23,10 +24,8 @@ namespace ya
 		void End();
 		void Reset();
 
-		void Break();
-
 	private:
 		Player* player;
-		float rotTime;
+
 	};
 }

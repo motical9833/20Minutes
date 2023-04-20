@@ -32,6 +32,8 @@ namespace ya
 		Vector3 Right() { return mRight; }
 		Vector3 Up() { return mUp; }
 
+		
+
 		void LeftMove();
 		void RightMove();
 
@@ -46,5 +48,6 @@ namespace ya
 		Vector3 mRotation;
 		Vector3 mScale;
 		Matrix mWorld;
+		Matrix mNoScaleWorld;
 	};
 }

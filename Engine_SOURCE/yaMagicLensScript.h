@@ -1,14 +1,14 @@
 #pragma once
 #include "yaScript.h"
-#include "yaPlayer.h"
 
 namespace ya
 {
-	class HolyShieldScript : public Script
+	class MagicLensScript : public Script
 	{
 	public:
-		HolyShieldScript();
-		~HolyShieldScript();
+		MagicLensScript();
+		~MagicLensScript();
+
 
 		virtual void Initalize() override;
 		virtual void Update() override;
@@ -23,10 +23,12 @@ namespace ya
 		void End();
 		void Reset();
 
-		void Break();
-
+		void Circularmotion();
+		void LookPlayer();
 	private:
-		Player* player;
-		float rotTime;
+		float mSpeed;
+		float mWidth;
+		float mHeight;
+		float mTime;
 	};
 }

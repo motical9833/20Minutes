@@ -274,6 +274,12 @@
     <ClCompile Include="yaHolyShieldScript.cpp">
       <Filter>Component\Script\Contents</Filter>
     </ClCompile>
+    <ClCompile Include="yaFreezeScript.cpp">
+      <Filter>Component\Script\Contents</Filter>
+    </ClCompile>
+    <ClCompile Include="yaMagicLensScript.cpp">
+      <Filter>Component\Script\Contents</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CommonInclude.h">
@@ -452,6 +458,12 @@
       <Filter>Component\Script\Contents</Filter>
     </ClInclude>
     <ClInclude Include="yaHolyShieldScript.h">
+      <Filter>Component\Script\Contents</Filter>
+    </ClInclude>
+    <ClInclude Include="yaFreezeScript.h">
+      <Filter>Component\Script\Contents</Filter>
+    </ClInclude>
+    <ClInclude Include="yaMagicLensScript.h">
       <Filter>Component\Script\Contents</Filter>
     </ClInclude>
   </ItemGroup>

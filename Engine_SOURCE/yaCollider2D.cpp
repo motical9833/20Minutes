@@ -51,6 +51,9 @@ namespace ya
 
 		if (GetOwner()->GetComponent<Transform>()->GetParent())
 		{
+
+			GameObject* object = GetOwner();
+
 			Vector3 colliderPos = position + Vector3(mCenter.x, mCenter.y, 0.0f) + GetOwner()->GetComponent<Transform>()->GetParent()->GetPosition();
 
 			mPosition = colliderPos;

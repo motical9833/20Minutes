@@ -39,6 +39,7 @@ namespace ya
 		void CreateSpriteRenderer(auto* object, const std::wstring& materialKey);
 		//void CreateAnimator(auto* object, const std::wstring& animatorKey);
 		GameObject* CreateSkillObject(eColliderType type, eLayerType layertype, const std::wstring& materialKey);
+		GameObject* CreateSkillObject(eLayerType layertype, const std::wstring& materialKey);
 		void M_DefaultTr(auto* object, Vector3 pos, Vector3 scale);
 
 		GameObject* GetSkillManager() { return skillManager; };
@@ -54,6 +55,7 @@ namespace ya
 		std::vector<GameObject*> gales;
 		std::vector<GameObject*> freezes;
 		GameObject* holyShield;
+		GameObject* magicLens;
 		Bullet* bullet;
 
 		std::vector<Monster*> mBrainMonsters;		

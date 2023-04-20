@@ -29,7 +29,7 @@ namespace ya
 	}
 	void HolyShieldScript::OnCollisionEnter(Collider2D* collider)
 	{
-
+		
 	}
 	void HolyShieldScript::OnCollisionStay(Collider2D* collider)
 	{

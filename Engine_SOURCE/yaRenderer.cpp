@@ -593,6 +593,8 @@ namespace ya::renderer
 
 		CreateMaterial(L"S_Freeze", L"SpriteShader", eRenderingMode::Transparent, L"FreezeMaterial");
 
+		CreateMaterial(L"S_MagicLens", L"SpriteShader", eRenderingMode::Transparent, L"MagicLensMaterial");
+
 #pragma endregion
 	}
 

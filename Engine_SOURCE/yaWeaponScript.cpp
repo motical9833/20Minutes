@@ -42,8 +42,8 @@ namespace ya
 	void WeaponScript::Initalize()
 	{
 		mTransform = GetOwner()->GetComponent<Transform>();
-		mAnimator = GetOwner()->GetComponent<Animator>();
 		mTrans = GetOwner()->GetComponent<Transform>();
+		mAnimator = GetOwner()->GetComponent<Animator>();
 		mAnimator->Stop();
 
 		pScene = dynamic_cast<PlayScene*>(SceneManager::GetPlaySCene());
