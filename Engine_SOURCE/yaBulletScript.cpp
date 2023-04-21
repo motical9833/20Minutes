@@ -93,7 +93,18 @@ namespace ya
 			animator->Play(L"BulletAni",false);
 			animator->Start();
 
-			collider->GetOwner()->GetScript<MonsterScript>()->TakeDamage(mDamage);
+
+			collider->GetOwner()->GetScript<MonsterScript>()->Freeze();
+
+			if (collider->GetOwner()->GetScript<MonsterScript>()->GetcurseAtivate() == true)
+			{
+				collider->GetOwner()->GetScript<MonsterScript>()->TakeDamage(mDamage * 2);
+			}
+			else
+			{
+				collider->GetOwner()->GetScript<MonsterScript>()->Curse();
+				collider->GetOwner()->GetScript<MonsterScript>()->TakeDamage(mDamage);
+			}
 
 			if (bThunder)
 				SceneManager::GetPlayScene()->GetSkillManager()->GetScript<SkillManager>()->ThunderEnchant(collider->GetOwner()->GetComponent<Transform>()->GetPosition() + Vector3(0.0f,2.0f,0.0f));

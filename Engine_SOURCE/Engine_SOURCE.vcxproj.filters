@@ -280,6 +280,15 @@
     <ClCompile Include="yaMagicLensScript.cpp">
       <Filter>Component\Script\Contents</Filter>
     </ClCompile>
+    <ClCompile Include="yaCurseScript.cpp">
+      <Filter>Component\Script\Contents</Filter>
+    </ClCompile>
+    <ClCompile Include="yaDragonPetScript.cpp">
+      <Filter>Component\Script\Contents</Filter>
+    </ClCompile>
+    <ClCompile Include="yaGhostPetScript.cpp">
+      <Filter>Component\Script\Contents</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CommonInclude.h">
@@ -464,6 +473,15 @@
       <Filter>Component\Script\Contents</Filter>
     </ClInclude>
     <ClInclude Include="yaMagicLensScript.h">
+      <Filter>Component\Script\Contents</Filter>
+    </ClInclude>
+    <ClInclude Include="yaCurseScript.h">
+      <Filter>Component\Script\Contents</Filter>
+    </ClInclude>
+    <ClInclude Include="yaDragonPetScript.h">
+      <Filter>Component\Script\Contents</Filter>
+    </ClInclude>
+    <ClInclude Include="yaGhostPetScript.h">
       <Filter>Component\Script\Contents</Filter>
     </ClInclude>
   </ItemGroup>

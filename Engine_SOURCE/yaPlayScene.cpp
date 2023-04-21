@@ -23,6 +23,9 @@
 #include "GaleScript.h"
 #include "yaHolyShieldScript.h"
 #include "yaMagicLensScript.h"
+#include "yaCurseScript.h"
+#include "yaDragonPetScript.h"
+#include "yaGhostPetScript.h"
 
 
 namespace ya
@@ -55,6 +58,14 @@ namespace ya
 		//particle->AddComponent<ParticleSystem>();
 
 
+
+		// Monster
+		{
+			CreateBrainMonster();
+			CreateEyeMonster();
+			CreateTreeMonster();
+			CreateBommerMonster();
+		}
 
 
 		//SMILE RECT
@@ -126,9 +137,9 @@ namespace ya
 			pWeapon = object::Instantiate<Weapon>(eLayerType::Player, this);
 			pWeapon->SetName(L"pWeapon");
 			Transform* weaponTr = pWeapon->GetComponent<Transform>();
-			weaponTr->SetScale(Vector3(1.5f, 1.5f, 1.0f));
+			weaponTr->SetScale(Vector3(5.0f, 5.0f, 1.0f));
 			weaponTr->SetParent(pTr);
-			weaponTr->SetPosition(Vector3(0.13f, 0.02f, 0.0f));
+			weaponTr->SetPosition(Vector3(0.3f, 0.02f, 0.0f));
 			SpriteRenderer* pWMr = pWeapon->AddComponent<SpriteRenderer>();
 			std::shared_ptr<Material> weaponMaterial = Resources::Find<Material>(L"RevolverMaterial");
 			pWMr->SetMaterial(weaponMaterial);
@@ -253,27 +264,74 @@ namespace ya
 				freeze->Death();
 				freezes.push_back(freeze);
 			}
-			freezes[0]->Life();
+			freezes[0]->GetComponent<Transform>()->SetParent(mBrainMonsters[0]->GetComponent<Transform>());
+			freezes[1]->GetComponent<Transform>()->SetParent(mBoomerMonsters[0]->GetComponent<Transform>());
+			freezes[2]->GetComponent<Transform>()->SetParent(mEyeMonsters[0]->GetComponent<Transform>());
+
+			for (size_t i = 0; i < 20; i++)
+			{
+				GameObject* curse = object::Instantiate<GameObject>(eLayerType::Skill, this);
+				curse->SetLayerType(eLayerType::Skill);
+				curse->GetComponent<Transform>()->SetScale(Vector3(3.0f, 3.0f, 1.0f));
+				curse->GetComponent<Transform>()->SetPosition(Vector3::Zero);
+				SpriteRenderer* curseRender = curse->AddComponent<SpriteRenderer>();
+				std::shared_ptr<Material> curseMaterial = Resources::Find<Material>(L"CurseMaterial");
+				curseRender->SetMaterial(curseMaterial);
+				std::shared_ptr<Mesh> curseMesh = Resources::Find<Mesh>(L"RectMesh");
+				curseRender->SetMesh(curseMesh);
+
+				Animator* curseAnimator = curse->AddComponent<Animator>();
+				std::shared_ptr<Texture> curseTexture = Resources::Find<Texture>(L"S_Curse");
+
+				curseAnimator->Create(L"curseAni", curseTexture, Vector2::Zero, Vector2(32.0f, 32.0f), Vector2::Zero, 3, 0.2f);
+				curseAnimator->Play(L"curseAni", false);
+
+				curse->AddComponent<CurseScript>();
+
+				curse->Death();
+				curses.push_back(curse);
+			}
+			curses[0]->GetComponent<Transform>()->SetParent(mBrainMonsters[0]->GetComponent<Transform>());
+			curses[1]->GetComponent<Transform>()->SetParent(mBoomerMonsters[0]->GetComponent<Transform>());
+			curses[2]->GetComponent<Transform>()->SetParent(mEyeMonsters[0]->GetComponent<Transform>());
 
 			magicLens = CreateSkillObject(eColliderType::Rect, eLayerType::Skill, L"MagicLensMaterial");
 			magicLens->SetLayerType(eLayerType::Skill);
-			//magicLens->GetComponent<Transform>()->SetParent(pTr);
+			magicLens->GetComponent<Transform>()->SetParent(pTr);
 			magicLens->GetComponent<Transform>()->SetPosition(Vector3(-4.0f, 0.0f, 0.0f));
-			magicLens->GetComponent<Collider2D>()->SetSize(Vector2(1.0f, 1.0f));
+			magicLens->GetComponent<Collider2D>()->SetSize(Vector2(0.2f, 1.0f));
 			Collider2D* lensCollider = magicLens->GetComponent<Collider2D>();
 			lensCollider->SetCenter(Vector2::Zero);
 			Animator* lensAnimator = magicLens->AddComponent<Animator>();
-			magicLens->GetComponent<Transform>()->SetScale(Vector3(1.0f, 1.0f, 1.0f));
 			std::shared_ptr<Texture> lensTexture = Resources::Find<Texture>(L"S_MagicLens");
 			magicLens->AddComponent<MagicLensScript>();
 
-		}
-		// Monster
-		{
-			CreateBrainMonster();
-			CreateEyeMonster();
-			CreateTreeMonster();
-			CreateBommerMonster();
+			dragonPet = CreateSkillObject(eLayerType::Skill, L"DragonMaterial");
+			dragonPet->SetLayerType(eLayerType::Skill);
+			dragonPet->AddComponent<DragonPetScript>();
+			dragonPet->GetComponent<Transform>()->SetParent(pTr);
+			dragonPet->GetComponent<Transform>()->SetScale(Vector3(3.0f,3.0f,1.0f));
+			Animator* dragonAnimator = dragonPet->AddComponent<Animator>();
+			std::shared_ptr<Texture> dragonEggTexture = Resources::Find<Texture>(L"S_DragonEgg");
+			std::shared_ptr<Texture> dragonTexture = Resources::Find<Texture>(L"S_Dragon");
+			dragonAnimator->Create(L"DragonEgg", dragonEggTexture, Vector2::Zero, Vector2(32.0f, 32.0f), Vector2::Zero, 1, 255);
+			dragonAnimator->Create(L"DragonIdle", dragonTexture, Vector2::Zero, Vector2(32.0f, 32.0f), Vector2::Zero, 6, 0.1f);
+			dragonAnimator->Create(L"DragonAttack", dragonTexture, Vector2(0, 32.0f) , Vector2(32.0f, 32.0f), Vector2::Zero, 4, 0.1f);
+
+			dragonAnimator->Play(L"DragonIdle",true);
+
+			ghostPet = CreateSkillObject(eLayerType::Skill, L"DragonMaterial");
+			ghostPet->SetLayerType(eLayerType::Skill);
+			ghostPet->AddComponent<GhostPetScript>();
+			ghostPet->GetComponent<Transform>()->SetParent(pTr);
+			ghostPet->GetComponent<Transform>()->SetScale(Vector3(3.0f, 3.0f, 1.0f));
+			Animator* ghostPetAnimator = ghostPet->AddComponent<Animator>();
+			std::shared_ptr<Texture> ghostPetTexture = Resources::Find<Texture>(L"S_GhostPet");
+			ghostPetAnimator->Create(L"ghostPetIdle", ghostPetTexture, Vector2::Zero, Vector2(16.0f, 16.0f), Vector2::Zero, 6, 0.1f);
+			ghostPetAnimator->Create(L"ghostPetAttack", ghostPetTexture, Vector2(0, 16.0f), Vector2(16.0f, 16.0f), Vector2::Zero, 4, 0.1f);
+
+			ghostPetAnimator->Play(L"ghostPetIdle", true);
+
 		}
 
 

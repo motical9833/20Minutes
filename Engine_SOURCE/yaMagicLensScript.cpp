@@ -22,8 +22,8 @@ namespace ya
 	}
 	void MagicLensScript::Update()
 	{
-		//Circularmotion();
-		//LookPlayer();
+		Circularmotion();
+		LookPlayer();
 	}
 	void MagicLensScript::Render()
 	{

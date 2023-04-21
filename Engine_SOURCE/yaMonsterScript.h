@@ -27,11 +27,21 @@ namespace ya
 		void TakeDamage(int damage);
 		void Reset();
 
+		void Freeze();
+		void Curse();
+		void CurseActivate() { bCurse = true; }
+		bool GetcurseAtivate() { return bCurse; }
+
 	private:
 		int mCurrentHp;
 		int mMaxHp;
 		float mSpeed;
 		int mDamage;
+
+		bool bFreeze;
+		bool bCurse;
+
+		float freezeTime;
 
 		Vector2 mColliderSize;
 	};

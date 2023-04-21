@@ -4,12 +4,11 @@
 
 namespace ya
 {
-	class Player;
-	class FreezeScript : public Script
+	class GhostPetScript : public Script
 	{
 	public:
-		FreezeScript();
-		~FreezeScript();
+		GhostPetScript();
+		~GhostPetScript();
 
 		virtual void Initalize() override;
 		virtual void Update() override;
@@ -24,7 +23,13 @@ namespace ya
 		void End();
 		void Reset();
 
-	private:
+		void Circularmotion();
 
+
+	private:
+		float mSpeed;
+		float mWidth;
+		float mHeight;
+		float mTime;
 	};
 }

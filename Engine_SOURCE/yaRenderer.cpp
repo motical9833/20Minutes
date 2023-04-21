@@ -595,6 +595,10 @@ namespace ya::renderer
 
 		CreateMaterial(L"S_MagicLens", L"SpriteShader", eRenderingMode::Transparent, L"MagicLensMaterial");
 
+		CreateMaterial(L"S_Curse", L"SpriteShader", eRenderingMode::Transparent, L"CurseMaterial");
+
+		CreateMaterial(L"S_DragonEgg", L"SpriteShader", eRenderingMode::Transparent, L"DragonMaterial");
+
 #pragma endregion
 	}
 

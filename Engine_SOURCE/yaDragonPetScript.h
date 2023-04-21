@@ -1,15 +1,13 @@
 #pragma once
 #include "yaScript.h"
 
-
 namespace ya
 {
-	class Player;
-	class FreezeScript : public Script
+	class DragonPetScript : public Script
 	{
 	public:
-		FreezeScript();
-		~FreezeScript();
+		DragonPetScript();
+		~DragonPetScript();
 
 		virtual void Initalize() override;
 		virtual void Update() override;
@@ -24,7 +22,14 @@ namespace ya
 		void End();
 		void Reset();
 
+		void Circularmotion();
+
+
 	private:
+		float mSpeed;
+		float mWidth;
+		float mHeight;
+		float mTime;
 
 	};
 }

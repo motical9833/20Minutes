@@ -54,8 +54,12 @@ namespace ya
 		std::vector<GameObject*> thunders;
 		std::vector<GameObject*> gales;
 		std::vector<GameObject*> freezes;
+		std::vector<GameObject*> curses;
+
 		GameObject* holyShield;
 		GameObject* magicLens;
+		GameObject* dragonPet;
+		GameObject* ghostPet;
 		Bullet* bullet;
 
 		std::vector<Monster*> mBrainMonsters;		

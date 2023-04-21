@@ -16,9 +16,11 @@ namespace ya
 		virtual void Render() override;
 
 		void SetConstantBuffer();
-		
+
 		void SetParent(Transform* parent);
 		Transform* GetParent() { return mParent; }
+		void setChiled(Transform* chiled) { mChiled.push_back(chiled); }
+		Transform* GetChiled(int num) { return mChiled[num]; }
 
 		Vector3 GetPosition() { return mPosition; };
 		Vector3 GetRotation() { return mRotation; };
@@ -41,6 +43,7 @@ namespace ya
 
 	private:
 		Transform* mParent;
+		std::vector<Transform*> mChiled;
 		Vector3 mFoward;
 		Vector3 mRight;
 		Vector3 mUp;

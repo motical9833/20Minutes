@@ -2,6 +2,8 @@
 #include "yaGameObject.h"
 #include "yaAnimator.h"
 #include "yaPlayerScript.h"
+#include "yaTime.h"
+#include "yaCurseScript.h"
 
 namespace ya
 {
@@ -11,6 +13,9 @@ namespace ya
 		, mSpeed(NULL)
 		, mDamage(1)
 		, mColliderSize{}
+		, bFreeze(false)
+		, bCurse(false)
+		, freezeTime(0.0f)
 	{
 
 	}
@@ -20,6 +25,9 @@ namespace ya
 		,mSpeed(5)
 		,mDamage(1)
 		,mColliderSize{}
+		, bFreeze(false)
+		, bCurse(false)
+		, freezeTime(0.0f)
 	{
 	}
 	MonsterScript::~MonsterScript()
@@ -36,9 +44,25 @@ namespace ya
 	}
 	void MonsterScript::Update()
 	{
+		if (bFreeze)
+		{
+			mSpeed = 0;
+			freezeTime += Time::DeltaTime();
+
+			if (freezeTime >= 1.0f)
+			{
+				Transform* tr = GetOwner()->GetComponent<Transform>();
+				tr->GetChiled(0)->GetOwner()->Death();
+				bFreeze = false;
+				freezeTime = 0;
+				mSpeed = 5;
+			}
+		}
+
 	}
 	void MonsterScript::Render()
 	{
+
 	}
 	void MonsterScript::OnCollisionEnter(Collider2D* collider)
 	{
@@ -76,12 +100,21 @@ namespace ya
 
 		mCurrentHp -= damage;
 
+		if (bCurse)
+		{
+			bCurse = false;
+			Transform* tr = GetOwner()->GetComponent<Transform>();
+			tr->GetChiled(1)->GetOwner()->Death();
+		}
+
 		if (mCurrentHp <= 0)
 		{
 			Animator* ani = GetOwner()->GetComponent<Animator>();
 			this->GetOwner()->GetComponent<Collider2D>()->SetScriptOff(true);
 			this->GetOwner()->SetLayerType(eLayerType::None);
 			ani->Play(L"DeathAnimation", false);
+			Transform* tr = GetOwner()->GetComponent<Transform>();
+			tr->GetChiled(0)->GetOwner()->Death();
 		}
 	}
 	void MonsterScript::Reset()
@@ -94,5 +127,17 @@ namespace ya
 		ani->Play(L"m_Idle", true);
 		this->GetOwner()->GetComponent<Collider2D>()->SetScriptOff(false);
 		this->GetOwner()->SetLayerType(eLayerType::Monster);
+	}
+	void MonsterScript::Freeze()
+	{
+		bFreeze = true;
+		Transform* tr = GetOwner()->GetComponent<Transform>();
+		tr->GetChiled(0)->GetOwner()->Life();
+		freezeTime = 0;
+	}
+	void MonsterScript::Curse()
+	{
+		Transform* tr = GetOwner()->GetComponent<Transform>();
+		tr->GetChiled(1)->GetOwner()->Life();
 	}
 }

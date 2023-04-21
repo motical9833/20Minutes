@@ -14,6 +14,7 @@ namespace ya
 		, mRotation(Vector3::Zero)
 		, mPosition(Vector3::One)
 		, mParent(nullptr)
+		, mChiled{}
 	{
 		
 	}
@@ -100,6 +101,11 @@ namespace ya
 	void Transform::SetParent(Transform* parent)
 	{
 		mParent = parent;
+
+		if (mParent == nullptr)
+			return;
+
+		mParent->setChiled(this);
 	}
 
 	void Transform::LeftMove()

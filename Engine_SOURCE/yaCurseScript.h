@@ -4,12 +4,11 @@
 
 namespace ya
 {
-	class Player;
-	class FreezeScript : public Script
+	class CurseScript : public Script
 	{
 	public:
-		FreezeScript();
-		~FreezeScript();
+		CurseScript();
+		~CurseScript();
 
 		virtual void Initalize() override;
 		virtual void Update() override;
