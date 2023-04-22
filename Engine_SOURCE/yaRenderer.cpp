@@ -516,6 +516,10 @@ namespace ya::renderer
 		Resources::Load<Texture>(L"S_HolyShieldIdle", L"Skill\\T_HolyShield.png");
 		Resources::Load<Texture>(L"S_HolyShieldIHit", L"Skill\\T_HolyShieldRegen.png");
 		Resources::Load<Texture>(L"S_HolyShieldBreak", L"Skill\\T_HolyShieldBreak.png");
+		Resources::Load<Texture>(L"S_Scythe", L"Skill\\T_Scythe.png");
+		Resources::Load<Texture>(L"S_SmiteFX", L"Skill\\T_SmiteFX.png");
+		Resources::Load<Texture>(L"S_Spear", L"Skill\\T_Spear.png");
+
 #pragma endregion
 #pragma region DYNAMIC TEXTURE
 		std::shared_ptr<Texture> uavTexture = std::make_shared<Texture>();
@@ -598,6 +602,13 @@ namespace ya::renderer
 		CreateMaterial(L"S_Curse", L"SpriteShader", eRenderingMode::Transparent, L"CurseMaterial");
 
 		CreateMaterial(L"S_DragonEgg", L"SpriteShader", eRenderingMode::Transparent, L"DragonMaterial");
+
+		CreateMaterial(L"S_Scythe", L"SpriteShader", eRenderingMode::Transparent, L"ScytheMaterial");
+
+		CreateMaterial(L"S_SmiteFX", L"SpriteShader", eRenderingMode::Transparent, L"SmiteFXMaterial");
+
+		CreateMaterial(L"S_Spear", L"SpriteShader", eRenderingMode::Transparent, L"SpearMaterial");
+
 
 #pragma endregion
 	}

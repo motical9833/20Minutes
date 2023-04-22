@@ -1,14 +1,15 @@
 #pragma once
 #include "yaScript.h"
-
+#include "yaMonster.h"
 
 namespace ya
 {
-	class GhostPetScript : public Script
+	using namespace std;
+	class ColliderCheckScript : public Script
 	{
 	public:
-		GhostPetScript();
-		~GhostPetScript();
+		ColliderCheckScript();
+		~ColliderCheckScript();
 
 		virtual void Initalize() override;
 		virtual void Update() override;
@@ -23,18 +24,9 @@ namespace ya
 		void End();
 		void Reset();
 
-		void Attack();
-
-		void Circularmotion();
-
+		list<Monster*> GetMonsters() { return monsters; }
 
 	private:
-		float mSpeed;
-		float mWidth;
-		float mHeight;
-		float mTime;
-		float mAttackTime;
-
-		Vector3 mDir;
-	}; 
+		list<Monster*> monsters;
+	};
 }

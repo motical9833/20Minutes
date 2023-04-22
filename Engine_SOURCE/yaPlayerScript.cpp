@@ -43,8 +43,6 @@ namespace ya
 		Move();
 		rotTime += Time::DeltaTime();
 
-		//GetOwner()->GetComponent<Collider2D>()->SetRotation(Vector3(0.0f, 0.0f, rotTime * 100));
-
 		if (bHitImmune)
 		{
 			immuneTime += Time::DeltaTime();

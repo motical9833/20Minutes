@@ -18,6 +18,8 @@ namespace ya
 
 			void ThunderEnchant(Vector3 Enchantobject);
 			void GaleFire(Vector3 pos, Vector3 dir);
+			void GhostFire(Vector3 pos, Vector3 dir);
+			void SmiteFire(Vector3 pos);
 			void HolyShield();
 
 			void HolyShieldBreak();

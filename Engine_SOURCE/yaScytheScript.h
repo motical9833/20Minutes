@@ -1,14 +1,13 @@
 #pragma once
 #include "yaScript.h"
 
-
 namespace ya
 {
-	class GhostPetScript : public Script
+	class ScytheScript : public Script
 	{
 	public:
-		GhostPetScript();
-		~GhostPetScript();
+		ScytheScript();
+		~ScytheScript();
 
 		virtual void Initalize() override;
 		virtual void Update() override;
@@ -23,8 +22,6 @@ namespace ya
 		void End();
 		void Reset();
 
-		void Attack();
-
 		void Circularmotion();
 
 
@@ -33,8 +30,7 @@ namespace ya
 		float mWidth;
 		float mHeight;
 		float mTime;
-		float mAttackTime;
+		int mDamage;
 
-		Vector3 mDir;
-	}; 
+	};
 }

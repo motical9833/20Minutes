@@ -5,6 +5,7 @@
 #include "yaPlayScene.h"
 #include "yaSceneManager.h"
 #include "yaSkillManager.h"
+#include "yaColliderCheckScript.h"
 
 namespace ya
 {
@@ -218,6 +219,7 @@ namespace ya
 	void WeaponScript::ReloadSkill()
 	{
 		Gale();
+		Smite();
 	}
 
 	void WeaponScript::Gale()
@@ -228,6 +230,22 @@ namespace ya
 		dir.Normalize();
 
 		pScene->GetSkillManager()->GetScript<SkillManager>()->GaleFire(pos, dir);
+	}
+
+	void WeaponScript::Smite()
+	{
+		int arrayLength = pScene->GetColliderChack()->GetScript<ColliderCheckScript>()->GetMonsters().size();
+
+		list<Monster*> monsters = pScene->GetColliderChack()->GetScript<ColliderCheckScript>()->GetMonsters();
+
+		list<Monster*>::iterator iter = pScene->GetColliderChack()->GetScript<ColliderCheckScript>()->GetMonsters().begin();
+
+		for (iter = monsters.begin(); iter != monsters.end(); iter++)
+		{
+			Vector3 pos = (*iter)->GetComponent<Transform>()->GetPosition();
+
+			pScene->GetSkillManager()->GetScript<SkillManager>()->SmiteFire(pos + Vector3(0.0f,0.5f,0.0f));
+		}
 	}
 
 	void WeaponScript::Fire()
@@ -263,31 +281,6 @@ namespace ya
 				}
 			}
 			currentBullet--;
-
-
-			//for (auto i : bullets)
-			//{
-			//	BulletScript* scripts = i->GetOwner()->GetScript<BulletScript>();
-
-			//	float speed = scripts->Getspeed();
-			//	speed *= (1 + percentage / 100);
-
-			//	scripts->SetSpeed(speed);
-			//}
-
-			//if (clickCnt%2 == 0)
-			//{
-			//	for (auto i : pScene->GetThunders())
-			//	{
-			//		if (i->IsDead() == false)
-			//			continue;
-
-			//		Vector3 pos = Input::GetMousePosition();
-
-			//		i->GetComponent<Transform>()->SetPosition(pos);
-			//		i->Life();
-			//	}
-			//}
 		}
 	}
 	void WeaponScript::WeaponRotate()

@@ -4,11 +4,11 @@
 
 namespace ya
 {
-	class GhostPetScript : public Script
+	class GhostBullet :public Script
 	{
 	public:
-		GhostPetScript();
-		~GhostPetScript();
+		GhostBullet();
+		~GhostBullet();
 
 		virtual void Initalize() override;
 		virtual void Update() override;
@@ -18,23 +18,19 @@ namespace ya
 		virtual void OnCollisionStay(Collider2D* collider) override;
 		virtual void OnCollisionExit(Collider2D* collider) override;
 
+		void SetDir(Vector3 dir) { mDir = dir; }
+
 		void Start();
 		void Action();
 		void End();
+		void TakeDamage(int damage);
 		void Reset();
 
-		void Attack();
-
-		void Circularmotion();
-
-
 	private:
-		float mSpeed;
-		float mWidth;
-		float mHeight;
-		float mTime;
-		float mAttackTime;
+		int mDamage;
 
+		float mSpeed;
+		float mTime;
 		Vector3 mDir;
-	}; 
+	};
 }

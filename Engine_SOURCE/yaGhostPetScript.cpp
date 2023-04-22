@@ -1,5 +1,9 @@
 #include "yaGhostPetScript.h"
 #include "yaGameObject.h"
+#include "yaSceneManager.h"
+#include "yaSkillManager.h"
+#include "yaPlayScene.h"
+#include "yaInput.h"
 #include "yaTime.h"
 
 namespace ya
@@ -9,6 +13,8 @@ namespace ya
 		, mWidth(1.1f)
 		, mHeight(1.1f)
 		, mTime(0.0f)
+		, mAttackTime(0.0f)
+		, mDir{}
 	{
 
 	}
@@ -23,6 +29,8 @@ namespace ya
 	void GhostPetScript::Update()
 	{
 		Circularmotion();
+
+		Attack();
 	}
 	void GhostPetScript::Render()
 	{
@@ -56,6 +64,25 @@ namespace ya
 	{
 
 	}
+	void GhostPetScript::Attack()
+	{
+		mAttackTime += Time::DeltaTime();
+
+
+		if (mAttackTime >= 3)
+		{
+			Transform* tr = GetOwner()->GetComponent<Transform>();
+
+				Vector3 pos = tr->GetPosition() + tr->GetParent()->GetPosition();
+				Vector3 dir = Input::GetMousePosition() - pos;
+
+				dir.Normalize();
+
+				SceneManager::GetPlayScene()->GetSkillManager()->GetScript<SkillManager>()->GhostFire(pos, dir);
+				mAttackTime = 0;
+		}
+	}
+	
 	void GhostPetScript::Circularmotion()
 	{
 		mTime += Time::DeltaTime() * mSpeed;

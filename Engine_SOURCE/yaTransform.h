@@ -21,6 +21,7 @@ namespace ya
 		Transform* GetParent() { return mParent; }
 		void setChiled(Transform* chiled) { mChiled.push_back(chiled); }
 		Transform* GetChiled(int num) { return mChiled[num]; }
+		std::vector<Transform*> GetChileds() { return mChiled; }
 
 		Vector3 GetPosition() { return mPosition; };
 		Vector3 GetRotation() { return mRotation; };

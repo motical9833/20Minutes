@@ -47,5 +47,7 @@ namespace ya
 	{
 		Animator* animator = GetOwner()->GetComponent<Animator>();
 		animator->Play(L"curseAni", false);
+
+		GetOwner()->Death();
 	}
 }

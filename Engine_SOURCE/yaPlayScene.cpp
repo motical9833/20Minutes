@@ -26,7 +26,10 @@
 #include "yaCurseScript.h"
 #include "yaDragonPetScript.h"
 #include "yaGhostPetScript.h"
-
+#include "yaGhostBullet.h"
+#include "yaScytheScript.h"
+#include "yaColliderCheckScript.h"
+#include "yaSmiteScript.h"
 
 namespace ya
 {
@@ -267,6 +270,7 @@ namespace ya
 			freezes[0]->GetComponent<Transform>()->SetParent(mBrainMonsters[0]->GetComponent<Transform>());
 			freezes[1]->GetComponent<Transform>()->SetParent(mBoomerMonsters[0]->GetComponent<Transform>());
 			freezes[2]->GetComponent<Transform>()->SetParent(mEyeMonsters[0]->GetComponent<Transform>());
+			freezes[3]->GetComponent<Transform>()->SetParent(mTreeMonsters[0]->GetComponent<Transform>());
 
 			for (size_t i = 0; i < 20; i++)
 			{
@@ -294,10 +298,27 @@ namespace ya
 			curses[0]->GetComponent<Transform>()->SetParent(mBrainMonsters[0]->GetComponent<Transform>());
 			curses[1]->GetComponent<Transform>()->SetParent(mBoomerMonsters[0]->GetComponent<Transform>());
 			curses[2]->GetComponent<Transform>()->SetParent(mEyeMonsters[0]->GetComponent<Transform>());
+			curses[3]->GetComponent<Transform>()->SetParent(mTreeMonsters[0]->GetComponent<Transform>());
+
+			for (size_t i = 0; i < 30; i++)
+			{
+				GameObject* smite = CreateSkillObject(eColliderType::Rect, eLayerType::Skill, L"SmiteFXMaterial");
+				smite->SetLayerType(eLayerType::Skill);
+				smite->GetComponent<Transform>()->SetPosition(Vector3::Zero);
+				smite->GetComponent<Transform>()->SetScale(Vector3(2.0f, 2.0f, 1.0f));
+				smite->GetComponent<Collider2D>()->SetSize(Vector2(0.3f, 0.3f));
+				smite->GetComponent<Collider2D>()->SetCenter(Vector2(0.0f, -0.6f));
+				Animator* smiteAnimator = smite->AddComponent<Animator>();
+				std::shared_ptr<Texture> smiteTexture = Resources::Find<Texture>(L"S_SmiteFX");
+				smiteAnimator->Create(L"Smite", smiteTexture, Vector2::Zero, Vector2(32.0f, 96.0f), Vector2::Zero, 4, 0.1f);
+				smiteAnimator->Play(L"Smite",false);
+				smite->AddComponent<SmiteScript>();
+				smite->Death();
+				smites.push_back(smite);
+			}
 
 			magicLens = CreateSkillObject(eColliderType::Rect, eLayerType::Skill, L"MagicLensMaterial");
 			magicLens->SetLayerType(eLayerType::Skill);
-			magicLens->GetComponent<Transform>()->SetParent(pTr);
 			magicLens->GetComponent<Transform>()->SetPosition(Vector3(-4.0f, 0.0f, 0.0f));
 			magicLens->GetComponent<Collider2D>()->SetSize(Vector2(0.2f, 1.0f));
 			Collider2D* lensCollider = magicLens->GetComponent<Collider2D>();
@@ -329,10 +350,48 @@ namespace ya
 			std::shared_ptr<Texture> ghostPetTexture = Resources::Find<Texture>(L"S_GhostPet");
 			ghostPetAnimator->Create(L"ghostPetIdle", ghostPetTexture, Vector2::Zero, Vector2(16.0f, 16.0f), Vector2::Zero, 6, 0.1f);
 			ghostPetAnimator->Create(L"ghostPetAttack", ghostPetTexture, Vector2(0, 16.0f), Vector2(16.0f, 16.0f), Vector2::Zero, 4, 0.1f);
-
 			ghostPetAnimator->Play(L"ghostPetIdle", true);
 
+			for (size_t i = 0; i < 20; i++)
+			{
+				Bullet* bullet = object::Instantiate<Bullet>(eLayerType::Bullet, this);
+				bullet->SetLayerType(eLayerType::Bullet);
+				Transform* bTr = bullet->GetComponent<Transform>();
+				bTr->SetPosition(Vector3::Zero);
+				bTr->SetScale(Vector3(2.0f, 2.0f, 1.0f));
+				Collider2D* bulletColloder = bullet->AddComponent<Collider2D>();
+				bulletColloder->SetType(eColliderType::Rect);
+				bulletColloder->SetSize(Vector2(0.1f, 0.1f));
+				SpriteRenderer* render = bullet->AddComponent<SpriteRenderer>();
+				std::shared_ptr<Material> bulletMaterial = Resources::Find<Material>(L"BulletMaterial");
+				render->SetMaterial(bulletMaterial);
+				std::shared_ptr<Mesh> bulletMesh = Resources::Find<Mesh>(L"RectMesh");
+				render->SetMesh(bulletMesh);
+				Animator* bulletAnimator = bullet->AddComponent<Animator>();
+				std::shared_ptr<Texture> bulletTexture = Resources::Find<Texture>(L"BulletTexture");
+				bulletAnimator->Create(L"BulletAni", bulletTexture, Vector2(0.0f, 0.0f), Vector2(16.0f, 14.0f), Vector2::Zero, 2, 0.0f);
+				bulletAnimator->Play(L"BulletAni", true);
+				bulletAnimator->Stop();
+				bullet->AddComponent<GhostBullet>();
+				bullet->Death();
+				ghostBullets.push_back(bullet);
+			}
+			scythe = CreateSkillObject(eColliderType::Rect, eLayerType::Skill, L"ScytheMaterial");
+			scythe->SetLayerType(eLayerType::Skill);
+			scythe->AddComponent<ScytheScript>();
+
+			colliderCheck = object::Instantiate<GameObject>(eLayerType::Skill, this);
+			colliderCheck->SetLayerType(eLayerType::Skill);
+			Transform* checkTr = colliderCheck->GetComponent<Transform>();
+			checkTr->SetPosition(Vector3::Zero);
+			checkTr->SetScale(Vector3::One);
+			Collider2D* checkCollider = colliderCheck->AddComponent<Collider2D>();
+			checkCollider->SetType(eColliderType::Rect);
+			checkCollider->SetType(eColliderType::Rect);
+			checkCollider->SetSize(Vector2(5.0f, 5.0f));
+			colliderCheck->AddComponent<ColliderCheckScript>();
 		}
+
 
 
 		std::vector<SpriteRenderer*> hpSprite;
@@ -434,7 +493,7 @@ namespace ya
 		Monster* m_Brain = object::Instantiate<Monster>(eLayerType::Monster, this);
 		m_Brain->SetLayerType(eLayerType::Monster);
 		m_Brain->SetName(L"Monster");
-		M_DefaultTr(m_Brain, Vector3(4.0f, 0.0f, 0.0f), Vector3::Zero);
+		M_DefaultTr(m_Brain, Vector3(2.0f, 0.0f, 0.0f), Vector3::Zero);
 		CreateCollider(m_Brain, eColliderType::Rect, Vector2(0.5f, 0.5f));
 		CreateSpriteRenderer(m_Brain, L"MonsterMaterial");
 		Animator* mAnimator = m_Brain->AddComponent<Animator>();

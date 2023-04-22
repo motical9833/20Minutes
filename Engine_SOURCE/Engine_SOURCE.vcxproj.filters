@@ -109,6 +109,12 @@
     <Filter Include="Graphics\API">
       <UniqueIdentifier>{7ec7baab-ae6f-4b5f-8666-07aaf9380364}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Component\Script\Contents\SKILL">
+      <UniqueIdentifier>{7c5f1a02-25cc-4be3-b867-430e407ad24d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component\Script\Contents\SKILL\Manager">
+      <UniqueIdentifier>{8247543a-4be3-4d64-b610-39dfd1721840}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="yaApplication.cpp">
@@ -262,32 +268,44 @@
     <ClCompile Include="yaFadeInOutScript.cpp">
       <Filter>Component\Script\Contents</Filter>
     </ClCompile>
-    <ClCompile Include="yaThunderScript.cpp">
-      <Filter>Component\Script\Contents</Filter>
-    </ClCompile>
-    <ClCompile Include="yaSkillManager.cpp">
-      <Filter>Component\Script\Contents</Filter>
-    </ClCompile>
-    <ClCompile Include="GaleScript.cpp">
-      <Filter>Component\Script\Contents</Filter>
-    </ClCompile>
-    <ClCompile Include="yaHolyShieldScript.cpp">
-      <Filter>Component\Script\Contents</Filter>
-    </ClCompile>
-    <ClCompile Include="yaFreezeScript.cpp">
-      <Filter>Component\Script\Contents</Filter>
-    </ClCompile>
-    <ClCompile Include="yaMagicLensScript.cpp">
-      <Filter>Component\Script\Contents</Filter>
-    </ClCompile>
     <ClCompile Include="yaCurseScript.cpp">
-      <Filter>Component\Script\Contents</Filter>
+      <Filter>Component\Script\Contents\SKILL</Filter>
     </ClCompile>
     <ClCompile Include="yaDragonPetScript.cpp">
-      <Filter>Component\Script\Contents</Filter>
+      <Filter>Component\Script\Contents\SKILL</Filter>
+    </ClCompile>
+    <ClCompile Include="yaFreezeScript.cpp">
+      <Filter>Component\Script\Contents\SKILL</Filter>
+    </ClCompile>
+    <ClCompile Include="yaGhostBullet.cpp">
+      <Filter>Component\Script\Contents\SKILL</Filter>
     </ClCompile>
     <ClCompile Include="yaGhostPetScript.cpp">
-      <Filter>Component\Script\Contents</Filter>
+      <Filter>Component\Script\Contents\SKILL</Filter>
+    </ClCompile>
+    <ClCompile Include="yaHolyShieldScript.cpp">
+      <Filter>Component\Script\Contents\SKILL</Filter>
+    </ClCompile>
+    <ClCompile Include="yaMagicLensScript.cpp">
+      <Filter>Component\Script\Contents\SKILL</Filter>
+    </ClCompile>
+    <ClCompile Include="yaScytheScript.cpp">
+      <Filter>Component\Script\Contents\SKILL</Filter>
+    </ClCompile>
+    <ClCompile Include="yaSkillManager.cpp">
+      <Filter>Component\Script\Contents\SKILL\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="GaleScript.cpp">
+      <Filter>Component\Script\Contents\SKILL</Filter>
+    </ClCompile>
+    <ClCompile Include="yaThunderScript.cpp">
+      <Filter>Component\Script\Contents\SKILL</Filter>
+    </ClCompile>
+    <ClCompile Include="yaSmiteScript.cpp">
+      <Filter>Component\Script\Contents\SKILL</Filter>
+    </ClCompile>
+    <ClCompile Include="yaColliderCheckScript.cpp">
+      <Filter>Component\Script\Contents\SKILL</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -457,32 +475,44 @@
     <ClInclude Include="yaFadeInOutScript.h">
       <Filter>Component\Script\Contents</Filter>
     </ClInclude>
-    <ClInclude Include="yaThunderScript.h">
-      <Filter>Component\Script\Contents</Filter>
-    </ClInclude>
-    <ClInclude Include="yaSkillManager.h">
-      <Filter>Component\Script\Contents</Filter>
-    </ClInclude>
-    <ClInclude Include="GaleScript.h">
-      <Filter>Component\Script\Contents</Filter>
-    </ClInclude>
-    <ClInclude Include="yaHolyShieldScript.h">
-      <Filter>Component\Script\Contents</Filter>
-    </ClInclude>
-    <ClInclude Include="yaFreezeScript.h">
-      <Filter>Component\Script\Contents</Filter>
-    </ClInclude>
-    <ClInclude Include="yaMagicLensScript.h">
-      <Filter>Component\Script\Contents</Filter>
-    </ClInclude>
     <ClInclude Include="yaCurseScript.h">
-      <Filter>Component\Script\Contents</Filter>
+      <Filter>Component\Script\Contents\SKILL</Filter>
     </ClInclude>
     <ClInclude Include="yaDragonPetScript.h">
-      <Filter>Component\Script\Contents</Filter>
+      <Filter>Component\Script\Contents\SKILL</Filter>
+    </ClInclude>
+    <ClInclude Include="yaFreezeScript.h">
+      <Filter>Component\Script\Contents\SKILL</Filter>
+    </ClInclude>
+    <ClInclude Include="yaGhostBullet.h">
+      <Filter>Component\Script\Contents\SKILL</Filter>
     </ClInclude>
     <ClInclude Include="yaGhostPetScript.h">
-      <Filter>Component\Script\Contents</Filter>
+      <Filter>Component\Script\Contents\SKILL</Filter>
+    </ClInclude>
+    <ClInclude Include="yaHolyShieldScript.h">
+      <Filter>Component\Script\Contents\SKILL</Filter>
+    </ClInclude>
+    <ClInclude Include="yaMagicLensScript.h">
+      <Filter>Component\Script\Contents\SKILL</Filter>
+    </ClInclude>
+    <ClInclude Include="yaScytheScript.h">
+      <Filter>Component\Script\Contents\SKILL</Filter>
+    </ClInclude>
+    <ClInclude Include="yaSkillManager.h">
+      <Filter>Component\Script\Contents\SKILL\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="GaleScript.h">
+      <Filter>Component\Script\Contents\SKILL</Filter>
+    </ClInclude>
+    <ClInclude Include="yaThunderScript.h">
+      <Filter>Component\Script\Contents\SKILL</Filter>
+    </ClInclude>
+    <ClInclude Include="yaSmiteScript.h">
+      <Filter>Component\Script\Contents\SKILL</Filter>
+    </ClInclude>
+    <ClInclude Include="yaColliderCheckScript.h">
+      <Filter>Component\Script\Contents\SKILL</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

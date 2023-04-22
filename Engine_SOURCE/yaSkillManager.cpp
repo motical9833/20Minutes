@@ -5,6 +5,10 @@
 #include "yaTime.h"
 #include "yaPlayerScript.h"
 #include "yaHolyShieldScript.h"
+#include "yaGhostBullet.h"
+#include "yaSmiteScript.h"
+#include "yaColliderCheckScript.h"
+
 namespace ya
 {
 	SkillManager::SkillManager()
@@ -80,6 +84,40 @@ namespace ya
 			break;
 		}
 	}
+
+	void SkillManager::GhostFire(Vector3 pos, Vector3 dir)
+	{
+		for (size_t i = 0; i < 20; i++)
+		{
+			if (SceneManager::GetPlayScene()->GetGhostBullets()[i] == nullptr)
+				return;
+
+			if (SceneManager::GetPlayScene()->GetGhostBullets()[i]->IsDead() == false)
+				continue;
+
+			SceneManager::GetPlayScene()->GetGhostBullets()[i]->GetComponent<Transform>()->SetPosition(pos);
+			SceneManager::GetPlayScene()->GetGhostBullets()[i]->GetScript<GhostBullet>()->SetDir(dir);
+			SceneManager::GetPlayScene()->GetGhostBullets()[i]->Life();
+			break;
+		}
+	}
+
+	void SkillManager::SmiteFire(Vector3 pos)
+	{
+		for (size_t i = 0; i < 30; i++)
+		{
+			if (SceneManager::GetPlayScene()->GetSmites()[i] == nullptr)
+				return;
+
+			if (SceneManager::GetPlayScene()->GetSmites()[i]->IsDead() == false)
+				continue;
+
+			SceneManager::GetPlayScene()->GetSmites()[i]->GetComponent<Transform>()->SetPosition(pos);
+			SceneManager::GetPlayScene()->GetSmites()[i]->Life();
+			break;
+		}
+	}
+
 	void SkillManager::HolyShield()
 	{
 		GameObject* shield = SceneManager::GetPlayScene()->GetShield();

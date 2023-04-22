@@ -27,7 +27,10 @@ namespace ya
 		std::vector<Bullet*> GetBullet() { return bullets; }
 		std::vector<GameObject*> GetThunders() { return thunders; }
 		std::vector<GameObject*> GetGale() { return gales; }
+		std::vector<Bullet*> GetGhostBullets() { return ghostBullets; }
+		std::vector<GameObject*> GetSmites() { return smites; }
 		GameObject* GetShield() { return holyShield; }
+		GameObject* GetColliderChack() { return colliderCheck; }
 
 		void CreateBrainMonster();
 		void CreateTreeMonster();
@@ -55,11 +58,17 @@ namespace ya
 		std::vector<GameObject*> gales;
 		std::vector<GameObject*> freezes;
 		std::vector<GameObject*> curses;
+		std::vector<GameObject*> smites;
 
 		GameObject* holyShield;
 		GameObject* magicLens;
 		GameObject* dragonPet;
 		GameObject* ghostPet;
+		GameObject* scythe;
+
+		GameObject* colliderCheck;
+
+		std::vector<Bullet*> ghostBullets;
 		Bullet* bullet;
 
 		std::vector<Monster*> mBrainMonsters;		

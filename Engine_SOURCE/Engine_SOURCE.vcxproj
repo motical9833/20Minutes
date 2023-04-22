@@ -161,6 +161,7 @@
     <ClInclude Include="yaBulletScript.h" />
     <ClInclude Include="yaCollider3D.h" />
     <ClInclude Include="yaCollider2D.h" />
+    <ClInclude Include="yaColliderCheckScript.h" />
     <ClInclude Include="yaCollisionManager.h" />
     <ClInclude Include="CommonInclude.h" />
     <ClInclude Include="yaApplication.h" />
@@ -179,6 +180,7 @@
     <ClInclude Include="yaFadeInOutScript.h" />
     <ClInclude Include="yaFreezeScript.h" />
     <ClInclude Include="yaGameObject.h" />
+    <ClInclude Include="yaGhostBullet.h" />
     <ClInclude Include="yaGhostPetScript.h" />
     <ClInclude Include="yaGraphicDevice_DX11.h" />
     <ClInclude Include="yaGraphics.h" />
@@ -208,8 +210,10 @@
     <ClInclude Include="yaScene.h" />
     <ClInclude Include="yaSceneManager.h" />
     <ClInclude Include="yaScript.h" />
+    <ClInclude Include="yaScytheScript.h" />
     <ClInclude Include="yaShader.h" />
     <ClInclude Include="yaSkillManager.h" />
+    <ClInclude Include="yaSmiteScript.h" />
     <ClInclude Include="yaSpriteRenderer.h" />
     <ClInclude Include="yaStructedBuffer.h" />
     <ClInclude Include="yaTexture.h" />
@@ -228,6 +232,7 @@
     <ClCompile Include="yaBulletScript.cpp" />
     <ClCompile Include="yaCollider3D.cpp" />
     <ClCompile Include="yaCollider2D.cpp" />
+    <ClCompile Include="yaColliderCheckScript.cpp" />
     <ClCompile Include="yaCollisionManager.cpp" />
     <ClCompile Include="yaApplication.cpp" />
     <ClCompile Include="yaBaseRenderer.cpp" />
@@ -243,6 +248,7 @@
     <ClCompile Include="yaFadeInOutScript.cpp" />
     <ClCompile Include="yaFreezeScript.cpp" />
     <ClCompile Include="yaGameObject.cpp" />
+    <ClCompile Include="yaGhostBullet.cpp" />
     <ClCompile Include="yaGhostPetScript.cpp" />
     <ClCompile Include="yaGraphicDevice_DX11.cpp" />
     <ClCompile Include="yaGridScript.cpp" />
@@ -270,8 +276,10 @@
     <ClCompile Include="yaScene.cpp" />
     <ClCompile Include="yaSceneManager.cpp" />
     <ClCompile Include="yaScript.cpp" />
+    <ClCompile Include="yaScytheScript.cpp" />
     <ClCompile Include="yaShader.cpp" />
     <ClCompile Include="yaSkillManager.cpp" />
+    <ClCompile Include="yaSmiteScript.cpp" />
     <ClCompile Include="yaSpriteRenderer.cpp" />
     <ClCompile Include="yaStructedBuffer.cpp" />
     <ClCompile Include="yaTexture.cpp" />

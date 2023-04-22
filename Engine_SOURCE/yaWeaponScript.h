@@ -41,6 +41,7 @@ namespace ya
 		void ReloadSkill();
 
 		void Gale();
+		void Smite();
 
 		void Fire();
 		void WeaponRotate();

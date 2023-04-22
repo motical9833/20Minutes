@@ -49,7 +49,7 @@ namespace ya
 			mSpeed = 0;
 			freezeTime += Time::DeltaTime();
 
-			if (freezeTime >= 1.0f)
+			if (freezeTime >= 3.0f)
 			{
 				Transform* tr = GetOwner()->GetComponent<Transform>();
 				tr->GetChiled(0)->GetOwner()->Death();
@@ -95,17 +95,18 @@ namespace ya
 	}
 	void MonsterScript::TakeDamage(int damage)
 	{
-		if (mCurrentHp == NULL)
-			return;
-
-		mCurrentHp -= damage;
-
 		if (bCurse)
 		{
 			bCurse = false;
 			Transform* tr = GetOwner()->GetComponent<Transform>();
-			tr->GetChiled(1)->GetOwner()->Death();
+			tr->GetChiled(1)->GetOwner()->GetScript<CurseScript>()->Reset();
+			this->TakeDamage(mDamage);
 		}
+
+		if (mCurrentHp == NULL)
+			return;
+
+		mCurrentHp -= damage;
 
 		if (mCurrentHp <= 0)
 		{
@@ -115,6 +116,7 @@ namespace ya
 			ani->Play(L"DeathAnimation", false);
 			Transform* tr = GetOwner()->GetComponent<Transform>();
 			tr->GetChiled(0)->GetOwner()->Death();
+			tr->GetChiled(1)->GetOwner()->GetScript<CurseScript>()->Reset();
 		}
 	}
 	void MonsterScript::Reset()

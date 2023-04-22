@@ -1,5 +1,7 @@
 #include "yaMagicLensScript.h"
 #include "yaGameObject.h"
+#include "yaSceneManager.h"
+#include "yaPlayScene.h"
 #include "yaTime.h"
 
 namespace ya
@@ -66,8 +68,8 @@ namespace ya
 	{
 		mTime += Time::DeltaTime() * mSpeed;
 
-		float x = std::cos(mTime) * mWidth;
-		float y = std::sin(mTime) * mHeight;
+		float x = (std::cos(mTime) * mWidth) + SceneManager::GetPlayScene()->GetPlayer()->GetComponent<Transform>()->GetPosition().x;
+		float y = (std::sin(mTime) * mHeight) + SceneManager::GetPlayScene()->GetPlayer()->GetComponent<Transform>()->GetPosition().y;
 
 		float z = 0;
 
@@ -77,11 +79,13 @@ namespace ya
 	{
 		Transform* mTrans = GetOwner()->GetComponent<Transform>();
 
-		Vector3 mPos = mTrans->GetPosition() + mTrans->GetParent()->GetPosition();
+		//Vector3 mPos = mTrans->GetPosition() + mTrans->GetParent()->GetPosition();
 
+		Vector3 mPos = mTrans->GetPosition();
 		Vector3 rot = mTrans->GetRotation();
 
-		Vector3 playerPos = mTrans->GetParent()->GetPosition();
+		//Vector3 playerPos = mTrans->GetParent()->GetPosition();
+		Vector3 playerPos = SceneManager::GetPlayScene()->GetPlayer()->GetComponent<Transform>()->GetPosition();
 		Vector3 mRot = mTrans->GetRotation();
 		mRot.z = atan2(playerPos.y - mPos.y, playerPos.x - mPos.x);
 		mTrans->SetRotation(mRot);
