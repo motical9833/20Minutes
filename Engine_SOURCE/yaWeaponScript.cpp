@@ -262,7 +262,7 @@ namespace ya
 				if (bullets[i]->GetOwner()->IsDead() == false)
 					continue;
 
-				Vector3 pos = firePosObject[a]->GetComponent<Transform>()->GetPosition() + mTransform->GetParent()->GetPosition();
+				Vector3 pos = mTransform->GetParent()->GetPosition() + mTransform->GetPosition();
 				Vector3 rot = firePosObject[a]->GetComponent<Transform>()->GetRotation() + mTransform->GetRotation();
 
 				bullets[i]->SetPosition(pos);
@@ -298,6 +298,11 @@ namespace ya
 		mRot.z = atan2(mMousePos.y - mPos.y, mMousePos.x - mPos.x);
 		mTrans->SetRotation(mRot);
 
+		Vector3 dir = Input::GetMousePosition() - mPos;
+
+		dir.Normalize();
+
+		GetOwner()->GetComponent<Transform>()->SetPosition(dir);
 
 	}
 	void WeaponScript::Start()

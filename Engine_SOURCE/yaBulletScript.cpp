@@ -15,7 +15,7 @@
 namespace ya
 {
 	BulletScript::BulletScript()
-		:mSpeed(10.0f)
+		:mSpeed(20.0f)
 		,time(0.0f)
 		,crashTime(0.0f)
 		,mDamage(10)
@@ -80,8 +80,6 @@ namespace ya
 	}
 	void BulletScript::OnCollisionEnter(Collider2D* collider)
 	{
-		int a = 0;
-
 		if (collider->GetOwner()->GetLayerType() == eLayerType::Monster && collider->GetOwner()->GetState() == (UINT)GameObject::eState::Active)
 		{
 			Animator* animator = GetOwner()->GetComponent<Animator>();
@@ -129,7 +127,7 @@ namespace ya
 	{
 		time = 0.0f;
 		crashTime = 0.0f;
-		mSpeed = 10.0f;
+		mSpeed = 20.0f;
 		mTr->SetPosition(Vector3::Zero);
 		mTr->SetRotation(Vector3::Zero);
 		mTr->SetScale(Vector3(2.0f, 2.0f, 0.0f));

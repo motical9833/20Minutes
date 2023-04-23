@@ -30,6 +30,9 @@ namespace ya
 
 		float mSpeed;
 		float mTime;
+		float crashTime;
 		Vector3 mDir;
+
+		bool bCrash;
 	};
 }

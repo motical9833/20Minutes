@@ -97,7 +97,7 @@ namespace ya
 			Animator* animator = GetOwner()->GetComponent<Animator>();
 			animator->Play(L"DragonAttack", false);
 
-			SceneManager::GetPlayScene()->GetSkillManager()->GetScript<SkillManager>()->GhostFire(a, dirValue);
+			SceneManager::GetPlayScene()->GetSkillManager()->GetScript<SkillManager>()->DragonFIre(a, dirValue);
 			mAttackTime = 0;
 		}
 	}

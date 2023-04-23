@@ -109,7 +109,7 @@ namespace ya
 			player->SetName(L"Player");
 			Transform* pTr = player->GetComponent<Transform>();
 			pTr->SetPosition(Vector3(0.0f, 0.0f, 0.0f));
-			pTr->SetScale(Vector3(3.0f, 3.0f, 1.0f));
+			pTr->SetScale(Vector3(4.0f, 4.0f, 1.0f));
 			Collider2D* pCollider = player->AddComponent<Collider2D>();
 			pCollider->SetType(eColliderType::Rect);
 			pCollider->SetSize(Vector2(0.2f, 0.2f));
@@ -155,7 +155,7 @@ namespace ya
 				GameObject* firePosObject = object::Instantiate<GameObject>(eLayerType::None, this);
 				firePosObject->SetName(L"FirePosObject" + i);
 				firePosObject->GetComponent<Transform>()->SetParent(weaponTr);
-				firePosObject->GetComponent<Transform>()->SetPosition(Vector3(0.3f, 0.0f, 0.0f));
+				firePosObject->GetComponent<Transform>()->SetPosition(Vector3(1.0f, 0.0f, 0.0f));
 				firePosObject->GetComponent<Transform>()->SetRotation(Vector3(0.0f, 0.0f, 0.0f));
 				pWeapon->GetScript<WeaponScript>()->SetFirePosObject(firePosObject);
 			}
@@ -334,7 +334,6 @@ namespace ya
 
 			dragonPet = CreateSkillObject(eLayerType::Skill, L"DragonMaterial");
 			dragonPet->SetLayerType(eLayerType::Skill);
-			//dragonPet->GetComponent<Transform>()->SetParent(pTr);
 			dragonPet->GetComponent<Transform>()->SetScale(Vector3(3.0f,3.0f,1.0f));
 			Animator* dragonAnimator = dragonPet->AddComponent<Animator>();
 			std::shared_ptr<Texture> dragonEggTexture = Resources::Find<Texture>(L"S_DragonEgg");
@@ -347,7 +346,6 @@ namespace ya
 
 			ghostPet = CreateSkillObject(eLayerType::Skill, L"DragonMaterial");
 			ghostPet->SetLayerType(eLayerType::Skill);
-			//ghostPet->GetComponent<Transform>()->SetParent(pTr);
 			ghostPet->GetComponent<Transform>()->SetScale(Vector3(3.0f, 3.0f, 1.0f));
 			Animator* ghostPetAnimator = ghostPet->AddComponent<Animator>();
 			std::shared_ptr<Texture> ghostPetTexture = Resources::Find<Texture>(L"S_GhostPet");

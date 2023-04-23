@@ -8,7 +8,7 @@ namespace ya
 {
 	GhostBullet::GhostBullet()
 		:mDamage(10)
-		, mSpeed(5.0f)
+		, mSpeed(4.0f)
 		, mTime(0.0f)
 		, mDir{}
 	{
@@ -46,6 +46,8 @@ namespace ya
 	{
 		if (collider->GetOwner()->GetLayerType() == eLayerType::Monster && collider->GetOwner()->GetState() == (UINT)GameObject::eState::Active)
 		{
+			Vector3 a = collider->GetOwner()->GetComponent<Transform>()->GetPosition();
+
 			collider->GetOwner()->GetScript<MonsterScript>()->TakeDamage(mDamage);
 		}
 	}

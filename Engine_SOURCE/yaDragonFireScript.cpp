@@ -1,6 +1,7 @@
 #include "yaDragonFireScript.h"
 #include "yaGameObject.h"
 #include "yaMonsterScript.h"
+#include "yaAnimator.h"
 #include "yaTime.h"
 
 namespace ya
@@ -9,7 +10,9 @@ namespace ya
 		:mDamage(10)
 		, mSpeed(5.0f)
 		, mTime(0.0f)
+		, crashTime(0.0f)
 		, mDir{}
+		, bCrash(false)
 	{
 
 	}
@@ -19,17 +22,27 @@ namespace ya
 	}
 	void DragonFireScript::Initalize()
 	{
-
+		Animator* animator = GetOwner()->GetComponent<Animator>();
+		animator->GetEndEvent(L"BulletAni") = std::bind(&DragonFireScript::End, this);
 	}
 	void DragonFireScript::Update()
 	{
 		mTime += Time::DeltaTime();
 		Vector3 pos = GetOwner()->GetComponent<Transform>()->GetPosition();
 
-		if (mTime >= 5.0f)
+		if (mTime >= 5.0f && bCrash == false)
 		{
 			GetOwner()->Death();
 			Reset();
+		}
+		else if (bCrash)
+		{
+			crashTime += Time::DeltaTime();
+			if (crashTime >= 0.01f)
+			{
+				Reset();
+				this->GetOwner()->Death();
+			}
 		}
 
 		pos.x += mDir.x * mSpeed * Time::DeltaTime();
@@ -45,6 +58,10 @@ namespace ya
 	{
 		if (collider->GetOwner()->GetLayerType() == eLayerType::Monster && collider->GetOwner()->GetState() == (UINT)GameObject::eState::Active)
 		{
+			Animator* animator = GetOwner()->GetComponent<Animator>();
+			animator->Play(L"BulletAni", false);
+			animator->Start();
+
 			collider->GetOwner()->GetScript<MonsterScript>()->TakeDamage(mDamage);
 		}
 	}
@@ -66,7 +83,7 @@ namespace ya
 	}
 	void DragonFireScript::End()
 	{
-
+		bCrash = true;
 	}
 	void DragonFireScript::TakeDamage(int damage)
 	{
@@ -75,10 +92,12 @@ namespace ya
 	void DragonFireScript::Reset()
 	{
 		mTime = 0;
+		crashTime = 0.0f;
 		mSpeed = 5;
 		mDamage = 10;
 		GetOwner()->GetComponent<Transform>()->SetScale(Vector3(2.0f, 2.0f, 1.0f));
 		GetOwner()->GetComponent<Transform>()->SetPosition(Vector3::Zero);
 		GetOwner()->GetComponent<Transform>()->SetRotation(Vector3::Zero);
+		bCrash = false;
 	}
 }
