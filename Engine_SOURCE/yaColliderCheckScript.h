@@ -22,7 +22,8 @@ namespace ya
 		void Start();
 		void Action();
 		void End();
-		void Reset();
+		void DeathChack();
+		Vector3 GetMonsterPos();
 
 		list<Monster*> GetMonsters() { return monsters; }
 

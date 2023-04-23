@@ -39,8 +39,6 @@ namespace ya
 		Scene* playScene = SceneManager::GetPlaySCene();
 		mWeapon = dynamic_cast<PlayScene*>(playScene)->GetWeapon();
 
-		//mTr->SetParent(mWeapon->GetComponent<Transform>());
-		//mTr->SetPosition(Vector3::Zero);
 
 		Animator* animator = GetOwner()->GetComponent<Animator>();
 		//멤버함수 이기 떄문에 어떤 함수인지 풀네임으로 적어줘야 한다.
@@ -57,9 +55,8 @@ namespace ya
 
 		if (time >= 3.0f)
 		{
+			Reset();
 			GetOwner()->Death();
-			time = 0;
-			mTr->SetPosition(Vector3::Zero);
 		}
 		else if (bCrash)
 		{
@@ -71,8 +68,6 @@ namespace ya
 			}
 		}
 
-		//pos.x += direction.x * mSpeed * Time::DeltaTime();
-		//pos.y += direction.y * mSpeed * Time::DeltaTime();
 
 		pos += mTr->Right() * mSpeed * Time::DeltaTime();
 
@@ -135,8 +130,8 @@ namespace ya
 		time = 0.0f;
 		crashTime = 0.0f;
 		mSpeed = 10.0f;
-		mTr->SetPosition(Vector3(0.0f, 0.0f, 0.0f));
-		mTr->SetRotation(Vector3(0.0f, 0.0f, 0.0f));
+		mTr->SetPosition(Vector3::Zero);
+		mTr->SetRotation(Vector3::Zero);
 		mTr->SetScale(Vector3(2.0f, 2.0f, 0.0f));
 		bCrash = false;
 		bThunder = false;

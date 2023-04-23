@@ -3,12 +3,11 @@
 
 namespace ya
 {
-	class PlayScene;
-	class DragonPetScript : public Script
+	class DragonFireScript : public Script
 	{
 	public:
-		DragonPetScript();
-		~DragonPetScript();
+		DragonFireScript();
+		~DragonFireScript();
 
 		virtual void Initalize() override;
 		virtual void Update() override;
@@ -18,24 +17,19 @@ namespace ya
 		virtual void OnCollisionStay(Collider2D* collider) override;
 		virtual void OnCollisionExit(Collider2D* collider) override;
 
+		void SetDir(Vector3 dir) { mDir = dir; }
+
 		void Start();
 		void Action();
 		void End();
+		void TakeDamage(int damage);
 		void Reset();
 
-		
-		void Attack();
-
-		void Circularmotion();
-
-
 	private:
-		float mSpeed;
-		float mWidth;
-		float mHeight;
-		float mTime;
-		float mAttackTime;
+		int mDamage;
 
-		PlayScene* pscene;
+		float mSpeed;
+		float mTime;
+		Vector3 mDir;
 	};
 }

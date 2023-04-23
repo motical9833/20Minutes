@@ -1,12 +1,11 @@
-#include "yaGhostBullet.h"
+#include "yaDragonFireScript.h"
 #include "yaGameObject.h"
 #include "yaMonsterScript.h"
 #include "yaTime.h"
 
-
 namespace ya
 {
-	GhostBullet::GhostBullet()
+	DragonFireScript::DragonFireScript()
 		:mDamage(10)
 		, mSpeed(5.0f)
 		, mTime(0.0f)
@@ -14,15 +13,15 @@ namespace ya
 	{
 
 	}
-	GhostBullet::~GhostBullet()
+	DragonFireScript::~DragonFireScript()
 	{
 
 	}
-	void GhostBullet::Initalize()
+	void DragonFireScript::Initalize()
 	{
 
 	}
-	void GhostBullet::Update()
+	void DragonFireScript::Update()
 	{
 		mTime += Time::DeltaTime();
 		Vector3 pos = GetOwner()->GetComponent<Transform>()->GetPosition();
@@ -38,47 +37,47 @@ namespace ya
 
 		GetOwner()->GetComponent<Transform>()->SetPosition(pos);
 	}
-	void GhostBullet::Render()
+	void DragonFireScript::Render()
 	{
 
 	}
-	void GhostBullet::OnCollisionEnter(Collider2D* collider)
+	void DragonFireScript::OnCollisionEnter(Collider2D* collider)
 	{
 		if (collider->GetOwner()->GetLayerType() == eLayerType::Monster && collider->GetOwner()->GetState() == (UINT)GameObject::eState::Active)
 		{
 			collider->GetOwner()->GetScript<MonsterScript>()->TakeDamage(mDamage);
 		}
 	}
-	void GhostBullet::OnCollisionStay(Collider2D* collider)
+	void DragonFireScript::OnCollisionStay(Collider2D* collider)
 	{
 
 	}
-	void GhostBullet::OnCollisionExit(Collider2D* collider)
+	void DragonFireScript::OnCollisionExit(Collider2D* collider)
 	{
 
 	}
-	void GhostBullet::Start()
+	void DragonFireScript::Start()
 	{
 
 	}
-	void GhostBullet::Action()
+	void DragonFireScript::Action()
 	{
 
 	}
-	void GhostBullet::End()
+	void DragonFireScript::End()
 	{
 
 	}
-	void GhostBullet::TakeDamage(int damage)
+	void DragonFireScript::TakeDamage(int damage)
 	{
 
 	}
-	void GhostBullet::Reset()
+	void DragonFireScript::Reset()
 	{
 		mTime = 0;
 		mSpeed = 5;
 		mDamage = 10;
-		GetOwner()->GetComponent<Transform>()->SetScale(Vector3(2.0f,2.0f,1.0f));
+		GetOwner()->GetComponent<Transform>()->SetScale(Vector3(2.0f, 2.0f, 1.0f));
 		GetOwner()->GetComponent<Transform>()->SetPosition(Vector3::Zero);
 		GetOwner()->GetComponent<Transform>()->SetRotation(Vector3::Zero);
 	}

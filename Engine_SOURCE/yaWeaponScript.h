@@ -51,6 +51,7 @@ namespace ya
 		void End();
 
 		void Reset();
+
 	private:
 
 		void Cheat();

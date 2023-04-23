@@ -1,14 +1,15 @@
 #pragma once
 #include "yaScript.h"
 
+
+
 namespace ya
 {
-	class PlayScene;
-	class DragonPetScript : public Script
+	class SpearScript : public Script
 	{
 	public:
-		DragonPetScript();
-		~DragonPetScript();
+		SpearScript(int cnt);
+		~SpearScript();
 
 		virtual void Initalize() override;
 		virtual void Update() override;
@@ -23,19 +24,25 @@ namespace ya
 		void End();
 		void Reset();
 
-		
+		void Circularmotion();
+		void LookPayer();
+
+		void SetDir(Vector3 dir) { mDir = dir; }
 		void Attack();
 
-		void Circularmotion();
-
+		bool GetBAttack() { return bAttack; };
 
 	private:
 		float mSpeed;
+		float mFireSpeed;
 		float mWidth;
 		float mHeight;
 		float mTime;
 		float mAttackTime;
+		float value;
+		int mDamage;
 
-		PlayScene* pscene;
+		bool bAttack;
+		Vector3 mDir;
 	};
 }

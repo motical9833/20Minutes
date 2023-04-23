@@ -81,8 +81,48 @@ namespace ya
 	{
 
 	}
-	void ColliderCheckScript::Reset()
+	void ColliderCheckScript::DeathChack()
 	{
+		list<Monster*>::iterator iter = monsters.begin();
 
+		for (iter = monsters.begin(); iter != monsters.end(); iter++)
+		{
+			if ((*iter)->IsDead())
+			{
+				monsters.erase(iter);
+				return;
+			}
+			else
+			{
+				continue;
+			}
+		}
+	}
+	Vector3 ColliderCheckScript::GetMonsterPos()
+	{
+		DeathChack();
+
+		list<Monster*>::iterator iter = monsters.begin();
+
+		double temp = 10.0f;
+		Vector3 pos;
+
+		for (iter = monsters.begin(); iter != monsters.end(); iter++)
+		{
+
+			Vector3 a = SceneManager::GetPlayScene()->GetDragonPet()->GetComponent<Transform>()->GetPosition();
+			Vector3 b = (*iter)->GetComponent<Transform>()->GetPosition();
+			Vector3 value = b - a;
+			
+			double r = sqrt(pow(value.x, 2) + pow(value.y, 2));
+
+			if (r < temp)
+			{
+				temp = r;
+				pos = b;
+			}
+		}
+		return pos;
+		
 	}
 }

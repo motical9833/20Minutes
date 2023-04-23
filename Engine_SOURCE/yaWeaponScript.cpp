@@ -220,6 +220,7 @@ namespace ya
 	{
 		Gale();
 		Smite();
+		pScene->GetSkillManager()->GetScript<SkillManager>()->Spear();
 	}
 
 	void WeaponScript::Gale()
@@ -234,11 +235,14 @@ namespace ya
 
 	void WeaponScript::Smite()
 	{
+		pScene->GetColliderChack()->GetScript<ColliderCheckScript>()->DeathChack();
+
 		int arrayLength = pScene->GetColliderChack()->GetScript<ColliderCheckScript>()->GetMonsters().size();
 
 		list<Monster*> monsters = pScene->GetColliderChack()->GetScript<ColliderCheckScript>()->GetMonsters();
 
 		list<Monster*>::iterator iter = pScene->GetColliderChack()->GetScript<ColliderCheckScript>()->GetMonsters().begin();
+
 
 		for (iter = monsters.begin(); iter != monsters.end(); iter++)
 		{

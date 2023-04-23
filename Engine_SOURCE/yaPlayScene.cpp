@@ -30,6 +30,8 @@
 #include "yaScytheScript.h"
 #include "yaColliderCheckScript.h"
 #include "yaSmiteScript.h"
+#include "yaSpearScript.h"
+#include "yaDragonFireScript.h"
 
 namespace ya
 {
@@ -59,16 +61,6 @@ namespace ya
 		//Transform* particleTr = particle->GetComponent<Transform>();
 		//particleTr->SetPosition(Vector3(0.0f, 0.0f, 0.0f));
 		//particle->AddComponent<ParticleSystem>();
-
-
-
-		// Monster
-		{
-			CreateBrainMonster();
-			CreateEyeMonster();
-			CreateTreeMonster();
-			CreateBommerMonster();
-		}
 
 
 		//SMILE RECT
@@ -128,9 +120,13 @@ namespace ya
 			pMr->SetMesh(pMesh);
 			Animator* animator = player->AddComponent<Animator>();
 			std::shared_ptr<Texture> texture = Resources::Load<Texture>(L"Shana", L"Player\\Shana.png");
-			animator->Create(L"pIdle", texture, Vector2(0.0f, 0.0f), Vector2(32.0f, 33.3f), Vector2::Zero, 6, 0.2f);
-			animator->Create(L"pMove", texture, Vector2(0.0f, 33.3f), Vector2(32.0f, 33.3f), Vector2::Zero, 4, 0.15f);
-			animator->Play(L"pIdle", true);
+			animator->Create(L"pRightIdle", texture, Vector2(0.0f, 0.0f), Vector2(32.0f, 33.3f), Vector2::Zero, 6, 0.2f);
+			animator->Create(L"pLeftIdle", texture, Vector2(0.0f, 95.0f), Vector2(32.0f, 33.3f), Vector2::Zero, 6, 0.2f);
+			animator->Create(L"pRightAttackMove", texture, Vector2(0.0f, 66.0f), Vector2(32.0f, 33.3f), Vector2::Zero, 6, 0.2f);
+			animator->Create(L"pLeftAttackMove", texture, Vector2(0.0f, 160.0f), Vector2(32.0f, 33.3f), Vector2::Zero, 6, 0.2f);
+			animator->Create(L"pRightMove", texture, Vector2(0.0f, 33.0f), Vector2(32.0f, 33.0f), Vector2::Zero, 4, 0.15f);
+			animator->Create(L"pLeftMove", texture, Vector2(0.0f, 128.0f), Vector2(32.0f, 33.0f), Vector2::Zero, 4, 0.15f);
+			animator->Play(L"pRightIdle", true);
 			mainCameraTr->SetParent(pTr);
 			mainCameraTr->SetPosition(pTr->GetPosition() + Vector3(0.0f,0.0f,-10.0f));
 			player->AddComponent<PlayerScript>();
@@ -189,6 +185,15 @@ namespace ya
 				bulletAnimator->Stop();
 				bullets[i]->AddComponent<BulletScript>();
 				pWeapon->GetScript<WeaponScript>()->SetBullets(bullets[i]->GetComponent<Transform>());
+			}
+
+
+			// Monster
+			{
+				CreateBrainMonster();
+				CreateEyeMonster();
+				CreateTreeMonster();
+				CreateBommerMonster();
 			}
 
 
@@ -329,8 +334,7 @@ namespace ya
 
 			dragonPet = CreateSkillObject(eLayerType::Skill, L"DragonMaterial");
 			dragonPet->SetLayerType(eLayerType::Skill);
-			dragonPet->AddComponent<DragonPetScript>();
-			dragonPet->GetComponent<Transform>()->SetParent(pTr);
+			//dragonPet->GetComponent<Transform>()->SetParent(pTr);
 			dragonPet->GetComponent<Transform>()->SetScale(Vector3(3.0f,3.0f,1.0f));
 			Animator* dragonAnimator = dragonPet->AddComponent<Animator>();
 			std::shared_ptr<Texture> dragonEggTexture = Resources::Find<Texture>(L"S_DragonEgg");
@@ -338,19 +342,19 @@ namespace ya
 			dragonAnimator->Create(L"DragonEgg", dragonEggTexture, Vector2::Zero, Vector2(32.0f, 32.0f), Vector2::Zero, 1, 255);
 			dragonAnimator->Create(L"DragonIdle", dragonTexture, Vector2::Zero, Vector2(32.0f, 32.0f), Vector2::Zero, 6, 0.1f);
 			dragonAnimator->Create(L"DragonAttack", dragonTexture, Vector2(0, 32.0f) , Vector2(32.0f, 32.0f), Vector2::Zero, 4, 0.1f);
-
 			dragonAnimator->Play(L"DragonIdle",true);
+			dragonPet->AddComponent<DragonPetScript>();
 
 			ghostPet = CreateSkillObject(eLayerType::Skill, L"DragonMaterial");
 			ghostPet->SetLayerType(eLayerType::Skill);
-			ghostPet->AddComponent<GhostPetScript>();
-			ghostPet->GetComponent<Transform>()->SetParent(pTr);
+			//ghostPet->GetComponent<Transform>()->SetParent(pTr);
 			ghostPet->GetComponent<Transform>()->SetScale(Vector3(3.0f, 3.0f, 1.0f));
 			Animator* ghostPetAnimator = ghostPet->AddComponent<Animator>();
 			std::shared_ptr<Texture> ghostPetTexture = Resources::Find<Texture>(L"S_GhostPet");
 			ghostPetAnimator->Create(L"ghostPetIdle", ghostPetTexture, Vector2::Zero, Vector2(16.0f, 16.0f), Vector2::Zero, 6, 0.1f);
 			ghostPetAnimator->Create(L"ghostPetAttack", ghostPetTexture, Vector2(0, 16.0f), Vector2(16.0f, 16.0f), Vector2::Zero, 4, 0.1f);
 			ghostPetAnimator->Play(L"ghostPetIdle", true);
+			ghostPet->AddComponent<GhostPetScript>();
 
 			for (size_t i = 0; i < 20; i++)
 			{
@@ -376,6 +380,33 @@ namespace ya
 				bullet->Death();
 				ghostBullets.push_back(bullet);
 			}
+
+			for (size_t i = 0; i < 20; i++)
+			{
+				Bullet* bullet = object::Instantiate<Bullet>(eLayerType::Bullet, this);
+				bullet->SetLayerType(eLayerType::Bullet);
+				Transform* bTr = bullet->GetComponent<Transform>();
+				bTr->SetPosition(Vector3::Zero);
+				bTr->SetScale(Vector3(2.0f, 2.0f, 1.0f));
+				Collider2D* bulletColloder = bullet->AddComponent<Collider2D>();
+				bulletColloder->SetType(eColliderType::Rect);
+				bulletColloder->SetSize(Vector2(0.1f, 0.1f));
+				SpriteRenderer* render = bullet->AddComponent<SpriteRenderer>();
+				std::shared_ptr<Material> bulletMaterial = Resources::Find<Material>(L"BulletMaterial");
+				render->SetMaterial(bulletMaterial);
+				std::shared_ptr<Mesh> bulletMesh = Resources::Find<Mesh>(L"RectMesh");
+				render->SetMesh(bulletMesh);
+				Animator* bulletAnimator = bullet->AddComponent<Animator>();
+				std::shared_ptr<Texture> bulletTexture = Resources::Find<Texture>(L"BulletTexture");
+				bulletAnimator->Create(L"BulletAni", bulletTexture, Vector2(0.0f, 0.0f), Vector2(16.0f, 14.0f), Vector2::Zero, 2, 0.0f);
+				bulletAnimator->Play(L"BulletAni", true);
+				bulletAnimator->Stop();
+				bullet->AddComponent<DragonFireScript>();
+				bullet->Death();
+				dragonFires.push_back(bullet);
+			}
+
+
 			scythe = CreateSkillObject(eColliderType::Rect, eLayerType::Skill, L"ScytheMaterial");
 			scythe->SetLayerType(eLayerType::Skill);
 			scythe->AddComponent<ScytheScript>();
@@ -390,6 +421,17 @@ namespace ya
 			checkCollider->SetType(eColliderType::Rect);
 			checkCollider->SetSize(Vector2(5.0f, 5.0f));
 			colliderCheck->AddComponent<ColliderCheckScript>();
+
+			for (size_t i = 0; i < 2; i++)
+			{
+				GameObject* spear = CreateSkillObject(eColliderType::Rect, eLayerType::Skill, L"SpearMaterial");
+				spear->SetLayerType(eLayerType::Skill);
+				Collider2D* spearCollider = spear->GetComponent<Collider2D>();
+				spearCollider->SetSize(Vector2(0.5f, 1.0f));
+				spears.push_back(spear);
+			}
+			spears[0]->AddComponent<SpearScript>(3);
+			spears[1]->AddComponent<SpearScript>(0);
 		}
 
 
@@ -492,17 +534,18 @@ namespace ya
 	{
 		Monster* m_Brain = object::Instantiate<Monster>(eLayerType::Monster, this);
 		m_Brain->SetLayerType(eLayerType::Monster);
-		m_Brain->SetName(L"Monster");
-		M_DefaultTr(m_Brain, Vector3(2.0f, 0.0f, 0.0f), Vector3::Zero);
+		m_Brain->SetName(L"brain");
+		M_DefaultTr(m_Brain, Vector3(-2.0f, 0.0f, 0.0f), Vector3(2.0f,2.0f,1.0f));
 		CreateCollider(m_Brain, eColliderType::Rect, Vector2(0.5f, 0.5f));
-		CreateSpriteRenderer(m_Brain, L"MonsterMaterial");
+		CreateSpriteRenderer(m_Brain, L"BrainMonsterMaterial");
 		Animator* mAnimator = m_Brain->AddComponent<Animator>();
 		std::shared_ptr<Texture> mTexture = Resources::Find<Texture>(L"BrainMonster");
 		std::shared_ptr<Texture> deathTexture = Resources::Find<Texture>(L"M_DeathFX");
-		mAnimator->Create(L"m_Idle", mTexture, Vector2(0.0f, 0.0f), Vector2(64.0f, 64.0f), Vector2::Zero, 4, 0.1f);
+		mAnimator->Create(L"m_Right", mTexture, Vector2(0.0f, 0.0f), Vector2(64.0f, 64.0f), Vector2::Zero, 4, 0.1f);
+		mAnimator->Create(L"m_Left", mTexture, Vector2(0.0f, 64.0f), Vector2(64.0f, 64.0f), Vector2::Zero, 4, 0.1f);
 		mAnimator->Create(L"DeathAnimation", deathTexture, Vector2(0.0f, 0.0f), Vector2(40.0f, 40.0f), Vector2::Zero, 4, 0.1f);
-		mAnimator->Play(L"m_Idle", true);
-		m_Brain->AddComponent<MonsterScript>(50);
+		mAnimator->Play(L"m_Left", true);
+		m_Brain->AddComponent<MonsterScript>(200);
 		mBrainMonsters.push_back(m_Brain);
 	}
 	void PlayScene::CreateTreeMonster()
@@ -516,8 +559,10 @@ namespace ya
 		Animator* treeAnimator = m_tree->AddComponent<Animator>();
 		std::shared_ptr<Texture> treeTexture = Resources::Find<Texture>(L"TreeSprite");
 		std::shared_ptr<Texture> deathTexture = Resources::Find<Texture>(L"M_DeathFX");
-		treeAnimator->Create(L"m_Idle", treeTexture, Vector2(0.0f, 0.0f), Vector2(110.0f, 160.0f), Vector2::Zero, 3, 0.5f);
-		treeAnimator->Play(L"m_Idle", true);
+		treeAnimator->Create(L"m_Right", treeTexture, Vector2(0.0f, 0.0f), Vector2(110.0f, 160.0f), Vector2::Zero, 3, 0.5f);
+		treeAnimator->Create(L"m_Left", treeTexture, Vector2(0.0f, 0.0f), Vector2(110.0f, 160.0f), Vector2::Zero, 3, 0.5f);
+		treeAnimator->Create(L"DeathAnimation", deathTexture, Vector2(0.0f, 0.0f), Vector2(40.0f, 40.0f), Vector2::Zero, 4, 0.1f);
+		treeAnimator->Play(L"m_Right", true);
 		m_tree->AddComponent<MonsterScript>();
 		mTreeMonsters.push_back(m_tree);
 	}
@@ -532,10 +577,11 @@ namespace ya
 		Animator* m_EyeAnimator = eyeMonster->AddComponent<Animator>();
 		std::shared_ptr<Texture> m_EyeTexture = Resources::Find<Texture>(L"EyeMonsterSprite");
 		std::shared_ptr<Texture> deathTexture = Resources::Find<Texture>(L"M_DeathFX");
-		m_EyeAnimator->Create(L"m_Idle", m_EyeTexture, Vector2(0.0f, 0.0f), Vector2(40.0f, 40.0f), Vector2::Zero, 3, 0.2f);
+		m_EyeAnimator->Create(L"m_Right", m_EyeTexture, Vector2(0.0f, 0.0f), Vector2(40.0f, 40.0f), Vector2::Zero, 3, 0.1f);
+		m_EyeAnimator->Create(L"m_Left", m_EyeTexture, Vector2(0.0f, 40.0f), Vector2(40.0f, 40.0f), Vector2::Zero, 3, 0.1f);
 		m_EyeAnimator->Create(L"DeathAnimation", deathTexture, Vector2(0.0f, 0.0f), Vector2(40.0f, 40.0f), Vector2::Zero, 4, 0.1f);
-		m_EyeAnimator->Play(L"m_Idle", true);
-		eyeMonster->AddComponent<MonsterScript>(50);
+		m_EyeAnimator->Play(L"m_Left", true);
+		eyeMonster->AddComponent<MonsterScript>(400);
 		mEyeMonsters.push_back(eyeMonster);
 	}
 	void PlayScene::CreateBommerMonster()
@@ -549,10 +595,11 @@ namespace ya
 		Animator* boomerAnimator = mBoomer->AddComponent<Animator>();
 		std::shared_ptr<Texture> boomerTexture = Resources::Find<Texture>(L"BoomerMonsterSprite");
 		std::shared_ptr<Texture> deathTexture = Resources::Find<Texture>(L"M_DeathFX");
-		boomerAnimator->Create(L"m_Idle", boomerTexture, Vector2(0.0f, 0.0f), Vector2(64.0f, 64.0f), Vector2::Zero, 4, 0.2f);
+		boomerAnimator->Create(L"m_Right", boomerTexture, Vector2(0.0f, 0.0f), Vector2(64.0f, 64.0f), Vector2::Zero, 4, 0.2f);
+		boomerAnimator->Create(L"m_Left", boomerTexture, Vector2(0.0f, 58.5f), Vector2(64.0f, 64.0f), Vector2::Zero, 4, 0.2f);
 		boomerAnimator->Create(L"DeathAnimation", deathTexture, Vector2(0.0f, 0.0f), Vector2(40.0f, 40.0f), Vector2::Zero, 4, 0.1f);
-		boomerAnimator->Play(L"m_Idle", true);
-		mBoomer->AddComponent<MonsterScript>(50);
+		boomerAnimator->Play(L"m_Left", true);
+		mBoomer->AddComponent<MonsterScript>(500);
 		mBoomerMonsters.push_back(mBoomer);
 	}
 

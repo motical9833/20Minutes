@@ -307,6 +307,10 @@
     <ClCompile Include="yaColliderCheckScript.cpp">
       <Filter>Component\Script\Contents\SKILL</Filter>
     </ClCompile>
+    <ClCompile Include="yaSpearScript.cpp">
+      <Filter>Component\Script\Contents\SKILL</Filter>
+    </ClCompile>
+    <ClCompile Include="yaDragonFireScript.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CommonInclude.h">
@@ -514,6 +518,10 @@
     <ClInclude Include="yaColliderCheckScript.h">
       <Filter>Component\Script\Contents\SKILL</Filter>
     </ClInclude>
+    <ClInclude Include="yaSpearScript.h">
+      <Filter>Component\Script\Contents\SKILL</Filter>
+    </ClInclude>
+    <ClInclude Include="yaDragonFireScript.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="yaMath.inl">

@@ -21,8 +21,10 @@ namespace ya
 			void GhostFire(Vector3 pos, Vector3 dir);
 			void SmiteFire(Vector3 pos);
 			void HolyShield();
+			void DragonFIre(Vector3 pos, Vector3 dir);
 
 			void HolyShieldBreak();
+			void Spear();
 
 	private:	
 		bool bShieldOn;

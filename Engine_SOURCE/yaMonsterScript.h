@@ -4,6 +4,8 @@
 
 namespace ya
 {
+	class Player;
+	class Animator;
 	class MonsterScript : public Script
 	{
 	public:
@@ -44,5 +46,8 @@ namespace ya
 		float freezeTime;
 
 		Vector2 mColliderSize;
+
+		Player* player;
+		Animator* animator;
 	};
 }

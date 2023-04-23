@@ -44,6 +44,8 @@ namespace ya
 			, UINT spriteLegth, float duration);
 
 		Animation* FindAnimation(const std::wstring& name);
+		Animation* GetActiveAnimation() { return mActiveAnimation; }
+
 		//void FindAnimationAndDuration(const std::wstring& name, float duration);
 		Events* FindEvents(const std::wstring& name);
 		void Play(const std::wstring& name, bool loop = true);

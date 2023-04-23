@@ -79,12 +79,10 @@ namespace ya
 	{
 		Transform* mTrans = GetOwner()->GetComponent<Transform>();
 
-		//Vector3 mPos = mTrans->GetPosition() + mTrans->GetParent()->GetPosition();
 
 		Vector3 mPos = mTrans->GetPosition();
 		Vector3 rot = mTrans->GetRotation();
 
-		//Vector3 playerPos = mTrans->GetParent()->GetPosition();
 		Vector3 playerPos = SceneManager::GetPlayScene()->GetPlayer()->GetComponent<Transform>()->GetPosition();
 		Vector3 mRot = mTrans->GetRotation();
 		mRot.z = atan2(playerPos.y - mPos.y, playerPos.x - mPos.x);

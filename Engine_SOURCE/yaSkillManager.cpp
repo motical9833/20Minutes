@@ -8,6 +8,8 @@
 #include "yaGhostBullet.h"
 #include "yaSmiteScript.h"
 #include "yaColliderCheckScript.h"
+#include "yaSpearScript.h"
+#include "yaDragonFireScript.h"
 
 namespace ya
 {
@@ -124,10 +126,36 @@ namespace ya
 		shield->Life();
 		SceneManager::GetPlayScene()->GetPlayer()->GetScript<PlayerScript>()->ShieldOn();
 	}
+	void SkillManager::DragonFIre(Vector3 pos, Vector3 dir)
+	{
+		for (size_t i = 0; i < 20; i++)
+		{
+			if (SceneManager::GetPlayScene()->GetDragonFires()[i] == nullptr)
+				return;
+
+			if (SceneManager::GetPlayScene()->GetDragonFires()[i]->IsDead() == false)
+				continue;
+
+			SceneManager::GetPlayScene()->GetDragonFires()[i]->GetComponent<Transform>()->SetPosition(pos);
+			SceneManager::GetPlayScene()->GetDragonFires()[i]->GetScript<DragonFireScript>()->SetDir(dir);
+			SceneManager::GetPlayScene()->GetDragonFires()[i]->Life();
+			break;
+		}
+	}
 	void SkillManager::HolyShieldBreak()
 	{
 		bShieldOn = true;
 		bShield = false;
 		SceneManager::GetPlayScene()->GetShield()->GetScript<HolyShieldScript>()->Break();
+	}
+	void SkillManager::Spear()
+	{
+		for (size_t i = 0; i < 2; i++)
+		{
+			if (SceneManager::GetPlayScene()->Getspears()[i]->GetScript<SpearScript>()->GetBAttack() == true)
+				return;
+
+			SceneManager::GetPlayScene()->Getspears()[i]->GetScript<SpearScript>()->Attack();
+		}
 	}
 }

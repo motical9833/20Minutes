@@ -554,6 +554,8 @@ namespace ya::renderer
 #pragma endregion
 #pragma region DEFAULT MATERIAL
 		CreateMaterial(L"MonsterSprite", L"MonsterShader", eRenderingMode::Transparent, L"MonsterMaterial");
+
+		CreateMaterial(L"BrainMonster", L"MonsterShader", eRenderingMode::Transparent, L"BrainMonsterMaterial");
 #pragma endregion
 #pragma region MONSTERS MATERIAL
 		// TreeMonster

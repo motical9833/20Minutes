@@ -1,9 +1,12 @@
 #include "yaMonsterScript.h"
+#include "yaSceneManager.h"
+#include "yaPlayScene.h"
 #include "yaGameObject.h"
 #include "yaAnimator.h"
 #include "yaPlayerScript.h"
 #include "yaTime.h"
 #include "yaCurseScript.h"
+#include "yaPlayer.h"
 
 namespace ya
 {
@@ -32,15 +35,16 @@ namespace ya
 	}
 	MonsterScript::~MonsterScript()
 	{
+
 	}
 	void MonsterScript::Initalize()
 	{
-		if (mMaxHp == NULL)
-			return;
 
-		Animator* animator = GetOwner()->GetComponent<Animator>();
+		animator = GetOwner()->GetComponent<Animator>();
 		animator->GetCompleteEvent(L"DeathAnimation") = std::bind(&MonsterScript::End, this);
 		mColliderSize = GetOwner()->GetComponent<Collider2D>()->GetSize();
+
+		player = SceneManager::GetPlayScene()->GetPlayer();
 	}
 	void MonsterScript::Update()
 	{
@@ -58,7 +62,18 @@ namespace ya
 				mSpeed = 5;
 			}
 		}
-
+		else
+		{
+			Animation* ani = animator->GetActiveAnimation();
+			if (GetOwner()->GetComponent<Transform>()->GetPosition().x > player->GetComponent<Transform>()->GetPosition().x && ani->AnimationName() == L"m_Right")
+			{
+				animator->Play(L"m_Left",true);
+			}
+			else if (GetOwner()->GetComponent<Transform>()->GetPosition().x < player->GetComponent<Transform>()->GetPosition().x && ani->AnimationName() == L"m_Left")
+			{
+				animator->Play(L"m_Right", true);
+			}
+		}
 	}
 	void MonsterScript::Render()
 	{
@@ -126,7 +141,7 @@ namespace ya
 		mCurrentHp = mMaxHp;
 		this->GetOwner()->Life();
 		mSpeed = 5;
-		ani->Play(L"m_Idle", true);
+		ani->Play(L"m_Right", true);
 		this->GetOwner()->GetComponent<Collider2D>()->SetScriptOff(false);
 		this->GetOwner()->SetLayerType(eLayerType::Monster);
 	}

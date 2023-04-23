@@ -3,9 +3,10 @@
 #include "yaSceneManager.h"
 #include "yaSkillManager.h"
 #include "yaPlayScene.h"
+#include "yaAnimator.h"
 #include "yaInput.h"
 #include "yaTime.h"
-
+#include "yaColliderCheckScript.h"
 namespace ya
 {
 	GhostPetScript::GhostPetScript()
@@ -24,7 +25,9 @@ namespace ya
 	}
 	void GhostPetScript::Initalize()
 	{
+		Animator* animator = GetOwner()->GetComponent<Animator>();
 
+		animator->GetCompleteEvent(L"ghostPetAttack") = std::bind(&GhostPetScript::End, this);
 	}
 	void GhostPetScript::Update()
 	{
@@ -58,7 +61,8 @@ namespace ya
 	}
 	void GhostPetScript::End()
 	{
-
+		Animator* animator = GetOwner()->GetComponent<Animator>();
+		animator->Play(L"ghostPetIdle", true);
 	}
 	void GhostPetScript::Reset()
 	{
@@ -73,13 +77,26 @@ namespace ya
 		{
 			Transform* tr = GetOwner()->GetComponent<Transform>();
 
-				Vector3 pos = tr->GetPosition() + tr->GetParent()->GetPosition();
-				Vector3 dir = Input::GetMousePosition() - pos;
+			Vector3 a = tr->GetPosition();
 
-				dir.Normalize();
+			Vector3 b = SceneManager::GetPlayScene()->GetColliderChack()->GetScript<ColliderCheckScript>()->GetMonsterPos();
 
-				SceneManager::GetPlayScene()->GetSkillManager()->GetScript<SkillManager>()->GhostFire(pos, dir);
-				mAttackTime = 0;
+			if (SceneManager::GetPlayScene()->GetColliderChack()->GetScript<ColliderCheckScript>()->GetMonsters().size() == 0)
+				return;
+
+			Vector3 dir = b - a;
+
+			Vector3 fabsDir = Vector3(dir.x, dir.y, 0);
+
+			double value = sqrt(pow(fabsDir.x, 2) + pow(fabsDir.y, 2)); //피타고라스 R값
+
+			Vector3 dirValue = Vector3(fabsDir.x / value, fabsDir.y / value, 0);
+			
+		    Animator* animator = GetOwner()->GetComponent<Animator>();
+			animator->Play(L"ghostPetAttack",false);
+
+		    SceneManager::GetPlayScene()->GetSkillManager()->GetScript<SkillManager>()->GhostFire(a, dirValue);
+			mAttackTime = 0;
 		}
 	}
 	
@@ -87,8 +104,8 @@ namespace ya
 	{
 		mTime += Time::DeltaTime() * mSpeed;
 
-		float x = std::cos(mTime) * mWidth;
-		float y = std::sin(mTime) * mHeight;
+		float x = (std::cos(mTime) * mWidth) + SceneManager::GetPlayScene()->GetPlayer()->GetComponent<Transform>()->GetPosition().x;
+		float y = (std::sin(mTime) * mHeight) + SceneManager::GetPlayScene()->GetPlayer()->GetComponent<Transform>()->GetPosition().y;
 
 		float z = 0;
 

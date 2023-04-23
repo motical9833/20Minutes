@@ -32,15 +32,15 @@ namespace ya
 	{
 		Animator* animator = GetOwner()->GetComponent<Animator>();
 		//멤버함수 이기 떄문에 어떤 함수인지 풀네임으로 적어줘야 한다.
-		animator->GetStartEvent(L"pIdle") = std::bind(&PlayerScript::Start, this);
-		animator->GetCompleteEvent(L"pIdle") = std::bind(&PlayerScript::Action, this);
-		animator->GetEndEvent(L"pIdle") = std::bind(&PlayerScript::End, this);
-		animator->GetEvent(L"pIdle",1) = std::bind(&PlayerScript::End, this);
+		animator->GetStartEvent(L"pRightIdle") = std::bind(&PlayerScript::Start, this);
+		animator->GetCompleteEvent(L"pRightIdle") = std::bind(&PlayerScript::Action, this);
+		animator->GetEndEvent(L"pRightIdle") = std::bind(&PlayerScript::End, this);
+		animator->GetEvent(L"pRightIdle",1) = std::bind(&PlayerScript::End, this);
 	}
 
 	void PlayerScript::Update()
 	{
-		Move();
+	    Move();
 		rotTime += Time::DeltaTime();
 
 		if (bHitImmune)
@@ -83,24 +83,104 @@ namespace ya
 		Transform* tr = GetOwner()->GetComponent<Transform>();
 		Animator* animator = GetOwner()->GetComponent<Animator>();
 
+		Animation* ani = animator->GetActiveAnimation();
+		{
+			if (Input::GetKeyState(eKeyCode::A) == eKeyState::PRESSED && 
+				Input::GetKeyState(eKeyCode::D) == eKeyState::PRESSED &&
+				Input::GetKeyState(eKeyCode::W) == eKeyState::NONE&&
+				Input::GetKeyState(eKeyCode::S) == eKeyState::NONE)
+			{
+				return;
+			}
+			else if (Input::GetKeyState(eKeyCode::A) == eKeyState::PRESSED && Input::GetKeyState(eKeyCode::D) == eKeyState::DOWN)
+			{
+				animator->Play(L"pLeftIdle");
+			}
+			else if (Input::GetKeyState(eKeyCode::A) == eKeyState::DOWN && Input::GetKeyState(eKeyCode::D) == eKeyState::PRESSED)
+			{
+				animator->Play(L"pRightIdle");
+			}
+			else if (Input::GetKeyState(eKeyCode::A) == eKeyState::PRESSED && Input::GetKeyState(eKeyCode::D) == eKeyState::UP)
+			{
+				animator->Play(L"pLeftMove");
+			}
+			else if (Input::GetKeyState(eKeyCode::A) == eKeyState::UP && Input::GetKeyState(eKeyCode::D) == eKeyState::PRESSED)
+			{
+				animator->Play(L"pRightMove");
+			}
+		}
+		{
+			if (Input::GetKeyState(eKeyCode::S) == eKeyState::PRESSED&&
+				Input::GetKeyState(eKeyCode::W) == eKeyState::PRESSED&&
+				Input::GetKeyState(eKeyCode::A) == eKeyState::NONE&&
+				Input::GetKeyState(eKeyCode::D) == eKeyState::NONE)
+			{
+				return;
+			}
+			else if (Input::GetKeyState(eKeyCode::S) == eKeyState::PRESSED && Input::GetKeyState(eKeyCode::W) == eKeyState::DOWN && ani->AnimationName() == L"pRightMove"
+				|| Input::GetKeyState(eKeyCode::S) == eKeyState::DOWN && Input::GetKeyState(eKeyCode::W) == eKeyState::PRESSED && ani->AnimationName() == L"pRightMove")
+			{
+				animator->Play(L"pRightIdle");
+			}
+			else if (Input::GetKeyState(eKeyCode::S) == eKeyState::PRESSED && Input::GetKeyState(eKeyCode::W) == eKeyState::DOWN && ani->AnimationName() == L"pLeftMove"
+				|| Input::GetKeyState(eKeyCode::S) == eKeyState::DOWN && Input::GetKeyState(eKeyCode::W) == eKeyState::PRESSED && ani->AnimationName() == L"pLeftMove")
+			{
+				animator->Play(L"pLeftIdle");
+			}
+			else if (Input::GetKeyState(eKeyCode::S) == eKeyState::PRESSED && Input::GetKeyState(eKeyCode::W) == eKeyState::UP && ani->AnimationName() == L"pLeftIdle")
+			{
+				animator->Play(L"pLeftMove");
+			}
+			else if (Input::GetKeyState(eKeyCode::S) == eKeyState::PRESSED && Input::GetKeyState(eKeyCode::W) == eKeyState::UP && ani->AnimationName() == L"pRightIdle")
+			{
+				animator->Play(L"pRightMove");
+			}
+			else if (Input::GetKeyState(eKeyCode::S) == eKeyState::UP && Input::GetKeyState(eKeyCode::W) == eKeyState::PRESSED && ani->AnimationName() == L"pLeftIdle")
+			{
+				animator->Play(L"pLeftMove");
+			}
+			else if (Input::GetKeyState(eKeyCode::S) == eKeyState::UP && Input::GetKeyState(eKeyCode::W) == eKeyState::PRESSED && ani->AnimationName() == L"pRightIdle")
+			{
+				animator->Play(L"pRightMove");
+			}
+			else if (Input::GetKeyState(eKeyCode::S) == eKeyState::PRESSED && Input::GetKeyState(eKeyCode::D) == eKeyState::DOWN && ani->AnimationName() == L"pLeftMove")
+			{
+				animator->Play(L"pRightMove");
+			}
+			else if (Input::GetKeyState(eKeyCode::S) == eKeyState::PRESSED && Input::GetKeyState(eKeyCode::A) == eKeyState::DOWN && ani->AnimationName() == L"pRightMove")
+			{
+				animator->Play(L"pLeftMove");
+			}
+			else if (Input::GetKeyState(eKeyCode::W) == eKeyState::PRESSED && Input::GetKeyState(eKeyCode::D) == eKeyState::DOWN && ani->AnimationName() == L"pLeftMove")
+			{
+				animator->Play(L"pRightMove");
+			}
+			else if (Input::GetKeyState(eKeyCode::W) == eKeyState::PRESSED && Input::GetKeyState(eKeyCode::A) == eKeyState::DOWN && ani->AnimationName() == L"pRightMove")
+			{
+				animator->Play(L"pLeftMove");
+			}
+		}
+
+
 		if (Input::GetKeyPress(eKeyCode::D))
 		{
 			if (bMove == false)
 			{
 				bMove = true;
-				animator->Play(L"pMove");
+				animator->Play(L"pRightMove");
 			}
 
 			Vector3 pos = tr->GetPosition();
 			pos.x += 6.0f * Time::DeltaTime();
 			tr->SetPosition(pos);
 		}
+
 		if (Input::GetKeyPress(eKeyCode::A))
 		{
 			if (bMove == false)
 			{
 				bMove = true;
-				animator->Play(L"pMove");
+				animator->Play(L"pLeftMove");
 			}
 
 			Vector3 pos = tr->GetPosition();
@@ -108,38 +188,81 @@ namespace ya
 			tr->SetPosition(pos);
 		}
 
-		if (Input::GetKeyPress(eKeyCode::W))
+		if (Input::GetKeyDown(eKeyCode::W) && ani->AnimationName() == L"pRightIdle")
+		{
+			animator->Play(L"pRightMove");
+		}
+		else if (Input::GetKeyDown(eKeyCode::W) && ani->AnimationName() == L"pLeftIdle") 
+		{
+			animator->Play(L"pLeftMove");
+		}
+		else if (Input::GetKeyPress(eKeyCode::W))
 		{
 			if (bMove == false)
 			{
 				bMove = true;
-				animator->Play(L"pMove");
 			}
-
 			Vector3 pos = tr->GetPosition();
 			pos.y += 6.0f * Time::DeltaTime();
 			tr->SetPosition(pos);
 		}
-		if (Input::GetKeyPress(eKeyCode::S))
+		else if (Input::GetKeyUp(eKeyCode::W) && ani->AnimationName() == L"pRightMove")
+		{
+			animator->Play(L"pRightIdle");
+			bMove = false;
+		}
+		else if (Input::GetKeyUp(eKeyCode::W) && ani->AnimationName() == L"pLeftMove")
+		{
+			animator->Play(L"pLeftIdle");
+			bMove = false;
+		}
+
+		if (Input::GetKeyDown(eKeyCode::S) && ani->AnimationName() == L"pRightIdle")
+		{
+			animator->Play(L"pRightMove");
+		}
+		else if (Input::GetKeyDown(eKeyCode::S) && ani->AnimationName() == L"pLeftIdle")
+		{
+			animator->Play(L"pLeftMove");
+		}
+		else if (Input::GetKeyPress(eKeyCode::S))
 		{
 			if (bMove == false)
 			{
 				bMove = true;
-				animator->Play(L"pMove");
 			}
-
 			Vector3 pos = tr->GetPosition();
 			pos.y -= 6.0f * Time::DeltaTime();
 			tr->SetPosition(pos);
 		}
+		else if (Input::GetKeyUp(eKeyCode::S) && ani->AnimationName() == L"pRightMove")
+		{
+			animator->Play(L"pRightIdle");
+			bMove = false;
+		}
+		else if (Input::GetKeyUp(eKeyCode::S) && ani->AnimationName() == L"pLeftMove")
+		{
+			animator->Play(L"pLeftIdle");
+			bMove = false;
+		}
+
+
+
 
 		if (Input::GetKeyState(eKeyCode::A) == eKeyState::NONE &&
-			Input::GetKeyState(eKeyCode::D) == eKeyState::NONE &&
-			Input::GetKeyState(eKeyCode::W) == eKeyState::NONE &&
-			Input::GetKeyState(eKeyCode::S) == eKeyState::NONE &&
-			bMove == true)
+			Input::GetKeyState(eKeyCode::D) == eKeyState::NONE&&
+			Input::GetKeyState(eKeyCode::W) == eKeyState::NONE&&
+			Input::GetKeyState(eKeyCode::S) == eKeyState::NONE&& bMove == true && ani->AnimationName() == L"pLeftMove")
 		{
-			animator->Play(L"pIdle");
+			animator->Play(L"pLeftIdle");
+			bMove = false;
+		}
+		if (Input::GetKeyState(eKeyCode::D) == eKeyState::NONE &&
+			Input::GetKeyState(eKeyCode::A) == eKeyState::NONE &&
+			Input::GetKeyState(eKeyCode::W) == eKeyState::NONE &&
+			Input::GetKeyState(eKeyCode::S) == eKeyState::NONE && bMove == true && ani->AnimationName() == L"pRightMove")
+		{
+			animator->Play(L"pRightIdle");
 			bMove = false;
 		}
 	}

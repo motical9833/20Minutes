@@ -173,6 +173,7 @@
     <ClInclude Include="yaComputeShader.h" />
     <ClInclude Include="yaConstantBuffer.h" />
     <ClInclude Include="yaCurseScript.h" />
+    <ClInclude Include="yaDragonFireScript.h" />
     <ClInclude Include="yaDragonPetScript.h" />
     <ClInclude Include="yaEngine.h" />
     <ClInclude Include="yaEntity.h" />
@@ -214,6 +215,7 @@
     <ClInclude Include="yaShader.h" />
     <ClInclude Include="yaSkillManager.h" />
     <ClInclude Include="yaSmiteScript.h" />
+    <ClInclude Include="yaSpearScript.h" />
     <ClInclude Include="yaSpriteRenderer.h" />
     <ClInclude Include="yaStructedBuffer.h" />
     <ClInclude Include="yaTexture.h" />
@@ -243,6 +245,7 @@
     <ClCompile Include="yaComputeShader.cpp" />
     <ClCompile Include="yaConstantBuffer.cpp" />
     <ClCompile Include="yaCurseScript.cpp" />
+    <ClCompile Include="yaDragonFireScript.cpp" />
     <ClCompile Include="yaDragonPetScript.cpp" />
     <ClCompile Include="yaEntity.cpp" />
     <ClCompile Include="yaFadeInOutScript.cpp" />
@@ -280,6 +283,7 @@
     <ClCompile Include="yaShader.cpp" />
     <ClCompile Include="yaSkillManager.cpp" />
     <ClCompile Include="yaSmiteScript.cpp" />
+    <ClCompile Include="yaSpearScript.cpp" />
     <ClCompile Include="yaSpriteRenderer.cpp" />
     <ClCompile Include="yaStructedBuffer.cpp" />
     <ClCompile Include="yaTexture.cpp" />
