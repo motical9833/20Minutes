@@ -31,9 +31,17 @@ namespace ya
 		std::vector<Bullet*> GetDragonFires() { return dragonFires; }
 		std::vector<GameObject*> GetSmites() { return smites; }
 		std::vector<GameObject*> Getspears() { return spears; }
+		std::vector<GameObject*> GetHpObjects() { return hpObjects; }
+
+		std::vector<Monster*> GetBrainMonsters() { return mBrainMonsters; }
+		std::vector<Monster*> GetTreeMonsters() { return mTreeMonsters; }
+		std::vector<Monster*> GetEyeMonsters() { return mEyeMonsters; }
+		std::vector<Monster*> GetBoomerMonsters() { return mBoomerMonsters; }
+
 		GameObject* GetShield() { return holyShield; }
 		GameObject* GetColliderChack() { return colliderCheck; }
 		GameObject* GetDragonPet() { return dragonPet; }
+		GameObject* GetUpgradeobj() { return upgradeobj; }
 
 		void CreateBrainMonster();
 		void CreateTreeMonster();
@@ -43,7 +51,6 @@ namespace ya
 		void CreateCollider(auto* monster, eColliderType type,Vector2 size);
 		void CreateDeathFX();
 		void CreateSpriteRenderer(auto* object, const std::wstring& materialKey);
-		//void CreateAnimator(auto* object, const std::wstring& animatorKey);
 		GameObject* CreateSkillObject(eColliderType type, eLayerType layertype, const std::wstring& materialKey);
 		GameObject* CreateSkillObject(eLayerType layertype, const std::wstring& materialKey);
 		void M_DefaultTr(auto* object, Vector3 pos, Vector3 scale);
@@ -56,6 +63,7 @@ namespace ya
 		GameObject* skillManager;
 		GameObject* pulseObject;
 		Weapon* pWeapon;
+		std::vector<GameObject*> hpObjects;
 		std::vector<Bullet*> bullets;
 		std::vector<GameObject*> thunders;
 		std::vector<GameObject*> gales;
@@ -71,6 +79,8 @@ namespace ya
 		GameObject* scythe;
 
 		GameObject* colliderCheck;
+		GameObject* upgradeobj;
+
 
 		std::vector<Bullet*> ghostBullets;
 		std::vector<Bullet*> dragonFires;

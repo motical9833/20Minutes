@@ -24,11 +24,14 @@ namespace ya
 		void Action();
 		void End();
 		void Reset();
-		
+		void GameReset();
+
 		void TakeDamage(int damage);
 		void SetMaxHP(int value) { mMaxHP = value; }
 		void SetCurrentHP() { mCurrentHP = mMaxHP; }
 		void ShieldOn() { bShield = true; }
+
+		void StartSetting();
 
 	private:
 		float immuneTime;
@@ -37,7 +40,7 @@ namespace ya
 		int mCurrentHP;
 		int mMaxHP;
 		
-		float rotTime;
+		//float rotTime;
 
 		bool bShield;
 	};

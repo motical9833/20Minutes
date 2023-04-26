@@ -30,9 +30,11 @@ namespace ya
 		, bullets{}
 		, oneShotFire(1)
 		, fireDelayTime(0.3f)
+		, fireDelayTimeMul(1.0f)
 		, bulletPos{}
 		, bulletRot{}
 		, firePosObject{}
+		, fireRotmul(1.0f)
 	{
 
 	}
@@ -203,14 +205,14 @@ namespace ya
 		case 2:
 			for (size_t i = 0; i < 2; i++)
 			{
-				firePosObject[i]->GetComponent<Transform>()->SetRotation(Vector3(0.0f, 0.0f, -0.05f + (i * 0.1f)));
+				firePosObject[i]->GetComponent<Transform>()->SetRotation(Vector3(0.0f, 0.0f, (- 0.05f + (i * 0.1f)) * fireRotmul));
 			}
 			break;
 		case 3:
 			firePosObject[0]->GetComponent<Transform>()->SetRotation(Vector3(0.0f, 0.0f, 0.0f));
 			for (size_t i = 0; i < 3; i++)
 			{
-				firePosObject[i]->GetComponent<Transform>()->SetRotation(Vector3(0.0f, 0.0f, -0.05f + (i * 0.05f)));
+				firePosObject[i]->GetComponent<Transform>()->SetRotation(Vector3(0.0f, 0.0f, ( - 0.05f + (i * 0.05f)) * fireRotmul));
 			}
 			break;
 		}
@@ -254,10 +256,10 @@ namespace ya
 
 	void WeaponScript::Fire()
 	{
-		if (time >= fireDelayTime)
+		if (time >= fireDelayTime * fireDelayTimeMul)
 		{
 			int a = 0;
-			for (size_t i = 0; i < 100; i++)
+			for (size_t i = 0; i < bullets.size(); i++)
 			{
 				if (bullets[i]->GetOwner()->IsDead() == false)
 					continue;
@@ -265,6 +267,7 @@ namespace ya
 				Vector3 pos = mTransform->GetParent()->GetPosition() + mTransform->GetPosition();
 				Vector3 rot = firePosObject[a]->GetComponent<Transform>()->GetRotation() + mTransform->GetRotation();
 
+				bullets[i]->GetOwner()->GetScript<BulletScript>()->Reset();
 				bullets[i]->SetPosition(pos);
 				bullets[i]->GetOwner()->GetScript<BulletScript>()->Setdir(rot);
 				bullets[i]->SetParent(nullptr);
@@ -332,44 +335,50 @@ namespace ya
 		mAnimator->Stop();
 	}
 
+	void WeaponScript::GameReset()
+	{
+		fireRotmul = 1.0f;
+		fireDelayTimeMul = 1.0f;
+	}
+
 	void WeaponScript::Cheat()
 	{
-		if (Input::GetKeyState(eKeyCode::NUM_0) == eKeyState::DOWN)
-		{
-			BulletCntUP();
-		}
-		if (Input::GetKeyState(eKeyCode::NUM_1) == eKeyState::DOWN)
-		{
-			AttackSpeedUP(10.0f);
-		}
-		if (Input::GetKeyState(eKeyCode::NUM_2) == eKeyState::DOWN)
-		{
-			AttackSpeedDown(10.0f);
-		}
-		if (Input::GetKeyState(eKeyCode::NUM_3) == eKeyState::DOWN)
-		{
-			BulletScaleUp(10.0f);
-		}
-		if (Input::GetKeyState(eKeyCode::NUM_4) == eKeyState::DOWN)
-		{
-			BulletScaleDown(10.0f);
-		}
-		if (Input::GetKeyState(eKeyCode::NUM_5) == eKeyState::DOWN)
-		{
-			BulletSpeedUP(10.0f);
-		}
-		if (Input::GetKeyState(eKeyCode::NUM_6) == eKeyState::DOWN)
-		{
-			BulletSpeedDown(10.0f);
-		}
-		if (Input::GetKeyState(eKeyCode::NUM_7) == eKeyState::DOWN)
-		{
-			ReloadTimeDown(10.0f);
-		}
-		if (Input::GetKeyState(eKeyCode::NUM_8) == eKeyState::DOWN)
-		{
-			ReloadTimeUP(10.0f);
-		}
+		//if (Input::GetKeyState(eKeyCode::NUM_0) == eKeyState::DOWN)
+		//{
+		//	BulletCntUP();
+		//}
+		//if (Input::GetKeyState(eKeyCode::NUM_1) == eKeyState::DOWN)
+		//{
+		//	AttackSpeedUP(10.0f);
+		//}
+		//if (Input::GetKeyState(eKeyCode::NUM_2) == eKeyState::DOWN)
+		//{
+		//	AttackSpeedDown(10.0f);
+		//}
+		//if (Input::GetKeyState(eKeyCode::NUM_3) == eKeyState::DOWN)
+		//{
+		//	BulletScaleUp(10.0f);
+		//}
+		//if (Input::GetKeyState(eKeyCode::NUM_4) == eKeyState::DOWN)
+		//{
+		//	BulletScaleDown(10.0f);
+		//}
+		//if (Input::GetKeyState(eKeyCode::NUM_5) == eKeyState::DOWN)
+		//{
+		//	BulletSpeedUP(10.0f);
+		//}
+		//if (Input::GetKeyState(eKeyCode::NUM_6) == eKeyState::DOWN)
+		//{
+		//	BulletSpeedDown(10.0f);
+		//}
+		//if (Input::GetKeyState(eKeyCode::NUM_7) == eKeyState::DOWN)
+		//{
+		//	ReloadTimeDown(10.0f);
+		//}
+		//if (Input::GetKeyState(eKeyCode::NUM_8) == eKeyState::DOWN)
+		//{
+		//	ReloadTimeUP(10.0f);
+		//}
 	}
 
 	void WeaponScript::Reload()

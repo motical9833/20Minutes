@@ -15,15 +15,22 @@
 namespace ya
 {
 	BulletScript::BulletScript()
-		:mSpeed(20.0f)
+		:mSpeed(12.0f)
+		,mSpeedMul(1.0f)
 		,time(0.0f)
 		,crashTime(0.0f)
 		,mDamage(10)
+		,mDamageMul(1.0f)
+		,mScaleMul(1.0f)
+		,mPenetrate(1)
+		,mMaxPenetrate(1)
 		,direction{}
 		,mTr(nullptr)
 		,mWeapon(nullptr)
 		,bCrash(false)
 		,bThunder(false)
+		,bAssassin(false)
+		,bDieBullet(false)
 	{
 
 	}
@@ -68,8 +75,14 @@ namespace ya
 			}
 		}
 
-
-		pos += mTr->Right() * mSpeed * Time::DeltaTime();
+		if (bDieBullet)
+		{
+			pos += mTr->Right() * mSpeed * Time::DeltaTime();
+		}
+		else
+		{
+			pos += mTr->Right() * (mSpeed * mSpeedMul) * Time::DeltaTime();
+		}
 
 		mTr->SetPosition(pos);
 
@@ -82,25 +95,46 @@ namespace ya
 	{
 		if (collider->GetOwner()->GetLayerType() == eLayerType::Monster && collider->GetOwner()->GetState() == (UINT)GameObject::eState::Active)
 		{
-			Animator* animator = GetOwner()->GetComponent<Animator>();
-			animator->Play(L"BulletAni",false);
-			animator->Start();
-
-
 			collider->GetOwner()->GetScript<MonsterScript>()->Freeze();
 
 			if (collider->GetOwner()->GetScript<MonsterScript>()->GetcurseAtivate() == true)
 			{
-				collider->GetOwner()->GetScript<MonsterScript>()->TakeDamage(mDamage * 2);
+				int damage = std::round(mDamage * mDamageMul * 2) + 1;
+
+				collider->GetOwner()->GetScript<MonsterScript>()->TakeDamage(damage);
 			}
 			else
 			{
 				collider->GetOwner()->GetScript<MonsterScript>()->Curse();
-				collider->GetOwner()->GetScript<MonsterScript>()->TakeDamage(mDamage);
+
+				if (bDieBullet)
+				{
+					int damage = std::round(mDamage * mDamageMul * 0.1f) + 1;
+					collider->GetOwner()->GetScript<MonsterScript>()->TakeDamage(damage);
+					GetOwner()->GetComponent<Transform>()->SetScale(Vector3(1.5f, 1.5f, 1.0f));
+				}
+				else
+				{
+					int damage = std::round(mDamage * mDamageMul) + 1;
+					collider->GetOwner()->GetScript<MonsterScript>()->TakeDamage(damage);
+				}
+				if (collider->GetOwner()->GetScript<MonsterScript>()->GetCurrentHP() <= (collider->GetOwner()->GetScript<MonsterScript>()->GetMaxHP() * 0.2f))
+				{
+					collider->GetOwner()->GetScript<MonsterScript>()->TakeDamage(9999);
+				}
 			}
 
 			if (bThunder)
 				SceneManager::GetPlayScene()->GetSkillManager()->GetScript<SkillManager>()->ThunderEnchant(collider->GetOwner()->GetComponent<Transform>()->GetPosition() + Vector3(0.0f,2.0f,0.0f));
+
+			mPenetrate--;
+
+			if (mPenetrate <= 0)
+			{
+				Animator* animator = GetOwner()->GetComponent<Animator>();
+				animator->Play(L"BulletAni", false);
+				animator->Start();
+			}
 		}
 	}
 	void BulletScript::OnCollisionStay(Collider2D* collider)
@@ -127,11 +161,19 @@ namespace ya
 	{
 		time = 0.0f;
 		crashTime = 0.0f;
-		mSpeed = 20.0f;
+		mPenetrate = mMaxPenetrate;
 		mTr->SetPosition(Vector3::Zero);
 		mTr->SetRotation(Vector3::Zero);
-		mTr->SetScale(Vector3(2.0f, 2.0f, 0.0f));
+		mTr->SetScale(Vector3(2.0f * mScaleMul, 2.0f * mScaleMul, 0.0f));
+		Vector3 teset = mTr->GetScale();
 		bCrash = false;
 		bThunder = false;
+		bDieBullet = false;
+	}
+	void BulletScript::GameReset()
+	{
+		mDamageMul = 1.0f;
+		mScaleMul = 1.0f;
+		mSpeedMul = 1.0f;
 	}
 }

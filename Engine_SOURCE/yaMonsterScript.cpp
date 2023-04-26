@@ -7,6 +7,7 @@
 #include "yaTime.h"
 #include "yaCurseScript.h"
 #include "yaPlayer.h"
+#include "yaBulletScript.h"
 
 namespace ya
 {
@@ -19,6 +20,7 @@ namespace ya
 		, bFreeze(false)
 		, bCurse(false)
 		, freezeTime(0.0f)
+		, bDieBullet(false)
 	{
 
 	}
@@ -31,6 +33,7 @@ namespace ya
 		, bFreeze(false)
 		, bCurse(false)
 		, freezeTime(0.0f)
+		, bDieBullet(false)
 	{
 	}
 	MonsterScript::~MonsterScript()
@@ -132,9 +135,14 @@ namespace ya
 			Transform* tr = GetOwner()->GetComponent<Transform>();
 			tr->GetChiled(0)->GetOwner()->Death();
 			tr->GetChiled(1)->GetOwner()->GetScript<CurseScript>()->Reset();
+
+			if (bDieBullet)
+			{
+				DieBullet();
+			}
 		}
 	}
-	void MonsterScript::Reset()
+	void MonsterScript::Respawn()
 	{
 		GetOwner()->GetComponent<Collider2D>()->SetSize(mColliderSize);
 		Animator* ani = GetOwner()->GetComponent<Animator>();
@@ -144,6 +152,15 @@ namespace ya
 		ani->Play(L"m_Right", true);
 		this->GetOwner()->GetComponent<Collider2D>()->SetScriptOff(false);
 		this->GetOwner()->SetLayerType(eLayerType::Monster);
+	}
+	void MonsterScript::GameReset()
+	{
+		Respawn();
+		bFreeze = false;
+		bCurse = false;
+		freezeTime = 0.0f;
+		bDieBullet = false;
+
 	}
 	void MonsterScript::Freeze()
 	{
@@ -156,5 +173,30 @@ namespace ya
 	{
 		Transform* tr = GetOwner()->GetComponent<Transform>();
 		tr->GetChiled(1)->GetOwner()->Life();
+	}
+	void MonsterScript::DieBullet()
+	{
+		int a = 1;
+
+		for (size_t i = 0; i < SceneManager::GetPlayScene()->GetBullet().size(); i++)
+		{
+			if(SceneManager::GetPlayScene()->GetBullet()[i]->IsDead() == false)
+				continue;
+
+			Vector3 pos = GetOwner()->GetComponent<Transform>()->GetPosition();
+			Vector3 rot = Vector3(0.0f, 0.0f, 0.6f * a);
+
+			//SceneManager::GetPlayScene()->GetBullet()[i]->GetScript<BulletScript>()->Reset();
+			SceneManager::GetPlayScene()->GetBullet()[i]->GetComponent<Transform>()->SetParent(nullptr);
+			SceneManager::GetPlayScene()->GetBullet()[i]->GetComponent<Transform>()->SetPosition(pos);
+			SceneManager::GetPlayScene()->GetBullet()[i]->GetScript<BulletScript>()->Setdir(rot);
+			SceneManager::GetPlayScene()->GetBullet()[i]->GetScript<BulletScript>()->SetDieBulletOn();
+			SceneManager::GetPlayScene()->GetBullet()[i]->GetComponent<Animator>()->Stop();
+			SceneManager::GetPlayScene()->GetBullet()[i]->Life();
+			a++;
+
+			if (a > 11)
+				break;
+		}
 	}
 }

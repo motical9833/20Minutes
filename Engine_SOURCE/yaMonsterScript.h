@@ -27,12 +27,18 @@ namespace ya
 		void Action();
 		void End();
 		void TakeDamage(int damage);
-		void Reset();
+		void Respawn();
+		void GameReset();
+
+		void SetDieBulletOn() { bDieBullet = true; }
 
 		void Freeze();
 		void Curse();
 		void CurseActivate() { bCurse = true; }
+		void DieBullet();
 		bool GetcurseAtivate() { return bCurse; }
+		int GetCurrentHP() { return mCurrentHp; }
+		int GetMaxHP() { return mMaxHp; }
 
 	private:
 		int mCurrentHp;
@@ -42,6 +48,7 @@ namespace ya
 
 		bool bFreeze;
 		bool bCurse;
+		bool bDieBullet;
 
 		float freezeTime;
 

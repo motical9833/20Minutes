@@ -310,7 +310,12 @@
     <ClCompile Include="yaSpearScript.cpp">
       <Filter>Component\Script\Contents\SKILL</Filter>
     </ClCompile>
-    <ClCompile Include="yaDragonFireScript.cpp" />
+    <ClCompile Include="yaUpgradeScript.cpp">
+      <Filter>Component\Script\Contents\SKILL\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="yaDragonFireScript.cpp">
+      <Filter>Component\Script\Contents\SKILL</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CommonInclude.h">
@@ -521,7 +526,12 @@
     <ClInclude Include="yaSpearScript.h">
       <Filter>Component\Script\Contents\SKILL</Filter>
     </ClInclude>
-    <ClInclude Include="yaDragonFireScript.h" />
+    <ClInclude Include="yaUpgradeScript.h">
+      <Filter>Component\Script\Contents\SKILL\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="yaDragonFireScript.h">
+      <Filter>Component\Script\Contents\SKILL</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="yaMath.inl">

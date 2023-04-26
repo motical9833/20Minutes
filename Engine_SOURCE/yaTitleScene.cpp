@@ -16,6 +16,8 @@
 #include "yaCollisionManager.h"
 #include "yaTime.h"
 #include "yaLight.h"
+#include "yaGameObject.h"
+#include "yaPlayScene.h"
 
 namespace ya
 {
@@ -143,6 +145,7 @@ namespace ya
 			objTr[0]->SetPosition(Vector3( - 6.0f, 1.0f, 9.9f));
 			objTr[1]->SetPosition(Vector3(8.0f, 1.0f, 9.9f));
 			SceneManager::LoadScene(eSceneType::Play);
+			SceneManager::GetPlayScene()->GetPlayer()->GetScript<PlayerScript>()->StartSetting();
 		}
 
 

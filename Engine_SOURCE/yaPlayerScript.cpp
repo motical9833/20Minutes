@@ -18,7 +18,7 @@ namespace ya
 		, bHitImmune(false)
 		, immuneTime(0.0f)
 		, bShield(true)
-		, rotTime(0.0f)
+		//, rotTime(0.0f)
 	{
 		
 	}
@@ -41,7 +41,7 @@ namespace ya
 	void PlayerScript::Update()
 	{
 	    Move();
-		rotTime += Time::DeltaTime();
+		//rotTime += Time::DeltaTime();
 
 		if (bHitImmune)
 		{
@@ -284,6 +284,14 @@ namespace ya
 	{
 		SetCurrentHP();
 	}
+	void PlayerScript::GameReset()
+	{
+		mMaxHP = 3;
+		bHitImmune = false;
+		bMove = false;
+		immuneTime = 0.0f;
+		bShield = true;
+	}
 	void PlayerScript::TakeDamage(int damage)
 	{
 		if (bHitImmune)
@@ -297,10 +305,18 @@ namespace ya
 			return;
 		}
 
+		SceneManager::GetPlayScene()->GetHpObjects()[mCurrentHP-1]->GetComponent<Animator>()->Play(L"heartArrest");
 		mCurrentHP -= damage;
 		bHitImmune = true;
 
 		if (mCurrentHP <= 0)
 			this->GetOwner()->Death();
+	}
+	void PlayerScript::StartSetting()
+	{
+		for (size_t i = 0; i < mMaxHP; i++)
+		{
+			SceneManager::GetPlayScene()->GetHpObjects()[i]->Life();
+		}
 	}
 }

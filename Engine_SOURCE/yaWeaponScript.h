@@ -40,6 +40,13 @@ namespace ya
 		void FirePosRot();
 		void ReloadSkill();
 
+		//Inc
+		//Dec
+		void SetFireRotMul(float value) { fireRotmul += value; }
+		void SetFireRotRed(float value) { fireRotmul -= value; }
+		void SetFireDelayTimeInc(float value) { fireDelayTimeMul += value; }
+		void SetFireDelayTimeDec(float value) { fireDelayTimeMul -= value; }
+
 		void Gale();
 		void Smite();
 
@@ -51,7 +58,7 @@ namespace ya
 		void End();
 
 		void Reset();
-
+		void GameReset();
 	private:
 
 		void Cheat();
@@ -65,6 +72,8 @@ namespace ya
 		int currentBullet;
 		int oneShotFire;
 		int allFireBulletCnt;
+	
+
 
 		Animator* mAnimator;
 		Transform* mTransform;
@@ -80,9 +89,12 @@ namespace ya
 		Vector3 bulletRot;
 
 		float fireDelayTime;
+		float fireDelayTimeMul;
 		float circleR;
 		float deg;
 		float objSpeed;
+
+		float fireRotmul;
 
 		PlayScene* pScene;
 		std::vector<Transform*> bullets;

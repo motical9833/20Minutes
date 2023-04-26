@@ -32,6 +32,7 @@
 #include "yaSmiteScript.h"
 #include "yaSpearScript.h"
 #include "yaDragonFireScript.h"
+#include "yaUpgradeScript.h"
 
 namespace ya
 {
@@ -160,7 +161,7 @@ namespace ya
 				pWeapon->GetScript<WeaponScript>()->SetFirePosObject(firePosObject);
 			}
 
-			for (size_t i = 0; i < 100; i++)
+			for (size_t i = 0; i < 1000; i++)
 			{
 				Bullet* bulletobj = object::Instantiate<Bullet>(eLayerType::Bullet, this);
 				bullets.push_back(bulletobj);
@@ -433,33 +434,33 @@ namespace ya
 		}
 
 
-
-		std::vector<SpriteRenderer*> hpSprite;
-		std::vector<Animator*> hpani;
 		for (size_t i = 0; i < 10; i++)
 		{
-			GameObject* uiobj = object::Instantiate<GameObject>(eLayerType::UI, this);
-			hpUiObj.push_back(uiobj);
-			hpUiObj[i]->SetLayerType(eLayerType::UI);
-			hpUiObj[i]->SetName(L"HP" + i);
-			hpUiObj[i]->GetComponent<Transform>()->SetPosition(Vector3(-7.5f + (float)i, 4.0f, 10.0f));
-			hpUiObj[i]->GetComponent<Transform>()->SetScale(Vector3(3.0f, 3.0f, 1.0f));
-			hpUiObj[i]->GetComponent<Transform>()->SetParent(cameraUIObj->GetComponent<Transform>());
-			SpriteRenderer* render = hpUiObj[i]->AddComponent<SpriteRenderer>();
-			hpSprite.push_back(render);
+			GameObject* hpObject = object::Instantiate<GameObject>(eLayerType::UI, this);
+			hpObject->SetLayerType(eLayerType::UI);
+			hpObject->GetComponent<Transform>()->SetPosition(Vector3(-7.5f + (float)i, 4.0f, 10.0f));
+			hpObject->GetComponent<Transform>()->SetScale(Vector3(3.0f, 3.0f, 1.0f));
+			hpObject->GetComponent<Transform>()->SetParent(cameraUIObj->GetComponent<Transform>());
+			SpriteRenderer* render = hpObject->AddComponent<SpriteRenderer>();
 			std::shared_ptr<Material> hpMaterial = Resources::Find<Material>(L"HpMaterial");
-			hpSprite[i]->SetMaterial(hpMaterial);
+			render->SetMaterial(hpMaterial);
 			std::shared_ptr<Mesh> hpMesh = Resources::Find<Mesh>(L"RectMesh");
-			hpSprite[i]->SetMesh(hpMesh);
-			Animator* uiAnimator = hpUiObj[i]->AddComponent<Animator>();
-			hpani.push_back(uiAnimator);
-			std::shared_ptr<Texture> aniamtionTexture = Resources::Load<Texture>(L"HPHeart", L"UI\\T_HeartAnimation.png");
-			hpani[i]->Create(L"hpAniamtion", aniamtionTexture, Vector2(0.0f, 0.0f), Vector2(32.0f, 32.0f), Vector2::Zero, 3, 0.1f);
-			hpani[i]->Play(L"hpAniamtion", true);
+			render->SetMesh(hpMesh);
+			Animator* uiAnimator = hpObject->AddComponent<Animator>();
+			std::shared_ptr<Texture> hpTexture = Resources::Find<Texture>(L"HPHeart");
+			uiAnimator->Create(L"heartbeat", hpTexture, Vector2::Zero, Vector2(32.0f, 32.0f), Vector2::Zero, 3, 0.1f);
+			uiAnimator->Create(L"heartArrest", hpTexture, Vector2(96.0f,0.0f), Vector2(32.0f, 32.0f), Vector2::Zero, 1, 100.0f);
+			uiAnimator->Play(L"heartbeat", true);
+			hpObject->Death();
+			hpObjects.push_back(hpObject);
 		}
 
 		skillManager = object::Instantiate<GameObject>(eLayerType::None, this);
 		skillManager->AddComponent<SkillManager>();
+
+		upgradeobj = object::Instantiate<GameObject>(eLayerType::None, this);
+		upgradeobj->AddComponent<UpgradeScript>();
+
 
 		CollisionManager::CollisionLayerCheck(eLayerType::Player, eLayerType::Monster, true);
 		CollisionManager::CollisionLayerCheck(eLayerType::Bullet, eLayerType::Monster, true);
@@ -478,11 +479,13 @@ namespace ya
 			player->GetComponent<Transform>()->SetPosition(Vector3(0.0f, 0.0f, 0.0f));
 			pWeapon->GetScript<WeaponScript>()->Reset();
 			player->Life();
+			player->GetScript<PlayerScript>()->GameReset();
 			pWeapon->Life();
-			mBoomerMonsters[0]->GetScript<MonsterScript>()->Reset();
-			mBrainMonsters[0]->GetScript<MonsterScript>()->Reset();
-			mEyeMonsters[0]->GetScript<MonsterScript>()->Reset();
-			
+			pWeapon->GetScript<WeaponScript>()->GameReset();
+			mBoomerMonsters[0]->GetScript<MonsterScript>()->GameReset();
+			mBrainMonsters[0]->GetScript<MonsterScript>()->GameReset();
+			mEyeMonsters[0]->GetScript<MonsterScript>()->GameReset();
+
 
 			for (size_t i = 0; i < bullets.size(); i++)
 			{
@@ -507,6 +510,37 @@ namespace ya
 		Vector3 pos = tr->GetPosition();
 
 		Scene::Update();
+
+		if (Input::GetKeyDown(eKeyCode::NUM_1))
+		{
+			upgradeobj->GetScript<UpgradeScript>()->TakeAim();
+		}
+		if (Input::GetKeyDown(eKeyCode::NUM_2))
+		{
+			upgradeobj->GetScript<UpgradeScript>()->Penteration();
+		}
+		if (Input::GetKeyDown(eKeyCode::NUM_3))
+		{
+			upgradeobj->GetScript<UpgradeScript>()->Smiper();
+		}
+		if (Input::GetKeyDown(eKeyCode::NUM_4))
+		{
+			upgradeobj->GetScript<UpgradeScript>()->Assassin();
+		}
+		if (Input::GetKeyDown(eKeyCode::NUM_5))
+		{
+			upgradeobj->GetScript<UpgradeScript>()->Splinter();
+		}
+		if (Input::GetKeyDown(eKeyCode::NUM_6))
+		{
+			upgradeobj->GetScript<UpgradeScript>()->BigShot();
+		}
+
+		if (Input::GetKeyDown(eKeyCode::P))
+		{
+			mBrainMonsters[0]->GetScript<MonsterScript>()->Respawn();
+			mBrainMonsters[0]->Life();
+		}
 	}
 
 	void PlayScene::FixedUpdate()
@@ -543,7 +577,7 @@ namespace ya
 		mAnimator->Create(L"m_Left", mTexture, Vector2(0.0f, 64.0f), Vector2(64.0f, 64.0f), Vector2::Zero, 4, 0.1f);
 		mAnimator->Create(L"DeathAnimation", deathTexture, Vector2(0.0f, 0.0f), Vector2(40.0f, 40.0f), Vector2::Zero, 4, 0.1f);
 		mAnimator->Play(L"m_Left", true);
-		m_Brain->AddComponent<MonsterScript>(200);
+		m_Brain->AddComponent<MonsterScript>(10);
 		mBrainMonsters.push_back(m_Brain);
 	}
 	void PlayScene::CreateTreeMonster()
