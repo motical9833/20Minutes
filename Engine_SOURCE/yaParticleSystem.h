@@ -17,6 +17,8 @@ namespace ya
 
 	private:
 		class StructedBuffer* mBuffer;
+		class StructedBuffer* mSharedBuffer;
+
 		std::shared_ptr<ParticleShader>mCS;
 
 
@@ -26,6 +28,8 @@ namespace ya
 		Vector4 mStartColor;
 		Vector4 mEndColor;
 		float mStartLifeTime;
+		float mFrequency;
+		float mTime;
 
 	};
 }

@@ -32,7 +32,7 @@ namespace ya::graphics
 
 	void ConstantBuffer::Setdata(void* data)
 	{
-		GetDevice()->BindBuffer(buffer.Get(), data, desc.ByteWidth);
+		GetDevice()->SetData(buffer.Get(), data, desc.ByteWidth);
 	}
 
 	void ConstantBuffer::BindSRV(eShaderStage stage)

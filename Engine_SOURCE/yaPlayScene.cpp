@@ -100,7 +100,7 @@ namespace ya
 		// UI Camera
 		GameObject* cameraUIObj = object::Instantiate<GameObject>(eLayerType::Camera,this);
 		Camera* cameraUIComp = cameraUIObj->AddComponent<Camera>();
-		cameraUIComp->SetProjectionType(Camera::eProjectionType::Orthographic);
+		cameraUIComp->SetProjectionType(Camera::eProjectionType::Perspective);
 		cameraUIComp->DisableLayerMasks();
 		cameraUIComp->TurnLayerMask(eLayerType::UI, true);
 
@@ -438,7 +438,7 @@ namespace ya
 		{
 			GameObject* hpObject = object::Instantiate<GameObject>(eLayerType::UI, this);
 			hpObject->SetLayerType(eLayerType::UI);
-			hpObject->GetComponent<Transform>()->SetPosition(Vector3(-7.5f + (float)i, 4.0f, 10.0f));
+			hpObject->GetComponent<Transform>()->SetPosition(Vector3(-10.0f + (float)i, 5.2f, 10.0f));
 			hpObject->GetComponent<Transform>()->SetScale(Vector3(3.0f, 3.0f, 1.0f));
 			hpObject->GetComponent<Transform>()->SetParent(cameraUIObj->GetComponent<Transform>());
 			SpriteRenderer* render = hpObject->AddComponent<SpriteRenderer>();

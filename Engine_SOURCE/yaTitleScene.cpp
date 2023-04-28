@@ -61,7 +61,7 @@ namespace ya
 		// UI Camera
 		GameObject* cameraUIObj = object::Instantiate<GameObject>(eLayerType::Camera);
 		Camera* cameraUIComp = cameraUIObj->AddComponent<Camera>();
-		cameraUIComp->SetProjectionType(Camera::eProjectionType::Orthographic);
+		cameraComp->SetProjectionType(Camera::eProjectionType::Perspective);
 		cameraUIComp->DisableLayerMasks();
 		cameraUIComp->TurnLayerMask(eLayerType::UI, true);
 		GameObject* mouseObj = object::Instantiate<GameObject>(eLayerType::UI);

@@ -154,6 +154,12 @@ namespace ya
 		if (bupgrade[1][3])
 			return;
 
+		for (size_t i = 0; i < pscene->GetBullet().size(); i++)
+		{
+			pscene->GetBullet()[i]->GetScript<BulletScript>()->SetDamageInc(0.15f);
+			pscene->GetBullet()[i]->GetScript<BulletScript>()->SetPenetrateInc(1);
+		}
+
 
 		bupgrade[1][3] = true;
 	}

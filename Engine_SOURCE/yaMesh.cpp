@@ -57,7 +57,7 @@ namespace ya
 		return true;
 	}
 
-	void Mesh::BindBuffer()
+	void Mesh::SetData()
 	{
 		// Input Assembeler 단계에 버텍스버퍼 정보 지정
 		UINT stride = sizeof(renderer::Vertex);

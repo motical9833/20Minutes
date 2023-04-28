@@ -14,7 +14,7 @@ namespace ya
 
 		bool CreateVertexBuffer(void* data, UINT count);
 		bool CreateIndexBuffer(void* data, UINT count);
-		void BindBuffer();
+		void SetData();
 		void Render();
 		void RenderInstanced(UINT count);
 

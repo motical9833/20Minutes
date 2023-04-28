@@ -185,4 +185,9 @@ namespace ya::graphics
 		float speed;
 		UINT active;
 	};
+
+	struct ParticleShared
+	{
+		UINT activeCount;
+	};
 }

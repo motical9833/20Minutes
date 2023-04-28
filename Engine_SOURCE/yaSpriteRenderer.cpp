@@ -32,7 +32,7 @@ namespace ya
 		GetOwner()->GetComponent<Transform>()->SetConstantBuffer();
 
 		GetMaterial()->BindSRV();
-		GetMesh()->BindBuffer();
+		GetMesh()->SetData();
 
 		Animator* animator = GetOwner()->GetComponent<Animator>();
 
