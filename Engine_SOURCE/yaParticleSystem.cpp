@@ -20,6 +20,7 @@ namespace ya
 		, mStartLifeTime(0.0f)
 		, mFrequency(1.0f)
 		, mTime(0.0f)
+		, mCBData{}
 	{
 
 	}
@@ -48,7 +49,7 @@ namespace ya
 		material->SetTexture(eTextureSlot::T0, tex);
 
 		Particle particles[100] = {};
-		Vector4 startPos = Vector4(-800.0f, -450.0f, 0.0f, 0.0f);
+		Vector4 startPos = Vector4(0.0f, 0.0f, 0.0f, 0.0f);
 		for (size_t i = 0; i < mCount; i++)
 		{
 			particles[i].position = Vector4(0.0f, 0.0f, 20.0f, 1.0f);
@@ -92,12 +93,13 @@ namespace ya
 			mSharedBuffer->Setdata(&shared, 1);
 		}
 
-		renderer::ParticleSystemCB info = {};
-		info.elementCount = mBuffer->GetStride();
-		info.deltaTime = Time::DeltaTime();
+
+		mCBData.elementCount = mBuffer->GetStride();
+		mCBData.deltaTime = Time::DeltaTime();
+		mCBData.elapsedTime += Time::DeltaTime();
 
 		ConstantBuffer* cb = renderer::constantBuffers[(UINT)eCBType::ParticleSystem];
-		cb->Setdata(&info);
+		cb->Setdata(&mCBData);
 		cb->BindSRV(eShaderStage::CS);
 
 		mCS->SetSharedStrutedBuffer(mSharedBuffer);

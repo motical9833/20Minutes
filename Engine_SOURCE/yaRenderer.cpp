@@ -479,6 +479,9 @@ namespace ya::renderer
 
 		constantBuffers[(UINT)eCBType::ParticleSystem] = new ConstantBuffer(eCBType::ParticleSystem);
 		constantBuffers[(UINT)eCBType::ParticleSystem]->Create(sizeof(ParticleSystemCB));
+
+		constantBuffers[(UINT)eCBType::Noise] = new ConstantBuffer(eCBType::Noise);
+		constantBuffers[(UINT)eCBType::Noise]->Create(sizeof(NoiseCB));
 #pragma endregion
 #pragma region STRUCTED BUFFER
 		lightsBuffer = new StructedBuffer();
@@ -493,6 +496,9 @@ namespace ya::renderer
 		Resources::Load<Texture>(L"DefaultSprite", L"Light.png");
 		Resources::Load<Texture>(L"HPBarTexture", L"HPBar.png");
 		Resources::Load<Texture>(L"CartoonSmoke", L"particle\\CartoonSmoke.png");
+		Resources::Load<Texture>(L"noise_01", L"noise\\noise_01.png");
+		Resources::Load<Texture>(L"noise_02", L"noise\\noise_02.png");
+		//Resources::Load<Texture>(L"noise_03", L"noise\\noise_03.png");
 
 		Resources::Load<Texture>(L"PlayerSprite", L"Player\\Player.png");
 		Resources::Load<Texture>(L"TitleLevesLeftSprite", L"T_TitleLeavesLeft.png");
@@ -674,6 +680,7 @@ namespace ya::renderer
 
 	void Render()
 	{
+		BindNoiseTexture();
 		BindLights();
 
 		eSceneType type = SceneManager::GetActiveScene()->GetSceneType();
@@ -707,5 +714,28 @@ namespace ya::renderer
 		cb->Setdata(&trCb);
 		cb->BindSRV(eShaderStage::VS);
 		cb->BindSRV(eShaderStage::PS);
+	}
+	void BindNoiseTexture()
+	{
+		std::shared_ptr<Texture> noise = Resources::Find<Texture>(L"noise_01");
+		noise->BindShaderResource(eShaderStage::VS, 16);
+		noise->BindShaderResource(eShaderStage::HS, 16);
+		noise->BindShaderResource(eShaderStage::DS, 16);
+		noise->BindShaderResource(eShaderStage::GS, 16);
+		noise->BindShaderResource(eShaderStage::PS, 16);
+		noise->BindShaderResource(eShaderStage::CS, 16);
+
+		NoiseCB info = {};
+		info.noiseSize.x = noise->GetWidth();
+		info.noiseSize.y = noise->GetHeight();
+
+		ConstantBuffer* cb = renderer::constantBuffers[(UINT)eCBType::Noise];
+		cb->Setdata(&info);
+		cb->BindSRV(eShaderStage::VS);
+		cb->BindSRV(eShaderStage::HS);
+		cb->BindSRV(eShaderStage::DS);
+		cb->BindSRV(eShaderStage::GS);
+		cb->BindSRV(eShaderStage::PS);
+		cb->BindSRV(eShaderStage::CS);
 	}
 }

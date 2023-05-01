@@ -66,6 +66,12 @@ namespace ya::renderer
 		Vector4 color;
 		UINT elementCount;
 		float deltaTime;
+		float elapsedTime;
+	};
+
+	CBUFFER(NoiseCB, CBSLOT_NOISE)
+	{
+		Vector4 noiseSize;
 	};
 
 	CBUFFER(FadeInOutCB, CBSLOT_FADEINOUT)
@@ -102,5 +108,6 @@ namespace ya::renderer
 	//Renderer
 	void PushLightAttribute(LightAttribute lightAttribute);
 	void BindLights();
+	void BindNoiseTexture();
 }
 
