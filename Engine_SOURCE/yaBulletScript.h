@@ -28,10 +28,13 @@ namespace ya
 		void SetPenetrateInc(int value) { mMaxPenetrate += value; }
 		void SetPenetrateDec(int value) { mMaxPenetrate -= value; }
 		void SetDamageInc(float value) { mDamageMul += value; }
+		void SetDamageDec(float value) { mDamageMul -= value; }
 		void SetAssassin() { bAssassin = true; }
 		void SetDieBulletOn() { bDieBullet = true; }
 		void SetScaleInc(float value) { mScaleMul += value; }
 		void SetScaleDec(float value) { mScaleMul -= value; }
+
+		void SetBounceTrigger() { bBounceTrigger = true; }
 
 		float Getspeed() { return mSpeed; }
 		float GetDamageInc() { return mDamageMul; }
@@ -53,6 +56,7 @@ namespace ya
 		int mDamage;
 		int mPenetrate;
 		int mMaxPenetrate;
+		int mBounceCnt;
 		Vector3 direction;
 		
 
@@ -64,5 +68,7 @@ namespace ya
 		bool bThunder;
 		bool bAssassin;
 		bool bDieBullet;
+		bool bBounce;
+		bool bBounceTrigger;
 	};
 }

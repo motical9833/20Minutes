@@ -151,13 +151,21 @@ namespace ya
 			weaponAni->Play(L"Revolver", true);
 			pWeapon->AddComponent<WeaponScript>();
 
-			for (size_t i = 0; i < 4; i++)
+			for (size_t i = 0; i < 5; i++)
 			{
 				GameObject* firePosObject = object::Instantiate<GameObject>(eLayerType::None, this);
 				firePosObject->SetName(L"FirePosObject" + i);
 				firePosObject->GetComponent<Transform>()->SetParent(weaponTr);
-				firePosObject->GetComponent<Transform>()->SetPosition(Vector3(1.0f, 0.0f, 0.0f));
-				firePosObject->GetComponent<Transform>()->SetRotation(Vector3(0.0f, 0.0f, 0.0f));
+				if (i == 4)
+				{
+					firePosObject->GetComponent<Transform>()->SetPosition(Vector3(-1.0f, 0.0f, 0.0f));
+					firePosObject->GetComponent<Transform>()->SetRotation(Vector3(0.0f, 0.0f, -3.1f));
+				}
+				else
+				{
+					firePosObject->GetComponent<Transform>()->SetPosition(Vector3(1.0f, 0.0f, 0.0f));
+					firePosObject->GetComponent<Transform>()->SetRotation(Vector3(0.0f, 0.0f, 0.0f));
+				}
 				pWeapon->GetScript<WeaponScript>()->SetFirePosObject(firePosObject);
 			}
 
@@ -529,11 +537,11 @@ namespace ya
 		}
 		if (Input::GetKeyDown(eKeyCode::NUM_5))
 		{
-			upgradeobj->GetScript<UpgradeScript>()->Splinter();
+			upgradeobj->GetScript<UpgradeScript>()->QuickHands();
 		}
 		if (Input::GetKeyDown(eKeyCode::NUM_6))
 		{
-			upgradeobj->GetScript<UpgradeScript>()->BigShot();
+			upgradeobj->GetScript<UpgradeScript>()->QuickHands();
 		}
 
 		if (Input::GetKeyDown(eKeyCode::P))

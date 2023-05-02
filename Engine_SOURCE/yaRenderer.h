@@ -89,7 +89,7 @@ namespace ya::renderer
 		Vector2 fCameraScale;
 		Vector2 fResolution;
 		float fadeDeltaTime;
-		Vector3 padding;
+		Vector3 paddingFade;
 	};
 
 	//NUMBEROFLIGHT

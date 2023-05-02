@@ -26,12 +26,17 @@ namespace ya
 		void Reset();
 		void GameReset();
 
+		void IdleAniStart();
+		void MoveAniStart();
+
 		void TakeDamage(int damage);
 		void SetMaxHP(int value) { mMaxHP = value; }
 		void SetCurrentHP() { mCurrentHP = mMaxHP; }
 		void ShieldOn() { bShield = true; }
 
 		void StartSetting();
+
+		bool GetIdle() { return bIdle; }
 
 	private:
 		float immuneTime;
@@ -43,5 +48,6 @@ namespace ya
 		//float rotTime;
 
 		bool bShield;
+		bool bIdle;
 	};
 }

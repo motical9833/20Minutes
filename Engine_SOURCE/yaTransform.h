@@ -33,6 +33,7 @@ namespace ya
 
 		Vector3 Foward() { return mFoward; }
 		Vector3 Right() { return mRight; }
+		Vector3 Left() { return mLeft; }
 		Vector3 Up() { return mUp; }
 
 		
@@ -47,6 +48,7 @@ namespace ya
 		std::vector<Transform*> mChiled;
 		Vector3 mFoward;
 		Vector3 mRight;
+		Vector3 mLeft;
 		Vector3 mUp;
 		Vector3 mPosition;
 		Vector3 mRotation;

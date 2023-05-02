@@ -24,7 +24,7 @@ namespace ya
 
 		void SetBullets(Transform* bullet) { bullets.push_back(bullet); }
 		void SetFirePosObject(GameObject* object) { firePosObject.push_back(object); }
-		void BulletCnt(int count) { oneShotFire = count; } 
+		void SetBulletCnt(int count) { oneShotFire += count; } 
 
 
 		void BulletSpeedUP(float percentage);
@@ -39,13 +39,21 @@ namespace ya
 		void BulletCntDown();
 		void FirePosRot();
 		void ReloadSkill();
-
+		void FanFire();
+		void BackFire();
 		//Inc
 		//Dec
 		void SetFireRotMul(float value) { fireRotmul += value; }
 		void SetFireRotRed(float value) { fireRotmul -= value; }
 		void SetFireDelayTimeInc(float value) { fireDelayTimeMul += value; }
 		void SetFireDelayTimeDec(float value) { fireDelayTimeMul -= value; }
+		void SetMaxBullet(int value) { maxBullet += value; currentBullet = maxBullet; }
+		void SetReloadTimeMul(float value) { reloadTimeMul += value; }
+		void SetReloadTimeRed(float value) { reloadTimeMul -= value; }
+		void SetBounceTrigger() { bBounceTrigger = true; }
+		void SetbSiege() { bSiege = true; }
+		void SetFanFire() { bFanFireTrigger = true; }
+		void SetBackFire() { bBackFire = true; }
 
 		void Gale();
 		void Smite();
@@ -65,14 +73,21 @@ namespace ya
 
 		bool bReload;
 		bool bReloading;
+		bool bBounceTrigger;
+		bool bSiege;
+		bool bBackFire;
+		bool bFanFireTrigger;
+		bool bFanFire;
 
 		float time;
 		float reloadTime;
+		float fanFireTime;
 		int maxBullet;
 		int currentBullet;
 		int oneShotFire;
 		int allFireBulletCnt;
 	
+		int fanFireCnt;
 
 
 		Animator* mAnimator;
@@ -90,6 +105,7 @@ namespace ya
 
 		float fireDelayTime;
 		float fireDelayTimeMul;
+		float reloadTimeMul;
 		float circleR;
 		float deg;
 		float objSpeed;

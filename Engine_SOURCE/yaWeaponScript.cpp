@@ -6,17 +6,28 @@
 #include "yaSceneManager.h"
 #include "yaSkillManager.h"
 #include "yaColliderCheckScript.h"
+#include "yaPlayerScript.h"
+
+#include <ctime>
+
 
 namespace ya
 {
 	WeaponScript::WeaponScript()
 		: bReload(false)
 		, bReloading(false)
+		, bBounceTrigger(false)
+		, bSiege(false)
+		, bFanFire(false)
+		, bFanFireTrigger(false)
+		, bBackFire(false)
 		, time(0.0f)
 		, reloadTime(1.0f)
+		, fanFireTime(0.0f)
 		, maxBullet(6)
 		, currentBullet(6)
 		, allFireBulletCnt(0)
+		, fanFireCnt(1)
 		, mTransform(nullptr)
 		, mAnimator(nullptr)
 		, mTrans(nullptr)
@@ -30,11 +41,12 @@ namespace ya
 		, bullets{}
 		, oneShotFire(1)
 		, fireDelayTime(0.3f)
-		, fireDelayTimeMul(1.0f)
 		, bulletPos{}
 		, bulletRot{}
 		, firePosObject{}
 		, fireRotmul(1.0f)
+		, reloadTimeMul(1.0f)
+		, fireDelayTimeMul(1.0f)
 	{
 
 	}
@@ -71,7 +83,7 @@ namespace ya
 		{
 			time += Time::DeltaTime();
 			
-			if (time >= reloadTime)
+			if (time >= (reloadTime * reloadTimeMul))
 			{
 				mAnimator->Stop();
 				bReloading = false;
@@ -79,17 +91,22 @@ namespace ya
 				time = 0;
 			}
 		}
-
 		if (bReloading == false && bReload == false)
 		{
 			if (Input::GetKeyDown(eKeyCode::LBTN))
 			{
 				Fire();
- 				if (currentBullet <= 0)
+				BackFire();
+				if (currentBullet <= 0)
+				{
 					bReload = true;
+
+					if (bFanFireTrigger)
+						bFanFire = true;
+				}
 			}
 		}
-
+		FanFire();
 	}
 	void WeaponScript::Render()
 	{
@@ -225,6 +242,65 @@ namespace ya
 		pScene->GetSkillManager()->GetScript<SkillManager>()->Spear();
 	}
 
+	void WeaponScript::FanFire()
+	{
+		if (bFanFire)
+		{
+			fanFireTime += Time::DeltaTime();
+
+			if (fanFireTime >= 0.05f)
+			{
+				for (size_t i = 0; i < bullets.size(); i++)
+				{
+					if (bullets[i]->GetOwner()->IsDead() == false)
+						continue;
+
+					Vector3 pos = mTransform->GetParent()->GetPosition();
+					Vector3 rot = Vector3(0.0f, 0.0f, 0.6f * fanFireCnt);
+					bullets[i]->GetOwner()->GetScript<BulletScript>()->Reset();
+					bullets[i]->SetPosition(pos);
+					bullets[i]->GetOwner()->GetScript<BulletScript>()->Setdir(rot);
+					bullets[i]->SetParent(nullptr);
+					bullets[i]->GetOwner()->Life();
+					bullets[i]->GetOwner()->GetComponent<Animator>()->Stop();
+					fanFireCnt++;
+					break;
+				}
+				fanFireTime = 0.0f;
+			}
+			if (fanFireCnt >= 11)
+			{
+				fanFireCnt = 0;
+				fanFireTime = 0.0f;
+				bFanFire = false;
+			}
+		}
+	}
+
+	void WeaponScript::BackFire()
+	{
+		if (bBackFire)
+		{
+
+			for (size_t i = 0; i < bullets.size(); i++)
+			{
+				if (bullets[i]->GetOwner()->IsDead() == false)
+					continue;
+
+				Vector3 pos = mTransform->GetParent()->GetPosition();
+				Vector3 rot = firePosObject[4]->GetComponent<Transform>()->GetRotation() + mTransform->GetRotation();
+
+				bullets[i]->GetOwner()->GetScript<BulletScript>()->Reset();
+				bullets[i]->SetPosition(pos);
+				bullets[i]->GetOwner()->GetScript<BulletScript>()->Setdir(rot);
+				bullets[i]->SetParent(nullptr);
+				bullets[i]->GetOwner()->Life();
+				bullets[i]->GetOwner()->GetComponent<Animator>()->Stop();
+				break;
+			}
+		}
+	}
+
 	void WeaponScript::Gale()
 	{
 		Vector3 pos = mTransform->GetParent()->GetPosition();
@@ -273,10 +349,13 @@ namespace ya
 				bullets[i]->SetParent(nullptr);
 				bullets[i]->GetOwner()->Life();
 				bullets[i]->GetOwner()->GetComponent<Animator>()->Stop();
+				if (bBounceTrigger)
+					bullets[i]->GetOwner()->GetScript<BulletScript>()->SetBounceTrigger();
+
 				allFireBulletCnt++;
 				a++;
 
-				if (allFireBulletCnt % 2 == 0)
+				if (allFireBulletCnt % (oneShotFire * 2) == 0)
 				{
 					bullets[i]->GetOwner()->GetScript<BulletScript>()->ThunderEnchantOn();
 				}
@@ -287,13 +366,25 @@ namespace ya
 					break;
 				}
 			}
+			if (bSiege  && pScene->GetPlayer()->GetScript<PlayerScript>()->GetIdle() == true)
+			{
+				srand((unsigned int)std::time(NULL));
+
+				int random = rand() & 100 + 1;
+
+				if (random <= 33)
+				{
+					return;
+				}
+			}
+
 			currentBullet--;
 		}
 	}
 	void WeaponScript::WeaponRotate()
 	{
 		mPos = mTrans->GetPosition() + mTrans->GetParent()->GetPosition();
-
+		
 		Vector3 rot = mTransform->GetRotation();
 
 		mMousePos = Input::GetMousePosition();

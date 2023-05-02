@@ -24,6 +24,7 @@ namespace ya
 		,mScaleMul(1.0f)
 		,mPenetrate(1)
 		,mMaxPenetrate(1)
+		,mBounceCnt(1)
 		,direction{}
 		,mTr(nullptr)
 		,mWeapon(nullptr)
@@ -31,6 +32,7 @@ namespace ya
 		,bThunder(false)
 		,bAssassin(false)
 		,bDieBullet(false)
+		,bBounce(false)
 	{
 
 	}
@@ -78,6 +80,10 @@ namespace ya
 		if (bDieBullet)
 		{
 			pos += mTr->Right() * mSpeed * Time::DeltaTime();
+		}
+		else if(bBounce)
+		{
+			pos += mTr->Left() * (mSpeed * mSpeedMul) * Time::DeltaTime();
 		}
 		else
 		{
@@ -127,13 +133,23 @@ namespace ya
 			if (bThunder)
 				SceneManager::GetPlayScene()->GetSkillManager()->GetScript<SkillManager>()->ThunderEnchant(collider->GetOwner()->GetComponent<Transform>()->GetPosition() + Vector3(0.0f,2.0f,0.0f));
 
-			mPenetrate--;
-
-			if (mPenetrate <= 0)
+			if (bBounceTrigger)
 			{
-				Animator* animator = GetOwner()->GetComponent<Animator>();
-				animator->Play(L"BulletAni", false);
-				animator->Start();
+				bBounce = true;
+				mBounceCnt--;
+				if (mBounceCnt <= 0)
+					bBounceTrigger = false;
+			}
+			else
+			{
+				mPenetrate--;
+
+				if (mPenetrate <= 0)
+				{
+					Animator* animator = GetOwner()->GetComponent<Animator>();
+					animator->Play(L"BulletAni", false);
+					animator->Start();
+				}
 			}
 		}
 	}
@@ -166,14 +182,23 @@ namespace ya
 		mTr->SetRotation(Vector3::Zero);
 		mTr->SetScale(Vector3(2.0f * mScaleMul, 2.0f * mScaleMul, 0.0f));
 		Vector3 teset = mTr->GetScale();
+		mBounceCnt = 1;
 		bCrash = false;
 		bThunder = false;
 		bDieBullet = false;
+		bBounce = false;
 	}
 	void BulletScript::GameReset()
 	{
+		time = 0.0f;
+		crashTime = 0.0f;
 		mDamageMul = 1.0f;
 		mScaleMul = 1.0f;
 		mSpeedMul = 1.0f;
+		bCrash = false;
+		bThunder = false;
+		bDieBullet = false;
+		bBounce = false;
+		bBounceTrigger = false;
 	}
 }

@@ -9,6 +9,7 @@ namespace ya
 		: Component(eComponentType::Transform)
 		, mFoward(Vector3::Forward)
 		, mRight(Vector3::Right)
+		, mLeft(Vector3::Left)
 		, mUp(Vector3::Up)
 		, mScale(Vector3::One)
 		, mRotation(Vector3::Zero)
@@ -66,6 +67,7 @@ namespace ya
 
 		mFoward = Vector3::TransformNormal(Vector3::Forward, rotation);
 		mRight = Vector3::TransformNormal(Vector3::Right, rotation);
+		mLeft = Vector3::TransformNormal(Vector3::Left, rotation);
 		mUp = Vector3::TransformNormal(Vector3::Up, rotation);
 		
 		// 카메라 컴포넌트에서 세팅해준다

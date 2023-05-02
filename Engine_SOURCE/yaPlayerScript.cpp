@@ -18,6 +18,7 @@ namespace ya
 		, bHitImmune(false)
 		, immuneTime(0.0f)
 		, bShield(true)
+		, bIdle(false)
 		//, rotTime(0.0f)
 	{
 		
@@ -32,10 +33,11 @@ namespace ya
 	{
 		Animator* animator = GetOwner()->GetComponent<Animator>();
 		//멤버함수 이기 떄문에 어떤 함수인지 풀네임으로 적어줘야 한다.
-		animator->GetStartEvent(L"pRightIdle") = std::bind(&PlayerScript::Start, this);
-		animator->GetCompleteEvent(L"pRightIdle") = std::bind(&PlayerScript::Action, this);
-		animator->GetEndEvent(L"pRightIdle") = std::bind(&PlayerScript::End, this);
-		animator->GetEvent(L"pRightIdle",1) = std::bind(&PlayerScript::End, this);
+		animator->GetStartEvent(L"pRightIdle") = std::bind(&PlayerScript::IdleAniStart, this);
+		animator->GetStartEvent(L"pLeftIdle") = std::bind(&PlayerScript::IdleAniStart, this);
+
+		animator->GetStartEvent(L"pLeftMove") = std::bind(&PlayerScript::MoveAniStart, this);
+		animator->GetStartEvent(L"pRightMove") = std::bind(&PlayerScript::MoveAniStart, this);
 	}
 
 	void PlayerScript::Update()
@@ -291,6 +293,14 @@ namespace ya
 		bMove = false;
 		immuneTime = 0.0f;
 		bShield = true;
+	}
+	void PlayerScript::IdleAniStart()
+	{
+		bIdle = true;
+	}
+	void PlayerScript::MoveAniStart()
+	{
+		bIdle = false;
 	}
 	void PlayerScript::TakeDamage(int damage)
 	{
