@@ -13,15 +13,15 @@ namespace ya
 	ParticleSystem::ParticleSystem()
 		: BaseRenderer(eComponentType::ParticleSystem)
 		, mMaxParticles(100)
-		, mStartSize(Vector4(50.0f, 50.0f, 1.0f, 1.0f))
-		, mStartColor(Vector4(1.0f, 0.2f, 0.2f, 1.0f))
+		, mStartSize(Vector4(1.0f, 1.0f, 1.0f, 1.0f))
+		, mStartColor(Vector4(1.0f, 1.0f, 1.0f, 1.0f))
 		, mStartLifeTime(3.0f)
-		, mFrequency(1.0f)
+		, mFrequency(10.0f)
 		, mTime(0.0f)
 		, mCBData{}
 		, mSimulationSpace(eSimulationSpace::World)
-		, mRadius(500.0f)
-		, mStartSpeed(200.0f)
+		, mRadius(1.0f)
+		, mStartSpeed(1.0f)
 		, mElapsedTime(0.0f)
 
 	{
@@ -73,6 +73,7 @@ namespace ya
 
 	void ParticleSystem::Update()
 	{
+
 	}
 
 	void ParticleSystem::FixedUpdate()

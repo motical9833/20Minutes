@@ -32,6 +32,7 @@ namespace ya
 
 		void SetDieBulletOn() { bDieBullet = true; }
 
+		void KillClipOn() { bKillClip = true; }
 		void Freeze();
 		void Curse();
 		void CurseActivate() { bCurse = true; }
@@ -49,6 +50,7 @@ namespace ya
 		bool bFreeze;
 		bool bCurse;
 		bool bDieBullet;
+		bool bKillClip;
 
 		float freezeTime;
 

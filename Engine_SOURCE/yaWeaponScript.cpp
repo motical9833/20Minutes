@@ -28,6 +28,7 @@ namespace ya
 		, currentBullet(6)
 		, allFireBulletCnt(0)
 		, fanFireCnt(1)
+		, killClip(0.0f)
 		, mTransform(nullptr)
 		, mAnimator(nullptr)
 		, mTrans(nullptr)
@@ -82,13 +83,14 @@ namespace ya
 		if (bReloading)
 		{
 			time += Time::DeltaTime();
-			
-			if (time >= (reloadTime * reloadTimeMul))
+
+			if (time >= (reloadTime * (reloadTimeMul - killClip)))
 			{
 				mAnimator->Stop();
 				bReloading = false;
 				currentBullet = maxBullet;
-				time = 0;
+				time = 0.0f;
+				killClip = 0.0f;
 			}
 		}
 		if (bReloading == false && bReload == false)

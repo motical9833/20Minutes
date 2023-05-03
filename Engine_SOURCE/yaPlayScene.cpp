@@ -56,13 +56,6 @@ namespace ya
 		paintShader->SetTarget(Resources::Find<Texture>(L"PaintTexture"));
 		paintShader->OnExcute();
 
-		//Particle
-		//GameObject* particle = object::Instantiate<Player>(eLayerType::Particle,this);
-		//particle->SetName(L"Particle");
-		//Transform* particleTr = particle->GetComponent<Transform>();
-		//particleTr->SetPosition(Vector3(0.0f, 0.0f, 0.0f));
-		//particle->AddComponent<ParticleSystem>();
-
 
 		//SMILE RECT
 		{
@@ -470,6 +463,15 @@ namespace ya
 		upgradeobj->AddComponent<UpgradeScript>();
 
 
+		//Particle
+		//GameObject* particle = object::Instantiate<Player>(eLayerType::Particle, this);
+		//particle->SetName(L"Particle");
+		//Transform* particleTr = particle->GetComponent<Transform>();
+		//particleTr->SetPosition(Vector3::Zero);
+		//particle->AddComponent<ParticleSystem>();
+		//particleTr->SetParent(player->GetComponent<Transform>());
+
+
 		CollisionManager::CollisionLayerCheck(eLayerType::Player, eLayerType::Monster, true);
 		CollisionManager::CollisionLayerCheck(eLayerType::Bullet, eLayerType::Monster, true);
 		CollisionManager::CollisionLayerCheck(eLayerType::Skill, eLayerType::Monster, true);
@@ -541,7 +543,7 @@ namespace ya
 		}
 		if (Input::GetKeyDown(eKeyCode::NUM_6))
 		{
-			upgradeobj->GetScript<UpgradeScript>()->QuickHands();
+			upgradeobj->GetScript<UpgradeScript>()->KillClip();
 		}
 
 		if (Input::GetKeyDown(eKeyCode::P))

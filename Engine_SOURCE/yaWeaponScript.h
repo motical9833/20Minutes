@@ -41,8 +41,7 @@ namespace ya
 		void ReloadSkill();
 		void FanFire();
 		void BackFire();
-		//Inc
-		//Dec
+
 		void SetFireRotMul(float value) { fireRotmul += value; }
 		void SetFireRotRed(float value) { fireRotmul -= value; }
 		void SetFireDelayTimeInc(float value) { fireDelayTimeMul += value; }
@@ -54,6 +53,7 @@ namespace ya
 		void SetbSiege() { bSiege = true; }
 		void SetFanFire() { bFanFireTrigger = true; }
 		void SetBackFire() { bBackFire = true; }
+		void SetKillCntInc() { killClip += 0.05f; }
 
 		void Gale();
 		void Smite();
@@ -67,6 +67,7 @@ namespace ya
 
 		void Reset();
 		void GameReset();
+
 	private:
 
 		void Cheat();
@@ -82,11 +83,12 @@ namespace ya
 		float time;
 		float reloadTime;
 		float fanFireTime;
+		float killClip;
+
 		int maxBullet;
 		int currentBullet;
 		int oneShotFire;
 		int allFireBulletCnt;
-	
 		int fanFireCnt;
 
 

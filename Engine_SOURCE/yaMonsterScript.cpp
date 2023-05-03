@@ -8,6 +8,7 @@
 #include "yaCurseScript.h"
 #include "yaPlayer.h"
 #include "yaBulletScript.h"
+#include "yaWeaponScript.h"
 
 namespace ya
 {
@@ -21,6 +22,7 @@ namespace ya
 		, bCurse(false)
 		, freezeTime(0.0f)
 		, bDieBullet(false)
+		, bKillClip(false)
 	{
 
 	}
@@ -34,6 +36,7 @@ namespace ya
 		, bCurse(false)
 		, freezeTime(0.0f)
 		, bDieBullet(false)
+		, bKillClip(false)
 	{
 	}
 	MonsterScript::~MonsterScript()
@@ -135,6 +138,9 @@ namespace ya
 			Transform* tr = GetOwner()->GetComponent<Transform>();
 			tr->GetChiled(0)->GetOwner()->Death();
 			tr->GetChiled(1)->GetOwner()->GetScript<CurseScript>()->Reset();
+
+			if(bKillClip)
+			SceneManager::GetPlayScene()->GetWeapon()->GetScript<WeaponScript>()->SetKillCntInc();
 
 			if (bDieBullet)
 			{

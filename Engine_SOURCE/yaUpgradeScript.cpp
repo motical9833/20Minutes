@@ -297,7 +297,260 @@ namespace ya
 		if (bupgrade[4][3])
 			return;
 
+		for (size_t i = 0; i < pscene->GetBoomerMonsters().size(); i++)
+		{
+			pscene->GetBoomerMonsters()[i]->GetScript<MonsterScript>()->KillClipOn();
+		}
+		for (size_t i = 0; i < pscene->GetBrainMonsters().size(); i++)
+		{
+			pscene->GetBrainMonsters()[i]->GetScript<MonsterScript>()->KillClipOn();
+		}
+		for (size_t i = 0; i < pscene->GetEyeMonsters().size(); i++)
+		{
+			pscene->GetEyeMonsters()[i]->GetScript<MonsterScript>()->KillClipOn();
+		}
+
 
 		bupgrade[4][3] = true;
+	}
+	void UpgradeScript::ElectroMage()
+	{
+
+	}
+	void UpgradeScript::ElectroBug()
+	{
+
+	}
+	void UpgradeScript::Energized()
+	{
+
+	}
+	void UpgradeScript::ElectroMastery()
+	{
+
+	}
+	void UpgradeScript::FrostMage()
+	{
+
+	}
+	void UpgradeScript::Frostbite()
+	{
+
+	}
+	void UpgradeScript::IceShard()
+	{
+
+	}
+	void UpgradeScript::Shatter()
+	{
+
+	}
+	void UpgradeScript::PyroMage()
+	{
+
+	}
+	void UpgradeScript::FireStarter()
+	{
+
+	}
+	void UpgradeScript::IntenseBurn()
+	{
+
+	}
+	void UpgradeScript::SoothingWarmth()
+	{
+
+	}
+	void UpgradeScript::DarkArts()
+	{
+
+	}
+	void UpgradeScript::Doom()
+	{
+
+	}
+	void UpgradeScript::Wither()
+	{
+
+	}
+	void UpgradeScript::Ritual()
+	{
+
+	}
+	void UpgradeScript::HolyAttack()
+	{
+
+	}
+	void UpgradeScript::HolyMight()
+	{
+
+	}
+	void UpgradeScript::Justice()
+	{
+
+	}
+	void UpgradeScript::Angelic()
+	{
+
+	}
+	void UpgradeScript::AeroMagic()
+	{
+
+	}
+	void UpgradeScript::WindBorne()
+	{
+
+	}
+	void UpgradeScript::EyeoftheStorm()
+	{
+
+	}
+	void UpgradeScript::AeroMastery()
+	{
+
+	}
+	void UpgradeScript::Vitality()
+	{
+
+	}
+	void UpgradeScript::AngerPoint()
+	{
+
+	}
+	void UpgradeScript::Giant()
+	{
+
+	}
+	void UpgradeScript::Regeneration()
+	{
+
+	}
+	void UpgradeScript::HolyShield()
+	{
+
+	}
+	void UpgradeScript::DivineBlessing()
+	{
+
+	}
+	void UpgradeScript::DivineWrath()
+	{
+
+	}
+	void UpgradeScript::StalwartShield()
+	{
+
+	}
+	void UpgradeScript::Magnetism()
+	{
+
+	}
+	void UpgradeScript::Recharge()
+	{
+
+	}
+	void UpgradeScript::WatchLearn()
+	{
+
+	}
+	void UpgradeScript::Excitement()
+	{
+
+	}
+	void UpgradeScript::Haste()
+	{
+
+	}
+	void UpgradeScript::BlazingSpeed()
+	{
+
+	}
+	void UpgradeScript::RunGun()
+	{
+
+	}
+	void UpgradeScript::IntheWind()
+	{
+
+	}
+	void UpgradeScript::Glare()
+	{
+
+	}
+	void UpgradeScript::IntenseGlare()
+	{
+
+	}
+	void UpgradeScript::SightMagic()
+	{
+
+	}
+	void UpgradeScript::Saccade()
+	{
+
+	}
+	void UpgradeScript::Evasive()
+	{
+
+	}
+	void UpgradeScript::Nimble()
+	{
+
+	}
+	void UpgradeScript::Tiny()
+	{
+
+	}
+	void UpgradeScript::Reflex()
+	{
+
+	}
+	void UpgradeScript::DragonEgg()
+	{
+
+	}
+	void UpgradeScript::AgedDragon()
+	{
+
+	}
+	void UpgradeScript::TrainedDragon()
+	{
+
+	}
+	void UpgradeScript::DragonBond()
+	{
+
+	}
+	void UpgradeScript::GhostFriend()
+	{
+
+	}
+	void UpgradeScript::EnergeticFriends()
+	{
+
+	}
+	void UpgradeScript::InSync()
+	{
+
+	}
+	void UpgradeScript::VengefulGhost()
+	{
+
+	}
+	void UpgradeScript::MagicLens()
+	{
+
+	}
+	void UpgradeScript::IgnitingLens()
+	{
+
+	}
+	void UpgradeScript::Refraction()
+	{
+
+	}
+	void UpgradeScript::FocalPoint()
+	{
+
 	}
 }
