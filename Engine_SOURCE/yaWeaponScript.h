@@ -26,17 +26,6 @@ namespace ya
 		void SetFirePosObject(GameObject* object) { firePosObject.push_back(object); }
 		void SetBulletCnt(int count) { oneShotFire += count; } 
 
-
-		void BulletSpeedUP(float percentage);
-		void BulletSpeedDown(float percentage);
-		void BulletScaleUp(float percentage);
-		void BulletScaleDown(float percentage);
-		void AttackSpeedUP(float percentage);
-		void AttackSpeedDown(float percentage);
-		void ReloadTimeUP(float percentage);
-		void ReloadTimeDown(float percentage);
-		void BulletCntUP();
-		void BulletCntDown();
 		void FirePosRot();
 		void ReloadSkill();
 		void FanFire();
@@ -54,6 +43,9 @@ namespace ya
 		void SetFanFire() { bFanFireTrigger = true; }
 		void SetBackFire() { bBackFire = true; }
 		void SetKillCntInc() { killClip += 0.05f; }
+		void SetThunderOn() { bThunder = true; }
+
+		void BulletSupply(int count);
 
 		void Gale();
 		void Smite();
@@ -79,6 +71,7 @@ namespace ya
 		bool bBackFire;
 		bool bFanFireTrigger;
 		bool bFanFire;
+		bool bThunder;
 
 		float time;
 		float reloadTime;

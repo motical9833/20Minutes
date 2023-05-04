@@ -2,11 +2,17 @@
 #include "yaAnimator.h"
 #include "yaGameObject.h"
 #include "yaMonsterScript.h"
+#include "yaWeaponScript.h"
+#include "yaSceneManager.h"
+#include "yaPlayScene.h"
+#include "yaTime.h"
 
 namespace ya
 {
 	ThunderScript::ThunderScript()
-		:mDamage(10)
+		:mDamage(22)
+		, bEnergized(false)
+		, time(0.0f)
 	{
 
 	}
@@ -23,7 +29,13 @@ namespace ya
 	}
 	void ThunderScript::Update()
 	{
+		time += Time::DeltaTime();
+		
+		Vector3 pos = GetOwner()->GetComponent<Transform>()->GetPosition();
 
+		pos.y -= time * 10;
+
+		GetOwner()->GetComponent<Transform>()->SetPosition(pos);
 	}
 	void ThunderScript::Render()
 	{
@@ -31,18 +43,32 @@ namespace ya
 	}
 	void ThunderScript::OnCollisionEnter(Collider2D* collider)
 	{
+		eLayerType type = collider->GetOwner()->GetLayerType();
+
 		if (collider->GetOwner()->GetLayerType() == eLayerType::Monster && collider->GetOwner()->GetState() == (UINT)GameObject::eState::Active)
 		{
 			collider->GetOwner()->GetScript<MonsterScript>()->TakeDamage(mDamage);
+
+			if (bEnergized)
+			{
+				srand((unsigned int)std::time(NULL));
+
+				int random = rand() & 100 + 1;
+
+				if (random <= 20)
+				{
+					SceneManager::GetPlayScene()->GetWeapon()->GetScript<WeaponScript>()->BulletSupply(3);
+				}
+			}
 		}
 	}
 	void ThunderScript::OnCollisionStay(Collider2D* collider)
 	{
-
+		int a = 0;
 	}
 	void ThunderScript::OnCollisionExit(Collider2D* collider)
 	{
-
+		int a = 0;
 	}
 	void ThunderScript::Move()
 	{
@@ -64,7 +90,18 @@ namespace ya
 	{
 		this->GetOwner()->Death();
 		this->GetOwner()->GetComponent<Transform>()->SetPosition(Vector3::Zero);
+		this->GetOwner()->GetComponent<Transform>()->SetScale(Vector3(1.0f, 5.0f, 1.0f));
 		Animator* animator = GetOwner()->GetComponent<Animator>();
 		animator->Play(L"ThunderAni", false);
+		time = 0;
+	}
+	void ThunderScript::GameReset()
+	{
+		this->GetOwner()->Death();
+		this->GetOwner()->GetComponent<Transform>()->SetPosition(Vector3::Zero);
+		this->GetOwner()->GetComponent<Transform>()->SetScale(Vector3(1.0f, 5.0f, 1.0f));
+		Animator* animator = GetOwner()->GetComponent<Animator>();
+		animator->Play(L"ThunderAni", false);
+		bEnergized = false;
 	}
 }

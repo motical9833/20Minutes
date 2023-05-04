@@ -58,7 +58,7 @@ namespace ya
 	void SkillManager::ThunderEnchant(Vector3 Enchantobject)
 	{
 
-		for (size_t i = 0; i < 20; i++)
+		for (size_t i = 0; i < SceneManager::GetPlayScene()->GetThunders().size(); i++)
 		{
 			if (SceneManager::GetPlayScene()->GetThunders()[i] == nullptr)
 				return;
@@ -73,7 +73,7 @@ namespace ya
 	}
 	void SkillManager::GaleFire(Vector3 pos,Vector3 dir)
 	{
-		for (size_t i = 0; i < 20; i++)
+		for (size_t i = 0; i < SceneManager::GetPlayScene()->GetGale().size(); i++)
 		{
 			if (SceneManager::GetPlayScene()->GetGale()[i] == nullptr)
 				return;
@@ -90,7 +90,7 @@ namespace ya
 
 	void SkillManager::GhostFire(Vector3 pos, Vector3 dir)
 	{
-		for (size_t i = 0; i < 20; i++)
+		for (size_t i = 0; i < SceneManager::GetPlayScene()->GetGhostBullets().size(); i++)
 		{
 			if (SceneManager::GetPlayScene()->GetGhostBullets()[i] == nullptr)
 				return;
@@ -107,7 +107,7 @@ namespace ya
 
 	void SkillManager::SmiteFire(Vector3 pos)
 	{
-		for (size_t i = 0; i < 30; i++)
+		for (size_t i = 0; i < SceneManager::GetPlayScene()->GetSmites().size(); i++)
 		{
 			if (SceneManager::GetPlayScene()->GetSmites()[i] == nullptr)
 				return;
@@ -129,7 +129,7 @@ namespace ya
 	}
 	void SkillManager::DragonFIre(Vector3 pos, Vector3 dir)
 	{
-		for (size_t i = 0; i < 20; i++)
+		for (size_t i = 0; i < SceneManager::GetPlayScene()->GetDragonFires().size(); i++)
 		{
 			if (SceneManager::GetPlayScene()->GetDragonFires()[i] == nullptr)
 				return;

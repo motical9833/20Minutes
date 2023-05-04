@@ -38,6 +38,9 @@ namespace ya
 		std::vector<Monster*> GetEyeMonsters() { return mEyeMonsters; }
 		std::vector<Monster*> GetBoomerMonsters() { return mBoomerMonsters; }
 
+		void ThunderBugOn() { for (size_t i = 0; i < thunderBugs.size(); i++) { thunderBugs[i]->Life(); } }
+
+
 		GameObject* GetShield() { return holyShield; }
 		GameObject* GetColliderChack() { return colliderCheck; }
 		GameObject* GetDragonPet() { return dragonPet; }
@@ -71,6 +74,7 @@ namespace ya
 		std::vector<GameObject*> curses;
 		std::vector<GameObject*> smites;
 		std::vector<GameObject*> spears;
+		std::vector<GameObject*> thunderBugs;
 
 		GameObject* holyShield;
 		GameObject* magicLens;

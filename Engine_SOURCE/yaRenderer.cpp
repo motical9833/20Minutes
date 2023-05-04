@@ -530,6 +530,7 @@ namespace ya::renderer
 		Resources::Load<Texture>(L"S_Scythe", L"Skill\\T_Scythe.png");
 		Resources::Load<Texture>(L"S_SmiteFX", L"Skill\\T_SmiteFX.png");
 		Resources::Load<Texture>(L"S_Spear", L"Skill\\T_Spear.png");
+		Resources::Load<Texture>(L"S_ThunderBug", L"Skill\\T_ElectroBug_SS.png");
 
 #pragma endregion
 #pragma region DYNAMIC TEXTURE
@@ -622,7 +623,7 @@ namespace ya::renderer
 
 		CreateMaterial(L"S_Spear", L"SpriteShader", eRenderingMode::Transparent, L"SpearMaterial");
 
-
+		CreateMaterial(L"S_ThunderBug", L"SpriteShader", eRenderingMode::Transparent, L"ThunderBugMaterial");
 #pragma endregion
 	}
 

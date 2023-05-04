@@ -1,15 +1,14 @@
 #pragma once
 #include "yaScript.h"
-#include "yaMonster.h"
+
 
 namespace ya
 {
-	using namespace std;
-	class ColliderCheckScript : public Script
+	class ThunderBugScript : public Script
 	{
 	public:
-		ColliderCheckScript();
-		~ColliderCheckScript();
+		ThunderBugScript(int cnt);
+		~ThunderBugScript();
 
 		virtual void Initalize() override;
 		virtual void Update() override;
@@ -22,13 +21,26 @@ namespace ya
 		void Start();
 		void Action();
 		void End();
-		void DeathChack();
-		Vector3 GetMonsterPos();
-		Vector3 GetRandomMonsterPos(int number);
+		void Reset();	
 
-		list<Monster*> GetMonsters() { return monsters; }
+		void Circularmotion();
+		void LookPayer();
+
+		void SetDir(Vector3 dir) { mDir = dir; }
+		void Attack();
+
+		bool GetBAttack() { return bAttack; };
 
 	private:
-		list<Monster*> monsters;
+		float mSpeed;
+		float mFireSpeed;
+		float mWidth;
+		float mHeight;
+		float mTime;
+		float mAttackTime;
+		float value;
+
+		bool bAttack;
+		Vector3 mDir;
 	};
 }

@@ -21,6 +21,7 @@ namespace ya
 		, bFanFire(false)
 		, bFanFireTrigger(false)
 		, bBackFire(false)
+		, bThunder(false)
 		, time(0.0f)
 		, reloadTime(1.0f)
 		, fanFireTime(0.0f)
@@ -126,90 +127,6 @@ namespace ya
 	{
 
 	}
-	void WeaponScript::BulletSpeedUP(float percentage)
-	{
-		for (auto i : bullets)
-		{
-			BulletScript* scripts = i->GetOwner()->GetScript<BulletScript>();
-
-			float speed = scripts->Getspeed();
-			speed *= (1 + percentage / 100);
-
-			scripts->SetSpeed(speed);
-		}
-	}
-	void WeaponScript::BulletSpeedDown(float percentage)
-	{
-		for (auto i : bullets)
-		{
-			BulletScript* scripts = i->GetOwner()->GetScript<BulletScript>();
-
-			float speed = scripts->Getspeed();
-			speed *= (1 - percentage / 100);
-
-			scripts->SetSpeed(speed);
-		}
-	}
-	void WeaponScript::BulletScaleUp(float percentage)
-	{
-		for (auto i : bullets)
-		{
-			Vector3 scale = i->GetScale();
-
-			scale.x *= (1 + percentage / 100);
-			scale.y *= (1 + percentage / 100);
-			scale.z *= (1 + percentage / 100);
-
-			i->SetScale(scale);
-		}
-	}
-	void WeaponScript::BulletScaleDown(float percentage)
-	{
-		for (auto i : bullets)
-		{
-			Vector3 scale = i->GetScale();
-
-			scale.x *= (1 - percentage / 100);
-			scale.y *= (1 - percentage / 100);
-			scale.z *= (1 - percentage / 100);
-
-			i->SetScale(scale);
-		}
-	}
-	void WeaponScript::AttackSpeedUP(float percentage)
-	{
-		fireDelayTime *= (1 - percentage / 100);
-	}
-	void WeaponScript::AttackSpeedDown(float percentage)
-	{
-		fireDelayTime *= (1 + percentage / 100);
-	}
-
-	void WeaponScript::ReloadTimeUP(float percentage)
-	{
-		reloadTime *= (1 + percentage / 100);
-	}
-
-	void WeaponScript::ReloadTimeDown(float percentage)
-	{
-		reloadTime *= (1 - percentage / 100);
-	}
-
-	void WeaponScript::BulletCntUP()
-	{
-		if (oneShotFire == 3)
-			return;
-		oneShotFire++;
-		FirePosRot();
-	}
-
-	void WeaponScript::BulletCntDown()
-	{
-		if (oneShotFire == 1)
-			return;
-		oneShotFire--;
-		FirePosRot();
-	}
 
 	void WeaponScript::FirePosRot()
 	{
@@ -303,6 +220,16 @@ namespace ya
 		}
 	}
 
+	void WeaponScript::BulletSupply(int count)
+	{
+		currentBullet += count;
+
+		if (currentBullet > maxBullet)
+		{
+			currentBullet = maxBullet;
+		}
+	}
+
 	void WeaponScript::Gale()
 	{
 		Vector3 pos = mTransform->GetParent()->GetPosition();
@@ -357,7 +284,7 @@ namespace ya
 				allFireBulletCnt++;
 				a++;
 
-				if (allFireBulletCnt % (oneShotFire * 2) == 0)
+				if (allFireBulletCnt % (oneShotFire * 2) == 0 && bThunder)
 				{
 					bullets[i]->GetOwner()->GetScript<BulletScript>()->ThunderEnchantOn();
 				}
@@ -436,42 +363,6 @@ namespace ya
 
 	void WeaponScript::Cheat()
 	{
-		//if (Input::GetKeyState(eKeyCode::NUM_0) == eKeyState::DOWN)
-		//{
-		//	BulletCntUP();
-		//}
-		//if (Input::GetKeyState(eKeyCode::NUM_1) == eKeyState::DOWN)
-		//{
-		//	AttackSpeedUP(10.0f);
-		//}
-		//if (Input::GetKeyState(eKeyCode::NUM_2) == eKeyState::DOWN)
-		//{
-		//	AttackSpeedDown(10.0f);
-		//}
-		//if (Input::GetKeyState(eKeyCode::NUM_3) == eKeyState::DOWN)
-		//{
-		//	BulletScaleUp(10.0f);
-		//}
-		//if (Input::GetKeyState(eKeyCode::NUM_4) == eKeyState::DOWN)
-		//{
-		//	BulletScaleDown(10.0f);
-		//}
-		//if (Input::GetKeyState(eKeyCode::NUM_5) == eKeyState::DOWN)
-		//{
-		//	BulletSpeedUP(10.0f);
-		//}
-		//if (Input::GetKeyState(eKeyCode::NUM_6) == eKeyState::DOWN)
-		//{
-		//	BulletSpeedDown(10.0f);
-		//}
-		//if (Input::GetKeyState(eKeyCode::NUM_7) == eKeyState::DOWN)
-		//{
-		//	ReloadTimeDown(10.0f);
-		//}
-		//if (Input::GetKeyState(eKeyCode::NUM_8) == eKeyState::DOWN)
-		//{
-		//	ReloadTimeUP(10.0f);
-		//}
 	}
 
 	void WeaponScript::Reload()

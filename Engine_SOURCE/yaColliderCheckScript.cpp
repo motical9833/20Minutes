@@ -125,4 +125,23 @@ namespace ya
 		return pos;
 		
 	}
+	Vector3 ColliderCheckScript::GetRandomMonsterPos(int number)
+	{
+		DeathChack();
+
+		list<Monster*>::iterator iter = monsters.begin();
+
+		Vector3 pos;
+
+		for (iter = monsters.begin(); iter != monsters.end(); iter++)
+		{
+			for (size_t i = 0; i < number; i++)
+			{
+				iter++;
+			}
+			pos = (*iter)->GetComponent<Transform>()->GetPosition();
+			break;
+		}
+		return pos;
+	}
 }

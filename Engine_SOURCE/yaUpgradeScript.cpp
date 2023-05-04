@@ -6,7 +6,7 @@
 #include "yaWeaponScript.h"
 #include "yaMonsterScript.h"
 #include "yaPlayerScript.h"
-
+#include "yaThunderScript.h"
 namespace ya
 {
 	UpgradeScript::UpgradeScript()
@@ -313,18 +313,25 @@ namespace ya
 
 		bupgrade[4][3] = true;
 	}
+	//(T1) : 탄환을 2회 발사할 때마다 22의 피해를 주는 번개를 소환한다.
 	void UpgradeScript::ElectroMage()
 	{
-
+		pscene->GetWeapon()->GetScript<WeaponScript>()->SetThunderOn();
 	}
+	//(T2) : 매 초마다 근접한 두명의 적에게 번개를 떨어뜨리는 번개 벌레를 소환한다.
 	void UpgradeScript::ElectroBug()
 	{
-
+		pscene->ThunderBugOn();
 	}
+	//(T2) : 적에게 번개가 칠 때마다 20% 확률로 탄환을 3개 충전한다.
 	void UpgradeScript::Energized()
 	{
-
+		for (size_t i = 0; i < pscene->GetThunders().size(); i++)
+		{
+			pscene->GetThunders()[i]->GetScript<ThunderScript>()->EnergizedOn();
+		}
 	}
+	//(T3) : 모든 번개 피해가 12 증가하고, 범위 효과가 75% 늘어난다.
 	void UpgradeScript::ElectroMastery()
 	{
 
