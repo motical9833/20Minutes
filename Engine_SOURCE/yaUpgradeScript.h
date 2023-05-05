@@ -136,10 +136,10 @@ namespace ya
 		void Refraction(); //(T2) : 렌즈를 통과한 탄환이 바운스+2를 얻는다.
 		void FocalPoint(); //(T3) : 렌즈의 모든 효과가 2배가 되지만, 렌즈의 크기가 절반으로 작아진다.
 
-		std::array<std::array<bool, 4>, 5> GetUpgradeBool() { return bupgrade; }
+		std::array<std::array<bool, 4>, 10> GetUpgradeBool() { return bupgrade; }
 
 	private:
 		PlayScene* pscene;
-		std::array<std::array<bool, 4>, 5> bupgrade;
+		std::array<std::array<bool, 4>, 10> bupgrade;
 	};
 }

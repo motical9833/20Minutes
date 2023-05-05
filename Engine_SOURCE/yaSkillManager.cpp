@@ -160,4 +160,21 @@ namespace ya
 			SceneManager::GetPlayScene()->Getspears()[i]->GetScript<SpearScript>()->Attack();
 		}
 	}
+	void SkillManager::IceShard(Vector3 pos, Vector3 dir)
+	{
+		for (size_t i = 0; i < SceneManager::GetPlayScene()->GetIcicles().size(); i++)
+		{
+			if (SceneManager::GetPlayScene()->GetIcicles()[i] == nullptr)
+				return;
+
+			if (SceneManager::GetPlayScene()->GetIcicles()[i]->IsDead() == false)
+				continue;
+
+
+			SceneManager::GetPlayScene()->GetIcicles()[i]->GetComponent<Transform>()->SetRotation(dir);
+			SceneManager::GetPlayScene()->GetIcicles()[i]->GetComponent<Transform>()->SetPosition(pos);
+			SceneManager::GetPlayScene()->GetIcicles()[i]->Life();
+			break;
+		}
+	}
 }

@@ -1,13 +1,14 @@
 #pragma once
 #include "yaScript.h"
 
+
 namespace ya
 {
-	class ThunderScript : public Script
+	class IcicleScript :public Script
 	{
 	public:
-		ThunderScript();
-		~ThunderScript();
+		IcicleScript();
+		~IcicleScript();
 
 		virtual void Initalize() override;
 		virtual void Update() override;
@@ -17,23 +18,13 @@ namespace ya
 		virtual void OnCollisionStay(Collider2D* collider) override;
 		virtual void OnCollisionExit(Collider2D* collider) override;
 
-
-		void EnergizedOn() { bEnergized = true; }
-		void DamageUP(int damage){mDamage += damage; }
-
-		void Move();
-
 		void Start();
 		void Action();
 		void End();
+
 		void Reset();
-		void GameReset();
 	private:
-
-		int mDamage;
-
-		bool bEnergized;
-
-		float time;
+		float mSpeed;
+		float mTime;
 	};
 }

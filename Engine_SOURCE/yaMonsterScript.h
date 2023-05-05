@@ -30,7 +30,10 @@ namespace ya
 		void Respawn();
 		void GameReset();
 
+		void DieChack();
+
 		void SetDieBulletOn() { bDieBullet = true; }
+		void SetFrostbiteOn() { bFrostbite = true; }
 
 		void KillClipOn() { bKillClip = true; }
 		void Freeze();
@@ -48,6 +51,7 @@ namespace ya
 		int mDamage;
 
 		bool bFreeze;
+		bool bFrostbite;
 		bool bCurse;
 		bool bDieBullet;
 		bool bKillClip;

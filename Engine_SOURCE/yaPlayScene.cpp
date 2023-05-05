@@ -34,6 +34,7 @@
 #include "yaDragonFireScript.h"
 #include "yaUpgradeScript.h"
 #include "yaThunderBugScript.h"
+#include "yaIcicleScript.h"
 
 namespace ya
 {
@@ -210,7 +211,7 @@ namespace ya
 			thunderObject->GetComponent<Transform>()->SetPosition(Vector3::Zero);
 			Collider2D* thunderCollider = thunderObject->AddComponent<Collider2D>();
 			thunderCollider->SetType(eColliderType::Rect);
-			thunderCollider->SetSize(Vector2(1.0f, 0.2f));
+			thunderCollider->SetSize(Vector2(0.2f, 1.0f));
 			thunderCollider->SetCenter(Vector2(0.0f, 0.0f));
 			SpriteRenderer* render = thunderObject->AddComponent<SpriteRenderer>();
 			std::shared_ptr<Material> thunderMaterial = Resources::Find<Material>(L"ThunderMaterial");
@@ -451,6 +452,18 @@ namespace ya
 		thunderBugs[0]->AddComponent<ThunderBugScript>(5);
 		thunderBugs[1]->AddComponent<ThunderBugScript>(2);
 
+		for (size_t i = 0; i < 100; i++)
+		{
+			GameObject* icicle = CreateSkillObject(eColliderType::Rect, eLayerType::Skill, L"IcicleMaterial");
+			icicle->SetLayerType(eLayerType::Skill);
+			icicle->GetComponent<Transform>()->SetScale(Vector3(0.8f, 0.3f, 1.0f));
+			Collider2D* icicleCollider = icicle->GetComponent<Collider2D>();
+			icicle->AddComponent<IcicleScript>();
+			icicle->Death();
+			icicles.push_back(icicle);
+		}
+		//icicles
+		icicles[0]->Life();
 
 		for (size_t i = 0; i < 10; i++)
 		{
@@ -489,13 +502,10 @@ namespace ya
 		//particleTr->SetParent(player->GetComponent<Transform>());
 
 
-		//CollisionManager::CollisionLayerCheck(eLayerType::Player, eLayerType::Monster, true);
-		//CollisionManager::CollisionLayerCheck(eLayerType::Bullet, eLayerType::Monster, true);
-		//CollisionManager::CollisionLayerCheck(eLayerType::Skill, eLayerType::Monster, true);
-		//CollisionManager::CollisionLayerCheck(eLayerType::Skill, eLayerType::Bullet, true);
-
 		CollisionManager::CollisionLayerCheck(eLayerType::Player, eLayerType::Monster, true);
 		CollisionManager::CollisionLayerCheck(eLayerType::Bullet, eLayerType::Monster, true);
+		CollisionManager::CollisionLayerCheck(eLayerType::Skill, eLayerType::Monster, true);
+		CollisionManager::CollisionLayerCheck(eLayerType::Skill, eLayerType::Bullet, true);
 		Scene::Initalize();
 	}
 
@@ -560,11 +570,11 @@ namespace ya
 		}
 		if (Input::GetKeyDown(eKeyCode::NUM_5))
 		{
-			upgradeobj->GetScript<UpgradeScript>()->ElectroMage();
+			upgradeobj->GetScript<UpgradeScript>()->FrostMage();
 		}
 		if (Input::GetKeyDown(eKeyCode::NUM_6))
 		{
-			upgradeobj->GetScript<UpgradeScript>()->Energized();
+			upgradeobj->GetScript<UpgradeScript>()->DarkArts();
 		}
 
 		if (Input::GetKeyDown(eKeyCode::P))

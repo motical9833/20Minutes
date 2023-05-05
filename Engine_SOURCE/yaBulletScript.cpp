@@ -33,6 +33,8 @@ namespace ya
 		,bAssassin(false)
 		,bDieBullet(false)
 		,bBounce(false)
+		,bFreeze(false)
+		, bCurse(false)
 	{
 
 	}
@@ -101,7 +103,7 @@ namespace ya
 	{
 		if (collider->GetOwner()->GetLayerType() == eLayerType::Monster && collider->GetOwner()->GetState() == (UINT)GameObject::eState::Active)
 		{
-			collider->GetOwner()->GetScript<MonsterScript>()->Freeze();
+			Freeze(collider);
 
 			if (collider->GetOwner()->GetScript<MonsterScript>()->GetcurseAtivate() == true)
 			{
@@ -111,7 +113,7 @@ namespace ya
 			}
 			else
 			{
-				collider->GetOwner()->GetScript<MonsterScript>()->Curse();
+				Curse(collider);
 
 				if (bDieBullet)
 				{
@@ -161,6 +163,34 @@ namespace ya
 	{
 
 	}
+	void BulletScript::Freeze(Collider2D* collider)
+	{
+		if (bFreeze)
+		{
+			srand((unsigned int)std::time(NULL));
+
+			int random = rand() & 100 + 1;
+
+			if (random <= 35)
+			{
+				collider->GetOwner()->GetScript<MonsterScript>()->Freeze();
+			}
+		}
+	}
+	void BulletScript::Curse(Collider2D* collider)
+	{
+		if (bCurse)
+		{
+			srand((unsigned int)std::time(NULL));
+
+			int random = rand() & 100;
+
+			if (random <= 25)
+			{
+				collider->GetOwner()->GetScript<MonsterScript>()->Curse();
+			}
+		}
+	}
 	void BulletScript::Start()
 	{
 
@@ -200,5 +230,6 @@ namespace ya
 		bDieBullet = false;
 		bBounce = false;
 		bBounceTrigger = false;
+		bCurse = false;
 	}
 }

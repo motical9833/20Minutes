@@ -22,6 +22,9 @@ namespace ya
 		, bFanFireTrigger(false)
 		, bBackFire(false)
 		, bThunder(false)
+		, bFreezeTrigger(false)
+		, bIceShard(false)
+		, bCurseTrigger(false)
 		, time(0.0f)
 		, reloadTime(1.0f)
 		, fanFireTime(0.0f)
@@ -102,6 +105,12 @@ namespace ya
 				BackFire();
 				if (currentBullet <= 0)
 				{
+					if (bIceShard)
+					{
+						IceShardFire();
+					}
+
+
 					bReload = true;
 
 					if (bFanFireTrigger)
@@ -180,8 +189,10 @@ namespace ya
 					bullets[i]->SetPosition(pos);
 					bullets[i]->GetOwner()->GetScript<BulletScript>()->Setdir(rot);
 					bullets[i]->SetParent(nullptr);
-					bullets[i]->GetOwner()->Life();
 					bullets[i]->GetOwner()->GetComponent<Animator>()->Stop();
+
+					bullets[i]->GetOwner()->Life();
+
 					fanFireCnt++;
 					break;
 				}
@@ -216,6 +227,20 @@ namespace ya
 				bullets[i]->GetOwner()->Life();
 				bullets[i]->GetOwner()->GetComponent<Animator>()->Stop();
 				break;
+			}
+		}
+	}
+
+	void WeaponScript::IceShardFire()
+	{
+		if (bIceShard)
+		{
+			Vector3 pos = mTransform->GetParent()->GetPosition() + mTransform->GetPosition();
+
+			for (size_t i = 0; i < 3; i++)
+			{
+				Vector3 rot = mTransform->GetRotation() + Vector3(0.0f, 0.0f, (-0.1f + (i * 0.1f)));
+				pScene->GetSkillManager()->GetScript<SkillManager>()->IceShard(pos, rot);
 			}
 		}
 	}
@@ -278,8 +303,14 @@ namespace ya
 				bullets[i]->SetParent(nullptr);
 				bullets[i]->GetOwner()->Life();
 				bullets[i]->GetOwner()->GetComponent<Animator>()->Stop();
+
 				if (bBounceTrigger)
 					bullets[i]->GetOwner()->GetScript<BulletScript>()->SetBounceTrigger();
+				if (bFreezeTrigger)
+					bullets[i]->GetOwner()->GetScript<BulletScript>()->SetFreezeBullet();
+				if (bCurseTrigger)
+					bullets[i]->GetOwner()->GetScript<BulletScript>()->SetCurse();
+
 
 				allFireBulletCnt++;
 				a++;
@@ -359,6 +390,27 @@ namespace ya
 	{
 		fireRotmul = 1.0f;
 		fireDelayTimeMul = 1.0f;
+		bReload = false;
+		bReloading = false;
+		bBounceTrigger = false;
+		bSiege = false;
+		bBackFire = false;
+		bFanFireTrigger = false;
+		bFanFire = false;
+		bThunder = false;
+		bFreezeTrigger = false;
+		bCurseTrigger = false;
+
+		time = 0.0f;
+		reloadTime = 1.0f;
+		fanFireTime = 0.0f;
+		killClip = 0.0f;
+
+		maxBullet = 6;
+		currentBullet = 6;
+		oneShotFire = 1;
+		allFireBulletCnt = 0;
+		fanFireCnt = 0;
 	}
 
 	void WeaponScript::Cheat()

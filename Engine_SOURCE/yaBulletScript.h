@@ -33,8 +33,15 @@ namespace ya
 		void SetDieBulletOn() { bDieBullet = true; }
 		void SetScaleInc(float value) { mScaleMul += value; }
 		void SetScaleDec(float value) { mScaleMul -= value; }
+		void SetCurse() { bCurse = true; }
 
+		void SetFreezeBullet() { bFreeze = true; }
 		void SetBounceTrigger() { bBounceTrigger = true; }
+
+		void Freeze(Collider2D* collider);
+		void Curse(Collider2D* collider);
+
+
 
 		float Getspeed() { return mSpeed; }
 		float GetDamageInc() { return mDamageMul; }
@@ -70,5 +77,7 @@ namespace ya
 		bool bDieBullet;
 		bool bBounce;
 		bool bBounceTrigger;
+		bool bFreeze;
+		bool bCurse;
 	};
 }

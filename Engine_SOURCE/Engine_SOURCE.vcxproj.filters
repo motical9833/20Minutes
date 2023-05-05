@@ -319,6 +319,9 @@
     <ClCompile Include="yaThunderBugScript.cpp">
       <Filter>Component\Script\Contents\SKILL</Filter>
     </ClCompile>
+    <ClCompile Include="yaIcicleScript.cpp">
+      <Filter>Component\Script\Contents\SKILL</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CommonInclude.h">
@@ -536,6 +539,9 @@
       <Filter>Component\Script\Contents\SKILL</Filter>
     </ClInclude>
     <ClInclude Include="yaThunderBugScript.h">
+      <Filter>Component\Script\Contents\SKILL</Filter>
+    </ClInclude>
+    <ClInclude Include="yaIcicleScript.h">
       <Filter>Component\Script\Contents\SKILL</Filter>
     </ClInclude>
   </ItemGroup>

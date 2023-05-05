@@ -19,6 +19,7 @@ namespace ya
 		, mDamage(1)
 		, mColliderSize{}
 		, bFreeze(false)
+		, bFrostbite(false)
 		, bCurse(false)
 		, freezeTime(0.0f)
 		, bDieBullet(false)
@@ -33,6 +34,7 @@ namespace ya
 		,mDamage(1)
 		,mColliderSize{}
 		, bFreeze(false)
+		, bFrostbite(false)
 		, bCurse(false)
 		, freezeTime(0.0f)
 		, bDieBullet(false)
@@ -61,6 +63,12 @@ namespace ya
 
 			if (freezeTime >= 3.0f)
 			{
+				if (bFrostbite)
+				{
+					int damage = (mMaxHp / 15) + 1;
+					TakeDamage(damage);
+				}
+
 				Transform* tr = GetOwner()->GetComponent<Transform>();
 				tr->GetChiled(0)->GetOwner()->Death();
 				bFreeze = false;
@@ -121,31 +129,21 @@ namespace ya
 			bCurse = false;
 			Transform* tr = GetOwner()->GetComponent<Transform>();
 			tr->GetChiled(1)->GetOwner()->GetScript<CurseScript>()->Reset();
-			this->TakeDamage(mDamage);
+			//this->TakeDamage(mDamage);
+
+			if (mCurrentHp == NULL)
+				return;
+
+			mCurrentHp -= damage * 2;
+			DieChack();
 		}
-
-		if (mCurrentHp == NULL)
-			return;
-
-		mCurrentHp -= damage;
-
-		if (mCurrentHp <= 0)
+		else
 		{
-			Animator* ani = GetOwner()->GetComponent<Animator>();
-			this->GetOwner()->GetComponent<Collider2D>()->SetScriptOff(true);
-			this->GetOwner()->SetLayerType(eLayerType::None);
-			ani->Play(L"DeathAnimation", false);
-			Transform* tr = GetOwner()->GetComponent<Transform>();
-			tr->GetChiled(0)->GetOwner()->Death();
-			tr->GetChiled(1)->GetOwner()->GetScript<CurseScript>()->Reset();
+			if (mCurrentHp == NULL)
+				return;
 
-			if(bKillClip)
-			SceneManager::GetPlayScene()->GetWeapon()->GetScript<WeaponScript>()->SetKillCntInc();
-
-			if (bDieBullet)
-			{
-				DieBullet();
-			}
+			mCurrentHp -= damage;
+			DieChack();
 		}
 	}
 	void MonsterScript::Respawn()
@@ -163,10 +161,31 @@ namespace ya
 	{
 		Respawn();
 		bFreeze = false;
+		bFrostbite = false;
 		bCurse = false;
 		freezeTime = 0.0f;
 		bDieBullet = false;
+	}
+	void MonsterScript::DieChack()
+	{
+		if (mCurrentHp <= 0)
+		{
+			Animator* ani = GetOwner()->GetComponent<Animator>();
+			this->GetOwner()->GetComponent<Collider2D>()->SetScriptOff(true);
+			this->GetOwner()->SetLayerType(eLayerType::None);
+			ani->Play(L"DeathAnimation", false);
+			Transform* tr = GetOwner()->GetComponent<Transform>();
+			tr->GetChiled(0)->GetOwner()->Death();
+			tr->GetChiled(1)->GetOwner()->GetScript<CurseScript>()->Reset();
 
+			if (bKillClip)
+				SceneManager::GetPlayScene()->GetWeapon()->GetScript<WeaponScript>()->SetKillCntInc();
+
+			if (bDieBullet)
+			{
+				DieBullet();
+			}
+		}
 	}
 	void MonsterScript::Freeze()
 	{
@@ -192,7 +211,6 @@ namespace ya
 			Vector3 pos = GetOwner()->GetComponent<Transform>()->GetPosition();
 			Vector3 rot = Vector3(0.0f, 0.0f, 0.6f * a);
 
-			//SceneManager::GetPlayScene()->GetBullet()[i]->GetScript<BulletScript>()->Reset();
 			SceneManager::GetPlayScene()->GetBullet()[i]->GetComponent<Transform>()->SetParent(nullptr);
 			SceneManager::GetPlayScene()->GetBullet()[i]->GetComponent<Transform>()->SetPosition(pos);
 			SceneManager::GetPlayScene()->GetBullet()[i]->GetScript<BulletScript>()->Setdir(rot);

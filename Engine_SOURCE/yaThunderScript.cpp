@@ -29,13 +29,7 @@ namespace ya
 	}
 	void ThunderScript::Update()
 	{
-		time += Time::DeltaTime();
-		
-		Vector3 pos = GetOwner()->GetComponent<Transform>()->GetPosition();
 
-		pos.y -= time * 10;
-
-		GetOwner()->GetComponent<Transform>()->SetPosition(pos);
 	}
 	void ThunderScript::Render()
 	{
@@ -43,8 +37,6 @@ namespace ya
 	}
 	void ThunderScript::OnCollisionEnter(Collider2D* collider)
 	{
-		eLayerType type = collider->GetOwner()->GetLayerType();
-
 		if (collider->GetOwner()->GetLayerType() == eLayerType::Monster && collider->GetOwner()->GetState() == (UINT)GameObject::eState::Active)
 		{
 			collider->GetOwner()->GetScript<MonsterScript>()->TakeDamage(mDamage);

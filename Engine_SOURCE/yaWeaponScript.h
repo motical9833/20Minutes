@@ -30,6 +30,7 @@ namespace ya
 		void ReloadSkill();
 		void FanFire();
 		void BackFire();
+		void IceShardFire();
 
 		void SetFireRotMul(float value) { fireRotmul += value; }
 		void SetFireRotRed(float value) { fireRotmul -= value; }
@@ -44,6 +45,9 @@ namespace ya
 		void SetBackFire() { bBackFire = true; }
 		void SetKillCntInc() { killClip += 0.05f; }
 		void SetThunderOn() { bThunder = true; }
+		void SetFreezeOn() { bFreezeTrigger = true; }
+		void SetIceShardOn() { bIceShard = true; }
+		void SetCurseOn() { bCurseTrigger = true; }
 
 		void BulletSupply(int count);
 
@@ -72,6 +76,10 @@ namespace ya
 		bool bFanFireTrigger;
 		bool bFanFire;
 		bool bThunder;
+		bool bFreezeTrigger;
+		bool bCurseTrigger;
+
+		bool bIceShard;
 
 		float time;
 		float reloadTime;

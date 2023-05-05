@@ -32,6 +32,7 @@ namespace ya
 		std::vector<GameObject*> GetSmites() { return smites; }
 		std::vector<GameObject*> Getspears() { return spears; }
 		std::vector<GameObject*> GetHpObjects() { return hpObjects; }
+		std::vector<GameObject*> GetIcicles() { return icicles; }
 
 		std::vector<Monster*> GetBrainMonsters() { return mBrainMonsters; }
 		std::vector<Monster*> GetTreeMonsters() { return mTreeMonsters; }
@@ -75,6 +76,7 @@ namespace ya
 		std::vector<GameObject*> smites;
 		std::vector<GameObject*> spears;
 		std::vector<GameObject*> thunderBugs;
+		std::vector<GameObject*> icicles;
 
 		GameObject* holyShield;
 		GameObject* magicLens;
