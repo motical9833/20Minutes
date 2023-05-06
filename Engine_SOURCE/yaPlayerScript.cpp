@@ -17,6 +17,8 @@ namespace ya
 		, mMaxHP(3)
 		, bHitImmune(false)
 		, immuneTime(0.0f)
+		, mSpeed(6.0f)
+		, mSpeedMul(1.0f)
 		, bShield(true)
 		, bIdle(false)
 		//, rotTime(0.0f)
@@ -173,7 +175,7 @@ namespace ya
 			}
 
 			Vector3 pos = tr->GetPosition();
-			pos.x += 6.0f * Time::DeltaTime();
+			pos.x += mSpeed * Time::DeltaTime();
 			tr->SetPosition(pos);
 		}
 
@@ -186,7 +188,7 @@ namespace ya
 			}
 
 			Vector3 pos = tr->GetPosition();
-			pos.x -= 6.0f * Time::DeltaTime();
+			pos.x -= mSpeed * Time::DeltaTime();
 			tr->SetPosition(pos);
 		}
 
@@ -205,7 +207,7 @@ namespace ya
 				bMove = true;
 			}
 			Vector3 pos = tr->GetPosition();
-			pos.y += 6.0f * Time::DeltaTime();
+			pos.y += mSpeed * Time::DeltaTime();
 			tr->SetPosition(pos);
 		}
 		else if (Input::GetKeyUp(eKeyCode::W) && ani->AnimationName() == L"pRightMove")
@@ -234,7 +236,7 @@ namespace ya
 				bMove = true;
 			}
 			Vector3 pos = tr->GetPosition();
-			pos.y -= 6.0f * Time::DeltaTime();
+			pos.y -= mSpeed * Time::DeltaTime();
 			tr->SetPosition(pos);
 		}
 		else if (Input::GetKeyUp(eKeyCode::S) && ani->AnimationName() == L"pRightMove")

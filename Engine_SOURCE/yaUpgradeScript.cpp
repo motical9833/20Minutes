@@ -7,6 +7,11 @@
 #include "yaMonsterScript.h"
 #include "yaPlayerScript.h"
 #include "yaThunderScript.h"
+#include "yaCurseScript.h"
+#include "yaSmiteScript.h"
+#include "yaSkillManager.h"
+#include "GaleScript.h"
+
 namespace ya
 {
 	UpgradeScript::UpgradeScript()
@@ -320,6 +325,8 @@ namespace ya
 			return;
 
 		pscene->GetWeapon()->GetScript<WeaponScript>()->SetThunderOn();
+
+		bupgrade[5][0] = true;
 	}
 	//(T2) : 매 초마다 근접한 두명의 적에게 번개를 떨어뜨리는 번개 벌레를 소환한다.
 	void UpgradeScript::ElectroBug()
@@ -328,6 +335,8 @@ namespace ya
 			return;
 
 		pscene->ThunderBugOn();
+
+		bupgrade[5][1] = true;
 	}
 	//(T2) : 적에게 번개가 칠 때마다 20% 확률로 탄환을 3개 충전한다.
 	void UpgradeScript::Energized()
@@ -339,6 +348,8 @@ namespace ya
 		{
 			pscene->GetThunders()[i]->GetScript<ThunderScript>()->EnergizedOn();
 		}
+
+		bupgrade[5][2] = true;
 	}
 	//(T3) : 모든 번개 피해가 12 증가하고, 범위 효과가 75% 늘어난다.
 	void UpgradeScript::ElectroMastery()
@@ -351,6 +362,8 @@ namespace ya
 			pscene->GetThunders()[i]->GetScript<ThunderScript>()->DamageUP(12);
 			pscene->GetThunders()[i]->GetComponent<Collider2D>()->SetSize(Vector2(0.4f, 1.0f));
 		}
+
+		bupgrade[5][3] = true;
 	}
 	//(T1) : 탄환이 35% 확률로 3초간 적을 빙결시킨다. 보스는 0.3초간 빙결된다.
 	void UpgradeScript::FrostMage()
@@ -359,6 +372,8 @@ namespace ya
 			return;
 
 		pscene->GetWeapon()->GetScript<WeaponScript>()->SetFreezeOn();
+
+		bupgrade[6][0] = true;
 	}
 	//(T2) : 적이 빙결될 때마다 최대 체력의 15%만큼 피해를 입는다. 보스는 1%만큼 피해를 입는다.
 	void UpgradeScript::Frostbite()
@@ -379,6 +394,8 @@ namespace ya
 		{
 			pscene->GetEyeMonsters()[i]->GetScript<MonsterScript>()->SetFrostbiteOn();
 		}
+
+		bupgrade[6][1] = true;
 	}
 	//(T2) : 탄창의 마지막 탄을 발사했을 때 적을 얼리는 3개의 얼음 조각을 발사한다.
 	void UpgradeScript::IceShard()
@@ -387,6 +404,8 @@ namespace ya
 			return;
 
 		pscene->GetWeapon()->GetScript<WeaponScript>()->SetIceShardOn();
+
+		bupgrade[6][2] = true;
 	}
 	//(T3) : 빙결된 적이 죽으면 폭발하여 주변에 최대 체력의 10%에 해당하는 피해를 준다.
 	void UpgradeScript::Shatter()
@@ -416,61 +435,170 @@ namespace ya
 			return;
 
 		pscene->GetWeapon()->GetScript<WeaponScript>()->SetCurseOn();
+
+		bupgrade[8][0] = true;
 	}
 	//(T2) : 저주가 발동되기까지 시간을 1초 늘립니다. 대신 저주가 탄환 데미지의 100%를 추가로 입힙니다.
 	void UpgradeScript::Doom()
 	{
+		if (bupgrade[8][1])
+			return;
 
+		for (size_t i = 0; i < pscene->GetCurses().size(); i++)
+		{
+			pscene->GetCurses()[i]->GetComponent<Animator>()->Play(L"curseUpgrade", false);
+			pscene->GetCurses()[i]->GetScript<CurseScript>()->SetCurseUpgrade();
+		}
+
+		for (size_t i = 0; i < pscene->GetBoomerMonsters().size(); i++)
+		{
+			pscene->GetBoomerMonsters()[i]->GetScript<MonsterScript>()->SetCurseMul(1.0f);
+		}
+		for (size_t i = 0; i < pscene->GetBrainMonsters().size(); i++)
+		{
+			pscene->GetBrainMonsters()[i]->GetScript<MonsterScript>()->SetCurseMul(1.0f);
+		}
+		for (size_t i = 0; i < pscene->GetEyeMonsters().size(); i++)
+		{
+			pscene->GetEyeMonsters()[i]->GetScript<MonsterScript>()->SetCurseMul(1.0f);
+		}
+
+		bupgrade[8][1] = true;
 	}
 	//(T2) : 저주에 걸린적은 30% 추가 피해를 입습니다.
 	void UpgradeScript::Wither()
 	{
+		if (bupgrade[8][2])
+			return;
 
+		for (size_t i = 0; i < pscene->GetBoomerMonsters().size(); i++)
+		{
+			pscene->GetBoomerMonsters()[i]->GetScript<MonsterScript>()->SetbWitherOn();
+		}
+		for (size_t i = 0; i < pscene->GetBrainMonsters().size(); i++)
+		{
+			pscene->GetBrainMonsters()[i]->GetScript<MonsterScript>()->SetbWitherOn();
+		}
+		for (size_t i = 0; i < pscene->GetEyeMonsters().size(); i++)
+		{
+			pscene->GetEyeMonsters()[i]->GetScript<MonsterScript>()->SetbWitherOn();
+		}
+
+		bupgrade[8][2] = true;
 	}
 	//(T3) : 저주로 죽인 적 10마리 마다 탄환 데미지를 1% 증가시킵니다.
 	void UpgradeScript::Ritual()
 	{
+		if (bupgrade[8][3])
+			return;
 
+		for (size_t i = 0; i < pscene->GetBoomerMonsters().size(); i++)
+		{
+			pscene->GetBoomerMonsters()[i]->GetScript<MonsterScript>()->SetbRitualOn();
+		}
+		for (size_t i = 0; i < pscene->GetBrainMonsters().size(); i++)
+		{
+			pscene->GetBrainMonsters()[i]->GetScript<MonsterScript>()->SetbRitualOn();
+		}
+		for (size_t i = 0; i < pscene->GetEyeMonsters().size(); i++)
+		{
+			pscene->GetEyeMonsters()[i]->GetScript<MonsterScript>()->SetbRitualOn();
+		}
+
+		bupgrade[8][3] = true;
 	}
 	//(T1) : 마지막 탄을 발사했을 때, 근처의 적을 강타하여 20의 데미지를 줍니다.
 	void UpgradeScript::HolyAttack()
 	{
+		if (bupgrade[9][0])
+			return;
 
+		pscene->GetWeapon()->GetScript<WeaponScript>()->SetHolyAttack();
+
+		bupgrade[9][0] = true;
 	}
 	//(T2) : 강타가 현재 체력당 10의 추가데미지를 줍니다.
 	void UpgradeScript::HolyMight()
 	{
+		if (bupgrade[9][1])
+			return;
 
+		for (size_t i = 0; i < pscene->GetSmites().size(); i++)
+		{
+			pscene->GetSmites()[i]->GetScript<SmiteScript>()->SetHolyMightOn();
+		}
+			bupgrade[9][1] = true;
 	}
 	//(T2) : 강타로 죽인 적 500마리마다 최대체력이 1 증가합니다. 이 방식으로 얻는 최대 체력은 최대 3입니다.
 	void UpgradeScript::Justice()
 	{
+		if (bupgrade[9][2])
+			return;
 
+		pscene->GetSkillManager()->GetScript<SkillManager>()->SetJusticeOn();
+
+		bupgrade[9][2] = true;
 	}
 	//(T3) : 강타로 죽인 적 500마리마다 체력 1을 회복합니다.
 	void UpgradeScript::Angelic()
 	{
+		if (bupgrade[9][3])
+			return;
 
+		pscene->GetSkillManager()->GetScript<SkillManager>()->SetAngelicOn();
+
+		bupgrade[9][3] = true;
 	}
 	//(T1) : 마지막 탄을 발사했을 때, 돌풍을 추가로 발사합니다. 돌풍은 0.5초마다 10의 데미지를 입힙니다.
 	void UpgradeScript::AeroMagic()
 	{
+		if (bupgrade[10][0])
+			return;
 
+		pscene->GetWeapon()->GetScript<WeaponScript>()->SetGaleTrigger();
+
+		bupgrade[10][0] = true;
 	}
 	//(T2) : 이동속도 +15%, 이동속도 보너스만큼 돌풍의 데미지가 증가합니다.
 	void UpgradeScript::WindBorne()
 	{
+		if (bupgrade[10][1])
+			return;
 
+		pscene->GetPlayer()->GetScript<PlayerScript>()->SetSpeedMul(0.15f);
+		for (size_t i = 0; i < pscene->GetGale().size(); i++)
+		{
+			pscene->GetGale()[i]->GetScript<GaleScript>()->SetWindBorneOn();
+		}
+
+		bupgrade[10][1] = true;
 	}
 	//(T2) : 근처의 적에게 돌풍의 2배의 데미지를 입힙니다. 돌풍의 데미지가 5증가합니다.
 	void UpgradeScript::EyeoftheStorm()
 	{
+		if (bupgrade[10][2])
+			return;
 
+		for (size_t i = 0; i < pscene->GetGale().size(); i++)
+		{
+			pscene->GetGale()[i]->GetScript<GaleScript>()->SetEyeoftheStormOn();
+			pscene->GetGale()[i]->GetScript<GaleScript>()->SetDamageUP(5);
+		}
+
+		bupgrade[10][2] = true;
 	}
 	//(T3) : 돌풍의 데미지가 15증가합니다.
 	void UpgradeScript::AeroMastery()
 	{
+		if (bupgrade[10][3])
+			return;
 
+		for (size_t i = 0; i < pscene->GetGale().size(); i++)
+		{
+			pscene->GetGale()[i]->GetScript<GaleScript>()->SetDamageUP(15);
+		}
+
+		bupgrade[10][3] = true;
 	}
 	//(T1) : 최대 체력 +1
 	void UpgradeScript::Vitality()

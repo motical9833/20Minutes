@@ -9,6 +9,7 @@
 #include "yaPlayer.h"
 #include "yaBulletScript.h"
 #include "yaWeaponScript.h"
+#include "yaSkillManager.h"
 
 namespace ya
 {
@@ -20,10 +21,13 @@ namespace ya
 		, mColliderSize{}
 		, bFreeze(false)
 		, bFrostbite(false)
-		, bCurse(false)
+		, bCurseActivate(false)
+		, bWitherOn(false)
 		, freezeTime(0.0f)
 		, bDieBullet(false)
 		, bKillClip(false)
+		, bRitualOn(false)
+		, curseMul(2.0f)
 	{
 
 	}
@@ -35,10 +39,12 @@ namespace ya
 		,mColliderSize{}
 		, bFreeze(false)
 		, bFrostbite(false)
-		, bCurse(false)
+		, bCurseActivate(false)
 		, freezeTime(0.0f)
 		, bDieBullet(false)
 		, bKillClip(false)
+		, bRitualOn(false)
+		, curseMul(2.0f)
 	{
 	}
 	MonsterScript::~MonsterScript()
@@ -124,26 +130,75 @@ namespace ya
 	}
 	void MonsterScript::TakeDamage(int damage)
 	{
-		if (bCurse)
+		if (bCurseActivate)
 		{
-			bCurse = false;
+			bCurseActivate = false;
+			beCursed = false;
 			Transform* tr = GetOwner()->GetComponent<Transform>();
 			tr->GetChiled(1)->GetOwner()->GetScript<CurseScript>()->Reset();
-			//this->TakeDamage(mDamage);
 
 			if (mCurrentHp == NULL)
 				return;
 
-			mCurrentHp -= damage * 2;
+			mCurrentHp -= damage * curseMul;
+			RitualStack();
 			DieChack();
 		}
 		else
 		{
 			if (mCurrentHp == NULL)
 				return;
+			
+			if (beCursed)
+			{
+				mCurrentHp -= damage * 1.3f + 1;
+			}
+			else
+			{
+				mCurrentHp -= damage;
+			}
 
-			mCurrentHp -= damage;
 			DieChack();
+		}
+	}
+	void MonsterScript::TakeDamage(int damage, eLayerType type)
+	{
+		if (bCurseActivate)
+		{
+			bCurseActivate = false;
+			beCursed = false;
+			Transform* tr = GetOwner()->GetComponent<Transform>();
+			tr->GetChiled(1)->GetOwner()->GetScript<CurseScript>()->Reset();
+
+			if (mCurrentHp == NULL)
+				return;
+
+			mCurrentHp -= damage * curseMul;
+			RitualStack();
+			DieChack(type);
+		}
+		else
+		{
+			if (mCurrentHp == NULL)
+				return;
+
+			if (beCursed)
+			{
+				mCurrentHp -= damage * 1.3f + 1;
+			}
+			else
+			{
+				mCurrentHp -= damage;
+			}
+
+			DieChack(type);
+		}
+	}
+	void MonsterScript::RitualStack()
+	{
+		if (mCurrentHp <= 0 && bRitualOn)
+		{
+			SceneManager::GetPlayScene()->GetWeapon()->GetScript<WeaponScript>()->SetRitualStack();
 		}
 	}
 	void MonsterScript::Respawn()
@@ -162,9 +217,14 @@ namespace ya
 		Respawn();
 		bFreeze = false;
 		bFrostbite = false;
-		bCurse = false;
+		bCurseActivate = false;
+		beCursed = false;
 		freezeTime = 0.0f;
 		bDieBullet = false;
+		curseMul = 2.0f;
+		bWitherOn = false;
+		bRitualOn = false;
+
 	}
 	void MonsterScript::DieChack()
 	{
@@ -187,6 +247,30 @@ namespace ya
 			}
 		}
 	}
+	void MonsterScript::DieChack(eLayerType type)
+	{
+		if (mCurrentHp <= 0)
+		{
+			Animator* ani = GetOwner()->GetComponent<Animator>();
+			this->GetOwner()->GetComponent<Collider2D>()->SetScriptOff(true);
+			this->GetOwner()->SetLayerType(eLayerType::None);
+			ani->Play(L"DeathAnimation", false);
+			Transform* tr = GetOwner()->GetComponent<Transform>();
+			tr->GetChiled(0)->GetOwner()->Death();
+			tr->GetChiled(1)->GetOwner()->GetScript<CurseScript>()->Reset();
+
+			if (bKillClip)
+				SceneManager::GetPlayScene()->GetWeapon()->GetScript<WeaponScript>()->SetKillCntInc();
+
+			if (type == eLayerType::Skill_Smite)
+				SceneManager::GetPlayScene()->GetSkillManager()->GetScript<SkillManager>()->SmiteKillCnt();
+
+			if (bDieBullet)
+			{
+				DieBullet();
+			}
+		}
+	}
 	void MonsterScript::Freeze()
 	{
 		bFreeze = true;
@@ -198,6 +282,9 @@ namespace ya
 	{
 		Transform* tr = GetOwner()->GetComponent<Transform>();
 		tr->GetChiled(1)->GetOwner()->Life();
+
+		if (bWitherOn)
+			beCursed = true;
 	}
 	void MonsterScript::DieBullet()
 	{

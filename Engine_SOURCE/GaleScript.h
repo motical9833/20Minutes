@@ -19,19 +19,25 @@ namespace ya
 
 
 		void SetDir(Vector3 dir) { mDir = dir; }
+		void SetWindBorneOn() { bWindBorne = true; }
+		void SetEyeoftheStormOn() { bEyeoftheStorm = true; }
+		void SetDamageUP(int damage) { mDamage += damage; }
 
 		void Start();
 		void Action();
 		void End();
 		void TakeDamage(int damage);
 		void Reset();
-
+		void GameReset();
 	private:
 
+		bool bWindBorne;
+		bool bEyeoftheStorm;
 		int mDamage;
 
 		float mSpeed;
 		float mTime;
+		float mEyeoftheTime;
 		Vector3 mDir;
 	};
 }

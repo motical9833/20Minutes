@@ -188,6 +188,7 @@ namespace ya
 			if (random <= 25)
 			{
 				collider->GetOwner()->GetScript<MonsterScript>()->Curse();
+				collider->GetOwner()->GetScript<MonsterScript>()->SetBeCursed();
 			}
 		}
 	}

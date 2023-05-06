@@ -94,6 +94,7 @@ namespace ya
 		this->GetOwner()->GetComponent<Transform>()->SetScale(Vector3(1.0f, 5.0f, 1.0f));
 		Animator* animator = GetOwner()->GetComponent<Animator>();
 		animator->Play(L"ThunderAni", false);
+		time = 0;
 		bEnergized = false;
 	}
 }

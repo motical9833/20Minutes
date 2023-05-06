@@ -31,21 +31,26 @@ namespace ya
 
 		void TakeDamage(int damage);
 		void SetMaxHP(int value) { mMaxHP = value; }
+		void SetMaxHP_Add(int value) { mMaxHP += value; }
+		void SetHealing() { mCurrentHP++; }
 		void SetCurrentHP() { mCurrentHP = mMaxHP; }
+		void SetSpeedMul(float value) { mSpeedMul += value; }
+		float GetSpeedMul() { return mSpeedMul; }
 		void ShieldOn() { bShield = true; }
 
 		void StartSetting();
+
 
 		bool GetIdle() { return bIdle; }
 
 	private:
 		float immuneTime;
+		float mSpeed;
+		float mSpeedMul;
 		bool bMove;
 		bool bHitImmune;
 		int mCurrentHP;
 		int mMaxHP;
-		
-		//float rotTime;
 
 		bool bShield;
 		bool bIdle;

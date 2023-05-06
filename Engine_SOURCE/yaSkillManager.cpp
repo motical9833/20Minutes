@@ -17,7 +17,11 @@ namespace ya
 	SkillManager::SkillManager()
 		: bShieldOn(false)
 		, bShield(false)
+		, bJustice(false)
+		, bAngelic(false)
 		, shieldTime(0.0f)
+		, smiteKillStack(0)
+		, justiceCnt(0)
 	{
 
 	}
@@ -176,5 +180,32 @@ namespace ya
 			SceneManager::GetPlayScene()->GetIcicles()[i]->Life();
 			break;
 		}
+	}
+	void SkillManager::SmiteKillCnt()
+	{
+		if (bJustice)
+		{
+			smiteKillStack++;
+
+
+			if (smiteKillStack % 500 == 0 && justiceCnt < 3)
+			{
+				SceneManager::GetPlayScene()->GetPlayer()->GetScript<PlayerScript>()->SetMaxHP_Add(1);
+				justiceCnt++;
+			}
+			if (smiteKillStack % 500 == 0 && bAngelic)
+			{
+				SceneManager::GetPlayScene()->GetPlayer()->GetScript<PlayerScript>()->SetHealing();
+			}
+		}
+	}
+	void SkillManager::GameReset()
+	{
+		smiteKillStack = 0;
+		justiceCnt = 0;
+		bShieldOn = false;
+		bShield = false;
+		bJustice = false;
+		bAngelic = false;
 	}
 }

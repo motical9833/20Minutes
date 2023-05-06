@@ -6,7 +6,8 @@
 namespace ya
 {
 	SmiteScript::SmiteScript()
-		:mDamage(10)
+		:mDamage(20)
+		, bHolyMightOn(false)
 	{
 
 	}
@@ -32,7 +33,14 @@ namespace ya
 	{
 		if (collider->GetOwner()->GetLayerType() == eLayerType::Monster && collider->GetOwner()->GetState() == (UINT)GameObject::eState::Active)
 		{
-			collider->GetOwner()->GetScript<MonsterScript>()->TakeDamage(mDamage);
+			eLayerType type = GetOwner()->GetLayerType();
+			if (bHolyMightOn)
+			{
+				int add = collider->GetOwner()->GetScript<MonsterScript>()->GetCurrentHP() / 20 + 1;
+				collider->GetOwner()->GetScript<MonsterScript>()->TakeDamage(mDamage + add, type);
+			}
+			else
+				collider->GetOwner()->GetScript<MonsterScript>()->TakeDamage(mDamage, type);
 		}
 	}
 	void SmiteScript::OnCollisionStay(Collider2D* collider)
@@ -61,5 +69,13 @@ namespace ya
 		this->GetOwner()->GetComponent<Transform>()->SetPosition(Vector3::Zero);
 		Animator* animator = GetOwner()->GetComponent<Animator>();
 		animator->Play(L"Smite", false);
+	}
+	void SmiteScript::GameReset()
+	{
+		this->GetOwner()->Death();
+		this->GetOwner()->GetComponent<Transform>()->SetPosition(Vector3::Zero);
+		Animator* animator = GetOwner()->GetComponent<Animator>();
+		animator->Play(L"Smite", false);
+		bHolyMightOn = false;
 	}
 }

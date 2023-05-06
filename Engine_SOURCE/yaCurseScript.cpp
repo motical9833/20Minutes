@@ -5,6 +5,8 @@
 namespace ya
 {
 	CurseScript::CurseScript()
+		:bUpgrade(false)
+		, beWither(false)
 	{
 	}
 	CurseScript::~CurseScript()
@@ -15,6 +17,7 @@ namespace ya
 		Animator* animator = GetOwner()->GetComponent<Animator>();
 
 		animator->GetCompleteEvent(L"curseAni") = std::bind(&CurseScript::End, this);
+		animator->GetCompleteEvent(L"curseUpgrade") = std::bind(&CurseScript::End, this);
 	}
 	void CurseScript::Update()
 	{
@@ -33,20 +36,26 @@ namespace ya
 	}
 	void CurseScript::Start()
 	{
+
 	}
 	void CurseScript::Action()
 	{
+
 	}
 	void CurseScript::End()
 	{
 		GameObject* monster = GetOwner()->GetComponent<Transform>()->GetParent()->GetOwner();
 
-		monster->GetScript<MonsterScript>()->CurseActivate();
+		monster->GetScript<MonsterScript>()->SetCurseActivate();
 	}
 	void CurseScript::Reset()
 	{
 		Animator* animator = GetOwner()->GetComponent<Animator>();
-		animator->Play(L"curseAni", false);
+
+		if (bUpgrade)
+			animator->Play(L"curseUpgrade", false);
+		else
+			animator->Play(L"curseAni", false);
 
 		GetOwner()->Death();
 	}

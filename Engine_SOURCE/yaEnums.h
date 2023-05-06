@@ -19,6 +19,7 @@ namespace ya::enums
 		Bullet,
 		Skill,
 		Skill_Buff,
+		Skill_Smite,
 		Particle,
 		UI,
 		End = 16,

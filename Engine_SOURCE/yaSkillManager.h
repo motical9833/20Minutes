@@ -27,10 +27,21 @@ namespace ya
 			void Spear();
 			void IceShard(Vector3 pos, Vector3 dir);
 
+			void SetJusticeOn() { bJustice = true; }
+			void SetAngelicOn() { bAngelic = true; }
+
+			void SmiteKillCnt();
+
+			void GameReset();
 	private:	
 		bool bShieldOn;
 		bool bShield;
+		bool bJustice;
+		bool bAngelic;
 
 		float shieldTime;
+
+		int smiteKillStack;
+		int justiceCnt;
 	};
 }

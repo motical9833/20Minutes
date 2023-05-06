@@ -25,6 +25,8 @@ namespace ya
 		, bFreezeTrigger(false)
 		, bIceShard(false)
 		, bCurseTrigger(false)
+		, bGaleTrigger(false)
+		, bHolyAttack(false)
 		, time(0.0f)
 		, reloadTime(1.0f)
 		, fanFireTime(0.0f)
@@ -52,6 +54,7 @@ namespace ya
 		, fireRotmul(1.0f)
 		, reloadTimeMul(1.0f)
 		, fireDelayTimeMul(1.0f)
+		, ritualStack(0)
 	{
 
 	}
@@ -245,6 +248,19 @@ namespace ya
 		}
 	}
 
+	void WeaponScript::SetRitualStack()
+	{ 
+		ritualStack++;
+
+		if (ritualStack % 10 == 0)
+		{
+			for (size_t i = 0; i < bullets.size(); i++)
+			{
+				bullets[i]->GetOwner()->GetScript<BulletScript>()->SetDamageInc(0.01f);
+			}
+		}
+	}
+
 	void WeaponScript::BulletSupply(int count)
 	{
 		currentBullet += count;
@@ -257,30 +273,36 @@ namespace ya
 
 	void WeaponScript::Gale()
 	{
-		Vector3 pos = mTransform->GetParent()->GetPosition();
-		Vector3 dir = Input::GetMousePosition() - pos;
+		if (bGaleTrigger)
+		{
+			Vector3 pos = mTransform->GetParent()->GetPosition();
+			Vector3 dir = Input::GetMousePosition() - pos;
 
-		dir.Normalize();
+			dir.Normalize();
 
-		pScene->GetSkillManager()->GetScript<SkillManager>()->GaleFire(pos, dir);
+			pScene->GetSkillManager()->GetScript<SkillManager>()->GaleFire(pos, dir);
+		}
 	}
 
 	void WeaponScript::Smite()
 	{
-		pScene->GetColliderChack()->GetScript<ColliderCheckScript>()->DeathChack();
-
-		int arrayLength = pScene->GetColliderChack()->GetScript<ColliderCheckScript>()->GetMonsters().size();
-
-		list<Monster*> monsters = pScene->GetColliderChack()->GetScript<ColliderCheckScript>()->GetMonsters();
-
-		list<Monster*>::iterator iter = pScene->GetColliderChack()->GetScript<ColliderCheckScript>()->GetMonsters().begin();
-
-
-		for (iter = monsters.begin(); iter != monsters.end(); iter++)
+		if (bHolyAttack)
 		{
-			Vector3 pos = (*iter)->GetComponent<Transform>()->GetPosition();
+			pScene->GetColliderChack()->GetScript<ColliderCheckScript>()->DeathChack();
 
-			pScene->GetSkillManager()->GetScript<SkillManager>()->SmiteFire(pos + Vector3(0.0f,0.5f,0.0f));
+			int arrayLength = pScene->GetColliderChack()->GetScript<ColliderCheckScript>()->GetMonsters().size();
+
+			list<Monster*> monsters = pScene->GetColliderChack()->GetScript<ColliderCheckScript>()->GetMonsters();
+
+			list<Monster*>::iterator iter = pScene->GetColliderChack()->GetScript<ColliderCheckScript>()->GetMonsters().begin();
+
+
+			for (iter = monsters.begin(); iter != monsters.end(); iter++)
+			{
+				Vector3 pos = (*iter)->GetComponent<Transform>()->GetPosition();
+
+				pScene->GetSkillManager()->GetScript<SkillManager>()->SmiteFire(pos + Vector3(0.0f, 0.5f, 0.0f));
+			}
 		}
 	}
 
@@ -400,6 +422,8 @@ namespace ya
 		bThunder = false;
 		bFreezeTrigger = false;
 		bCurseTrigger = false;
+		bHolyAttack = false;
+		bGaleTrigger = false;
 
 		time = 0.0f;
 		reloadTime = 1.0f;
@@ -411,6 +435,7 @@ namespace ya
 		oneShotFire = 1;
 		allFireBulletCnt = 0;
 		fanFireCnt = 0;
+		ritualStack = 0;
 	}
 
 	void WeaponScript::Cheat()

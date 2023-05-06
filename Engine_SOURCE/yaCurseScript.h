@@ -18,12 +18,17 @@ namespace ya
 		virtual void OnCollisionStay(Collider2D* collider) override;
 		virtual void OnCollisionExit(Collider2D* collider) override;
 
+
+		void SetCurseUpgrade() { bUpgrade = true; }
+		void SetWither() { beWither = true;; }
 		void Start();
 		void Action();
 		void End();
 		void Reset();
 
 	private:
+		bool bUpgrade;
+		bool beWither;
 
 	};
 }

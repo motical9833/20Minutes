@@ -281,7 +281,7 @@ namespace ya
 		freezes[2]->GetComponent<Transform>()->SetParent(mEyeMonsters[0]->GetComponent<Transform>());
 		freezes[3]->GetComponent<Transform>()->SetParent(mTreeMonsters[0]->GetComponent<Transform>());
 
-		for (size_t i = 0; i < 20; i++)
+		for (size_t i = 0; i < 100; i++)
 		{
 			GameObject* curse = object::Instantiate<GameObject>(eLayerType::Skill, this);
 			curse->SetLayerType(eLayerType::Skill);
@@ -297,6 +297,7 @@ namespace ya
 			std::shared_ptr<Texture> curseTexture = Resources::Find<Texture>(L"S_Curse");
 
 			curseAnimator->Create(L"curseAni", curseTexture, Vector2::Zero, Vector2(32.0f, 32.0f), Vector2::Zero, 3, 0.2f);
+			curseAnimator->Create(L"curseUpgrade", curseTexture, Vector2::Zero, Vector2(32.0f, 32.0f), Vector2::Zero, 3, 0.4f);
 			curseAnimator->Play(L"curseAni", false);
 
 			curse->AddComponent<CurseScript>();
@@ -311,8 +312,8 @@ namespace ya
 
 		for (size_t i = 0; i < 30; i++)
 		{
-			GameObject* smite = CreateSkillObject(eColliderType::Rect, eLayerType::Skill, L"SmiteFXMaterial");
-			smite->SetLayerType(eLayerType::Skill);
+			GameObject* smite = CreateSkillObject(eColliderType::Rect, eLayerType::Skill_Smite, L"SmiteFXMaterial");
+			smite->SetLayerType(eLayerType::Skill_Smite);
 			smite->GetComponent<Transform>()->SetPosition(Vector3::Zero);
 			smite->GetComponent<Transform>()->SetScale(Vector3(2.0f, 2.0f, 1.0f));
 			smite->GetComponent<Collider2D>()->SetSize(Vector2(0.3f, 0.3f));
@@ -505,6 +506,7 @@ namespace ya
 		CollisionManager::CollisionLayerCheck(eLayerType::Player, eLayerType::Monster, true);
 		CollisionManager::CollisionLayerCheck(eLayerType::Bullet, eLayerType::Monster, true);
 		CollisionManager::CollisionLayerCheck(eLayerType::Skill, eLayerType::Monster, true);
+		CollisionManager::CollisionLayerCheck(eLayerType::Skill_Smite, eLayerType::Monster, true);
 		CollisionManager::CollisionLayerCheck(eLayerType::Skill, eLayerType::Bullet, true);
 		Scene::Initalize();
 	}
@@ -525,7 +527,7 @@ namespace ya
 			mBoomerMonsters[0]->GetScript<MonsterScript>()->GameReset();
 			mBrainMonsters[0]->GetScript<MonsterScript>()->GameReset();
 			mEyeMonsters[0]->GetScript<MonsterScript>()->GameReset();
-
+			skillManager->GetScript<SkillManager>()->GameReset();
 
 			for (size_t i = 0; i < bullets.size(); i++)
 			{
@@ -535,15 +537,20 @@ namespace ya
 
 			for (size_t i = 0; i < gales.size(); i++)
 			{
-				gales[i]->GetScript<GaleScript>()->Reset();
+				gales[i]->GetScript<GaleScript>()->GameReset();
 				gales[i]->Death();
 			}
 
 			for (size_t i = 0; i < thunders.size(); i++)
 			{
-				thunders[i]->GetScript<ThunderScript>()->Reset();
 				thunders[i]->GetScript<ThunderScript>()->GameReset();
 				thunders[i]->Death();
+			}
+
+			for (size_t i = 0; i < smites.size(); i++)
+			{
+				smites[i]->GetScript<SmiteScript>()->GameReset();
+				smites[i]->Death();
 			}
 		}
 
@@ -566,15 +573,15 @@ namespace ya
 		}
 		if (Input::GetKeyDown(eKeyCode::NUM_4))
 		{
-			upgradeobj->GetScript<UpgradeScript>()->ElectroBug();
+			upgradeobj->GetScript<UpgradeScript>()->AeroMagic();
 		}
 		if (Input::GetKeyDown(eKeyCode::NUM_5))
 		{
-			upgradeobj->GetScript<UpgradeScript>()->FrostMage();
+			upgradeobj->GetScript<UpgradeScript>()->HolyMight();
 		}
 		if (Input::GetKeyDown(eKeyCode::NUM_6))
 		{
-			upgradeobj->GetScript<UpgradeScript>()->DarkArts();
+			upgradeobj->GetScript<UpgradeScript>()->Justice();
 		}
 
 		if (Input::GetKeyDown(eKeyCode::P))

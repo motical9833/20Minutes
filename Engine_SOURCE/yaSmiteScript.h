@@ -17,13 +17,16 @@ namespace ya
 		virtual void OnCollisionStay(Collider2D* collider) override;
 		virtual void OnCollisionExit(Collider2D* collider) override;
 
+		void SetHolyMightOn() { bHolyMightOn = true; }
+
 		void Start();
 		void Action();
 		void End();
 		void Reset();
-
+		void GameReset();
 	private:
-
 		int mDamage;
+
+		bool bHolyMightOn;
 	};
 }

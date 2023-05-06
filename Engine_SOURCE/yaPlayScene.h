@@ -33,6 +33,8 @@ namespace ya
 		std::vector<GameObject*> Getspears() { return spears; }
 		std::vector<GameObject*> GetHpObjects() { return hpObjects; }
 		std::vector<GameObject*> GetIcicles() { return icicles; }
+		std::vector<GameObject*> GetCurses() { return curses; }
+
 
 		std::vector<Monster*> GetBrainMonsters() { return mBrainMonsters; }
 		std::vector<Monster*> GetTreeMonsters() { return mTreeMonsters; }

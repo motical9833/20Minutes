@@ -48,6 +48,9 @@ namespace ya
 		void SetFreezeOn() { bFreezeTrigger = true; }
 		void SetIceShardOn() { bIceShard = true; }
 		void SetCurseOn() { bCurseTrigger = true; }
+		void SetRitualStack();
+		void SetHolyAttack() { bHolyAttack = true; }
+		void SetGaleTrigger() { bGaleTrigger = true; }
 
 		void BulletSupply(int count);
 
@@ -78,8 +81,9 @@ namespace ya
 		bool bThunder;
 		bool bFreezeTrigger;
 		bool bCurseTrigger;
-
 		bool bIceShard;
+		bool bHolyAttack;
+		bool bGaleTrigger;
 
 		float time;
 		float reloadTime;
@@ -91,7 +95,7 @@ namespace ya
 		int oneShotFire;
 		int allFireBulletCnt;
 		int fanFireCnt;
-
+		int ritualStack;
 
 		Animator* mAnimator;
 		Transform* mTransform;
