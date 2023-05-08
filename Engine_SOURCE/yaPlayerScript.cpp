@@ -12,16 +12,27 @@ namespace ya
 {
 	PlayerScript::PlayerScript()
 		: Script()
-		, bMove(false)
 		, mCurrentHP(0)
 		, mMaxHP(3)
-		, bHitImmune(false)
+		, dodgeRate(0)
 		, immuneTime(0.0f)
+		, hitBuffTime(0.0f)
+		, regenerationTime(0.0f)
+		, slowTime(0.0f)
 		, mSpeed(6.0f)
+		, mslowSpeed(2.5f)
 		, mSpeedMul(1.0f)
+		, mslowSPeedMul(1.0f)
+		, mScaleMul(1.0f)
 		, bShield(true)
+		, bMove(false)
 		, bIdle(false)
-		//, rotTime(0.0f)
+		, bHitImmune(false)
+		, bPlayerHit(false)
+		, bAngerPointTrigger(false)
+		, bRegeneration(false)
+		, bShooting(false)
+		, bReflex(false)
 	{
 		
 	}
@@ -45,7 +56,6 @@ namespace ya
 	void PlayerScript::Update()
 	{
 	    Move();
-		//rotTime += Time::DeltaTime();
 
 		if (bHitImmune)
 		{
@@ -54,7 +64,30 @@ namespace ya
 			if (immuneTime >= 3)
 			{
 				bHitImmune = false;
-				immuneTime = 0;
+				immuneTime = 0.0f;
+			}
+		}
+
+		if (bPlayerHit)
+		{
+			hitBuffTime += Time::DeltaTime();
+
+			if (hitBuffTime >= 15)
+			{
+				bPlayerHit = false;
+				hitBuffTime = 0.0f;
+			}
+		}
+
+		if (bRegeneration && mMaxHP > mCurrentHP)
+		{
+			regenerationTime += Time::DeltaTime();
+
+			if (regenerationTime >= 90)
+			{
+				mCurrentHP++;
+				HPReset();
+				regenerationTime = 0.0f;
 			}
 		}
 	}
@@ -87,7 +120,20 @@ namespace ya
 		Transform* tr = GetOwner()->GetComponent<Transform>();
 		Animator* animator = GetOwner()->GetComponent<Animator>();
 
+		if (bShooting)
+		{
+			slowTime += Time::DeltaTime();
+
+			if (slowTime >= 0.5f)
+			{
+				mSpeed = 6;
+				slowTime = 0;
+				bShooting = false;
+			}
+		}
+
 		Animation* ani = animator->GetActiveAnimation();
+
 		{
 			if (Input::GetKeyState(eKeyCode::A) == eKeyState::PRESSED && 
 				Input::GetKeyState(eKeyCode::D) == eKeyState::PRESSED &&
@@ -113,6 +159,7 @@ namespace ya
 				animator->Play(L"pRightMove");
 			}
 		}
+
 		{
 			if (Input::GetKeyState(eKeyCode::S) == eKeyState::PRESSED&&
 				Input::GetKeyState(eKeyCode::W) == eKeyState::PRESSED&&
@@ -295,6 +342,10 @@ namespace ya
 		bMove = false;
 		immuneTime = 0.0f;
 		bShield = true;
+		bPlayerHit = false;
+		bAngerPointTrigger = false;
+		bRegeneration = false;
+		bShooting = false;
 	}
 	void PlayerScript::IdleAniStart()
 	{
@@ -306,6 +357,12 @@ namespace ya
 	}
 	void PlayerScript::TakeDamage(int damage)
 	{
+		if (Evasion() == true)
+			return;
+
+		if(bAngerPointTrigger)
+			bPlayerHit = true;
+
 		if (bHitImmune)
 			return;
 
@@ -317,6 +374,7 @@ namespace ya
 			return;
 		}
 
+		SceneManager::GetPlayScene()->GetSkillManager()->GetScript<SkillManager>()->IntheWindReset();
 		SceneManager::GetPlayScene()->GetHpObjects()[mCurrentHP-1]->GetComponent<Animator>()->Play(L"heartArrest");
 		mCurrentHP -= damage;
 		bHitImmune = true;
@@ -324,11 +382,62 @@ namespace ya
 		if (mCurrentHP <= 0)
 			this->GetOwner()->Death();
 	}
+	void PlayerScript::SetScaleMul(float value)
+	{
+		mScaleMul += value;
+		Vector3 scale = GetOwner()->GetComponent<Transform>()->GetScale();
+		Vector2 colliderScale = GetOwner()->GetComponent<Collider2D>()->GetSize();
+		GetOwner()->GetComponent<Transform>()->SetScale(Vector3(scale.x * mScaleMul, scale.y * mScaleMul, scale.z));
+		GetOwner()->GetComponent<Collider2D>()->SetSize(Vector2(colliderScale.x * mScaleMul, colliderScale.y * mScaleMul));
+	}
+	void PlayerScript::SetScaleRed(float value)
+	{
+		mScaleMul -= value;
+		Vector3 scale = GetOwner()->GetComponent<Transform>()->GetScale();
+		Vector2 colliderScale = GetOwner()->GetComponent<Collider2D>()->GetSize();
+		GetOwner()->GetComponent<Transform>()->SetScale(Vector3(scale.x * mScaleMul, scale.y * mScaleMul, scale.z));
+		GetOwner()->GetComponent<Collider2D>()->SetSize(Vector2(colliderScale.x * mScaleMul, colliderScale.y * mScaleMul));
+	}
+	void PlayerScript::FireSlow()
+	{
+		mSpeed = mslowSpeed * mslowSPeedMul;
+		bShooting = true;
+	}
 	void PlayerScript::StartSetting()
 	{
 		for (size_t i = 0; i < mMaxHP; i++)
 		{
 			SceneManager::GetPlayScene()->GetHpObjects()[i]->Life();
 		}
+	}
+	void PlayerScript::HPReset()
+	{
+		for (size_t i = 0; i < mMaxHP; i++)
+		{
+			SceneManager::GetPlayScene()->GetHpObjects()[i]->Life();
+			SceneManager::GetPlayScene()->GetHpObjects()[i]->GetComponent<Animator>()->Play(L"heartArrest", false);
+		}
+
+		for (size_t i = 0; i < mCurrentHP; i++)
+		{
+			SceneManager::GetPlayScene()->GetHpObjects()[i]->GetComponent<Animator>()->Play(L"heartbeat", true);
+		}
+	}
+	bool PlayerScript::Evasion()
+	{
+		srand((unsigned int)std::time(NULL));
+
+		int random = rand() & 100 + 1;
+		int rate = dodgeRate;
+
+		if (bReflex)
+			rate = dodgeRate + ((mSpeedMul * 100) - 100);
+
+		if (random <= rate)
+		{
+			return true;
+		}
+
+		return false;
 	}
 }

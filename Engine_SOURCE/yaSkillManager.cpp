@@ -11,6 +11,9 @@
 #include "yaSpearScript.h"
 #include "yaDragonFireScript.h"
 #include "yaAnimator.h"
+#include "yaWeaponScript.h"
+#include "yaBulletScript.h"
+#include "yaDragonPetScript.h"
 
 namespace ya
 {
@@ -19,9 +22,19 @@ namespace ya
 		, bShield(false)
 		, bJustice(false)
 		, bAngelic(false)
+		, bDivineBlessing(false)
+		, bIntheWind(false)
+		, bAgedDragon(false)
+		, bTrainedDragon(false)
 		, shieldTime(0.0f)
+		, intheWindTime(0.0f)
+		, AgedDragonTime(0.0f)
+		, trainedDragonTime(0.0f)
+		, shieldOnTime(120)
 		, smiteKillStack(0)
 		, justiceCnt(0)
+		, intheWindStack(0)
+		, trainedDragonStack(0)
 	{
 
 	}
@@ -41,13 +54,40 @@ namespace ya
 			{
 				shieldTime += Time::DeltaTime();
 
-				if (shieldTime > 30)
+				if (shieldTime > shieldOnTime)
 				{
 					HolyShield();
 					bShield = true;
 					bShieldOn = false;
 					shieldTime = 0;
 				}
+			}
+		}
+
+		if (bIntheWind)
+		{
+			IntheWind();
+		}
+
+		if (bAgedDragon)
+		{
+			AgedDragonTime += Time::DeltaTime();
+
+			if (AgedDragonTime >= 60)
+			{
+				AgedDragon();
+				AgedDragonTime = 0.0f;
+			}
+		}
+
+		if (bTrainedDragon)
+		{
+			trainedDragonTime += Time::DeltaTime();
+
+			if (trainedDragonTime >= 60 && trainedDragonStack < 6)
+			{
+				TrainedDragon();
+				trainedDragonTime = 0.0f;
 			}
 		}
 	}
@@ -130,6 +170,12 @@ namespace ya
 		GameObject* shield = SceneManager::GetPlayScene()->GetShield();
 		shield->Life();
 		SceneManager::GetPlayScene()->GetPlayer()->GetScript<PlayerScript>()->ShieldOn();
+		if(bDivineBlessing)
+		shield->GetScript<HolyShieldScript>()->DivineBlessing();
+	}
+	void SkillManager::DivinWrath()
+	{
+		SceneManager::GetPlayScene()->GetShield()->GetScript<HolyShieldScript>()->SetDivinWrathOn();
 	}
 	void SkillManager::DragonFIre(Vector3 pos, Vector3 dir)
 	{
@@ -147,6 +193,19 @@ namespace ya
 			SceneManager::GetPlayScene()->GetDragonFires()[i]->Life();
 			break;
 		}
+	}
+	void SkillManager::AgedDragon()
+	{
+		for (size_t i = 0; i < SceneManager::GetPlayScene()->GetDragonFires().size(); i++)
+		{
+			SceneManager::GetPlayScene()->GetDragonFires()[i]->GetScript<DragonFireScript>()->SetDamage(8);
+			break;
+		}
+	}
+	void SkillManager::TrainedDragon()
+	{
+		SceneManager::GetPlayScene()->GetDragonPet()->GetScript<DragonPetScript>()->SetmAttackSpeedRed(0.1f);
+		trainedDragonStack++;
 	}
 	void SkillManager::HolyShieldBreak()
 	{
@@ -199,6 +258,43 @@ namespace ya
 			}
 		}
 	}
+	void SkillManager::IntheWind()
+	{
+		if (intheWindStack < 4)
+		{
+			intheWindTime += Time::DeltaTime();
+
+			if (intheWindTime >= 10)
+			{
+				intheWindStack++;
+
+				for (size_t i = 0; i < SceneManager::GetPlayScene()->GetBullet().size(); i++)
+				{
+					SceneManager::GetPlayScene()->GetBullet()[i]->GetScript<BulletScript>()->SetDamageInc(0.1f);
+				}
+				SceneManager::GetPlayScene()->GetPlayer()->GetScript<PlayerScript>()->SetSpeedMul(0.1f);
+				intheWindTime = 0.0f;
+			}
+		}
+	}
+	void SkillManager::IntheWindReset()
+	{
+		if (intheWindStack == 0)
+			return;
+
+		for (size_t i = 0; i < intheWindStack; i++)
+		{
+			for (size_t j = 0; j < SceneManager::GetPlayScene()->GetBullet().size(); j++)
+			{
+				SceneManager::GetPlayScene()->GetBullet()[i]->GetScript<BulletScript>()->SetDamageDec(0.1f);
+			}
+
+			SceneManager::GetPlayScene()->GetPlayer()->GetScript<PlayerScript>()->SetSpeedRed(0.1f);
+		}
+
+		intheWindStack = 0;
+		intheWindTime = 0.0f;
+	}
 	void SkillManager::GameReset()
 	{
 		smiteKillStack = 0;
@@ -207,5 +303,15 @@ namespace ya
 		bShield = false;
 		bJustice = false;
 		bAngelic = false;
+		bDivineBlessing = false;
+		bIntheWind = false;
+		bAgedDragon = false;
+		bTrainedDragon = false;
+		shieldOnTime = 120;
+		intheWindTime = 0;
+		intheWindStack = 0;
+		trainedDragonStack = 0;
+		AgedDragonTime = 0.0f;
+		trainedDragonTime = 0.0f;
 	}
 }

@@ -21,7 +21,10 @@ namespace ya
 			void GhostFire(Vector3 pos, Vector3 dir);
 			void SmiteFire(Vector3 pos);
 			void HolyShield();
+			void DivinWrath();
 			void DragonFIre(Vector3 pos, Vector3 dir);
+			void AgedDragon();
+			void TrainedDragon();
 
 			void HolyShieldBreak();
 			void Spear();
@@ -29,8 +32,17 @@ namespace ya
 
 			void SetJusticeOn() { bJustice = true; }
 			void SetAngelicOn() { bAngelic = true; }
-
+			void SetHolyShieldOn() { bShieldOn = true; }
+			void SetDivineBlessingOn() { bDivineBlessing = true; }
+			void SetIntheWindOn() { bIntheWind = true; }
+			void SetAgedDragonOn() { bAgedDragon = true; }
+			void SetAgedDragonOn() { bAgedDragon = true; }
+			void SetTrainedDragon() { bTrainedDragon = true; }
+			void SetShieldOnTime(int value) { shieldOnTime = value; }
+			int GetIntheWindStack() { return intheWindStack; }
 			void SmiteKillCnt();
+			void IntheWind();
+			void IntheWindReset();
 
 			void GameReset();
 	private:	
@@ -38,10 +50,21 @@ namespace ya
 		bool bShield;
 		bool bJustice;
 		bool bAngelic;
+		bool bDivineBlessing;
+		bool bIntheWind;
+		bool bAgedDragon;
+		bool bTrainedDragon;
+
 
 		float shieldTime;
+		float intheWindTime;
+		float AgedDragonTime;
+		float trainedDragonTime;
 
 		int smiteKillStack;
 		int justiceCnt;
+		int shieldOnTime;
+		int intheWindStack;
+		int trainedDragonStack;
 	};
 }

@@ -255,6 +255,7 @@ namespace ya
 		shieldAnimator->Create(L"HolyShieldBreak", shieldBreak, Vector2::Zero, Vector2(52.0f, 52.0f), Vector2::Zero, 3, 0.1f);
 		shieldAnimator->Play(L"HolyShieldIdle", true);
 		holyShield->AddComponent<HolyShieldScript>();
+		holyShield->Death();
 
 		for (size_t i = 0; i < 20; i++)
 		{
@@ -346,8 +347,9 @@ namespace ya
 		dragonAnimator->Create(L"DragonEgg", dragonEggTexture, Vector2::Zero, Vector2(32.0f, 32.0f), Vector2::Zero, 1, 255);
 		dragonAnimator->Create(L"DragonIdle", dragonTexture, Vector2::Zero, Vector2(32.0f, 32.0f), Vector2::Zero, 6, 0.1f);
 		dragonAnimator->Create(L"DragonAttack", dragonTexture, Vector2(0, 32.0f), Vector2(32.0f, 32.0f), Vector2::Zero, 4, 0.1f);
-		dragonAnimator->Play(L"DragonIdle", true);
+		dragonAnimator->Play(L"DragonEgg", true);
 		dragonPet->AddComponent<DragonPetScript>();
+		dragonPet->Death();
 
 		ghostPet = CreateSkillObject(eLayerType::Skill, L"DragonMaterial");
 		ghostPet->SetLayerType(eLayerType::Skill);
@@ -528,6 +530,8 @@ namespace ya
 			mBrainMonsters[0]->GetScript<MonsterScript>()->GameReset();
 			mEyeMonsters[0]->GetScript<MonsterScript>()->GameReset();
 			skillManager->GetScript<SkillManager>()->GameReset();
+			holyShield->GetScript<HolyShieldScript>()->GameReset();
+			dragonPet->GetScript<DragonPetScript>()->GameReset();
 
 			for (size_t i = 0; i < bullets.size(); i++)
 			{
@@ -569,19 +573,19 @@ namespace ya
 		}
 		if (Input::GetKeyDown(eKeyCode::NUM_3))
 		{
-			upgradeobj->GetScript<UpgradeScript>()->Smiper();
+			upgradeobj->GetScript<UpgradeScript>()->DragonEgg();
 		}
 		if (Input::GetKeyDown(eKeyCode::NUM_4))
 		{
-			upgradeobj->GetScript<UpgradeScript>()->AeroMagic();
+			upgradeobj->GetScript<UpgradeScript>()->AgedDragon();
 		}
 		if (Input::GetKeyDown(eKeyCode::NUM_5))
 		{
-			upgradeobj->GetScript<UpgradeScript>()->HolyMight();
+			upgradeobj->GetScript<UpgradeScript>()->Tiny();
 		}
 		if (Input::GetKeyDown(eKeyCode::NUM_6))
 		{
-			upgradeobj->GetScript<UpgradeScript>()->Justice();
+			upgradeobj->GetScript<UpgradeScript>()->Reflex();
 		}
 
 		if (Input::GetKeyDown(eKeyCode::P))

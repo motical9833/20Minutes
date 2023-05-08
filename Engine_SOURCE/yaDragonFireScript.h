@@ -19,11 +19,14 @@ namespace ya
 
 		void SetDir(Vector3 dir) { mDir = dir; }
 
+		void SetDamage(int value) { mDamage += value; }
+
 		void Start();
 		void Action();
 		void End();
 		void TakeDamage(int damage);
 		void Reset();
+		void GameReset();
 
 	private:
 		int mDamage;

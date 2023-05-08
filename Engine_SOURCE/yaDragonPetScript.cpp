@@ -10,12 +10,16 @@
 namespace ya
 {
 	DragonPetScript::DragonPetScript()
-		:mSpeed(1.0f)
-		,mWidth(1.0f)
-	    ,mHeight(1.0f)
-		,mTime(0.0f)
-		,mAttackTime(0.0f)
-		,pscene{}
+		: mSpeed(1.0f)
+		, mWidth(1.0f)
+	    , mHeight(1.0f)
+		, mTime(0.0f)
+		, mAttackTime(0.0f)
+		, mincubatorTime(0.0f)
+		, mAttackSpeedMul(1.0f)
+		, pscene{}
+		, bAttack(false)
+		, bHatch(false)
 	{
 
 	}
@@ -33,6 +37,19 @@ namespace ya
 	}
 	void DragonPetScript::Update()
 	{
+		if (bHatch == false)
+		{
+			mincubatorTime += Time::DeltaTime();
+
+			if (mincubatorTime >= 60)
+			{
+				GetOwner()->GetComponent<Animator>()->Play(L"DragonIdle", true);
+				bHatch = true;
+				bAttack = true;
+				mincubatorTime = 0;
+			}
+		}
+
 		Circularmotion();
 		Attack();
 	}
@@ -65,40 +82,44 @@ namespace ya
 		Animator* animator = GetOwner()->GetComponent<Animator>();
 		animator->Play(L"DragonIdle", true);
 	}
-	void DragonPetScript::Reset()
+	void DragonPetScript::GameReset()
 	{
-
+		bHatch = false;
+		bAttack = false;
 	}
 	void DragonPetScript::Attack()
 	{
-		mAttackTime += Time::DeltaTime();
-
-
-		if (mAttackTime >= 3)
+		if (bAttack)
 		{
-			Transform* tr = GetOwner()->GetComponent<Transform>();
-
-			Vector3 a = tr->GetPosition();
-
-			Vector3 b = pscene->GetColliderChack()->GetScript<ColliderCheckScript>()->GetMonsterPos();
-
-			if (pscene->GetColliderChack()->GetScript<ColliderCheckScript>()->GetMonsters().size() == 0)
-				return;
+			mAttackTime += Time::DeltaTime();
 
 
-			Vector3 dir = b - a;  // dir의 xy는 x는 임의로a y는 임의로 b라고 정함
+			if (mAttackTime >= 3 * mAttackSpeedMul)
+			{
+				Transform* tr = GetOwner()->GetComponent<Transform>();
 
-			Vector3 fabsDir = Vector3(dir.x, dir.y, 0);
+				Vector3 a = tr->GetPosition();
 
-			double value = sqrt(pow(fabsDir.x, 2) + pow(fabsDir.y, 2)); //피타고라스 R값
+				Vector3 b = pscene->GetColliderChack()->GetScript<ColliderCheckScript>()->GetMonsterPos();
 
-			Vector3 dirValue = Vector3(fabsDir.x/value, fabsDir.y/value, 0);
+				if (pscene->GetColliderChack()->GetScript<ColliderCheckScript>()->GetMonsters().size() == 0)
+					return;
 
-			Animator* animator = GetOwner()->GetComponent<Animator>();
-			animator->Play(L"DragonAttack", false);
 
-			SceneManager::GetPlayScene()->GetSkillManager()->GetScript<SkillManager>()->DragonFIre(a, dirValue);
-			mAttackTime = 0;
+				Vector3 dir = b - a;  // dir의 xy는 x는 임의로a y는 임의로 b라고 정함
+
+				Vector3 fabsDir = Vector3(dir.x, dir.y, 0);
+
+				double value = sqrt(pow(fabsDir.x, 2) + pow(fabsDir.y, 2)); //피타고라스 R값
+
+				Vector3 dirValue = Vector3(fabsDir.x / value, fabsDir.y / value, 0);
+
+				Animator* animator = GetOwner()->GetComponent<Animator>();
+				animator->Play(L"DragonAttack", false);
+
+				SceneManager::GetPlayScene()->GetSkillManager()->GetScript<SkillManager>()->DragonFIre(a, dirValue);
+				mAttackTime = 0;
+			}
 		}
 	}
 	void DragonPetScript::Circularmotion()

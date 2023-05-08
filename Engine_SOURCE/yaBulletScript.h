@@ -41,7 +41,7 @@ namespace ya
 		void Freeze(Collider2D* collider);
 		void Curse(Collider2D* collider);
 
-
+		void PlayerHitChack();
 
 		float Getspeed() { return mSpeed; }
 		float GetDamageInc() { return mDamageMul; }
@@ -79,5 +79,6 @@ namespace ya
 		bool bBounceTrigger;
 		bool bFreeze;
 		bool bCurse;
+		bool bPlayerhit;
 	};
 }

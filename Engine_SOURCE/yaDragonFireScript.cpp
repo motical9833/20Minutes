@@ -92,9 +92,19 @@ namespace ya
 	void DragonFireScript::Reset()
 	{
 		mTime = 0;
+		mSpeed = 5;
 		crashTime = 0.0f;
+		GetOwner()->GetComponent<Transform>()->SetScale(Vector3(2.0f, 2.0f, 1.0f));
+		GetOwner()->GetComponent<Transform>()->SetPosition(Vector3::Zero);
+		GetOwner()->GetComponent<Transform>()->SetRotation(Vector3::Zero);
+		bCrash = false;
+	}
+	void DragonFireScript::GameReset()
+	{
+		mTime = 0;
 		mSpeed = 5;
 		mDamage = 10;
+		crashTime = 0.0f;
 		GetOwner()->GetComponent<Transform>()->SetScale(Vector3(2.0f, 2.0f, 1.0f));
 		GetOwner()->GetComponent<Transform>()->SetPosition(Vector3::Zero);
 		GetOwner()->GetComponent<Transform>()->SetRotation(Vector3::Zero);

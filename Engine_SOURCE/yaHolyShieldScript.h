@@ -18,15 +18,26 @@ namespace ya
 		virtual void OnCollisionStay(Collider2D* collider) override;
 		virtual void OnCollisionExit(Collider2D* collider) override;
 
+		void SetDivinWrathOn() { bDivinWrath = true; }
+		
+		void DivineBlessing();
+		void DivineWrath();
+		void StalwartShield();
+
+
 		void Start();
 		void Action();
 		void End();
-		void Reset();
+		void GameReset();
 
 		void Break();
 
 	private:
 		Player* player;
+
+		bool bDivinWrath;
+
 		float rotTime;
+		float divinWrathTime;
 	};
 }

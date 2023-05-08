@@ -35,6 +35,7 @@ namespace ya
 		,bBounce(false)
 		,bFreeze(false)
 		, bCurse(false)
+		, bPlayerhit(false)
 	{
 
 	}
@@ -107,6 +108,7 @@ namespace ya
 
 			if (collider->GetOwner()->GetScript<MonsterScript>()->GetcurseAtivate() == true)
 			{
+
 				int damage = std::round(mDamage * mDamageMul * 2) + 1;
 
 				collider->GetOwner()->GetScript<MonsterScript>()->TakeDamage(damage);
@@ -192,6 +194,12 @@ namespace ya
 			}
 		}
 	}
+	void BulletScript::PlayerHitChack()
+	{
+		bPlayerhit = true;
+		SetDamageInc(0.5f);
+		SetSpeedMul(0.5f);
+	}
 	void BulletScript::Start()
 	{
 
@@ -218,6 +226,13 @@ namespace ya
 		bThunder = false;
 		bDieBullet = false;
 		bBounce = false;
+
+		if (bPlayerhit)
+		{
+			SetDamageDec(0.5f);
+			SetSpeedReduction(0.5f);
+			bPlayerhit = false;
+		}
 	}
 	void BulletScript::GameReset()
 	{
@@ -232,5 +247,6 @@ namespace ya
 		bBounce = false;
 		bBounceTrigger = false;
 		bCurse = false;
+		bPlayerhit = false;
 	}
 }

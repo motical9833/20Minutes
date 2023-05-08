@@ -31,26 +31,62 @@ namespace ya
 
 		void TakeDamage(int damage);
 		void SetMaxHP(int value) { mMaxHP = value; }
-		void SetMaxHP_Add(int value) { mMaxHP += value; }
+		void SetMaxHP_Add(int value) 
+		{ 
+			mMaxHP += value;
+			mCurrentHP += value;
+		}
 		void SetHealing() { mCurrentHP++; }
 		void SetCurrentHP() { mCurrentHP = mMaxHP; }
 		void SetSpeedMul(float value) { mSpeedMul += value; }
+		void SetSpeedRed(float value) { mSpeedMul -= value; }
+		void SetslowSpeedMul(float value) { mslowSPeedMul += value; }
+		void SetAngerPoint() { bAngerPointTrigger = true; }
+		void SetScaleMul(float value);
+		void SetScaleRed(float value);
+		void SetRegeneration() { bRegeneration = true; }
+		void SetShooting() { bShooting = true; };
+		void SetDodgeRate(int value) { dodgeRate += value; }
+		void SetReflexOn() { bReflex = true; }
+
 		float GetSpeedMul() { return mSpeedMul; }
+		bool GetPlayerHit() { return bPlayerHit; }
+
 		void ShieldOn() { bShield = true; }
 
-		void StartSetting();
+		void FireSlow();
 
+		void StartSetting();
+		void HPReset();
+
+		bool Evasion();
 
 		bool GetIdle() { return bIdle; }
 
 	private:
 		float immuneTime;
+		float hitBuffTime;
+		float regenerationTime;
+		float slowTime;
+
 		float mSpeed;
+		float mslowSpeed;
 		float mSpeedMul;
+		float mslowSPeedMul;
+		float mScaleMul;
+
 		bool bMove;
 		bool bHitImmune;
+		bool bPlayerHit;
+		bool bAngerPointTrigger;
+		bool bRegeneration;
+		bool bShooting;
+		bool bReflex;
+
 		int mCurrentHP;
 		int mMaxHP;
+		int dodgeRate;
+
 
 		bool bShield;
 		bool bIdle;

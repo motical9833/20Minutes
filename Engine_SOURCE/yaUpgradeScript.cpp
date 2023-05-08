@@ -603,42 +603,85 @@ namespace ya
 	//(T1) : 최대 체력 +1
 	void UpgradeScript::Vitality()
 	{
+		if (bupgrade[11][0])
+			return;
 
+		pscene->GetPlayer()->GetScript<PlayerScript>()->SetMaxHP_Add(1);
+		pscene->GetPlayer()->GetScript<PlayerScript>()->HPReset();
+		bupgrade[11][0] = true;
 	}
 	//(T2) : 피격시 15초 동안 총알 공격력 및 탄속 +50%
 	void UpgradeScript::AngerPoint()
 	{
+		if (bupgrade[11][1])
+			return;
 
+		pscene->GetPlayer()->GetScript<PlayerScript>()->SetAngerPoint();
+
+		bupgrade[11][1] = true;
 	}
 	//(T2) : 최대 체력 +2, 플레이어 크기 +50%, 이동 속도 -16%
 	void UpgradeScript::Giant()
 	{
+		if (bupgrade[11][2])
+			return;
 
+		pscene->GetPlayer()->GetScript<PlayerScript>()->SetMaxHP_Add(2);
+		pscene->GetPlayer()->GetScript<PlayerScript>()->HPReset();
+		pscene->GetPlayer()->GetScript<PlayerScript>()->SetSpeedRed(0.16f);
+		pscene->GetPlayer()->GetScript<PlayerScript>()->SetScaleMul(0.5f);
+
+		bupgrade[11][2] = true;
 	}
 	//(T3) : 90초마다 체력 1 회복
 	void UpgradeScript::Regeneration()
 	{
+		if (bupgrade[11][3])
+			return;
 
+		pscene->GetPlayer()->GetScript<PlayerScript>()->SetRegeneration();
+
+		bupgrade[11][3] = true;
 	}
 	//(T1) : 공격을 1회 막아주는 신성한 보호막을 생성한다. 소모된 보호막은 2분마다 재생된다.
 	void UpgradeScript::HolyShield()
 	{
+		if (bupgrade[12][0])
+			return;
 
+		pscene->GetShield()->Life();
+
+		bupgrade[12][0] = true;
 	}
 	//(T2) : 신성한 보호막이 활성화된 동안, 재장전 속도와 이동 속도를 25% 증가시킨다.
 	void UpgradeScript::DivineBlessing()
 	{
+		if (bupgrade[12][1])
+			return;
 
+		pscene->GetSkillManager()->GetScript<SkillManager>()->SetDivineBlessingOn();
+
+		bupgrade[12][1] = true;
 	}
 	//(T2) : 신성한 보호막이 활성화 된 동안 매 초 22의 피해를 주는 번개를 가까이 있는 적에게 떨어뜨린다.
 	void UpgradeScript::DivineWrath()
 	{
+		if (bupgrade[12][2])
+			return;
 
+		pscene->GetSkillManager()->GetScript<SkillManager>()->DivinWrath();
+
+		bupgrade[12][2] = true;
 	}
 	//(T3) : 보호막 재생성 시간이 1분이 된다.
 	void UpgradeScript::StalwartShield()
 	{
+		if (bupgrade[12][3])
+			return;
 
+		pscene->GetSkillManager()->GetScript<SkillManager>()->SetShieldOnTime(60);
+
+		bupgrade[12][3] = true;
 	}
 	//(T1) : 경험치 획득 범위 +30%
 	void UpgradeScript::Magnetism()
@@ -663,22 +706,43 @@ namespace ya
 	//(T1) : 이동속도 +20%, 연사 속도 +5%
 	void UpgradeScript::Haste()
 	{
+		if (bupgrade[14][0])
+			return;
 
+		pscene->GetPlayer()->GetScript<PlayerScript>()->SetSpeedMul(0.2f);
+		pscene->GetWeapon()->GetScript<WeaponScript>()->SetReloadTimeMul(0.05f);
+
+		bupgrade[14][0] = true;
 	}
 	//(T2) : 이동속도 +10%, 이동하는 동안 주변의 적에게 발화 효과를 가한다. 이 효과는 빨리 움직일수록 자주 발동된다.
 	void UpgradeScript::BlazingSpeed()
 	{
+		if (bupgrade[14][1])
+			return;
 
+		pscene->GetPlayer()->GetScript<PlayerScript>()->SetSpeedMul(0.1f);
+
+		bupgrade[14][1] = true;
 	}
 	//(T2) : 사격 중 이동 속도를 100% 증가시킨다.
 	void UpgradeScript::RunGun()
 	{
+		if (bupgrade[14][2])
+			return;
 
+		pscene->GetPlayer()->GetScript<PlayerScript>()->SetslowSpeedMul(1.0f);
+
+		bupgrade[14][2] = true;
 	}
 	//(T3) : 10초마다 이동속도 및 총알 공격력 +10%(최대 40%), 이 효과는 피격시 초기화된다.
 	void UpgradeScript::IntheWind()
 	{
+		if (bupgrade[14][3])
+			return;
 
+		pscene->GetSkillManager()->GetScript<SkillManager>()->SetIntheWindOn();
+
+		bupgrade[14][3] = true;
 	}
 	//(T1) : 시야 +25%, 시야 내의 적에게 2초마다 25 피해를 준다.
 	void UpgradeScript::Glare()
@@ -703,42 +767,84 @@ namespace ya
 	//(T1) : 회피율 +20%
 	void UpgradeScript::Evasive()
 	{
+		if (bupgrade[16][0])
+			return;
 
+		pscene->GetPlayer()->GetScript<PlayerScript>()->SetDodgeRate(20);
+
+		bupgrade[16][0] = true;
 	}
 	//(T2) : 회피율 +10%, 이동속도 +10%
 	void UpgradeScript::Nimble()
 	{
+		if (bupgrade[16][1])
+			return;
 
+		pscene->GetPlayer()->GetScript<PlayerScript>()->SetDodgeRate(10);
+		pscene->GetPlayer()->GetScript<PlayerScript>()->SetSpeedMul(0.10f);
+
+		bupgrade[16][1] = true;
 	}
 	//(T2) : 회피율 +5%, 캐릭터크기 -25%
 	void UpgradeScript::Tiny()
 	{
+		if (bupgrade[16][2])
+			return;
 
+		pscene->GetPlayer()->GetScript<PlayerScript>()->SetDodgeRate(5);
+		pscene->GetPlayer()->GetScript<PlayerScript>()->SetScaleRed(0.25f);
+
+		bupgrade[16][2] = true;
 	}
 	//(T3) : 이동속도 +15%, 이동속도 보너스만큼 회피율이 증가합니다.
 	void UpgradeScript::Reflex()
 	{
+		if (bupgrade[16][3])
+			return;
 
+		pscene->GetPlayer()->GetScript<PlayerScript>()->SetSpeedMul(0.15f);
+		pscene->GetPlayer()->GetScript<PlayerScript>()->SetReflexOn();
+
+		bupgrade[16][3] = true;
 	}
 	//1분 후에 용으로 부화하는 알을 얻는다. 부화한 용은 커서 방향으로 피해와 발화 상태를 주는 탄을 세 갈래로 발사한다. (기본 관통 1회, 기본 피해량 20)
 	void UpgradeScript::DragonEgg()
 	{
+		if (bupgrade[17][0])
+			return;
 
+		pscene->GetDragonPet()->Life();
+
+		bupgrade[17][0] = true;
 	}
 	//(T2) : 용의 피해량이 60초마다 8 상승한다. 이 효과는 아직 부화하지 않았어도 적용된다.
 	void UpgradeScript::AgedDragon()
 	{
+		if (bupgrade[17][1])
+			return;
 
+		pscene->GetSkillManager()->GetScript<SkillManager>()->SetAgedDragonOn();
+
+		bupgrade[17][1] = true;
 	}
 	//(T2) : 용의 공격 속도가 60초마다 10% 상승한다. 이 효과는 아직 부화하지 않았어도 적용된다.
 	void UpgradeScript::TrainedDragon()
 	{
+		if (bupgrade[17][2])
+			return;
 
+		pscene->GetSkillManager()->GetScript<SkillManager>()->SetTrainedDragon();
+
+		bupgrade[17][2] = true;
 	}
 	//(T3) : 투사체가 용의 공격력 10%에 해당하는 추가 피해를 입힌다.드래곤 특성을 얼마나 빨리 먹느냐로 갈린다.일반 모드에선 이론상 최대 17.2까지 받을 수 있다.
 	void UpgradeScript::DragonBond()
 	{
+		if (bupgrade[17][3])
+			return;
 
+
+		bupgrade[17][3] = true;
 	}
 	void UpgradeScript::GhostFriend()
 	{

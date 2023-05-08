@@ -308,6 +308,8 @@ namespace ya
 
 	void WeaponScript::Fire()
 	{
+		pScene->GetPlayer()->GetScript<PlayerScript>()->FireSlow();
+
 		if (time >= fireDelayTime * fireDelayTimeMul)
 		{
 			int a = 0;
@@ -325,6 +327,13 @@ namespace ya
 				bullets[i]->SetParent(nullptr);
 				bullets[i]->GetOwner()->Life();
 				bullets[i]->GetOwner()->GetComponent<Animator>()->Stop();
+
+
+				if (pScene->GetPlayer()->GetScript<PlayerScript>()->GetPlayerHit())
+				{
+					bullets[i]->GetOwner()->GetScript<BulletScript>()->SetDamageInc(0.5f);
+					bullets[i]->GetOwner()->GetScript<BulletScript>()->SetSpeedMul(0.5f);
+				}
 
 				if (bBounceTrigger)
 					bullets[i]->GetOwner()->GetScript<BulletScript>()->SetBounceTrigger();

@@ -18,12 +18,13 @@ namespace ya
 		virtual void OnCollisionStay(Collider2D* collider) override;
 		virtual void OnCollisionExit(Collider2D* collider) override;
 
+		void SetmAttackSpeedMul(float value) { mAttackSpeedMul += value; }
+		void SetmAttackSpeedRed(float value) { mAttackSpeedMul -= value; }
 		void Start();
 		void Action();
 		void End();
-		void Reset();
+		void GameReset();
 
-		
 		void Attack();
 
 		void Circularmotion();
@@ -35,6 +36,11 @@ namespace ya
 		float mHeight;
 		float mTime;
 		float mAttackTime;
+		float mincubatorTime;
+		float mAttackSpeedMul;
+
+		bool bAttack;
+		bool bHatch;
 
 		PlayScene* pscene;
 	};
