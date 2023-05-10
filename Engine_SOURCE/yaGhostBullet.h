@@ -19,18 +19,27 @@ namespace ya
 		virtual void OnCollisionExit(Collider2D* collider) override;
 
 		void SetDir(Vector3 dir) { mDir = dir; }
+		void SetDamageMul(float value) { mDamageMul += value; }
+		void SetTargetMouse() { bTargetMouse = true; }
 
 		void Start();
 		void Action();
 		void End();
 		void TakeDamage(int damage);
 		void Reset();
+		void GameReset();
 
+		void TargetMouse();
+		void TargetMonster();
 	private:
 		int mDamage;
 
 		float mSpeed;
 		float mTime;
+		float mDamageMul;
+
+		bool bTargetMouse;
+
 		Vector3 mDir;
 	};
 }

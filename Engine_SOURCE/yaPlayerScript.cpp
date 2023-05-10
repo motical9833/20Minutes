@@ -8,6 +8,8 @@
 #include "yaSkillManager.h"
 #include "yaSceneManager.h"
 #include "yaPlayScene.h"
+
+
 namespace ya
 {
 	PlayerScript::PlayerScript()

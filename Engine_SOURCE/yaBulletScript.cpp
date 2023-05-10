@@ -20,6 +20,7 @@ namespace ya
 		,time(0.0f)
 		,crashTime(0.0f)
 		,mDamage(10)
+		,mIgnitionDamage(0)
 		,mDamageMul(1.0f)
 		,mScaleMul(1.0f)
 		,mPenetrate(1)
@@ -28,6 +29,7 @@ namespace ya
 		,direction{}
 		,mTr(nullptr)
 		,mWeapon(nullptr)
+		, bMagicLensOn(false)
 		,bCrash(false)
 		,bThunder(false)
 		,bAssassin(false)
@@ -36,6 +38,7 @@ namespace ya
 		,bFreeze(false)
 		, bCurse(false)
 		, bPlayerhit(false)
+		, bIgnitionBullet(false)
 	{
 
 	}
@@ -86,7 +89,14 @@ namespace ya
 		}
 		else if(bBounce)
 		{
-			pos += mTr->Left() * (mSpeed * mSpeedMul) * Time::DeltaTime();
+			if (mBounceCnt % 2 == 0)
+			{
+				pos += mTr->Left() * (mSpeed * mSpeedMul) * Time::DeltaTime();
+			}
+			else
+			{
+				pos += mTr->Right() * (mSpeed * mSpeedMul) * Time::DeltaTime();
+			}
 		}
 		else
 		{
@@ -104,6 +114,12 @@ namespace ya
 	{
 		if (collider->GetOwner()->GetLayerType() == eLayerType::Monster && collider->GetOwner()->GetState() == (UINT)GameObject::eState::Active)
 		{
+			if (collider->GetOwner()->GetScript<MonsterScript>()->GetCurrentHP() <= (collider->GetOwner()->GetScript<MonsterScript>()->GetMaxHP() * 0.2f) && bAssassin)
+			{
+				collider->GetOwner()->GetScript<MonsterScript>()->TakeDamage(9999);
+				return;
+			}
+
 			Freeze(collider);
 
 			if (collider->GetOwner()->GetScript<MonsterScript>()->GetcurseAtivate() == true)
@@ -112,6 +128,10 @@ namespace ya
 				int damage = std::round(mDamage * mDamageMul * 2) + 1;
 
 				collider->GetOwner()->GetScript<MonsterScript>()->TakeDamage(damage);
+
+
+				if (bIgnitionBullet)
+					collider->GetOwner()->GetScript<MonsterScript>()->Ignition((damage / 3) + 1);
 			}
 			else
 			{
@@ -122,15 +142,17 @@ namespace ya
 					int damage = std::round(mDamage * mDamageMul * 0.1f) + 1;
 					collider->GetOwner()->GetScript<MonsterScript>()->TakeDamage(damage);
 					GetOwner()->GetComponent<Transform>()->SetScale(Vector3(1.5f, 1.5f, 1.0f));
+
+					if (bIgnitionBullet)
+						collider->GetOwner()->GetScript<MonsterScript>()->Ignition((damage / 3) + 1);
 				}
 				else
 				{
 					int damage = std::round(mDamage * mDamageMul) + 1;
 					collider->GetOwner()->GetScript<MonsterScript>()->TakeDamage(damage);
-				}
-				if (collider->GetOwner()->GetScript<MonsterScript>()->GetCurrentHP() <= (collider->GetOwner()->GetScript<MonsterScript>()->GetMaxHP() * 0.2f))
-				{
-					collider->GetOwner()->GetScript<MonsterScript>()->TakeDamage(9999);
+
+					if(bIgnitionBullet)
+					collider->GetOwner()->GetScript<MonsterScript>()->Ignition((damage/3) +1);
 				}
 			}
 
@@ -226,6 +248,8 @@ namespace ya
 		bThunder = false;
 		bDieBullet = false;
 		bBounce = false;
+		bIgnitionBullet = false;
+		bMagicLensOn = false;
 
 		if (bPlayerhit)
 		{
@@ -248,5 +272,7 @@ namespace ya
 		bBounceTrigger = false;
 		bCurse = false;
 		bPlayerhit = false;
+		bIgnitionBullet = false;
+		bMagicLensOn = false;
 	}
 }

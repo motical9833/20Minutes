@@ -47,6 +47,7 @@ namespace ya
 		void SetbWitherOn() { bWitherOn = true; }
 		void SetbRitualOn() { bRitualOn = true; }
 		void DieBullet();
+		void Ignition(int damage);
 		bool GetcurseAtivate() { return bCurseActivate; }
 		int GetCurrentHP() { return mCurrentHp; }
 		int GetMaxHP() { return mMaxHp; }
@@ -56,7 +57,10 @@ namespace ya
 		int mMaxHp;
 		float mSpeed;
 		int mDamage;
+		int mIgnitionDamage;
 		int curseMul;
+		int ignitionCnt;
+		int ignitionMaxCnt;
 
 		bool bFreeze;
 		bool bFrostbite;
@@ -66,8 +70,10 @@ namespace ya
 		bool bRitualOn;
 		bool bDieBullet;
 		bool bKillClip;
+		bool bIgnition;
 
 		float freezeTime;
+		float ignitionTime;
 
 		Vector2 mColliderSize;
 

@@ -34,7 +34,9 @@ namespace ya
 		std::vector<GameObject*> GetHpObjects() { return hpObjects; }
 		std::vector<GameObject*> GetIcicles() { return icicles; }
 		std::vector<GameObject*> GetCurses() { return curses; }
-
+		GameObject* GetGhostPet() { return ghostPet; }
+		GameObject* GetGhostPetRotObj() { return ghostPetRotobject; }
+		GameObject* GetMagicLens() { return magicLens; }
 
 		std::vector<Monster*> GetBrainMonsters() { return mBrainMonsters; }
 		std::vector<Monster*> GetTreeMonsters() { return mTreeMonsters; }
@@ -48,6 +50,7 @@ namespace ya
 		GameObject* GetColliderChack() { return colliderCheck; }
 		GameObject* GetDragonPet() { return dragonPet; }
 		GameObject* GetUpgradeobj() { return upgradeobj; }
+		GameObject* GetScythe() { return scythe; }
 
 		void CreateBrainMonster();
 		void CreateTreeMonster();
@@ -62,6 +65,8 @@ namespace ya
 		void M_DefaultTr(auto* object, Vector3 pos, Vector3 scale);
 
 		GameObject* GetSkillManager() { return skillManager; };
+
+		void ALLSKILL();
 
 	private:
 		Player* player;
@@ -84,6 +89,7 @@ namespace ya
 		GameObject* magicLens;
 		GameObject* dragonPet;
 		GameObject* ghostPet;
+		GameObject* ghostPetRotobject;
 		GameObject* scythe;
 
 		GameObject* colliderCheck;

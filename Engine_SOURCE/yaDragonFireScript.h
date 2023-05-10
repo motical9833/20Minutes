@@ -20,6 +20,8 @@ namespace ya
 		void SetDir(Vector3 dir) { mDir = dir; }
 
 		void SetDamage(int value) { mDamage += value; }
+		void SetDamage(float value) { mDamageMul += value; }
+		void SetDragonBondOn() { bDragonBond = true; }
 
 		void Start();
 		void Action();
@@ -34,8 +36,10 @@ namespace ya
 		float mSpeed;
 		float mTime;
 		float crashTime;
+		float mDamageMul;
 		Vector3 mDir;
 
 		bool bCrash;
+		bool bDragonBond;
 	};
 }

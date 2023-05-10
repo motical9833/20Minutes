@@ -11,6 +11,9 @@
 #include "yaSmiteScript.h"
 #include "yaSkillManager.h"
 #include "GaleScript.h"
+#include "yaGhostPetScript.h"
+#include "yaGhostBullet.h"
+#include "yaMagicLensScript.h"
 
 namespace ya
 {
@@ -843,39 +846,167 @@ namespace ya
 		if (bupgrade[17][3])
 			return;
 
+		pscene->GetSkillManager()->GetScript<SkillManager>()->DragonBond();
 
 		bupgrade[17][3] = true;
 	}
+	//(T1) : 22의 피해를 주는 탄을 발사하는 유령을 소환한다.
 	void UpgradeScript::GhostFriend()
 	{
+		if (bupgrade[18][0])
+			return;
 
+		pscene->GetGhostPet()->Life();
+
+		bupgrade[18][0] = true;
 	}
+	//(T2) : 소환수 공격 속도 +50%
 	void UpgradeScript::EnergeticFriends()
 	{
+		if (bupgrade[18][1])
+			return;
 
+		pscene->GetGhostPet()->GetScript<GhostPetScript>()->SetAttackSpeedRed(0.5f);
+
+		bupgrade[18][1] = true;
 	}
+	//(T2) : 소환수 공격력 +15%, 소환수 공격 속도 +15%, 커서 방향으로 공격한다.
 	void UpgradeScript::InSync()
 	{
+		if (bupgrade[18][2])
+			return;
 
+		for (size_t i = 0; i < pscene->GetGhostBullets().size(); i++)
+		{
+			pscene->GetGhostBullets()[i]->GetScript<GhostBullet>()->SetDamageMul(0.15f);
+		}
+		pscene->GetGhostPet()->GetScript<GhostPetScript>()->SetAttackSpeedRed(0.15f);
+		pscene->GetGhostPet()->GetScript<GhostPetScript>()->SetTargetToMouseOn();
+
+		bupgrade[18][2] = true;
 	}
+	//(T3) : 소환수 공격력 +15%, 유령의 탄을 2개 더 추가한다.
 	void UpgradeScript::VengefulGhost()
 	{
+		if (bupgrade[18][3])
+			return;
 
+		for (size_t i = 0; i < pscene->GetGhostBullets().size(); i++)
+		{
+			pscene->GetGhostBullets()[i]->GetScript<GhostBullet>()->SetDamageMul(0.15f);
+		}
+		pscene->GetGhostPet()->GetScript<GhostPetScript>()->SetVengefulGhostOn();
+
+
+		bupgrade[18][3] = true;
 	}
+	//(T1) : 통과한 탄의 피해량과 크기를 30% 증가시키는 렌즈를 소환한다. 이 효과는 소환 공격력에 비례한다. 유령 친구의 탄이나 Hina의 분신 등에도 적용되며 한 탄에 여러번 적용시킬 수 있다.
 	void UpgradeScript::MagicLens()
 	{
+		if (bupgrade[19][0])
+			return;
 
+		pscene->GetMagicLens()->Life();
+
+		bupgrade[19][0] = true;
 	}
+	//(T2) : 렌즈를 통과한 탄환이 발화 효과를 입힌다. 이 발화 피해량은 탄환 피해량과 비례하기 때문에, 실질적으로 DPS를 몇배 끌어올린다.
 	void UpgradeScript::IgnitingLens()
 	{
+		if (bupgrade[19][1])
+			return;
 
+		pscene->GetMagicLens()->GetScript<MagicLensScript>()->SetIgnitionLens();
+
+		bupgrade[19][1] = true;
 	}
+	//(T2) : 렌즈를 통과한 탄환이 바운스+2를 얻는다.
 	void UpgradeScript::Refraction()
 	{
+		if (bupgrade[19][2])
+			return;
 
+		pscene->GetMagicLens()->GetScript<MagicLensScript>()->SetRefraction();
+
+		bupgrade[19][2] = true;
 	}
+	//(T3) : 렌즈의 모든 효과가 2배가 되지만, 렌즈의 크기가 절반으로 작아진다.
 	void UpgradeScript::FocalPoint()
 	{
+		if (bupgrade[19][3])
+			return;
 
+		pscene->GetMagicLens()->GetScript<MagicLensScript>()->FocalPoint();
+
+		bupgrade[19][3] = true;
+	}
+	void UpgradeScript::MagicSpear()
+	{
+		if (bupgrade[20][0])
+			return;
+
+		for (size_t i = 0; i < pscene->Getspears().size(); i++)
+		{
+			pscene->Getspears()[i]->Life();
+		}
+
+		bupgrade[20][0] = true;
+	}
+	void UpgradeScript::HolySpear()
+	{
+		if (bupgrade[20][1])
+			return;
+
+
+		bupgrade[20][1] = true;
+	}
+	void UpgradeScript::SoulDrain()
+	{
+		if (bupgrade[20][2])
+			return;
+
+
+		bupgrade[20][2] = true;
+	}
+	void UpgradeScript::SoulKnight()
+	{
+		if (bupgrade[20][3])
+			return;
+
+
+		bupgrade[20][3] = true;
+	}
+	void UpgradeScript::MagicScythe()
+	{
+		if (bupgrade[21][0])
+			return;
+
+		pscene->GetScythe()->Life();
+
+		bupgrade[21][0] = true;
+	}
+	void UpgradeScript::Shadowblade()
+	{
+		if (bupgrade[21][1])
+			return;
+
+
+		bupgrade[21][1] = true;
+	}
+	void UpgradeScript::Windcutter()
+	{
+		if (bupgrade[21][2])
+			return;
+
+
+		bupgrade[21][2] = true;
+	}
+	void UpgradeScript::ScytheMastery()
+	{
+		if (bupgrade[21][3])
+			return;
+
+
+		bupgrade[21][3] = true;
 	}
 }

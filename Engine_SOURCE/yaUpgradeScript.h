@@ -136,10 +136,21 @@ namespace ya
 		void Refraction(); //(T2) : 렌즈를 통과한 탄환이 바운스+2를 얻는다.
 		void FocalPoint(); //(T3) : 렌즈의 모든 효과가 2배가 되지만, 렌즈의 크기가 절반으로 작아진다.
 
-		std::array<std::array<bool, 4>, 19> GetUpgradeBool() { return bupgrade; }
+		//매직스피어
+		void MagicSpear(); //(T1) : 20의 데미지를 주는 마법창 2개 소환
+		void HolySpear(); //(T2) : 보유한 최대HP당 + 10의 데미지 추가
+		void SoulDrain(); //(T3) : 소환으로 400Kill할때마다 소울하트 드랍
+		void SoulKnight(); //(T4) : 소울하트 얻을때 마다 15 데미지 추가
+
+		void MagicScythe(); //(T1) : 40의 데미지를 가진 낫 소환
+		void Shadowblade(); // 마법의 낫은 저주를 겁니다. 저주 데미지 15%
+		void Windcutter(); // 이동속도 10% 이동속도 보너스의 양에따라 데미지 증가.
+		void ScytheMastery(); //총알 데미지 10% BulletDamage 보너스에 따라 데미지 증가
+
+		std::array<std::array<bool, 4>, 23> GetUpgradeBool() { return bupgrade; }
 
 	private:
 		PlayScene* pscene;
-		std::array<std::array<bool, 4>, 19> bupgrade;
+		std::array<std::array<bool, 4>, 23> bupgrade;
 	};
 }

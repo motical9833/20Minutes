@@ -149,6 +149,24 @@ namespace ya
 		}
 	}
 
+	void SkillManager::GhostFireToMouse(Vector3 pos, Vector3 rot)
+	{
+		for (size_t i = 0; i < SceneManager::GetPlayScene()->GetGhostBullets().size(); i++)
+		{
+			if (SceneManager::GetPlayScene()->GetGhostBullets()[i] == nullptr)
+				return;
+
+			if (SceneManager::GetPlayScene()->GetGhostBullets()[i]->IsDead() == false)
+				continue;
+
+			SceneManager::GetPlayScene()->GetGhostBullets()[i]->GetScript<GhostBullet>()->SetTargetMouse();
+			SceneManager::GetPlayScene()->GetGhostBullets()[i]->GetComponent<Transform>()->SetPosition(pos);
+			SceneManager::GetPlayScene()->GetGhostBullets()[i]->GetComponent<Transform>()->SetRotation(rot);
+			SceneManager::GetPlayScene()->GetGhostBullets()[i]->Life();
+			break;
+		}
+	}
+
 	void SkillManager::SmiteFire(Vector3 pos)
 	{
 		for (size_t i = 0; i < SceneManager::GetPlayScene()->GetSmites().size(); i++)
@@ -207,6 +225,13 @@ namespace ya
 		SceneManager::GetPlayScene()->GetDragonPet()->GetScript<DragonPetScript>()->SetmAttackSpeedRed(0.1f);
 		trainedDragonStack++;
 	}
+	void SkillManager::DragonBond()
+	{
+		for (size_t i = 0; i < SceneManager::GetPlayScene()->GetDragonFires().size(); i++)
+		{
+			SceneManager::GetPlayScene()->GetDragonFires()[i]->GetScript<DragonFireScript>()->SetDragonBondOn();
+		}
+	}
 	void SkillManager::HolyShieldBreak()
 	{
 		bShieldOn = true;
@@ -237,6 +262,23 @@ namespace ya
 			SceneManager::GetPlayScene()->GetIcicles()[i]->GetComponent<Transform>()->SetRotation(dir);
 			SceneManager::GetPlayScene()->GetIcicles()[i]->GetComponent<Transform>()->SetPosition(pos);
 			SceneManager::GetPlayScene()->GetIcicles()[i]->Life();
+			break;
+		}
+	}
+	void SkillManager::VengefulGhostFire(Vector3 pos, Vector3 dir)
+	{
+		for (size_t i = 0; i < SceneManager::GetPlayScene()->GetGhostBullets().size(); i++)
+		{
+			if (SceneManager::GetPlayScene()->GetGhostBullets()[i] == nullptr)
+				return;
+
+			if (SceneManager::GetPlayScene()->GetGhostBullets()[i]->IsDead() == false)
+				continue;
+
+
+			SceneManager::GetPlayScene()->GetGhostBullets()[i]->GetComponent<Transform>()->SetPosition(pos);
+			SceneManager::GetPlayScene()->GetGhostBullets()[i]->GetScript<GhostBullet>()->SetDir(dir);
+			SceneManager::GetPlayScene()->GetGhostBullets()[i]->Life();
 			break;
 		}
 	}

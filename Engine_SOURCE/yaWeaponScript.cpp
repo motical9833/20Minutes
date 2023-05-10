@@ -387,7 +387,7 @@ namespace ya
 
 		dir.Normalize();
 
-		GetOwner()->GetComponent<Transform>()->SetPosition(dir);
+		GetOwner()->GetComponent<Transform>()->SetPosition(dir/2.0f);
 
 	}
 	void WeaponScript::Start()

@@ -18,33 +18,43 @@ namespace ya
 		, mMaxHp(NULL)
 		, mSpeed(NULL)
 		, mDamage(1)
+		, mIgnitionDamage(0)
 		, mColliderSize{}
 		, bFreeze(false)
 		, bFrostbite(false)
 		, bCurseActivate(false)
 		, bWitherOn(false)
 		, freezeTime(0.0f)
+		, ignitionTime(0.0f)
 		, bDieBullet(false)
 		, bKillClip(false)
 		, bRitualOn(false)
+		, bIgnition(false)
 		, curseMul(2.0f)
+		, ignitionCnt(0)
+		, ignitionMaxCnt(10)
 	{
 
 	}
 	MonsterScript::MonsterScript(int hp)
-		:mCurrentHp(hp)
-		,mMaxHp(hp)
-		,mSpeed(5)
-		,mDamage(1)
-		,mColliderSize{}
+		: mCurrentHp(hp)
+		, mMaxHp(hp)
+		, mSpeed(5)
+		, mDamage(1)
+		, mIgnitionDamage(0)
+		, mColliderSize{}
 		, bFreeze(false)
 		, bFrostbite(false)
 		, bCurseActivate(false)
 		, freezeTime(0.0f)
+		, ignitionTime(0.0f)
 		, bDieBullet(false)
 		, bKillClip(false)
 		, bRitualOn(false)
+		, bIgnition(false)
 		, curseMul(2.0f)
+		, ignitionCnt(0)
+		, ignitionMaxCnt(10)
 	{
 	}
 	MonsterScript::~MonsterScript()
@@ -94,6 +104,26 @@ namespace ya
 				animator->Play(L"m_Right", true);
 			}
 		}
+
+		if (bIgnition)
+		{
+			ignitionTime += Time::DeltaTime();
+
+			if (ignitionTime >= 0.2f)
+			{
+				int damage = (mIgnitionDamage / 10) + 1;
+				TakeDamage(damage);
+				ignitionCnt++;
+				ignitionTime = 0.0f;
+				if (ignitionCnt >= 10)
+				{
+					mIgnitionDamage = 0;
+					ignitionCnt = 0;
+					bIgnition = false;
+				}
+			}
+		}
+
 	}
 	void MonsterScript::Render()
 	{
@@ -224,6 +254,9 @@ namespace ya
 		curseMul = 2.0f;
 		bWitherOn = false;
 		bRitualOn = false;
+		bIgnition = false;
+		ignitionCnt = 0;
+		ignitionMaxCnt = 10;
 
 	}
 	void MonsterScript::DieChack()
@@ -309,5 +342,12 @@ namespace ya
 			if (a > 11)
 				break;
 		}
+	}
+	void MonsterScript::Ignition(int damage)
+	{
+		mIgnitionDamage += damage;
+		ignitionCnt = 0;
+		ignitionTime = 0.0f;
+		bIgnition = true;
 	}
 }

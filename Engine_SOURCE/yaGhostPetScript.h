@@ -24,9 +24,14 @@ namespace ya
 		void Reset();
 
 		void Attack();
+		void MousePosActtack(int BulletCnt);
 
+		void SetAttackSpeedMul(float vlaue) { mAttackSpeedMul += vlaue; }
+		void SetAttackSpeedRed(float vlaue) { mAttackSpeedMul -= vlaue; }
+		void SetVengefulGhostOn() { bVengefulGhost = true; }
+		void SetTargetToMouseOn() { bTargetToMouse = true; }
 		void Circularmotion();
-
+		void GameReset();
 
 	private:
 		float mSpeed;
@@ -34,6 +39,10 @@ namespace ya
 		float mHeight;
 		float mTime;
 		float mAttackTime;
+		float mAttackSpeedMul;
+
+		bool bVengefulGhost;
+		bool bTargetToMouse;
 
 		Vector3 mDir;
 	}; 

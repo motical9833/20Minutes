@@ -37,6 +37,10 @@ namespace ya
 
 		void SetFreezeBullet() { bFreeze = true; }
 		void SetBounceTrigger() { bBounceTrigger = true; }
+		void SetIgnitionBullet() { bIgnitionBullet = true; }
+		void SetBounceCntAdd(int value) { mBounceCnt += value; }
+		void SetMagicLensOn() { bMagicLensOn = true; }
+
 
 		void Freeze(Collider2D* collider);
 		void Curse(Collider2D* collider);
@@ -45,6 +49,7 @@ namespace ya
 
 		float Getspeed() { return mSpeed; }
 		float GetDamageInc() { return mDamageMul; }
+		bool GetMagicLensOn() { return bMagicLensOn; }
 
 		void Start();
 		void Action();
@@ -60,6 +65,7 @@ namespace ya
 		float crashTime;
 		float mDamageMul;
 		float mScaleMul;
+		int mIgnitionDamage;
 		int mDamage;
 		int mPenetrate;
 		int mMaxPenetrate;
@@ -80,5 +86,7 @@ namespace ya
 		bool bFreeze;
 		bool bCurse;
 		bool bPlayerhit;
+		bool bIgnitionBullet;
+		bool bMagicLensOn;
 	};
 }

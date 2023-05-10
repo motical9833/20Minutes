@@ -21,14 +21,26 @@ namespace ya
 		void Start();
 		void Action();
 		void End();
-		void Reset();
+		void GameReset();
+
+		void FocalPoint();
+
+		void SetIgnitionLens() { bIgnitionLens = true; };
+		void SetRefraction() { bRefraction = true; }
 
 		void Circularmotion();
 		void LookPlayer();
+
+
 	private:
 		float mSpeed;
 		float mWidth;
 		float mHeight;
 		float mTime;
+		float mScaleValue;
+		float mDamageInc;
+
+		bool bIgnitionLens;
+		bool bRefraction;
 	};
 }

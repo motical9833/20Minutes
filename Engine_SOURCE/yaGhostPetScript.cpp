@@ -7,15 +7,19 @@
 #include "yaInput.h"
 #include "yaTime.h"
 #include "yaColliderCheckScript.h"
+
 namespace ya
 {
 	GhostPetScript::GhostPetScript()
 		:mSpeed(1.5f)
+		, mAttackSpeedMul(1.0f)
 		, mWidth(1.1f)
 		, mHeight(1.1f)
 		, mTime(0.0f)
 		, mAttackTime(0.0f)
 		, mDir{}
+		, bVengefulGhost(false)
+		, bTargetToMouse(false)
 	{
 
 	}
@@ -33,7 +37,18 @@ namespace ya
 	{
 		Circularmotion();
 
-		Attack();
+		if (bTargetToMouse && bVengefulGhost)
+		{
+			MousePosActtack(3);
+		}
+		else if(bTargetToMouse)
+		{
+			MousePosActtack(1);
+		}
+		else
+		{
+			Attack();
+		}
 	}
 	void GhostPetScript::Render()
 	{
@@ -73,7 +88,7 @@ namespace ya
 		mAttackTime += Time::DeltaTime();
 
 
-		if (mAttackTime >= 3)
+		if (mAttackTime >= (3 * mAttackSpeedMul +1))
 		{
 			Transform* tr = GetOwner()->GetComponent<Transform>();
 
@@ -99,6 +114,30 @@ namespace ya
 			mAttackTime = 0;
 		}
 	}
+	void GhostPetScript::MousePosActtack(int BulletCnt)
+	{
+		mAttackTime += Time::DeltaTime();
+
+		if (mAttackTime >= (3 * mAttackSpeedMul + 1))
+		{
+			Vector3 pos = GetOwner()->GetComponent<Transform>()->GetPosition();
+			Vector3 rot = SceneManager::GetPlayScene()->GetGhostPetRotObj()->GetComponent<Transform>()->GetRotation();
+
+			Animator* animator = GetOwner()->GetComponent<Animator>();
+			animator->Play(L"ghostPetAttack", false);
+
+
+			for (size_t i = 0; i < BulletCnt; i++)
+			{
+				if (bVengefulGhost)
+					rot = SceneManager::GetPlayScene()->GetGhostPetRotObj()->GetComponent<Transform>()->GetRotation() + Vector3(0.0f, 0.0f, (-0.2f + (i * 0.2f)));;
+
+				SceneManager::GetPlayScene()->GetSkillManager()->GetScript<SkillManager>()->GhostFireToMouse(pos, rot);
+			}
+
+			mAttackTime = 0;
+		}
+	}
 	
 	void GhostPetScript::Circularmotion()
 	{
@@ -110,5 +149,12 @@ namespace ya
 		float z = 0;
 
 		GetOwner()->GetComponent<Transform>()->SetPosition(Vector3(x, y, z));
+	}
+	void GhostPetScript::GameReset()
+	{
+		mTime = 0.0f;
+		mAttackTime = 0.0f;
+		bVengefulGhost = false;
+		bTargetToMouse = false;
 	}
 }

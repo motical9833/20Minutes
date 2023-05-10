@@ -11,8 +11,10 @@ namespace ya
 		, mSpeed(5.0f)
 		, mTime(0.0f)
 		, crashTime(0.0f)
+		, mDamageMul(0.0f)
 		, mDir{}
 		, bCrash(false)
+		, bDragonBond(false)
 	{
 
 	}
@@ -58,11 +60,16 @@ namespace ya
 	{
 		if (collider->GetOwner()->GetLayerType() == eLayerType::Monster && collider->GetOwner()->GetState() == (UINT)GameObject::eState::Active)
 		{
+			int damage = mDamage;
+
+			if (bDragonBond)
+				damage = (mDamage * mDamageMul) + 1;
+
 			Animator* animator = GetOwner()->GetComponent<Animator>();
 			animator->Play(L"BulletAni", false);
 			animator->Start();
 
-			collider->GetOwner()->GetScript<MonsterScript>()->TakeDamage(mDamage);
+			collider->GetOwner()->GetScript<MonsterScript>()->TakeDamage(damage);
 		}
 	}
 	void DragonFireScript::OnCollisionStay(Collider2D* collider)

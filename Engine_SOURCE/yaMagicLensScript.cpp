@@ -3,14 +3,19 @@
 #include "yaSceneManager.h"
 #include "yaPlayScene.h"
 #include "yaTime.h"
+#include "yaBulletScript.h"
 
 namespace ya
 {
 	MagicLensScript::MagicLensScript()
-		:mSpeed(0.7f)
-		,mWidth(0.8f)
-		,mHeight(0.8f)
-		,mTime(0.0f)
+		: mSpeed(0.7f)
+		, mWidth(0.8f)
+		, mHeight(0.8f)
+		, mTime(0.0f)
+		, bIgnitionLens(false)
+		, bRefraction(false)
+		, mScaleValue(1.3f)
+		, mDamageInc(0.3f)
 	{
 
 	}
@@ -33,11 +38,21 @@ namespace ya
 	}
 	void MagicLensScript::OnCollisionEnter(Collider2D* collider)
 	{
-		if (collider->GetOwner()->GetLayerType() == eLayerType::Bullet)
+		if (collider->GetOwner()->GetLayerType() == eLayerType::Bullet && collider->GetOwner()->GetScript<BulletScript>()->GetMagicLensOn() == false)
 		{
+			collider->GetOwner()->GetScript<BulletScript>()->SetMagicLensOn();
+
 			Vector3 scale = collider->GetOwner()->GetComponent<Transform>()->GetScale();
 
-			collider->GetOwner()->GetComponent<Transform>()->SetScale(Vector3(scale.x * 1.3f, scale.y * 1.3f, 1.0f));
+			collider->GetOwner()->GetComponent<Transform>()->SetScale(Vector3(scale.x * mScaleValue, scale.y * mScaleValue, 1.0f));
+
+			collider->GetOwner()->GetScript<BulletScript>()->SetDamageInc(mDamageInc);
+
+			if (bIgnitionLens)
+				collider->GetOwner()->GetScript<BulletScript>()->SetIgnitionBullet();
+
+			if(bRefraction)
+				collider->GetOwner()->GetScript<BulletScript>()->SetBounceCntAdd(2);
 		}
 	}
 	void MagicLensScript::OnCollisionStay(Collider2D* collider)
@@ -60,9 +75,21 @@ namespace ya
 	{
 
 	}
-	void MagicLensScript::Reset()
+	void MagicLensScript::GameReset()
 	{
+		bIgnitionLens = false;
+		mScaleValue = 1.3f;
+		mDamageInc = 0.3f;
+	}
+	void MagicLensScript::FocalPoint()
+	{
+		Vector3 scale = GetOwner()->GetComponent<Transform>()->GetScale();
 
+		Vector3 newScale = Vector3(scale.x / 2, scale.y / 2, scale.z);
+
+		GetOwner()->GetComponent<Transform>()->SetScale(newScale);
+		mScaleValue = 1.6f;
+		mDamageInc = 0.6f;
 	}
 	void MagicLensScript::Circularmotion()
 	{

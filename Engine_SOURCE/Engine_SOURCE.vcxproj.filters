@@ -322,6 +322,9 @@
     <ClCompile Include="yaIcicleScript.cpp">
       <Filter>Component\Script\Contents\SKILL</Filter>
     </ClCompile>
+    <ClCompile Include="yaRotScript.cpp">
+      <Filter>Component\Script\Contents\SKILL\Manager</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CommonInclude.h">
@@ -543,6 +546,9 @@
     </ClInclude>
     <ClInclude Include="yaIcicleScript.h">
       <Filter>Component\Script\Contents\SKILL</Filter>
+    </ClInclude>
+    <ClInclude Include="yaRotScript.h">
+      <Filter>Component\Script\Contents\SKILL\Manager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

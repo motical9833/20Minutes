@@ -35,6 +35,7 @@
 #include "yaUpgradeScript.h"
 #include "yaThunderBugScript.h"
 #include "yaIcicleScript.h"
+#include "yaRotScript.h"
 
 namespace ya
 {
@@ -205,8 +206,10 @@ namespace ya
 
 		for (size_t i = 0; i < 50; i++)
 		{
-			GameObject* thunderObject = object::Instantiate<GameObject>(eLayerType::Bullet, this);
-			thunderObject->SetLayerType(eLayerType::Bullet);
+			//GameObject* thunderObject = object::Instantiate<GameObject>(eLayerType::Bullet, this);
+			//thunderObject->SetLayerType(eLayerType::Bullet);
+			GameObject* thunderObject = object::Instantiate<GameObject>(eLayerType::Skill, this);
+			thunderObject->SetLayerType(eLayerType::Skill);
 			thunderObject->GetComponent<Transform>()->SetScale(Vector3(1.0f, 5.0f, 1.0f));
 			thunderObject->GetComponent<Transform>()->SetPosition(Vector3::Zero);
 			Collider2D* thunderCollider = thunderObject->AddComponent<Collider2D>();
@@ -337,6 +340,7 @@ namespace ya
 		Animator* lensAnimator = magicLens->AddComponent<Animator>();
 		std::shared_ptr<Texture> lensTexture = Resources::Find<Texture>(L"S_MagicLens");
 		magicLens->AddComponent<MagicLensScript>();
+		magicLens->Death();
 
 		dragonPet = CreateSkillObject(eLayerType::Skill, L"DragonMaterial");
 		dragonPet->SetLayerType(eLayerType::Skill);
@@ -360,11 +364,18 @@ namespace ya
 		ghostPetAnimator->Create(L"ghostPetAttack", ghostPetTexture, Vector2(0, 16.0f), Vector2(16.0f, 16.0f), Vector2::Zero, 4, 0.1f);
 		ghostPetAnimator->Play(L"ghostPetIdle", true);
 		ghostPet->AddComponent<GhostPetScript>();
+		ghostPet->Death();
+
+		ghostPetRotobject = object::Instantiate<GameObject>(eLayerType::None, this);
+		ghostPetRotobject->GetComponent<Transform>()->SetPosition(Vector3::Zero);
+		ghostPetRotobject->AddComponent<RotScript>();
 
 		for (size_t i = 0; i < 20; i++)
 		{
-			Bullet* bullet = object::Instantiate<Bullet>(eLayerType::Bullet, this);
-			bullet->SetLayerType(eLayerType::Bullet);
+			//Bullet* bullet = object::Instantiate<Bullet>(eLayerType::Bullet, this);
+			//bullet->SetLayerType(eLayerType::Bullet);
+			Bullet* bullet = object::Instantiate<Bullet>(eLayerType::Skill, this);
+			bullet->SetLayerType(eLayerType::Skill);
 			Transform* bTr = bullet->GetComponent<Transform>();
 			bTr->SetPosition(Vector3::Zero);
 			bTr->SetScale(Vector3(2.0f, 2.0f, 1.0f));
@@ -388,8 +399,11 @@ namespace ya
 
 		for (size_t i = 0; i < 20; i++)
 		{
-			Bullet* bullet = object::Instantiate<Bullet>(eLayerType::Bullet, this);
-			bullet->SetLayerType(eLayerType::Bullet);
+			//Bullet* bullet = object::Instantiate<Bullet>(eLayerType::Bullet, this);
+			//bullet->SetLayerType(eLayerType::Bullet);
+
+			Bullet* bullet = object::Instantiate<Bullet>(eLayerType::Skill, this);
+			bullet->SetLayerType(eLayerType::Skill);
 			Transform* bTr = bullet->GetComponent<Transform>();
 			bTr->SetPosition(Vector3::Zero);
 			bTr->SetScale(Vector3(2.0f, 2.0f, 1.0f));
@@ -414,6 +428,7 @@ namespace ya
 
 		scythe = CreateSkillObject(eColliderType::Rect, eLayerType::Skill, L"ScytheMaterial");
 		scythe->SetLayerType(eLayerType::Skill);
+		scythe->Death();
 		scythe->AddComponent<ScytheScript>();
 
 		colliderCheck = object::Instantiate<GameObject>(eLayerType::Skill, this);
@@ -433,6 +448,7 @@ namespace ya
 			spear->SetLayerType(eLayerType::Skill);
 			Collider2D* spearCollider = spear->GetComponent<Collider2D>();
 			spearCollider->SetSize(Vector2(0.5f, 1.0f));
+			spear->Death();
 			spears.push_back(spear);
 		}
 		spears[0]->AddComponent<SpearScript>(3);
@@ -465,8 +481,6 @@ namespace ya
 			icicle->Death();
 			icicles.push_back(icicle);
 		}
-		//icicles
-		icicles[0]->Life();
 
 		for (size_t i = 0; i < 10; i++)
 		{
@@ -532,6 +546,7 @@ namespace ya
 			skillManager->GetScript<SkillManager>()->GameReset();
 			holyShield->GetScript<HolyShieldScript>()->GameReset();
 			dragonPet->GetScript<DragonPetScript>()->GameReset();
+			ghostPet->GetScript<GhostPetScript>()->GameReset();
 
 			for (size_t i = 0; i < bullets.size(); i++)
 			{
@@ -556,6 +571,12 @@ namespace ya
 				smites[i]->GetScript<SmiteScript>()->GameReset();
 				smites[i]->Death();
 			}
+
+			for (size_t i = 0; i < ghostBullets.size(); i++)
+			{
+				ghostBullets[i]->GetScript<GhostBullet>()->GameReset();
+				ghostBullets[i]->Death();
+			}
 		}
 
 		Transform* tr = pSceneCamera->GetComponent<Transform>();
@@ -565,27 +586,7 @@ namespace ya
 
 		if (Input::GetKeyDown(eKeyCode::NUM_1))
 		{
-			upgradeobj->GetScript<UpgradeScript>()->TakeAim();
-		}
-		if (Input::GetKeyDown(eKeyCode::NUM_2))
-		{
-			upgradeobj->GetScript<UpgradeScript>()->Penteration();
-		}
-		if (Input::GetKeyDown(eKeyCode::NUM_3))
-		{
-			upgradeobj->GetScript<UpgradeScript>()->DragonEgg();
-		}
-		if (Input::GetKeyDown(eKeyCode::NUM_4))
-		{
-			upgradeobj->GetScript<UpgradeScript>()->AgedDragon();
-		}
-		if (Input::GetKeyDown(eKeyCode::NUM_5))
-		{
-			upgradeobj->GetScript<UpgradeScript>()->Tiny();
-		}
-		if (Input::GetKeyDown(eKeyCode::NUM_6))
-		{
-			upgradeobj->GetScript<UpgradeScript>()->Reflex();
+			ALLSKILL();
 		}
 
 		if (Input::GetKeyDown(eKeyCode::P))
@@ -731,6 +732,94 @@ namespace ya
 		Transform* mboomerTr = object->GetComponent<Transform>();
 		mboomerTr->SetPosition(pos);
 		mboomerTr->SetScale(scale);
+	}
+
+	void PlayScene::ALLSKILL()
+	{
+		upgradeobj->GetScript<UpgradeScript>()->TakeAim();
+		upgradeobj->GetScript<UpgradeScript>()->Penteration();
+		upgradeobj->GetScript<UpgradeScript>()->Smiper();
+		upgradeobj->GetScript<UpgradeScript>()->Assassin(); 
+		upgradeobj->GetScript<UpgradeScript>()->PowerShot();
+		upgradeobj->GetScript<UpgradeScript>()->Splinter(); 
+		upgradeobj->GetScript<UpgradeScript>()->BigShot();
+		upgradeobj->GetScript<UpgradeScript>()->ReaperRounds();
+		upgradeobj->GetScript<UpgradeScript>()->RapidFire(); 
+		upgradeobj->GetScript<UpgradeScript>()->LightBullets();
+		upgradeobj->GetScript<UpgradeScript>()->RubberBullets();
+		upgradeobj->GetScript<UpgradeScript>()->Siege(); 
+		upgradeobj->GetScript<UpgradeScript>()->DoubleShot();
+		upgradeobj->GetScript<UpgradeScript>()->FanFire(); 
+		upgradeobj->GetScript<UpgradeScript>()->SplitFire();
+		upgradeobj->GetScript<UpgradeScript>()->Fusillade(); 
+		upgradeobj->GetScript<UpgradeScript>()->QuickHands(); 
+		upgradeobj->GetScript<UpgradeScript>()->ArmedAndReady();
+		upgradeobj->GetScript<UpgradeScript>()->FreshClip();
+		upgradeobj->GetScript<UpgradeScript>()->KillClip();
+		upgradeobj->GetScript<UpgradeScript>()->ElectroMage(); 
+		upgradeobj->GetScript<UpgradeScript>()->ElectroBug(); 
+		upgradeobj->GetScript<UpgradeScript>()->Energized(); 
+		upgradeobj->GetScript<UpgradeScript>()->ElectroMastery();
+		upgradeobj->GetScript<UpgradeScript>()->FrostMage();
+		upgradeobj->GetScript<UpgradeScript>()->Frostbite(); 
+		upgradeobj->GetScript<UpgradeScript>()->IceShard(); 
+		upgradeobj->GetScript<UpgradeScript>()->Shatter(); 
+		upgradeobj->GetScript<UpgradeScript>()->PyroMage(); 
+		upgradeobj->GetScript<UpgradeScript>()->FireStarter();
+		upgradeobj->GetScript<UpgradeScript>()->IntenseBurn(); 
+		upgradeobj->GetScript<UpgradeScript>()->SoothingWarmth();
+		upgradeobj->GetScript<UpgradeScript>()->DarkArts();
+		upgradeobj->GetScript<UpgradeScript>()->Doom(); 
+		upgradeobj->GetScript<UpgradeScript>()->Wither(); 
+		upgradeobj->GetScript<UpgradeScript>()->Ritual(); 
+		upgradeobj->GetScript<UpgradeScript>()->HolyAttack(); 
+		upgradeobj->GetScript<UpgradeScript>()->HolyMight();
+		upgradeobj->GetScript<UpgradeScript>()->Justice(); 
+		upgradeobj->GetScript<UpgradeScript>()->Angelic(); 
+		upgradeobj->GetScript<UpgradeScript>()->AeroMagic(); 
+		upgradeobj->GetScript<UpgradeScript>()->WindBorne();
+		upgradeobj->GetScript<UpgradeScript>()->EyeoftheStorm();
+		upgradeobj->GetScript<UpgradeScript>()->AeroMastery();
+		upgradeobj->GetScript<UpgradeScript>()->Vitality(); 
+		upgradeobj->GetScript<UpgradeScript>()->AngerPoint(); 
+		upgradeobj->GetScript<UpgradeScript>()->Giant(); 
+		upgradeobj->GetScript<UpgradeScript>()->Regeneration();
+		upgradeobj->GetScript<UpgradeScript>()->HolyShield(); 
+		upgradeobj->GetScript<UpgradeScript>()->DivineBlessing();
+		upgradeobj->GetScript<UpgradeScript>()->DivineWrath(); 
+		upgradeobj->GetScript<UpgradeScript>()->StalwartShield();
+		upgradeobj->GetScript<UpgradeScript>()->Haste(); 
+		upgradeobj->GetScript<UpgradeScript>()->BlazingSpeed();
+		upgradeobj->GetScript<UpgradeScript>()->RunGun(); 
+		upgradeobj->GetScript<UpgradeScript>()->IntheWind();
+		upgradeobj->GetScript<UpgradeScript>()->Glare(); 
+		upgradeobj->GetScript<UpgradeScript>()->IntenseGlare();
+		upgradeobj->GetScript<UpgradeScript>()->SightMagic(); 
+		upgradeobj->GetScript<UpgradeScript>()->Saccade(); 
+		upgradeobj->GetScript<UpgradeScript>()->Evasive(); 
+		upgradeobj->GetScript<UpgradeScript>()->Nimble(); 
+		upgradeobj->GetScript<UpgradeScript>()->Tiny(); 
+		upgradeobj->GetScript<UpgradeScript>()->Reflex(); 
+		upgradeobj->GetScript<UpgradeScript>()->DragonEgg(); 
+		upgradeobj->GetScript<UpgradeScript>()->AgedDragon(); 
+		upgradeobj->GetScript<UpgradeScript>()->TrainedDragon();
+		upgradeobj->GetScript<UpgradeScript>()->DragonBond(); 
+		upgradeobj->GetScript<UpgradeScript>()->GhostFriend(); 
+		upgradeobj->GetScript<UpgradeScript>()->EnergeticFriends();
+		upgradeobj->GetScript<UpgradeScript>()->InSync(); 
+		upgradeobj->GetScript<UpgradeScript>()->VengefulGhost();
+		upgradeobj->GetScript<UpgradeScript>()->MagicLens();
+		upgradeobj->GetScript<UpgradeScript>()->IgnitingLens();
+		upgradeobj->GetScript<UpgradeScript>()->Refraction(); 
+		upgradeobj->GetScript<UpgradeScript>()->FocalPoint(); 
+		upgradeobj->GetScript<UpgradeScript>()->MagicSpear(); 
+		upgradeobj->GetScript<UpgradeScript>()->HolySpear(); 
+		upgradeobj->GetScript<UpgradeScript>()->SoulDrain(); 
+		upgradeobj->GetScript<UpgradeScript>()->SoulKnight(); 
+		upgradeobj->GetScript<UpgradeScript>()->MagicScythe(); 
+		upgradeobj->GetScript<UpgradeScript>()->Shadowblade(); 
+		upgradeobj->GetScript<UpgradeScript>()->Windcutter(); 
+		upgradeobj->GetScript<UpgradeScript>()->ScytheMastery();
 	}
 
 	void PlayScene::CreateDeathFX()
