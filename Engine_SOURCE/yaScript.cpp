@@ -1,5 +1,5 @@
 #include "yaScript.h"
-
+#include "yaTexture.h"
 
 
 namespace ya

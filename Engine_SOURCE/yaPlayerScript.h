@@ -1,7 +1,6 @@
 #pragma once
 #include "yaScript.h"
 
-
 namespace ya
 {
 	class PlayerScript : public Script
@@ -62,6 +61,15 @@ namespace ya
 		bool Evasion();
 
 		bool GetIdle() { return bIdle; }
+
+		void SetMove() { bMove = false; }
+
+		void AbbyAnimation();
+		void DiamondAnimation();
+		void HinaAnimation();
+		void LilithAnimation();
+		void ShanaAnimation();
+
 
 	private:
 		float immuneTime;

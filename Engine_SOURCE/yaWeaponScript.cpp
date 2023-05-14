@@ -368,7 +368,9 @@ namespace ya
 					return;
 				}
 			}
+		
 
+			//SceneManager::GetPlayScene()->GetPlayer()->GetScript<PlayerScript>()->SetMove();
 			currentBullet--;
 		}
 	}

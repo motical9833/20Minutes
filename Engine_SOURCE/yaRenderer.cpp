@@ -498,9 +498,20 @@ namespace ya::renderer
 		Resources::Load<Texture>(L"CartoonSmoke", L"particle\\CartoonSmoke.png");
 		Resources::Load<Texture>(L"noise_01", L"noise\\noise_01.png");
 		Resources::Load<Texture>(L"noise_02", L"noise\\noise_02.png");
-		//Resources::Load<Texture>(L"noise_03", L"noise\\noise_03.png");
 
 		Resources::Load<Texture>(L"PlayerSprite", L"Player\\Player.png");
+		Resources::Load<Texture>(L"Shana", L"Player\\Shana.png");
+		Resources::Load<Texture>(L"Abby", L"Player\\T_AbbySprite.png");
+		Resources::Load<Texture>(L"Dasher", L"Player\\T_Dasher.png");
+		Resources::Load<Texture>(L"Diamond", L"Player\\T_DiamondSprite.png");
+		Resources::Load<Texture>(L"Hastur", L"Player\\T_Hastur.png");
+		Resources::Load<Texture>(L"Hina", L"Player\\T_HinaSprite.png");
+		Resources::Load<Texture>(L"Lilith", L"Player\\T_LilithSprite.png");
+		Resources::Load<Texture>(L"Luna", L"Player\\T_Luna.png");
+		Resources::Load<Texture>(L"Scarlett", L"Player\\T_Scarlett.png");
+		Resources::Load<Texture>(L"Spark", L"Player\\T_Spark.png");
+		Resources::Load<Texture>(L"Yuki", L"Player\\T_Yuki.png");
+
 		Resources::Load<Texture>(L"TitleLevesLeftSprite", L"T_TitleLeavesLeft.png");
 		Resources::Load<Texture>(L"TitleLevesRightSprite", L"T_TitleLeavesRight.png");
 		Resources::Load<Texture>(L"BackGroundTexture", L"BackGround.png");
@@ -532,6 +543,8 @@ namespace ya::renderer
 		Resources::Load<Texture>(L"S_Spear", L"Skill\\T_Spear.png");
 		Resources::Load<Texture>(L"S_ThunderBug", L"Skill\\T_ElectroBug_SS.png");
 		Resources::Load<Texture>(L"S_Icicle", L"Skill\\T_Icicle.png");
+
+
 
 #pragma endregion
 #pragma region DYNAMIC TEXTURE

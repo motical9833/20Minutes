@@ -9,7 +9,6 @@
 #include "yaSceneManager.h"
 #include "yaPlayScene.h"
 
-
 namespace ya
 {
 	PlayerScript::PlayerScript()
@@ -46,13 +45,11 @@ namespace ya
 
 	void PlayerScript::Initalize()
 	{
-		Animator* animator = GetOwner()->GetComponent<Animator>();
-		//멤버함수 이기 떄문에 어떤 함수인지 풀네임으로 적어줘야 한다.
-		animator->GetStartEvent(L"pRightIdle") = std::bind(&PlayerScript::IdleAniStart, this);
-		animator->GetStartEvent(L"pLeftIdle") = std::bind(&PlayerScript::IdleAniStart, this);
-
-		animator->GetStartEvent(L"pLeftMove") = std::bind(&PlayerScript::MoveAniStart, this);
-		animator->GetStartEvent(L"pRightMove") = std::bind(&PlayerScript::MoveAniStart, this);
+		//AbbyAnimation();
+		//DiamondAnimation();
+		//HinaAnimation();
+		LilithAnimation();
+		//ShanaAnimation();
 	}
 
 	void PlayerScript::Update()
@@ -126,11 +123,16 @@ namespace ya
 		{
 			slowTime += Time::DeltaTime();
 
-			if (slowTime >= 0.5f)
+			if (slowTime >= 1.0f)
 			{
 				mSpeed = 6;
 				slowTime = 0;
 				bShooting = false;
+
+				if (animator->GetActiveAnimation()->AnimationName() == L"pRightAttackMove")
+					animator->Play(L"pRightMove");
+				else if (animator->GetActiveAnimation()->AnimationName() == L"pLeftAttackMove")
+					animator->Play(L"pLeftMove");
 			}
 		}
 
@@ -215,7 +217,19 @@ namespace ya
 		}
 
 
-		if (Input::GetKeyPress(eKeyCode::D))
+		if (Input::GetKeyPress(eKeyCode::D) && bShooting)
+		{
+			if (bMove == false || ani->AnimationName() == L"pRightMove")
+			{
+				bMove = true;
+				animator->Play(L"pRightAttackMove");
+			}
+
+			Vector3 pos = tr->GetPosition();
+			pos.x += mSpeed * Time::DeltaTime();
+			tr->SetPosition(pos);
+		}
+		else if (Input::GetKeyPress(eKeyCode::D) && bShooting == false)
 		{
 			if (bMove == false)
 			{
@@ -228,7 +242,19 @@ namespace ya
 			tr->SetPosition(pos);
 		}
 
-		if (Input::GetKeyPress(eKeyCode::A))
+		if (Input::GetKeyPress(eKeyCode::A) && bShooting)
+		{
+			if (bMove == false || ani->AnimationName() == L"pLeftMove")
+			{
+				bMove = true;
+				animator->Play(L"pLeftAttackMove");
+			}
+
+			Vector3 pos = tr->GetPosition();
+			pos.x -= mSpeed * Time::DeltaTime();
+			tr->SetPosition(pos);
+		}
+		else if (Input::GetKeyPress(eKeyCode::A) && bShooting == false)
 		{
 			if (bMove == false)
 			{
@@ -403,6 +429,7 @@ namespace ya
 	void PlayerScript::FireSlow()
 	{
 		mSpeed = mslowSpeed * mslowSPeedMul;
+		slowTime = 0.0f;
 		bShooting = true;
 	}
 	void PlayerScript::StartSetting()
@@ -441,5 +468,108 @@ namespace ya
 		}
 
 		return false;
+	}
+	void PlayerScript::AbbyAnimation()
+	{
+		Animator* animator = GetOwner()->GetComponent<Animator>();
+		std::shared_ptr<Texture> textureAbby = Resources::Find<Texture>(L"Abby");
+
+
+		animator->Create(L"pRightIdle", textureAbby, Vector2(0.0f, 0.0f), Vector2(32.0f, 33.3f), Vector2::Zero, 6, 0.2f);
+		animator->Create(L"pLeftIdle", textureAbby, Vector2(0.0f, 96.0f), Vector2(32.0f, 33.3f), Vector2::Zero, 6, 0.2f);
+		animator->Create(L"pRightMove", textureAbby, Vector2(0.0f, 32.0f), Vector2(32.0f, 33.3f), Vector2::Zero, 4, 0.2f);
+		animator->Create(L"pLeftMove", textureAbby, Vector2(0.0f, 128.0f), Vector2(32.0f, 33.3f), Vector2::Zero, 4, 0.2f);
+		animator->Create(L"pRightAttackMove", textureAbby, Vector2(0.0f, 65.0f), Vector2(32.0f, 33.3f), Vector2::Zero, 8, 0.2f);
+		animator->Create(L"pLeftAttackMove", textureAbby, Vector2(0.0f, 161.0f), Vector2(32.0f, 33.3f), Vector2::Zero, 8, 0.2f);
+
+		animator->GetStartEvent(L"pRightIdle") = std::bind(&PlayerScript::IdleAniStart, this);
+		animator->GetStartEvent(L"pLeftIdle") = std::bind(&PlayerScript::IdleAniStart, this);
+
+		animator->GetStartEvent(L"pLeftMove") = std::bind(&PlayerScript::MoveAniStart, this);
+		animator->GetStartEvent(L"pRightMove") = std::bind(&PlayerScript::MoveAniStart, this);
+
+		animator->Play(L"pRightIdle", true);
+	}
+	void PlayerScript::DiamondAnimation()
+	{
+		Animator* animator = GetOwner()->GetComponent<Animator>();
+		std::shared_ptr<Texture> textureDiamond = Resources::Find<Texture>(L"Diamond");
+
+		animator->Create(L"pRightIdle", textureDiamond, Vector2(0.0f, 0.0f), Vector2(32.0f, 33.3f), Vector2::Zero, 6, 0.2f);
+		animator->Create(L"pLeftIdle", textureDiamond, Vector2(0.0f, 96.0f), Vector2(32.0f, 33.3f), Vector2::Zero, 6, 0.2f);
+		animator->Create(L"pRightMove", textureDiamond, Vector2(0.0f, 32.0f), Vector2(32.0f, 33.0f), Vector2::Zero, 4, 0.15f);
+		animator->Create(L"pLeftMove", textureDiamond, Vector2(0.0f, 128.0f), Vector2(32.0f, 33.0f), Vector2::Zero, 4, 0.15f);
+		animator->Create(L"pRightAttackMove", textureDiamond, Vector2(0.0f, 64.0f), Vector2(32.0f, 33.3f), Vector2::Zero, 6, 0.2f);
+		animator->Create(L"pLeftAttackMove", textureDiamond, Vector2(0.0f, 160.0f), Vector2(32.0f, 33.3f), Vector2::Zero, 6, 0.2f);
+
+		animator->GetStartEvent(L"pRightIdle") = std::bind(&PlayerScript::IdleAniStart, this);
+		animator->GetStartEvent(L"pLeftIdle") = std::bind(&PlayerScript::IdleAniStart, this);
+
+		animator->GetStartEvent(L"pLeftMove") = std::bind(&PlayerScript::MoveAniStart, this);
+		animator->GetStartEvent(L"pRightMove") = std::bind(&PlayerScript::MoveAniStart, this);
+
+		animator->Play(L"pRightIdle", true);
+	}
+	void PlayerScript::HinaAnimation()
+	{
+		Animator* animator = GetOwner()->GetComponent<Animator>();
+		std::shared_ptr<Texture> textureHina = Resources::Find<Texture>(L"Hina");
+
+		animator->Create(L"pRightIdle", textureHina, Vector2(0.0f, -1.0f), Vector2(32.0f, 33.3f), Vector2::Zero, 6, 0.2f);
+		animator->Create(L"pLeftIdle", textureHina, Vector2(0.0f, 95.0f), Vector2(32.0f, 33.3f), Vector2::Zero, 6, 0.2f);
+		animator->Create(L"pRightAttackMove", textureHina, Vector2(0.0f, 64.0f), Vector2(32.0f, 33.3f), Vector2::Zero, 6, 0.2f);
+		animator->Create(L"pLeftAttackMove", textureHina, Vector2(0.0f, 160.0f), Vector2(32.0f, 33.3f), Vector2::Zero, 6, 0.2f);
+		animator->Create(L"pRightMove", textureHina, Vector2(0.0f, 32.0f), Vector2(32.0f, 33.0f), Vector2::Zero, 4, 0.15f);
+		animator->Create(L"pLeftMove", textureHina, Vector2(0.0f, 128.0f), Vector2(32.0f, 33.0f), Vector2::Zero, 4, 0.15f);
+
+		animator->GetStartEvent(L"pRightIdle") = std::bind(&PlayerScript::IdleAniStart, this);
+		animator->GetStartEvent(L"pLeftIdle") = std::bind(&PlayerScript::IdleAniStart, this);
+
+		animator->GetStartEvent(L"pLeftMove") = std::bind(&PlayerScript::MoveAniStart, this);
+		animator->GetStartEvent(L"pRightMove") = std::bind(&PlayerScript::MoveAniStart, this);
+
+		animator->Play(L"pRightIdle", true);
+	}
+	void PlayerScript::LilithAnimation()
+	{
+		Animator* animator = GetOwner()->GetComponent<Animator>();
+		std::shared_ptr<Texture> textureLilith = Resources::Find<Texture>(L"Lilith");
+
+		animator->Create(L"pRightIdle", textureLilith, Vector2(0.0f, -1.0f), Vector2(32.0f, 33.3f), Vector2::Zero, 6, 0.2f);
+		animator->Create(L"pLeftIdle", textureLilith, Vector2(0.0f, 95.0f), Vector2(32.0f, 33.3f), Vector2::Zero, 6, 0.2f);
+		animator->Create(L"pRightAttackMove", textureLilith, Vector2(0.0f, 64.0f), Vector2(32.0f, 33.3f), Vector2::Zero, 6, 0.2f);
+		animator->Create(L"pLeftAttackMove", textureLilith, Vector2(0.0f, 160.0f), Vector2(32.0f, 33.3f), Vector2::Zero, 6, 0.2f);
+		animator->Create(L"pRightMove", textureLilith, Vector2(0.0f, 32.0f), Vector2(32.0f, 33.0f), Vector2::Zero, 4, 0.15f);
+		animator->Create(L"pLeftMove", textureLilith, Vector2(0.0f, 128.0f), Vector2(32.0f, 33.0f), Vector2::Zero, 4, 0.15f);
+
+		animator->GetStartEvent(L"pRightIdle") = std::bind(&PlayerScript::IdleAniStart, this);
+		animator->GetStartEvent(L"pLeftIdle") = std::bind(&PlayerScript::IdleAniStart, this);
+
+		animator->GetStartEvent(L"pLeftMove") = std::bind(&PlayerScript::MoveAniStart, this);
+		animator->GetStartEvent(L"pRightMove") = std::bind(&PlayerScript::MoveAniStart, this);
+
+		animator->Play(L"pRightIdle", true);
+	}
+	void PlayerScript::ShanaAnimation()
+	{
+
+		Animator* animator = GetOwner()->GetComponent<Animator>();
+		//멤버함수 이기 떄문에 어떤 함수인지 풀네임으로 적어줘야 한다.
+		std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"Shana");
+
+		animator->Create(L"pRightIdle", texture, Vector2(0.0f, 0.5f), Vector2(32.0f, 33.3f), Vector2::Zero, 6, 0.2f);
+		animator->Create(L"pLeftIdle", texture, Vector2(0.0f, 95.5f), Vector2(32.0f, 33.3f), Vector2::Zero, 6, 0.2f);
+		animator->Create(L"pRightAttackMove", texture, Vector2(0.0f, 65.0f), Vector2(32.0f, 33.3f), Vector2::Zero, 6, 0.2f);
+		animator->Create(L"pLeftAttackMove", texture, Vector2(0.0f, 160.0f), Vector2(32.0f, 33.3f), Vector2::Zero, 6, 0.2f);
+		animator->Create(L"pRightMove", texture, Vector2(0.0f, 33.0f), Vector2(32.0f, 33.0f), Vector2::Zero, 4, 0.15f);
+		animator->Create(L"pLeftMove", texture, Vector2(0.0f, 128.0f), Vector2(32.0f, 33.0f), Vector2::Zero, 4, 0.15f);
+
+		animator->GetStartEvent(L"pRightIdle") = std::bind(&PlayerScript::IdleAniStart, this);
+		animator->GetStartEvent(L"pLeftIdle") = std::bind(&PlayerScript::IdleAniStart, this);
+
+		animator->GetStartEvent(L"pLeftMove") = std::bind(&PlayerScript::MoveAniStart, this);
+		animator->GetStartEvent(L"pRightMove") = std::bind(&PlayerScript::MoveAniStart, this);
+
+		animator->Play(L"pRightIdle", true);
 	}
 }
