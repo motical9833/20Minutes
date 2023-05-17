@@ -7,6 +7,7 @@ namespace ya
 	{
 	public:
 		PlayerScript();
+		PlayerScript(int characterNum,int maxHP);
 		~PlayerScript();
 
 		virtual void Initalize() override;
@@ -91,10 +92,10 @@ namespace ya
 		bool bShooting;
 		bool bReflex;
 
+		int characterNumber;
 		int mCurrentHP;
 		int mMaxHP;
 		int dodgeRate;
-
 
 		bool bShield;
 		bool bIdle;

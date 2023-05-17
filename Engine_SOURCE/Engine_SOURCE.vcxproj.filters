@@ -325,6 +325,8 @@
     <ClCompile Include="yaRotScript.cpp">
       <Filter>Component\Script\Contents\SKILL\Manager</Filter>
     </ClCompile>
+    <ClCompile Include="yaPlayerLevelScript.cpp" />
+    <ClCompile Include="yaLevelUPEffectScript.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CommonInclude.h">
@@ -550,6 +552,8 @@
     <ClInclude Include="yaRotScript.h">
       <Filter>Component\Script\Contents\SKILL\Manager</Filter>
     </ClInclude>
+    <ClInclude Include="yaPlayerLevelScript.h" />
+    <ClInclude Include="yaLevelUPEffectScript.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="yaMath.inl">

@@ -144,8 +144,9 @@ namespace ya
 			time = 0.0f;
 			objTr[0]->SetPosition(Vector3( - 6.0f, 1.0f, 9.9f));
 			objTr[1]->SetPosition(Vector3(8.0f, 1.0f, 9.9f));
-			SceneManager::LoadScene(eSceneType::Play);
+			SceneManager::GetPlayScene()->ChoosePlayers(1);
 			SceneManager::GetPlayScene()->GetPlayer()->GetScript<PlayerScript>()->StartSetting();
+			SceneManager::LoadScene(eSceneType::Play);
 		}
 
 

@@ -27,9 +27,11 @@ namespace ya
 		std::vector<GameObject*> GetDontDestroyGameObjects();
 		const std::vector<GameObject*>& GetGameObjects(const eLayerType type);
 
-
+		void SetStop() { bStop = true; }
+		void SetStart() { bStop = false; }
 	private:
 		std::vector<Layer> mLayers;
 		eSceneType mType;
+		bool bStop;
 	};
 }

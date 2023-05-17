@@ -68,7 +68,7 @@ namespace ya
 		animator->GetCompleteEvent(L"DeathAnimation") = std::bind(&MonsterScript::End, this);
 		mColliderSize = GetOwner()->GetComponent<Collider2D>()->GetSize();
 
-		player = SceneManager::GetPlayScene()->GetPlayer();
+		//player = SceneManager::GetPlayScene()->GetPlayer();
 	}
 	void MonsterScript::Update()
 	{

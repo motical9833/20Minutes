@@ -48,6 +48,7 @@ namespace ya
 		void SetbRitualOn() { bRitualOn = true; }
 		void DieBullet();
 		void Ignition(int damage);
+		void SetPlayer(Player* obj) { player = obj; }
 		bool GetcurseAtivate() { return bCurseActivate; }
 		int GetCurrentHP() { return mCurrentHp; }
 		int GetMaxHP() { return mMaxHp; }

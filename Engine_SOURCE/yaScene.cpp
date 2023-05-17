@@ -21,6 +21,9 @@ namespace ya
 	}
 	void Scene::Update()
 	{
+		if (bStop)
+			return;
+
 		for (Layer& layer : mLayers)
 		{
 			layer.Update();

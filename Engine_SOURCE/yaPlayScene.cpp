@@ -36,6 +36,15 @@
 #include "yaThunderBugScript.h"
 #include "yaIcicleScript.h"
 #include "yaRotScript.h"
+#include "yaPlayerLevelScript.h"
+#include "yaLevelUPEffectScript.h"
+
+#define SHANA 0
+#define ABBY 1
+#define DIAMOND 2
+#define HINA 3
+#define LILITH 4
+
 
 namespace ya
 {
@@ -101,41 +110,33 @@ namespace ya
 		cameraUIComp->TurnLayerMask(eLayerType::UI, true);
 
 
-		player = object::Instantiate<Player>(eLayerType::Player, this);
-		player->SetLayerType(eLayerType::Player);
-		player->SetName(L"Player");
-		Transform* pTr = player->GetComponent<Transform>();
-		pTr->SetPosition(Vector3(0.0f, 0.0f, 0.0f));
-		pTr->SetScale(Vector3(4.0f, 4.0f, 1.0f));
-		Collider2D* pCollider = player->AddComponent<Collider2D>();
-		pCollider->SetType(eColliderType::Rect);
-		pCollider->SetSize(Vector2(0.2f, 0.2f));
-		SpriteRenderer* pMr = player->AddComponent<SpriteRenderer>();
-		std::shared_ptr<Material> mateiral = Resources::Find<Material>(L"PlayerMaterial");
-		pMr->SetMaterial(mateiral);
-		std::shared_ptr<Mesh> pMesh = Resources::Find<Mesh>(L"RectMesh");
-		pMr->SetMesh(pMesh);
-		Animator* animator = player->AddComponent<Animator>();
-		std::shared_ptr<Texture> texture = Resources::Load<Texture>(L"Shana", L"Player\\Shana.png");
-		//animator->Create(L"pRightIdle", texture, Vector2(0.0f, 0.0f), Vector2(32.0f, 33.3f), Vector2::Zero, 6, 0.2f);
-		//animator->Create(L"pLeftIdle", texture, Vector2(0.0f, 95.0f), Vector2(32.0f, 33.3f), Vector2::Zero, 6, 0.2f);
-		//animator->Create(L"pRightAttackMove", texture, Vector2(0.0f, 66.0f), Vector2(32.0f, 33.3f), Vector2::Zero, 6, 0.2f);
-		//animator->Create(L"pLeftAttackMove", texture, Vector2(0.0f, 160.0f), Vector2(32.0f, 33.3f), Vector2::Zero, 6, 0.2f);
-		//animator->Create(L"pRightMove", texture, Vector2(0.0f, 33.0f), Vector2(32.0f, 33.0f), Vector2::Zero, 4, 0.15f);
-		//animator->Create(L"pLeftMove", texture, Vector2(0.0f, 128.0f), Vector2(32.0f, 33.0f), Vector2::Zero, 4, 0.15f);
-		//animator->Play(L"pRightIdle", true);
-		mainCameraTr->SetParent(pTr);
-		mainCameraTr->SetPosition(pTr->GetPosition() + Vector3(0.0f, 0.0f, -10.0f));
-		player->AddComponent<PlayerScript>();
-		player->GetScript<PlayerScript>()->Reset();
+		for (size_t i = 0; i < 5; i++)
+		{
+			Player* playerObj = object::Instantiate<Player>(eLayerType::Player, this);
+			playerObj->SetLayerType(eLayerType::Player);
+			Transform* pTr = playerObj->GetComponent<Transform>();
+			pTr->SetPosition(Vector3(0.0f, 0.0f, 0.0f));
+			pTr->SetScale(Vector3(4.0f, 4.0f, 1.0f));
+			Collider2D* pCollider = playerObj->AddComponent<Collider2D>();
+			pCollider->SetType(eColliderType::Rect);
+			pCollider->SetSize(Vector2(0.2f, 0.2f));
+			SpriteRenderer* pMr = playerObj->AddComponent<SpriteRenderer>();
+			std::shared_ptr<Material> mateiral = Resources::Find<Material>(L"PlayerMaterial");
+			pMr->SetMaterial(mateiral);
+			std::shared_ptr<Mesh> pMesh = Resources::Find<Mesh>(L"RectMesh");
+			pMr->SetMesh(pMesh);
+			playerObj->AddComponent<Animator>();
+			playerObj->AddComponent<PlayerScript>(i, 3);
+			playerObj->GetScript<PlayerScript>()->Reset();
+			playerObj->Death();
+			players.push_back(playerObj);
+		}
+
+
 
 
 		pWeapon = object::Instantiate<Weapon>(eLayerType::Player, this);
 		pWeapon->SetName(L"pWeapon");
-		Transform* weaponTr = pWeapon->GetComponent<Transform>();
-		weaponTr->SetScale(Vector3(5.0f, 5.0f, 1.0f));
-		weaponTr->SetParent(pTr);
-		weaponTr->SetPosition(Vector3(0.3f, 0.02f, 0.0f));
 		SpriteRenderer* pWMr = pWeapon->AddComponent<SpriteRenderer>();
 		std::shared_ptr<Material> weaponMaterial = Resources::Find<Material>(L"RevolverMaterial");
 		pWMr->SetMaterial(weaponMaterial);
@@ -151,7 +152,7 @@ namespace ya
 		{
 			GameObject* firePosObject = object::Instantiate<GameObject>(eLayerType::None, this);
 			firePosObject->SetName(L"FirePosObject" + i);
-			firePosObject->GetComponent<Transform>()->SetParent(weaponTr);
+			firePosObject->GetComponent<Transform>()->SetParent(pWeapon->GetComponent<Transform>());
 			if (i == 4)
 			{
 				firePosObject->GetComponent<Transform>()->SetPosition(Vector3(-1.0f, 0.0f, 0.0f));
@@ -171,7 +172,7 @@ namespace ya
 			bullets.push_back(bulletobj);
 			bullets[i]->SetLayerType(eLayerType::Bullet);
 			bullets[i]->SetName(L"Bullet" + i);
-			bullets[i]->GetComponent<Transform>()->SetParent(weaponTr);
+			bullets[i]->GetComponent<Transform>()->SetParent(pWeapon->GetComponent<Transform>());
 			bullets[i]->GetComponent<Transform>()->SetPosition(Vector3(0.0f, 0.0f, 0.0f));
 			bullets[i]->GetComponent<Transform>()->SetPosition(Vector3(0.0f, 0.0f, 0.0f));
 			bullets[i]->GetComponent<Transform>()->SetScale(Vector3(2.0f, 2.0f, 1.0f));
@@ -247,7 +248,6 @@ namespace ya
 		}
 
 		holyShield = CreateSkillObject(eLayerType::Skill, L"HolyShieldMaterial");
-		holyShield->GetComponent<Transform>()->SetParent(pTr);
 		holyShield->GetComponent<Transform>()->SetScale(Vector3(3.0f, 3.0f, 1.0f));
 		Animator* shieldAnimator = holyShield->AddComponent<Animator>();
 		std::shared_ptr<Texture> ShieldIdle = Resources::Find<Texture>(L"S_HolyShieldIdle");
@@ -259,6 +259,21 @@ namespace ya
 		shieldAnimator->Play(L"HolyShieldIdle", true);
 		holyShield->AddComponent<HolyShieldScript>();
 		holyShield->Death();
+
+		levelManager = object::Instantiate<GameObject>(eLayerType::None, this);
+		levelManager->AddComponent<PlayerLevelScript>();
+
+		levelUPEffectObj = object::Instantiate<GameObject>(eLayerType::Skill_Buff, this);
+		SpriteRenderer* levelUPEffectRender = levelUPEffectObj->AddComponent<SpriteRenderer>();
+		std::shared_ptr<Material> levelUPMaterial = Resources::Find<Material>(L"LevelUPEffectMaterial");
+		levelUPEffectRender->SetMaterial(levelUPMaterial);
+		std::shared_ptr<Mesh> levelUPEffectMesh = Resources::Find<Mesh>(L"RectMesh");
+		levelUPEffectRender->SetMesh(levelUPEffectMesh);
+		Animator* levelupAniamtor = levelUPEffectObj->AddComponent<Animator>();
+		std::shared_ptr<Texture> levelUPTexture = Resources::Find<Texture>(L"LevelUP");
+		levelupAniamtor->Create(L"LevelUPAni", levelUPTexture, Vector2::Zero, Vector2(96.0f,1110.0f), Vector2::Zero, 9, 0.1f);
+		levelUPEffectObj->Death();
+		levelUPEffectObj->AddComponent<LevelUPEffectScript>();
 
 		for (size_t i = 0; i < 20; i++)
 		{
@@ -548,6 +563,7 @@ namespace ya
 			dragonPet->GetScript<DragonPetScript>()->GameReset();
 			ghostPet->GetScript<GhostPetScript>()->GameReset();
 
+
 			for (size_t i = 0; i < bullets.size(); i++)
 			{
 				bullets[i]->GetScript<BulletScript>()->Reset();
@@ -586,7 +602,14 @@ namespace ya
 
 		if (Input::GetKeyDown(eKeyCode::NUM_1))
 		{
-			ALLSKILL();
+			//ALLSKILL();
+			//levelUPEffectObj->Life();
+			//levelUPEffectObj->GetComponent<Animator>()->Play(L"LevelUPAni", false);
+			SetStop();
+		}
+		if (Input::GetKeyDown(eKeyCode::NUM_2))
+		{
+			SetStart();
 		}
 
 		if (Input::GetKeyDown(eKeyCode::P))
@@ -612,6 +635,47 @@ namespace ya
 	}
 
 	void PlayScene::OnExit()
+	{
+
+	}
+	void PlayScene::ChoosePlayers(int num)
+	{
+		players[num]->Life();
+		player = players[num];
+
+		Transform* mainCameraTr = pSceneCamera->GetComponent<Transform>();
+		mainCameraTr->SetParent(player->GetComponent<Transform>());
+		mainCameraTr->SetPosition(player->GetComponent<Transform>()->GetPosition() + Vector3(0.0f, 0.0f, -10.0f));
+
+		Transform* weaponTr = pWeapon->GetComponent<Transform>();
+		weaponTr->SetParent(player->GetComponent<Transform>());
+		weaponTr->SetScale(Vector3(5.0f, 5.0f, 1.0f));
+		weaponTr->SetPosition(Vector3(0.3f, 0.02f, 0.0f));
+
+		levelUPEffectObj->GetComponent<Transform>()->SetParent(player->GetComponent<Transform>());
+		levelUPEffectObj->GetComponent<Transform>()->SetPosition(Vector3(0.0f, 1.7f, 0.0f));
+		levelUPEffectObj->GetComponent<Transform>()->SetScale(Vector3(2.0f, 5.0f, 1.0f));
+
+		holyShield->GetComponent<Transform>()->SetParent(player->GetComponent<Transform>());
+
+		for (size_t i = 0; i < mBrainMonsters.size(); i++)
+		{
+			mBrainMonsters[i]->GetScript<MonsterScript>()->SetPlayer(players[num]);
+		}
+		for (size_t i = 0; i < mTreeMonsters.size(); i++)
+		{
+			mTreeMonsters[i]->GetScript<MonsterScript>()->SetPlayer(players[num]);
+		}
+		for (size_t i = 0; i < mEyeMonsters.size(); i++)
+		{
+			mEyeMonsters[i]->GetScript<MonsterScript>()->SetPlayer(players[num]);
+		}
+		for (size_t i = 0; i < mBoomerMonsters.size(); i++)
+		{
+			mBoomerMonsters[i]->GetScript<MonsterScript>()->SetPlayer(players[num]);
+		}
+	}
+	void PlayScene::CreatePlayer()
 	{
 
 	}

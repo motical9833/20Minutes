@@ -13,6 +13,7 @@ namespace ya
 {
 	PlayerScript::PlayerScript()
 		: Script()
+		, characterNumber(0)
 		, mCurrentHP(0)
 		, mMaxHP(3)
 		, dodgeRate(0)
@@ -38,6 +39,34 @@ namespace ya
 		
 	}
 
+	PlayerScript::PlayerScript(int characterNum, int maxHP)
+		: Script()
+		, characterNumber(characterNum)
+		, mCurrentHP(0)
+		, mMaxHP(maxHP)
+		, dodgeRate(0)
+		, immuneTime(0.0f)
+		, hitBuffTime(0.0f)
+		, regenerationTime(0.0f)
+		, slowTime(0.0f)
+		, mSpeed(6.0f)
+		, mslowSpeed(2.5f)
+		, mSpeedMul(1.0f)
+		, mslowSPeedMul(1.0f)
+		, mScaleMul(1.0f)
+		, bShield(true)
+		, bMove(false)
+		, bIdle(false)
+		, bHitImmune(false)
+		, bPlayerHit(false)
+		, bAngerPointTrigger(false)
+		, bRegeneration(false)
+		, bShooting(false)
+		, bReflex(false)
+	{
+
+	}
+
 	PlayerScript::~PlayerScript()
 	{
 
@@ -45,11 +74,24 @@ namespace ya
 
 	void PlayerScript::Initalize()
 	{
-		//AbbyAnimation();
-		//DiamondAnimation();
-		//HinaAnimation();
-		LilithAnimation();
-		//ShanaAnimation();
+		switch (characterNumber)
+		{
+		case 0:
+			ShanaAnimation();
+			break;
+		case 1:
+			AbbyAnimation();
+			break;
+		case 2:
+			DiamondAnimation();
+			break;
+		case 3:
+			HinaAnimation();
+			break;
+		case 4:
+			LilithAnimation();
+			break;
+		}
 	}
 
 	void PlayerScript::Update()

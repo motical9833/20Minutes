@@ -22,6 +22,7 @@ namespace ya
 		virtual void OnExit() override;
 
 		Player* GetPlayer() { return player; }
+		void ChoosePlayers(int num);
 		Weapon* GetWeapon() { return pWeapon; }
 		Scene* GetScene() { return this; }
 		std::vector<Bullet*> GetBullet() { return bullets; }
@@ -51,7 +52,9 @@ namespace ya
 		GameObject* GetDragonPet() { return dragonPet; }
 		GameObject* GetUpgradeobj() { return upgradeobj; }
 		GameObject* GetScythe() { return scythe; }
+		GameObject* GetLevelUPEffect() { return levelUPEffectObj; }
 
+		void CreatePlayer();
 		void CreateBrainMonster();
 		void CreateTreeMonster();
 		void CreateEyeMonster();
@@ -70,6 +73,9 @@ namespace ya
 
 	private:
 		Player* player;
+		std::vector<Player*> players;
+		GameObject* levelUPEffectObj;
+		GameObject* levelManager;
 		GameObject* pSceneCamera;
 		GameObject* skillManager;
 		GameObject* pulseObject;
