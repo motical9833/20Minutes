@@ -1,6 +1,9 @@
 #include "yaLevelUPEffectScript.h"
 #include "yaAnimator.h"
 #include "yaGameObject.h"
+#include "yaSceneManager.h"
+#include "yaPlayScene.h"
+#include "yaPlayerLevelScript.h"
 
 namespace ya
 {
@@ -17,12 +20,14 @@ namespace ya
 	}
 	void LevelUPEffectScript::Update()
 	{
+
 	}
 	void LevelUPEffectScript::FixedUpdate()
 	{
 	}
 	void LevelUPEffectScript::Render()
 	{
+
 	}
 	void LevelUPEffectScript::Start()
 	{
@@ -34,7 +39,9 @@ namespace ya
 	}
 	void LevelUPEffectScript::End()
 	{
+		//SceneManager::GetPlayScene()->SetStop();
 		GetOwner()->Death();
+		SceneManager::GetPlayScene()->GetLevelManager()->GetScript<PlayerLevelScript>()->LevelUP();
 	}
 	void LevelUPEffectScript::Reset()
 	{

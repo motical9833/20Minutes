@@ -38,6 +38,7 @@
 #include "yaRotScript.h"
 #include "yaPlayerLevelScript.h"
 #include "yaLevelUPEffectScript.h"
+#include "yaExpMarbleObject.h"
 
 #define SHANA 0
 #define ABBY 1
@@ -446,8 +447,8 @@ namespace ya
 		scythe->Death();
 		scythe->AddComponent<ScytheScript>();
 
-		colliderCheck = object::Instantiate<GameObject>(eLayerType::Skill, this);
-		colliderCheck->SetLayerType(eLayerType::Skill);
+		colliderCheck = object::Instantiate<GameObject>(eLayerType::ColliderChack, this);
+		colliderCheck->SetLayerType(eLayerType::ColliderChack);
 		Transform* checkTr = colliderCheck->GetComponent<Transform>();
 		checkTr->SetPosition(Vector3::Zero);
 		checkTr->SetScale(Vector3::One);
@@ -518,6 +519,25 @@ namespace ya
 			hpObjects.push_back(hpObject);
 		}
 
+		for (size_t i = 0; i < 100; i++)
+		{
+			GameObject* expObj = object::Instantiate<GameObject>(eLayerType::ExpMarble, this);
+			expObj->SetLayerType(eLayerType::ExpMarble);
+			expObj->GetComponent<Transform>()->SetPosition(Vector3(-5.0f, 1.0f, 0.0f));
+			expObj->GetComponent<Transform>()->SetScale(Vector3(0.2f, 0.2f, 1.0f));
+			expObj->AddComponent<Collider2D>();
+			expObj->GetComponent<Collider2D>()->SetType(eColliderType::Rect);
+			SpriteRenderer* expRender = expObj->AddComponent<SpriteRenderer>();
+			std::shared_ptr<Material> expMaterial = Resources::Find<Material>(L"ExpObjectMaterial");
+			expRender->SetMaterial(expMaterial);
+			std::shared_ptr<Mesh> expMesh = Resources::Find<Mesh>(L"RectMesh");
+			expRender->SetMesh(expMesh);
+			expObj->AddComponent<ExpMarbleObject>();
+			expObj->Death();
+			expMarbles.push_back(expObj);
+		}
+		expMarbles[0]->Life();
+
 		skillManager = object::Instantiate<GameObject>(eLayerType::None, this);
 		skillManager->AddComponent<SkillManager>();
 
@@ -535,8 +555,11 @@ namespace ya
 
 
 		CollisionManager::CollisionLayerCheck(eLayerType::Player, eLayerType::Monster, true);
+		CollisionManager::CollisionLayerCheck(eLayerType::Player, eLayerType::ExpMarble, true);
 		CollisionManager::CollisionLayerCheck(eLayerType::Bullet, eLayerType::Monster, true);
 		CollisionManager::CollisionLayerCheck(eLayerType::Skill, eLayerType::Monster, true);
+		CollisionManager::CollisionLayerCheck(eLayerType::ColliderChack, eLayerType::Monster, true);
+		CollisionManager::CollisionLayerCheck(eLayerType::ColliderChack, eLayerType::ExpMarble, true);
 		CollisionManager::CollisionLayerCheck(eLayerType::Skill_Smite, eLayerType::Monster, true);
 		CollisionManager::CollisionLayerCheck(eLayerType::Skill, eLayerType::Bullet, true);
 		Scene::Initalize();
@@ -562,7 +585,7 @@ namespace ya
 			holyShield->GetScript<HolyShieldScript>()->GameReset();
 			dragonPet->GetScript<DragonPetScript>()->GameReset();
 			ghostPet->GetScript<GhostPetScript>()->GameReset();
-
+			levelManager->GetScript<PlayerLevelScript>()->GameReset();
 
 			for (size_t i = 0; i < bullets.size(); i++)
 			{
@@ -593,6 +616,12 @@ namespace ya
 				ghostBullets[i]->GetScript<GhostBullet>()->GameReset();
 				ghostBullets[i]->Death();
 			}
+
+			for (size_t i = 0; i < expMarbles.size(); i++)
+			{
+				expMarbles[i]->GetScript<ExpMarbleObject>()->GameReset();
+				expMarbles[i]->Death();
+			}
 		}
 
 		Transform* tr = pSceneCamera->GetComponent<Transform>();
@@ -603,13 +632,13 @@ namespace ya
 		if (Input::GetKeyDown(eKeyCode::NUM_1))
 		{
 			//ALLSKILL();
-			//levelUPEffectObj->Life();
-			//levelUPEffectObj->GetComponent<Animator>()->Play(L"LevelUPAni", false);
-			SetStop();
+			levelUPEffectObj->Life();
+			levelUPEffectObj->GetComponent<Animator>()->Play(L"LevelUPAni", false);
+			//SetStop();
 		}
 		if (Input::GetKeyDown(eKeyCode::NUM_2))
 		{
-			SetStart();
+			SetStart(); 
 		}
 
 		if (Input::GetKeyDown(eKeyCode::P))

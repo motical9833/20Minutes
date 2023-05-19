@@ -3,15 +3,17 @@
 
 namespace ya
 {
-	class PlayerLevelScript : public Script
+	class ExpMarbleObject : public Script
 	{
 	public:
-		PlayerLevelScript();
-		~PlayerLevelScript();
+		ExpMarbleObject();
+		virtual ~ExpMarbleObject();
 
 		virtual void Initalize() override;
 		virtual void Update() override;
+		virtual void FixedUpdate() override;
 		virtual void Render() override;
+		
 
 		virtual void OnCollisionEnter(Collider2D* collider) override;
 		virtual void OnCollisionStay(Collider2D* collider) override;
@@ -22,15 +24,16 @@ namespace ya
 		void Action();
 		void End();
 		void GameReset();
+		void Reset();
 
-		void SetCurrentExp() { mCurrentExp++; };
-
-		void LevelUP();
-		void GetExp();
 
 	private:
-		int mLevel;
-		int mCurrentExp;
-		int mLevelUpExp;
+
+		bool bTarget;
+		float mTime;
+		float mSpeed;
+
+		Vector3 mDir;
+		GameObject* mTarget;
 	};
 }

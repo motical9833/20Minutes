@@ -513,7 +513,7 @@ namespace ya::renderer
 		Resources::Load<Texture>(L"Yuki", L"Player\\T_Yuki.png");
 
 		Resources::Load<Texture>(L"LevelUP", L"Player\\T_LevelUpFX.png");
-
+		Resources::Load<Texture>(L"ExpObj", L"T_SmallCircle.png");
 
 		Resources::Load<Texture>(L"TitleLevesLeftSprite", L"T_TitleLeavesLeft.png");
 		Resources::Load<Texture>(L"TitleLevesRightSprite", L"T_TitleLeavesRight.png");
@@ -645,6 +645,8 @@ namespace ya::renderer
 		CreateMaterial(L"S_Icicle", L"SpriteShader", eRenderingMode::Transparent, L"IcicleMaterial");
 
 		CreateMaterial(L"LevelUP", L"SpriteShader", eRenderingMode::Transparent, L"LevelUPEffectMaterial");
+
+		CreateMaterial(L"ExpObj", L"SpriteShader", eRenderingMode::Transparent, L"ExpObjectMaterial");
 #pragma endregion
 	}
 

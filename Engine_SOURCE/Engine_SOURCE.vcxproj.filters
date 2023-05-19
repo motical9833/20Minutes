@@ -327,6 +327,7 @@
     </ClCompile>
     <ClCompile Include="yaPlayerLevelScript.cpp" />
     <ClCompile Include="yaLevelUPEffectScript.cpp" />
+    <ClCompile Include="yaExpMarbleObject.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CommonInclude.h">
@@ -554,6 +555,7 @@
     </ClInclude>
     <ClInclude Include="yaPlayerLevelScript.h" />
     <ClInclude Include="yaLevelUPEffectScript.h" />
+    <ClInclude Include="yaExpMarbleObject.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="yaMath.inl">

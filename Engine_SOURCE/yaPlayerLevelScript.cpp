@@ -56,7 +56,7 @@ namespace ya
 	{
 
 	}
-	void PlayerLevelScript::Reset()
+	void PlayerLevelScript::GameReset()
 	{
 		mLevel = 1;
 		mCurrentExp = 0;
@@ -67,5 +67,12 @@ namespace ya
 		mLevel++;
 		mLevelUpExp += 5;
 		mCurrentExp = 0;
+	}
+	void PlayerLevelScript::GetExp()
+	{
+		mCurrentExp++;
+
+		if (mCurrentExp == mLevelUpExp)
+			LevelUP();
 	}
 }

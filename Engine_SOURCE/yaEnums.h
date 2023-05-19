@@ -20,7 +20,9 @@ namespace ya::enums
 		Skill,
 		Skill_Buff,
 		Skill_Smite,
+		ExpMarble,
 		Particle,
+		ColliderChack,
 		UI,
 		End = 16,
 	};

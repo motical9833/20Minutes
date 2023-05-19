@@ -53,6 +53,7 @@ namespace ya
 		GameObject* GetUpgradeobj() { return upgradeobj; }
 		GameObject* GetScythe() { return scythe; }
 		GameObject* GetLevelUPEffect() { return levelUPEffectObj; }
+		GameObject* GetLevelManager() { return levelManager; }
 
 		void CreatePlayer();
 		void CreateBrainMonster();
@@ -90,6 +91,7 @@ namespace ya
 		std::vector<GameObject*> spears;
 		std::vector<GameObject*> thunderBugs;
 		std::vector<GameObject*> icicles;
+		std::vector<GameObject*> expMarbles;
 
 		GameObject* holyShield;
 		GameObject* magicLens;
