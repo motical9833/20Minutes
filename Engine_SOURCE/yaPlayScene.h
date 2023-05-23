@@ -5,6 +5,11 @@
 #include "yaBullet.h"
 #include "yaMonster.h"
 
+
+#include <iostream>
+#include "GLM/glm.hpp"
+#include "GLM/gtc/matrix_transform.hpp"
+
 namespace ya
 {
 	class PlayScene : public Scene
@@ -55,12 +60,38 @@ namespace ya
 		GameObject* GetLevelUPEffect() { return levelUPEffectObj; }
 		GameObject* GetLevelManager() { return levelManager; }
 
+		std::vector<GameObject*> GetIcon() { return iconObjects; }
+
 		void CreatePlayer();
 		void CreateBrainMonster();
 		void CreateTreeMonster();
 		void CreateEyeMonster();
 		void CreateBommerMonster();
+		void CreateDragonPet();
+		void CreateDragonPetBullet();
+		void CreateGhostPet();
+		void CreateGhostPetBullet();
+		void CreateSmite();
+		void CreateMagicLens();
+		void CreateHolyShiled();
+		void CreateThunder();
+		void CreateGale();
+		void CreateScythe();
+		void CreateColliderChackObj();
+		void CreateSpear();
+		void CreateThunderBug();
+		void CreateIcicle();
+		void CreateExpMarble();
+		void CreateGameManagers();
 
+		void CreateHpUIobj(GameObject* parent);
+		void CreateAbilityIcon(GameObject* parent);
+		void CreateLevelUpEffect();
+		void CreateUIPanal(GameObject* parent, Vector3 pos, Vector3 scale);
+		void CreateUILeader(const std::wstring& key,GameObject* parent, Vector3 pos, Vector3 scale);
+		void CreatePowerUpFrame(GameObject* parent, Vector3 pos, Vector3 scale);
+		void CreateSkillUI(GameObject* parent);
+		void CreateSkillIcon(const std::wstring& key, GameObject* parent, Vector3 pos, Vector3 scale);
 		void CreateCollider(auto* monster, eColliderType type,Vector2 size);
 		void CreateDeathFX();
 		void CreateSpriteRenderer(auto* object, const std::wstring& materialKey);
@@ -72,6 +103,9 @@ namespace ya
 
 		void ALLSKILL();
 
+		glm::vec2 ScreenToCamera(const glm::vec2& screenCoord, const glm::mat4& viewProjectionMatrix, int screenWidth, int screenHeight);
+
+		void LevelUPUI();
 	private:
 		Player* player;
 		std::vector<Player*> players;
@@ -92,6 +126,8 @@ namespace ya
 		std::vector<GameObject*> thunderBugs;
 		std::vector<GameObject*> icicles;
 		std::vector<GameObject*> expMarbles;
+		std::vector<GameObject*> uiObjects;
+		std::vector<GameObject*> iconObjects;
 
 		GameObject* holyShield;
 		GameObject* magicLens;
@@ -115,5 +151,7 @@ namespace ya
 
 		//std::vector<GameObject*> firePos;
 		std::vector<GameObject*> hpUiObj;
+
+		bool uiOn;
 	};
 }

@@ -547,6 +547,174 @@ namespace ya::renderer
 		Resources::Load<Texture>(L"S_ThunderBug", L"Skill\\T_ElectroBug_SS.png");
 		Resources::Load<Texture>(L"S_Icicle", L"Skill\\T_Icicle.png");
 
+		Resources::Load<Texture>(L"Icon_Ability_0", L"UI\\Icon\\Icon_TakeAim_0.png");
+		Resources::Load<Texture>(L"Icon_Ability_1", L"UI\\Icon\\Icon_Penetrator_1.png");
+		Resources::Load<Texture>(L"Icon_Ability_2", L"UI\\Icon\\Icon_Sniper_2.png");
+		Resources::Load<Texture>(L"Icon_Ability_3", L"UI\\Icon\\Icon_Assassin_3.png");
+		Resources::Load<Texture>(L"Icon_Ability_4", L"UI\\Icon\\Icon_Powershot_4.png");
+		Resources::Load<Texture>(L"Icon_Ability_5", L"UI\\Icon\\Icon_BigShot_5.png");
+		Resources::Load<Texture>(L"Icon_Ability_6", L"UI\\Icon\\Icon_Splinter_6.png");
+		Resources::Load<Texture>(L"Icon_Ability_7", L"UI\\Icon\\Icon_ReaperRounds_7.png");
+		Resources::Load<Texture>(L"Icon_Ability_8", L"UI\\Icon\\Icon_DragonEgg_8.png");
+		Resources::Load<Texture>(L"Icon_Ability_9", L"UI\\Icon\\Icon_AgedDragon_9.png");
+		Resources::Load<Texture>(L"Icon_Ability_10", L"UI\\Icon\\Icon_TrainedDragon_10.png");
+		Resources::Load<Texture>(L"Icon_Ability_11", L"UI\\Icon\\Icon_DragonBond_11.png");
+		Resources::Load<Texture>(L"Icon_Ability_12", L"UI\\Icon\\Icon_ElectroMagic_12.png");
+		Resources::Load<Texture>(L"Icon_Ability_13", L"UI\\Icon\\Icon_ElectroBug_13.png");
+		Resources::Load<Texture>(L"Icon_Ability_14", L"UI\\Icon\\Icon_Energized_14.png");
+		Resources::Load<Texture>(L"Icon_Ability_15", L"UI\\Icon\\Icon_ElectroMastery_15.png");
+		Resources::Load<Texture>(L"Icon_Ability_16", L"UI\\Icon\\Icon_RapidFire_16.png");
+		Resources::Load<Texture>(L"Icon_Ability_17", L"UI\\Icon\\Icon_LightBullet_17.png");
+		Resources::Load<Texture>(L"Icon_Ability_18", L"UI\\Icon\\Icon_RubberBullets_18.png");
+		Resources::Load<Texture>(L"Icon_Ability_19", L"UI\\Icon\\Icon_Siege_19.png");
+		Resources::Load<Texture>(L"Icon_Ability_20", L"UI\\Icon\\Icon_GhostFriend_20.png");
+		Resources::Load<Texture>(L"Icon_Ability_21", L"UI\\Icon\\Icon_EnergeticFriend.png");
+		Resources::Load<Texture>(L"Icon_Ability_22", L"UI\\Icon\\Icon_GhostWizard_22.png");
+		Resources::Load<Texture>(L"Icon_Ability_23", L"UI\\Icon\\Icon_VengefulGhost.png");
+		Resources::Load<Texture>(L"Icon_Ability_24", L"UI\\Icon\\Icon_Vitality.png");
+		Resources::Load<Texture>(L"Icon_Ability_25", L"UI\\Icon\\Icon_AngerPoint.png");
+		Resources::Load<Texture>(L"Icon_Ability_26", L"UI\\Icon\\Icon_Giant.png");
+		Resources::Load<Texture>(L"Icon_Ability_27", L"UI\\Icon\\Icon_Regeneration.png");
+		Resources::Load<Texture>(L"Icon_Ability_28", L"UI\\Icon\\Icon_HolyShield.png");
+		Resources::Load<Texture>(L"Icon_Ability_29", L"UI\\Icon\\Icon_DivineBlessing.png");
+		Resources::Load<Texture>(L"Icon_Ability_30", L"UI\\Icon\\Icon_DivineWrath.png");
+		Resources::Load<Texture>(L"Icon_Ability_31", L"UI\\Icon\\Icon_StalwartShield.png");
+		Resources::Load<Texture>(L"Icon_Ability_32", L"UI\\Icon\\Icon_IceMagic.png");
+		Resources::Load<Texture>(L"Icon_Ability_33", L"UI\\Icon\\Icon_FrostBit.png");
+		Resources::Load<Texture>(L"Icon_Ability_34", L"UI\\Icon\\Icon_IceShard.png");
+		Resources::Load<Texture>(L"Icon_Ability_35", L"UI\\Icon\\Icon_Shatter.png");
+		Resources::Load<Texture>(L"Icon_Ability_36", L"UI\\Icon\\Icon_MagicLens.png");
+		Resources::Load<Texture>(L"Icon_Ability_37", L"UI\\Icon\\Icon_IgnitingLens.png");
+		Resources::Load<Texture>(L"Icon_Ability_38", L"UI\\Icon\\Icon_Refraction.png");
+		Resources::Load<Texture>(L"Icon_Ability_39", L"UI\\Icon\\Icon_FocalPoint.png");
+		Resources::Load<Texture>(L"Icon_Ability_40", L"UI\\Icon\\Icon_Magnetism.png");
+		Resources::Load<Texture>(L"Icon_Ability_41", L"UI\\Icon\\Icon_Recharge.png");
+		Resources::Load<Texture>(L"Icon_Ability_42", L"UI\\Icon\\Icon_WatchAndLearn.png");
+		Resources::Load<Texture>(L"Icon_Ability_43", L"UI\\Icon\\Icon_Excitement.png");
+		Resources::Load<Texture>(L"Icon_Ability_44", L"UI\\Icon\\Icon_Haste.png");
+		Resources::Load<Texture>(L"Icon_Ability_45", L"UI\\Icon\\Icon_BlazingSpeed.png");
+		Resources::Load<Texture>(L"Icon_Ability_46", L"UI\\Icon\\Icon_RunAndGun.png");
+		Resources::Load<Texture>(L"Icon_Ability_47", L"UI\\Icon\\Icon_InTheWind.png");
+		Resources::Load<Texture>(L"Icon_Ability_48", L"UI\\Icon\\Icon_DoubleShot.png");
+		Resources::Load<Texture>(L"Icon_Ability_49", L"UI\\Icon\\Icon_FanFire.png");
+		Resources::Load<Texture>(L"Icon_Ability_50", L"UI\\Icon\\Icon_SplitShot.png");
+		Resources::Load<Texture>(L"Icon_Ability_51", L"UI\\Icon\\Icon_Fusillade.png");
+		Resources::Load<Texture>(L"Icon_Ability_52", L"UI\\Icon\\Icon_FireStarter.png");
+		Resources::Load<Texture>(L"Icon_Ability_53", L"UI\\Icon\\Icon_FireMagic.png");
+		Resources::Load<Texture>(L"Icon_Ability_54", L"UI\\Icon\\Icon_IntenseBurn.png");
+		Resources::Load<Texture>(L"Icon_Ability_55", L"UI\\Icon\\Icon_SoothingWarmth.png");
+		Resources::Load<Texture>(L"Icon_Ability_56", L"UI\\Icon\\Icon_QuickHands.png");
+		Resources::Load<Texture>(L"Icon_Ability_57", L"UI\\Icon\\Icon_QuickHands.png");
+		Resources::Load<Texture>(L"Icon_Ability_58", L"UI\\Icon\\Icon_FreshClip.png");
+		Resources::Load<Texture>(L"Icon_Ability_59", L"UI\\Icon\\Icon_KillClip.png");
+		Resources::Load<Texture>(L"Icon_Ability_60", L"UI\\Icon\\Icon_Glare.png");
+		Resources::Load<Texture>(L"Icon_Ability_61", L"UI\\Icon\\Icon_IntenseGlare.png");
+		Resources::Load<Texture>(L"Icon_Ability_62", L"UI\\Icon\\Icon_SightMagic.png");
+		Resources::Load<Texture>(L"Icon_Ability_63", L"UI\\Icon\\Icon_Saccade.png");
+		Resources::Load<Texture>(L"Icon_Ability_64", L"UI\\Icon\\Icon_MagicScythe.png");
+		Resources::Load<Texture>(L"Icon_Ability_65", L"UI\\Icon\\Icon_ShadowScythe.png");
+		Resources::Load<Texture>(L"Icon_Ability_66", L"UI\\Icon\\Icon_Windcutter.png");
+		Resources::Load<Texture>(L"Icon_Ability_67", L"UI\\Icon\\Icon_ScytheMastery.png");
+		Resources::Load<Texture>(L"Icon_Ability_68", L"UI\\Icon\\Icon_DarkArts.png");
+		Resources::Load<Texture>(L"Icon_Ability_69", L"UI\\Icon\\Icon_Doom.png");
+		Resources::Load<Texture>(L"Icon_Ability_70", L"UI\\Icon\\Icon_Wither.png");
+		Resources::Load<Texture>(L"Icon_Ability_71", L"UI\\Icon\\Icon_Ritual.png");
+		Resources::Load<Texture>(L"Icon_Ability_72", L"UI\\Icon\\Icon_HolyArts.png");
+		Resources::Load<Texture>(L"Icon_Ability_73", L"UI\\Icon\\Icon_HolyMight.png");
+		Resources::Load<Texture>(L"Icon_Ability_74", L"UI\\Icon\\Icon_Justice.png");
+		Resources::Load<Texture>(L"Icon_Ability_75", L"UI\\Icon\\Icon_Angelic.png");
+		Resources::Load<Texture>(L"Icon_Ability_76", L"UI\\Icon\\Icon_AeroMagic.png");
+		Resources::Load<Texture>(L"Icon_Ability_77", L"UI\\Icon\\Icon_Windborne.png");
+		Resources::Load<Texture>(L"Icon_Ability_78", L"UI\\Icon\\Icon_EyeOfTheStorm.png");
+		Resources::Load<Texture>(L"Icon_Ability_79", L"UI\\Icon\\Icon_AeroMastery.png");
+		Resources::Load<Texture>(L"Icon_Ability_80", L"UI\\Icon\\Icon_Evasive.png");
+		Resources::Load<Texture>(L"Icon_Ability_81", L"UI\\Icon\\Icon_Nimble.png");
+		Resources::Load<Texture>(L"Icon_Ability_82", L"UI\\Icon\\Icon_Tiny.png");
+		Resources::Load<Texture>(L"Icon_Ability_83", L"UI\\Icon\\Icon_Reflex.png");
+		Resources::Load<Texture>(L"Icon_Ability_84", L"UI\\Icon\\Icon_MagicSpear.png");
+		Resources::Load<Texture>(L"Icon_Ability_85", L"UI\\Icon\\Icon_HolySpear.png");
+		Resources::Load<Texture>(L"Icon_Ability_86", L"UI\\Icon\\Icon_SoulDrain.png");
+		Resources::Load<Texture>(L"Icon_Ability_87", L"UI\\Icon\\Icon_SoulKnight.png");
+		Resources::Load<Texture>(L"Icon_Ability_88", L"UI\\Icon\\Icon_SoulReap.png");
+		Resources::Load<Texture>(L"Icon_Ability_89", L"UI\\Icon\\Icon_SoulConversion.png");
+		Resources::Load<Texture>(L"Icon_Ability_90", L"UI\\Icon\\Icon_SoulPowered.png");
+		Resources::Load<Texture>(L"Icon_Ability_91", L"UI\\Icon\\Icon_SoulLink.png");
+		Resources::Load<Texture>(L"Icon_Ability_92", L"UI\\Icon\\Icon_Trainer.png");
+		Resources::Load<Texture>(L"Icon_Ability_93", L"UI\\Icon\\Icon_PulsingSummons.png");
+		Resources::Load<Texture>(L"Icon_Ability_94", L"UI\\Icon\\Icon_FeedTheBeasts.png");
+		Resources::Load<Texture>(L"Icon_Ability_95", L"UI\\Icon\\Icon_Bloodsuckers.png");
+		Resources::Load<Texture>(L"Icon_Ability_96", L"UI\\Icon\\Icon_Frenzy.png");
+		Resources::Load<Texture>(L"Icon_Ability_97", L"UI\\Icon\\Icon_Hellspawns.png");
+		Resources::Load<Texture>(L"Icon_Ability_99", L"UI\\Icon\\Icon_Culling.png");
+
+		Resources::Load<Texture>(L"Icon_Ability_200", L"UI\\Icon\\Icon_DeathPlague.png");
+		Resources::Load<Texture>(L"Icon_Ability_201", L"UI\\Icon\\Icon_DeathRounds.png");
+		Resources::Load<Texture>(L"Icon_Ability_202", L"UI\\Icon\\Icon_FrostFire.png");
+		Resources::Load<Texture>(L"Icon_Ability_203", L"UI\\Icon\\Icon_Generator.png");
+		Resources::Load<Texture>(L"Icon_Ability_204", L"UI\\Icon\\Icon_GunMastery.png");
+		Resources::Load<Texture>(L"Icon_Ability_205", L"UI\\Icon\\Icon_Kunoichi.png");
+		Resources::Load<Texture>(L"Icon_Ability_206", L"UI\\Icon\\Icon_Miniclip.png");
+		Resources::Load<Texture>(L"Icon_Ability_207", L"UI\\Icon\\Icon_Overload.png");
+		Resources::Load<Texture>(L"Icon_Ability_208", L"UI\\Icon\\Icon_StandYourGround.png");
+		Resources::Load<Texture>(L"Icon_Ability_209", L"UI\\Icon\\Icon_SummonMastery.png");
+		Resources::Load<Texture>(L"Icon_Ability_210", L"UI\\Icon\\Icon_SwordAndShield.png");
+		Resources::Load<Texture>(L"Icon_Ability_211", L"UI\\Icon\\Icon_Titan.png");
+
+		Resources::Load<Texture>(L"Yiki_Ability_0", L"UI\\Icon\\Icon_ButterflyDance.png");
+		Resources::Load<Texture>(L"Yiki_Ability_1", L"UI\\Icon\\Icon_Brittle.png");
+		Resources::Load<Texture>(L"Yiki_Ability_2", L"UI\\Icon\\Icon_PairUp.png");
+		//Resources::Load<Texture>(L"Hastur_Ability_0", L"UI\\Icon\\Icon_Smash.png");
+		//Resources::Load<Texture>(L"Hastur_Ability_1", L"UI\\Icon\\Icon_AbyssalCall.png");
+		//Resources::Load<Texture>(L"Hastur_Ability_2", L"UI\\Icon\\Icon_Frenz.png");
+		Resources::Load<Texture>(L"Shana_Ability_0", L"UI\\Icon\\Icon_QuickLearner.png");
+		Resources::Load<Texture>(L"Shana_Ability_1", L"UI\\Icon\\Icon_Ascension.png");
+		Resources::Load<Texture>(L"Shana_Ability_2", L"UI\\Icon\\Icon_Halo_Piece1.png");
+		Resources::Load<Texture>(L"Shana_Ability_3", L"UI\\Icon\\Icon_Halo_Piece2.png");
+		Resources::Load<Texture>(L"Shana_Ability_4", L"UI\\Icon\\Icon_Halo_Piece3.png");
+		Resources::Load<Texture>(L"Shana_Ability_5", L"UI\\Icon\\Icon_Shanas_Halo.png");
+		Resources::Load<Texture>(L"Shana_Ability_6", L"UI\\Icon\\Icon_Specialize.png");
+		Resources::Load<Texture>(L"Diamond_Ability_0", L"UI\\Icon\\Icon_Berserk.png");
+		Resources::Load<Texture>(L"Diamond_Ability_1", L"UI\\Icon\\Icon_Bulk_Up.png");
+		Resources::Load<Texture>(L"Diamond_Ability_2", L"UI\\Icon\\Icon_Iron_Will.png");
+		Resources::Load<Texture>(L"Abby_Ability_0", L"UI\\Icon\\Icon_Bullet_Storm.png");
+		Resources::Load<Texture>(L"Abby_Ability_1", L"UI\\Icon\\Icon_Make_It_Rain.png");
+		Resources::Load<Texture>(L"Abby_Ability_2", L"UI\\Icon\\Icon_Whirlwind.png");
+		Resources::Load<Texture>(L"Spark_Ability_0", L"UI\\Icon\\Icon_Charged_Up.png");
+		Resources::Load<Texture>(L"Spark_Ability_1", L"UI\\Icon\\Icon_Electro_Affinity.png");
+		Resources::Load<Texture>(L"Spark_Ability_2", L"UI\\Icon\\Icon_Electrical_fire.png");
+		Resources::Load<Texture>(L"Luna_Ability_0", L"UI\\Icon\\Icon_Implosion.png");
+		Resources::Load<Texture>(L"Luna_Ability_2", L"UI\\Icon\\Icon_CosmicBurst.png");
+		Resources::Load<Texture>(L"Luna_Ability_1", L"UI\\Icon\\Icon_ParallelStar.png");
+		Resources::Load<Texture>(L"Dasher_Ability_0", L"UI\\Icon\\Icon_DeerFriend.png");
+		Resources::Load<Texture>(L"Dasher_Ability_1", L"UI\\Icon\\Icon_HailBringer.png");
+		Resources::Load<Texture>(L"Dasher_Ability_2", L"UI\\Icon\\Icon_NaturesBlessing.png");
+		Resources::Load<Texture>(L"Hina_Ability_0", L"UI\\Icon\\Icon_Enhanced_Shadow.png");
+		Resources::Load<Texture>(L"Hina_Ability_1", L"UI\\Icon\\Icon_Hidden_Bladee.png");
+		Resources::Load<Texture>(L"Hina_Ability_2", L"UI\\Icon\\Icon_Maneuver.png");
+		Resources::Load<Texture>(L"Lilith_Ability_0", L"UI\\Icon\\Icon_Undead_Army.png");
+		Resources::Load<Texture>(L"Lilith_Ability_1", L"UI\\Icon\\Icon_Necromancer.png");
+		Resources::Load<Texture>(L"Lilith_Ability_2", L"UI\\Icon\\Icon_Necrophile.png");
+		Resources::Load<Texture>(L"Raven_Ability_0", L"UI\\Icon\\Icon_ShadowFlame.png");
+		Resources::Load<Texture>(L"Raven_Ability_1", L"UI\\Icon\\Icon_FlockOfCrows.png");
+		Resources::Load<Texture>(L"Raven_Ability_2", L"UI\\Icon\\Icon_ShadowAffinity.png");
+		Resources::Load<Texture>(L"Scarlett_Ability_0", L"UI\\Icon\\Icon_Lasting_Flame.png");
+		Resources::Load<Texture>(L"Scarlett_Ability_1", L"UI\\Icon\\Icon_Pyromaniac.png");
+		Resources::Load<Texture>(L"Scarlett_Ability_2", L"UI\\Icon\\Icon_Pyro_Affinity.png");
+		Resources::Load<Texture>(L"Book_Ability_0", L"UI\\Icon\\Icon_TomeOfElasticity.png");
+		Resources::Load<Texture>(L"Book_Ability_1", L"UI\\Icon\\Icon_TomeOfElements.png");
+		Resources::Load<Texture>(L"Book_Ability_2", L"UI\\Icon\\Icon_TomeOfSpeed.png");
+		Resources::Load<Texture>(L"Book_Ability_3", L"UI\\Icon\\Icon_TomePower.png");
+		Resources::Load<Texture>(L"Book_Ability_4", L"UI\\Icon\\Icon_TomeRage.png");
+		Resources::Load<Texture>(L"Book_Ability_5", L"UI\\Icon\\Icon_TomeSummoning.png");
+
+		Resources::Load<Texture>(L"PowerupFrame", L"UI\\Icon\\PowerupFrame.png");
+		Resources::Load<Texture>(L"PowerupFrame_Large", L"UI\\Icon\\PowerupFrame_Large.png");
+		Resources::Load<Texture>(L"PowerupIconBG", L"UI\\Icon\\PowerupIconBG.png");
+		Resources::Load<Texture>(L"UIPanel", L"UI\\T_UIPanel.png");
+		Resources::Load<Texture>(L"LeftDownArrows", L"UI\\T_PowerupTreeArrows_0.png");
+		Resources::Load<Texture>(L"RightDownArrows", L"UI\\T_PowerupTreeArrows_1.png");
+		Resources::Load<Texture>(L"DownRightArrows", L"UI\\T_PowerupTreeArrows_2.png");
+		Resources::Load<Texture>(L"DownLeftArrows", L"UI\\T_PowerupTreeArrows_3.png");
 
 
 #pragma endregion
@@ -611,6 +779,26 @@ namespace ya::renderer
 		CreateMaterial(L"BackGroundTexture", L"SpriteShader", eRenderingMode::Transparent, L"backgroundMaterial");
 
 		CreateMaterial(L"LogoTexture", L"SpriteShader", eRenderingMode::Transparent, L"LogoMaterial");
+
+		CreateMaterial(L"UIPanel", L"SpriteShader", eRenderingMode::Transparent, L"PanalMaterial");
+
+		CreateMaterial(L"LeftDownArrows", L"SpriteShader", eRenderingMode::Transparent, L"LeftDownLeaderMaterial");
+		CreateMaterial(L"RightDownArrows", L"SpriteShader", eRenderingMode::Transparent, L"RightDownLeaderMaterial");
+		CreateMaterial(L"DownRightArrows", L"SpriteShader", eRenderingMode::Transparent, L"DownRightLeaderMaterial");
+		CreateMaterial(L"DownLeftArrows", L"SpriteShader", eRenderingMode::Transparent, L"DownLeftLeaderMaterial");
+		CreateMaterial(L"PowerupFrame", L"SpriteShader", eRenderingMode::Transparent, L"PowerupFrameMaterial");
+
+		CreateMaterial(L"PowerupIconBG", L"SpriteShader", eRenderingMode::Transparent, L"PowerupIconBGMaterial");
+
+		for (size_t i = 0; i < 100; i++)
+		{
+			const std::wstring name = L"Icon_Ability_" + std::to_wstring(i);
+
+
+			CreateMaterial(name, L"SpriteShader", eRenderingMode::Transparent, name + L"Material");
+		}
+
+
 #pragma endregion
 #pragma region PlayerUI
 		CreateMaterial(L"HPHeart", L"SpriteShader", eRenderingMode::Transparent, L"HpMaterial");

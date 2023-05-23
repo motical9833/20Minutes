@@ -14,6 +14,7 @@
 #include "yaGhostPetScript.h"
 #include "yaGhostBullet.h"
 #include "yaMagicLensScript.h"
+#include "yaSpearScript.h"
 
 namespace ya
 {
@@ -956,7 +957,10 @@ namespace ya
 	{
 		if (bupgrade[20][1])
 			return;
-
+		for (size_t i = 0; i < pscene->Getspears().size(); i++)
+		{
+			pscene->Getspears()[i]->GetScript<SpearScript>()->SetHolySPearOn();
+		}
 
 		bupgrade[20][1] = true;
 	}
@@ -965,6 +969,8 @@ namespace ya
 		if (bupgrade[20][2])
 			return;
 
+		pscene->GetPlayer()->GetScript<PlayerScript>()->SetMaxHP_Add(1);
+		pscene->GetPlayer()->GetScript<PlayerScript>()->HPReset();
 
 		bupgrade[20][2] = true;
 	}
@@ -973,6 +979,10 @@ namespace ya
 		if (bupgrade[20][3])
 			return;
 
+		for (size_t i = 0; i < pscene->Getspears().size(); i++)
+		{
+			pscene->Getspears()[i]->GetScript<SpearScript>()->SetSoulKnightOn();
+		}
 
 		bupgrade[20][3] = true;
 	}

@@ -51,7 +51,7 @@ namespace ya
 
 		float GetSpeedMul() { return mSpeedMul; }
 		bool GetPlayerHit() { return bPlayerHit; }
-
+		int GetMaxHP() { return mMaxHP; }
 		void ShieldOn() { bShield = true; }
 
 		void FireSlow();
@@ -70,7 +70,6 @@ namespace ya
 		void HinaAnimation();
 		void LilithAnimation();
 		void ShanaAnimation();
-
 
 	private:
 		float immuneTime;

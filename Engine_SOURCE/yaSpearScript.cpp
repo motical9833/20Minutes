@@ -7,6 +7,7 @@
 #include "yaMonsterScript.h"
 #include "yaSkillManager.h"
 #include "yaInput.h"
+#include "yaPlayerScript.h"
 
 namespace ya
 {
@@ -20,6 +21,7 @@ namespace ya
 		, mDamage(20)
 		, value(cnt)
 		, bAttack(false)
+		, bHolySpear(false)
 		, mDir{}
 	{
 
@@ -62,10 +64,27 @@ namespace ya
 		if (bAttack == false)
 			return;
 
-		if (collider->GetOwner()->GetLayerType() == eLayerType::Monster && collider->GetOwner()->GetState() == (UINT)GameObject::eState::Active)
+
+
+		if (collider->GetOwner()->GetLayerType() == eLayerType::Monster && collider->GetOwner()->GetState() == (UINT)GameObject::eState::Active && bHolySpear && bSoulKnight)
+		{
+			int maxHP = collider->GetOwner()->GetScript<MonsterScript>()->GetMaxHP() / 10 + 1;
+
+			int damageUP = 3 * SceneManager::GetPlayScene()->GetPlayer()->GetScript<PlayerScript>()->GetMaxHP();
+
+			collider->GetOwner()->GetScript<MonsterScript>()->TakeDamage(damageUP + maxHP + mDamage);
+		}
+		else if (collider->GetOwner()->GetLayerType() == eLayerType::Monster && collider->GetOwner()->GetState() == (UINT)GameObject::eState::Active && bHolySpear)
+		{
+			int maxHP = collider->GetOwner()->GetScript<MonsterScript>()->GetMaxHP() / 10 + 1;
+
+			collider->GetOwner()->GetScript<MonsterScript>()->TakeDamage(maxHP + mDamage);
+		}
+		else if (collider->GetOwner()->GetLayerType() == eLayerType::Monster && collider->GetOwner()->GetState() == (UINT)GameObject::eState::Active)
 		{
 			collider->GetOwner()->GetScript<MonsterScript>()->TakeDamage(mDamage);
 		}
+
 	}
 	void SpearScript::OnCollisionStay(Collider2D* collider)
 	{
@@ -87,9 +106,10 @@ namespace ya
 	{
 
 	}
-	void SpearScript::Reset()
+	void SpearScript::GameReset()
 	{
-
+		bHolySpear = false;
+		bAttack = false;
 	}
 
 	void SpearScript::Attack()

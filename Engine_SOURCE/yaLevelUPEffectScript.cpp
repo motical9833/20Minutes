@@ -39,12 +39,16 @@ namespace ya
 	}
 	void LevelUPEffectScript::End()
 	{
-		//SceneManager::GetPlayScene()->SetStop();
+		SceneManager::GetPlayScene()->LevelUPUI();
 		GetOwner()->Death();
-		SceneManager::GetPlayScene()->GetLevelManager()->GetScript<PlayerLevelScript>()->LevelUP();
 	}
 	void LevelUPEffectScript::Reset()
 	{
 
+	}
+	void LevelUPEffectScript::LevelUPEffect()
+	{
+		GetOwner()->Life();
+		GetOwner()->GetComponent<Animator>()->Play(L"LevelUPAni", false);
 	}
 }

@@ -19,6 +19,7 @@
 #include "yaGameObject.h"
 #include "yaPlayScene.h"
 
+
 namespace ya
 {
 	TitleScene::TitleScene()
@@ -149,6 +150,20 @@ namespace ya
 			SceneManager::LoadScene(eSceneType::Play);
 		}
 
+		if (Input::GetKeyDown(eKeyCode::LBTN))
+		{
+			Vector3 pos = Input::GetMousePosition();
+
+			glm::vec2 screenCoord(pos.x, pos.y);
+			glm::mat4 viewProjectionMatrix(1.0f);
+
+			int screenWidth = 1600;
+			int screenHeight = 900;
+
+			glm::vec2 cameraCoorcd = ScreenToCamera(screenCoord, viewProjectionMatrix, screenWidth, screenHeight);
+
+			Vector3 mousePos = Vector3(cameraCoorcd.x, cameraCoorcd.y,0.0f);
+		}
 
 		Scene::Update();
 	}
@@ -166,5 +181,19 @@ namespace ya
 	}
 	void TitleScene::OnExit()
 	{
+	}
+	glm::vec2 TitleScene::ScreenToCamera(const glm::vec2& screenCoord, const glm::mat4& viewProjectionMatrix, int screenWidth, int screenHeight)
+	{
+		glm::vec4 normalizedCoord
+		(
+			(screenCoord.x / screenWidth) * 2,
+			(screenCoord.y / screenHeight) * 2,
+			0.0f,
+			1.0f
+		);
+
+		glm::vec4 cameraCoord = viewProjectionMatrix * normalizedCoord;
+
+		return glm::vec2(cameraCoord);
 	}
 }

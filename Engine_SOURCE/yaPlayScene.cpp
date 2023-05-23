@@ -53,6 +53,7 @@ namespace ya
 	PlayScene::PlayScene()
 		: Scene(eSceneType::Play)
 		, player(nullptr)
+		, uiOn(false)
 	{
 		
 	}
@@ -64,6 +65,7 @@ namespace ya
 
 	void PlayScene::Initalize()
 	{
+
 		//paint Shader
 		std::shared_ptr<PaintShader> paintShader = Resources::Find<PaintShader>(L"PaintShader");
 		paintShader->SetTarget(Resources::Find<Texture>(L"PaintTexture"));
@@ -205,78 +207,18 @@ namespace ya
 
 
 		// SKill
-
-		for (size_t i = 0; i < 50; i++)
-		{
-			//GameObject* thunderObject = object::Instantiate<GameObject>(eLayerType::Bullet, this);
-			//thunderObject->SetLayerType(eLayerType::Bullet);
-			GameObject* thunderObject = object::Instantiate<GameObject>(eLayerType::Skill, this);
-			thunderObject->SetLayerType(eLayerType::Skill);
-			thunderObject->GetComponent<Transform>()->SetScale(Vector3(1.0f, 5.0f, 1.0f));
-			thunderObject->GetComponent<Transform>()->SetPosition(Vector3::Zero);
-			Collider2D* thunderCollider = thunderObject->AddComponent<Collider2D>();
-			thunderCollider->SetType(eColliderType::Rect);
-			thunderCollider->SetSize(Vector2(0.2f, 1.0f));
-			thunderCollider->SetCenter(Vector2(0.0f, 0.0f));
-			SpriteRenderer* render = thunderObject->AddComponent<SpriteRenderer>();
-			std::shared_ptr<Material> thunderMaterial = Resources::Find<Material>(L"ThunderMaterial");
-			render->SetMaterial(thunderMaterial);
-			std::shared_ptr<Mesh> thunderMesh = Resources::Find<Mesh>(L"RectMesh");
-			render->SetMesh(thunderMesh);
-			Animator* thunderAnimator = thunderObject->AddComponent<Animator>();
-			std::shared_ptr<Texture>thunderTexture = Resources::Find<Texture>(L"S_Thunder");
-			thunderAnimator->Create(L"ThunderAni", thunderTexture, Vector2::Zero, Vector2(32.0f, 450.0f), Vector2::Zero, 8, 0.05f);
-			thunderAnimator->Play(L"ThunderAni", false);
-			thunderObject->AddComponent<ThunderScript>();
-			thunderObject->Death();
-			thunders.push_back(thunderObject);
-		}
+		CreateThunder();
 
 		pulseObject = object::Instantiate<GameObject>(eLayerType::Skill, this);
 		pulseObject->SetLayerType(eLayerType::Skill);
 
+		CreateGale();
+		CreateHolyShiled();
 
-		for (size_t i = 0; i < 20; i++)
-		{
-			gales.push_back(CreateSkillObject(eColliderType::Rect, eLayerType::Skill, L"GaleMaterial"));
-			Animator* galesAnimator = gales[i]->AddComponent<Animator>();
-			gales[i]->GetComponent<Transform>()->SetScale(Vector3(2.0f, 2.0f, 1.0f));
-			std::shared_ptr<Texture> galesTexture = Resources::Find<Texture>(L"S_Gale");
-			galesAnimator->Create(L"galeAni", galesTexture, Vector2::Zero, Vector2(96.0f, 96.0f), Vector2::Zero, 3, 0.01f);
-			galesAnimator->Play(L"galeAni", true);
-			gales[i]->Death();
-			gales[i]->AddComponent<GaleScript>();
-		}
 
-		holyShield = CreateSkillObject(eLayerType::Skill, L"HolyShieldMaterial");
-		holyShield->GetComponent<Transform>()->SetScale(Vector3(3.0f, 3.0f, 1.0f));
-		Animator* shieldAnimator = holyShield->AddComponent<Animator>();
-		std::shared_ptr<Texture> ShieldIdle = Resources::Find<Texture>(L"S_HolyShieldIdle");
-		std::shared_ptr<Texture> ShieldIHit = Resources::Find<Texture>(L"S_HolyShieldIHit");
-		std::shared_ptr<Texture> shieldBreak = Resources::Find<Texture>(L"S_HolyShieldBreak");
-		shieldAnimator->Create(L"HolyShieldIdle", ShieldIdle, Vector2::Zero, Vector2(48.0f, 48.0f), Vector2::Zero, 7, 0.1f);
-		shieldAnimator->Create(L"HolyShieldIHit", ShieldIHit, Vector2::Zero, Vector2(48.0f, 48.0f), Vector2::Zero, 5, 0.1f);
-		shieldAnimator->Create(L"HolyShieldBreak", shieldBreak, Vector2::Zero, Vector2(52.0f, 52.0f), Vector2::Zero, 3, 0.1f);
-		shieldAnimator->Play(L"HolyShieldIdle", true);
-		holyShield->AddComponent<HolyShieldScript>();
-		holyShield->Death();
+		CreateLevelUpEffect();
 
-		levelManager = object::Instantiate<GameObject>(eLayerType::None, this);
-		levelManager->AddComponent<PlayerLevelScript>();
-
-		levelUPEffectObj = object::Instantiate<GameObject>(eLayerType::Skill_Buff, this);
-		SpriteRenderer* levelUPEffectRender = levelUPEffectObj->AddComponent<SpriteRenderer>();
-		std::shared_ptr<Material> levelUPMaterial = Resources::Find<Material>(L"LevelUPEffectMaterial");
-		levelUPEffectRender->SetMaterial(levelUPMaterial);
-		std::shared_ptr<Mesh> levelUPEffectMesh = Resources::Find<Mesh>(L"RectMesh");
-		levelUPEffectRender->SetMesh(levelUPEffectMesh);
-		Animator* levelupAniamtor = levelUPEffectObj->AddComponent<Animator>();
-		std::shared_ptr<Texture> levelUPTexture = Resources::Find<Texture>(L"LevelUP");
-		levelupAniamtor->Create(L"LevelUPAni", levelUPTexture, Vector2::Zero, Vector2(96.0f,1110.0f), Vector2::Zero, 9, 0.1f);
-		levelUPEffectObj->Death();
-		levelUPEffectObj->AddComponent<LevelUPEffectScript>();
-
-		for (size_t i = 0; i < 20; i++)
+		for (size_t i = 0; i < 200; i++)
 		{
 			GameObject* freeze = object::Instantiate<GameObject>(eLayerType::Skill, this);
 			freeze->GetComponent<Transform>()->SetPosition(Vector3::Zero);
@@ -301,7 +243,7 @@ namespace ya
 		freezes[2]->GetComponent<Transform>()->SetParent(mEyeMonsters[0]->GetComponent<Transform>());
 		freezes[3]->GetComponent<Transform>()->SetParent(mTreeMonsters[0]->GetComponent<Transform>());
 
-		for (size_t i = 0; i < 100; i++)
+		for (size_t i = 0; i < 200; i++)
 		{
 			GameObject* curse = object::Instantiate<GameObject>(eLayerType::Skill, this);
 			curse->SetLayerType(eLayerType::Skill);
@@ -330,219 +272,22 @@ namespace ya
 		curses[2]->GetComponent<Transform>()->SetParent(mEyeMonsters[0]->GetComponent<Transform>());
 		curses[3]->GetComponent<Transform>()->SetParent(mTreeMonsters[0]->GetComponent<Transform>());
 
-		for (size_t i = 0; i < 30; i++)
-		{
-			GameObject* smite = CreateSkillObject(eColliderType::Rect, eLayerType::Skill_Smite, L"SmiteFXMaterial");
-			smite->SetLayerType(eLayerType::Skill_Smite);
-			smite->GetComponent<Transform>()->SetPosition(Vector3::Zero);
-			smite->GetComponent<Transform>()->SetScale(Vector3(2.0f, 2.0f, 1.0f));
-			smite->GetComponent<Collider2D>()->SetSize(Vector2(0.3f, 0.3f));
-			smite->GetComponent<Collider2D>()->SetCenter(Vector2(0.0f, -0.6f));
-			Animator* smiteAnimator = smite->AddComponent<Animator>();
-			std::shared_ptr<Texture> smiteTexture = Resources::Find<Texture>(L"S_SmiteFX");
-			smiteAnimator->Create(L"Smite", smiteTexture, Vector2::Zero, Vector2(32.0f, 96.0f), Vector2::Zero, 4, 0.1f);
-			smiteAnimator->Play(L"Smite", false);
-			smite->AddComponent<SmiteScript>();
-			smite->Death();
-			smites.push_back(smite);
-		}
-
-		magicLens = CreateSkillObject(eColliderType::Rect, eLayerType::Skill, L"MagicLensMaterial");
-		magicLens->SetLayerType(eLayerType::Skill);
-		magicLens->GetComponent<Transform>()->SetPosition(Vector3(-4.0f, 0.0f, 0.0f));
-		magicLens->GetComponent<Collider2D>()->SetSize(Vector2(0.2f, 1.0f));
-		Collider2D* lensCollider = magicLens->GetComponent<Collider2D>();
-		lensCollider->SetCenter(Vector2::Zero);
-		Animator* lensAnimator = magicLens->AddComponent<Animator>();
-		std::shared_ptr<Texture> lensTexture = Resources::Find<Texture>(L"S_MagicLens");
-		magicLens->AddComponent<MagicLensScript>();
-		magicLens->Death();
-
-		dragonPet = CreateSkillObject(eLayerType::Skill, L"DragonMaterial");
-		dragonPet->SetLayerType(eLayerType::Skill);
-		dragonPet->GetComponent<Transform>()->SetScale(Vector3(3.0f, 3.0f, 1.0f));
-		Animator* dragonAnimator = dragonPet->AddComponent<Animator>();
-		std::shared_ptr<Texture> dragonEggTexture = Resources::Find<Texture>(L"S_DragonEgg");
-		std::shared_ptr<Texture> dragonTexture = Resources::Find<Texture>(L"S_Dragon");
-		dragonAnimator->Create(L"DragonEgg", dragonEggTexture, Vector2::Zero, Vector2(32.0f, 32.0f), Vector2::Zero, 1, 255);
-		dragonAnimator->Create(L"DragonIdle", dragonTexture, Vector2::Zero, Vector2(32.0f, 32.0f), Vector2::Zero, 6, 0.1f);
-		dragonAnimator->Create(L"DragonAttack", dragonTexture, Vector2(0, 32.0f), Vector2(32.0f, 32.0f), Vector2::Zero, 4, 0.1f);
-		dragonAnimator->Play(L"DragonEgg", true);
-		dragonPet->AddComponent<DragonPetScript>();
-		dragonPet->Death();
-
-		ghostPet = CreateSkillObject(eLayerType::Skill, L"DragonMaterial");
-		ghostPet->SetLayerType(eLayerType::Skill);
-		ghostPet->GetComponent<Transform>()->SetScale(Vector3(3.0f, 3.0f, 1.0f));
-		Animator* ghostPetAnimator = ghostPet->AddComponent<Animator>();
-		std::shared_ptr<Texture> ghostPetTexture = Resources::Find<Texture>(L"S_GhostPet");
-		ghostPetAnimator->Create(L"ghostPetIdle", ghostPetTexture, Vector2::Zero, Vector2(16.0f, 16.0f), Vector2::Zero, 6, 0.1f);
-		ghostPetAnimator->Create(L"ghostPetAttack", ghostPetTexture, Vector2(0, 16.0f), Vector2(16.0f, 16.0f), Vector2::Zero, 4, 0.1f);
-		ghostPetAnimator->Play(L"ghostPetIdle", true);
-		ghostPet->AddComponent<GhostPetScript>();
-		ghostPet->Death();
-
-		ghostPetRotobject = object::Instantiate<GameObject>(eLayerType::None, this);
-		ghostPetRotobject->GetComponent<Transform>()->SetPosition(Vector3::Zero);
-		ghostPetRotobject->AddComponent<RotScript>();
-
-		for (size_t i = 0; i < 20; i++)
-		{
-			//Bullet* bullet = object::Instantiate<Bullet>(eLayerType::Bullet, this);
-			//bullet->SetLayerType(eLayerType::Bullet);
-			Bullet* bullet = object::Instantiate<Bullet>(eLayerType::Skill, this);
-			bullet->SetLayerType(eLayerType::Skill);
-			Transform* bTr = bullet->GetComponent<Transform>();
-			bTr->SetPosition(Vector3::Zero);
-			bTr->SetScale(Vector3(2.0f, 2.0f, 1.0f));
-			Collider2D* bulletColloder = bullet->AddComponent<Collider2D>();
-			bulletColloder->SetType(eColliderType::Rect);
-			bulletColloder->SetSize(Vector2(0.1f, 0.1f));
-			SpriteRenderer* render = bullet->AddComponent<SpriteRenderer>();
-			std::shared_ptr<Material> bulletMaterial = Resources::Find<Material>(L"BulletMaterial");
-			render->SetMaterial(bulletMaterial);
-			std::shared_ptr<Mesh> bulletMesh = Resources::Find<Mesh>(L"RectMesh");
-			render->SetMesh(bulletMesh);
-			Animator* bulletAnimator = bullet->AddComponent<Animator>();
-			std::shared_ptr<Texture> bulletTexture = Resources::Find<Texture>(L"BulletTexture");
-			bulletAnimator->Create(L"BulletAni", bulletTexture, Vector2(0.0f, 0.0f), Vector2(16.0f, 14.0f), Vector2::Zero, 2, 0.0f);
-			bulletAnimator->Play(L"BulletAni", true);
-			bulletAnimator->Stop();
-			bullet->AddComponent<GhostBullet>();
-			bullet->Death();
-			ghostBullets.push_back(bullet);
-		}
-
-		for (size_t i = 0; i < 20; i++)
-		{
-			//Bullet* bullet = object::Instantiate<Bullet>(eLayerType::Bullet, this);
-			//bullet->SetLayerType(eLayerType::Bullet);
-
-			Bullet* bullet = object::Instantiate<Bullet>(eLayerType::Skill, this);
-			bullet->SetLayerType(eLayerType::Skill);
-			Transform* bTr = bullet->GetComponent<Transform>();
-			bTr->SetPosition(Vector3::Zero);
-			bTr->SetScale(Vector3(2.0f, 2.0f, 1.0f));
-			Collider2D* bulletColloder = bullet->AddComponent<Collider2D>();
-			bulletColloder->SetType(eColliderType::Rect);
-			bulletColloder->SetSize(Vector2(0.1f, 0.1f));
-			SpriteRenderer* render = bullet->AddComponent<SpriteRenderer>();
-			std::shared_ptr<Material> bulletMaterial = Resources::Find<Material>(L"BulletMaterial");
-			render->SetMaterial(bulletMaterial);
-			std::shared_ptr<Mesh> bulletMesh = Resources::Find<Mesh>(L"RectMesh");
-			render->SetMesh(bulletMesh);
-			Animator* bulletAnimator = bullet->AddComponent<Animator>();
-			std::shared_ptr<Texture> bulletTexture = Resources::Find<Texture>(L"BulletTexture");
-			bulletAnimator->Create(L"BulletAni", bulletTexture, Vector2(0.0f, 0.0f), Vector2(16.0f, 14.0f), Vector2::Zero, 2, 0.0f);
-			bulletAnimator->Play(L"BulletAni", true);
-			bulletAnimator->Stop();
-			bullet->AddComponent<DragonFireScript>();
-			bullet->Death();
-			dragonFires.push_back(bullet);
-		}
-
-
-		scythe = CreateSkillObject(eColliderType::Rect, eLayerType::Skill, L"ScytheMaterial");
-		scythe->SetLayerType(eLayerType::Skill);
-		scythe->Death();
-		scythe->AddComponent<ScytheScript>();
-
-		colliderCheck = object::Instantiate<GameObject>(eLayerType::ColliderChack, this);
-		colliderCheck->SetLayerType(eLayerType::ColliderChack);
-		Transform* checkTr = colliderCheck->GetComponent<Transform>();
-		checkTr->SetPosition(Vector3::Zero);
-		checkTr->SetScale(Vector3::One);
-		Collider2D* checkCollider = colliderCheck->AddComponent<Collider2D>();
-		checkCollider->SetType(eColliderType::Rect);
-		checkCollider->SetType(eColliderType::Rect);
-		checkCollider->SetSize(Vector2(5.0f, 5.0f));
-		colliderCheck->AddComponent<ColliderCheckScript>();
-
-		for (size_t i = 0; i < 2; i++)
-		{
-			GameObject* spear = CreateSkillObject(eColliderType::Rect, eLayerType::Skill, L"SpearMaterial");
-			spear->SetLayerType(eLayerType::Skill);
-			Collider2D* spearCollider = spear->GetComponent<Collider2D>();
-			spearCollider->SetSize(Vector2(0.5f, 1.0f));
-			spear->Death();
-			spears.push_back(spear);
-		}
-		spears[0]->AddComponent<SpearScript>(3);
-		spears[1]->AddComponent<SpearScript>(0);
-
-
-		for (size_t i = 0; i < 2; i++)
-		{
-			GameObject* thunderBug = CreateSkillObject(eLayerType::None, L"ThunderBugMaterial");
-			thunderBug->SetLayerType(eLayerType::None);
-			thunderBug->Death();
-			thunderBugs.push_back(thunderBug);
-			Animator* bugAnimator = thunderBug->AddComponent<Animator>();
-			std::shared_ptr<Texture> bugTexture = Resources::Find<Texture>(L"S_ThunderBug");
-			bugAnimator->Create(L"BugIdle", bugTexture, Vector2::Zero, Vector2(16.0f, 16.0f), Vector2::Zero, 6, 0.1f);
-			bugAnimator->Create(L"BugAttack", bugTexture, Vector2(0, 16.0f), Vector2(16.0f, 16.0f), Vector2::Zero, 3, 0.1f);
-			bugAnimator->Play(L"BugIdle", true);
-
-		}
-		thunderBugs[0]->AddComponent<ThunderBugScript>(5);
-		thunderBugs[1]->AddComponent<ThunderBugScript>(2);
-
-		for (size_t i = 0; i < 100; i++)
-		{
-			GameObject* icicle = CreateSkillObject(eColliderType::Rect, eLayerType::Skill, L"IcicleMaterial");
-			icicle->SetLayerType(eLayerType::Skill);
-			icicle->GetComponent<Transform>()->SetScale(Vector3(0.8f, 0.3f, 1.0f));
-			Collider2D* icicleCollider = icicle->GetComponent<Collider2D>();
-			icicle->AddComponent<IcicleScript>();
-			icicle->Death();
-			icicles.push_back(icicle);
-		}
-
-		for (size_t i = 0; i < 10; i++)
-		{
-			GameObject* hpObject = object::Instantiate<GameObject>(eLayerType::UI, this);
-			hpObject->SetLayerType(eLayerType::UI);
-			hpObject->GetComponent<Transform>()->SetPosition(Vector3(-10.0f + (float)i, 5.2f, 10.0f));
-			hpObject->GetComponent<Transform>()->SetScale(Vector3(3.0f, 3.0f, 1.0f));
-			hpObject->GetComponent<Transform>()->SetParent(cameraUIObj->GetComponent<Transform>());
-			SpriteRenderer* render = hpObject->AddComponent<SpriteRenderer>();
-			std::shared_ptr<Material> hpMaterial = Resources::Find<Material>(L"HpMaterial");
-			render->SetMaterial(hpMaterial);
-			std::shared_ptr<Mesh> hpMesh = Resources::Find<Mesh>(L"RectMesh");
-			render->SetMesh(hpMesh);
-			Animator* uiAnimator = hpObject->AddComponent<Animator>();
-			std::shared_ptr<Texture> hpTexture = Resources::Find<Texture>(L"HPHeart");
-			uiAnimator->Create(L"heartbeat", hpTexture, Vector2::Zero, Vector2(32.0f, 32.0f), Vector2::Zero, 3, 0.1f);
-			uiAnimator->Create(L"heartArrest", hpTexture, Vector2(96.0f,0.0f), Vector2(32.0f, 32.0f), Vector2::Zero, 1, 100.0f);
-			uiAnimator->Play(L"heartbeat", true);
-			hpObject->Death();
-			hpObjects.push_back(hpObject);
-		}
-
-		for (size_t i = 0; i < 100; i++)
-		{
-			GameObject* expObj = object::Instantiate<GameObject>(eLayerType::ExpMarble, this);
-			expObj->SetLayerType(eLayerType::ExpMarble);
-			expObj->GetComponent<Transform>()->SetPosition(Vector3(-5.0f, 1.0f, 0.0f));
-			expObj->GetComponent<Transform>()->SetScale(Vector3(0.2f, 0.2f, 1.0f));
-			expObj->AddComponent<Collider2D>();
-			expObj->GetComponent<Collider2D>()->SetType(eColliderType::Rect);
-			SpriteRenderer* expRender = expObj->AddComponent<SpriteRenderer>();
-			std::shared_ptr<Material> expMaterial = Resources::Find<Material>(L"ExpObjectMaterial");
-			expRender->SetMaterial(expMaterial);
-			std::shared_ptr<Mesh> expMesh = Resources::Find<Mesh>(L"RectMesh");
-			expRender->SetMesh(expMesh);
-			expObj->AddComponent<ExpMarbleObject>();
-			expObj->Death();
-			expMarbles.push_back(expObj);
-		}
-		expMarbles[0]->Life();
-
-		skillManager = object::Instantiate<GameObject>(eLayerType::None, this);
-		skillManager->AddComponent<SkillManager>();
-
-		upgradeobj = object::Instantiate<GameObject>(eLayerType::None, this);
-		upgradeobj->AddComponent<UpgradeScript>();
+		CreateSmite();
+		CreateMagicLens();
+		CreateDragonPet();
+		CreateDragonPetBullet();
+		CreateGhostPet();
+		CreateGhostPetBullet();
+		CreateScythe();
+		CreateColliderChackObj();
+		CreateSpear();
+		CreateThunderBug();
+		CreateIcicle();
+		CreateExpMarble();
+		CreateGameManagers();
+		CreateHpUIobj(cameraUIObj);
+		CreateSkillUI(cameraUIObj);
+		CreateAbilityIcon(cameraUIObj);
 
 
 		//Particle
@@ -568,7 +313,7 @@ namespace ya
 
 	void PlayScene::Update()
 	{
-		 
+
 		if (Input::GetKeyDown(eKeyCode::N))
 		{
 			SceneManager::LoadScene(eSceneType::Tilte);
@@ -632,20 +377,46 @@ namespace ya
 		if (Input::GetKeyDown(eKeyCode::NUM_1))
 		{
 			//ALLSKILL();
-			levelUPEffectObj->Life();
-			levelUPEffectObj->GetComponent<Animator>()->Play(L"LevelUPAni", false);
-			//SetStop();
 		}
 		if (Input::GetKeyDown(eKeyCode::NUM_2))
 		{
 			SetStart(); 
+			uiOn = false;
+			for (size_t i = 0; i < uiObjects.size(); i++)
+			{
+				uiObjects[i]->Death();
+			}
+			for (size_t i = 0; i < iconObjects.size(); i++)
+			{
+				iconObjects[i]->Death();
+			}
 		}
 
 		if (Input::GetKeyDown(eKeyCode::P))
 		{
 			mBrainMonsters[0]->GetScript<MonsterScript>()->Respawn();
 			mBrainMonsters[0]->Life();
+			expMarbles[0]->Life();
 		}
+
+
+		if (Input::GetKeyDown(eKeyCode::LBTN) && uiOn)
+		{
+			Vector3 pos = Input::GetMousePosition();
+
+			glm::vec2 screenCoord(pos.x, pos.y);
+			glm::mat4 viewProjectionMatrix(1.0f);
+
+			int screenWidth = 1600;
+			int screenHeight = 900;
+
+			glm::vec2 cameraCoorcd = ScreenToCamera(screenCoord, viewProjectionMatrix, screenWidth, screenHeight);
+
+			Vector3 mousePos = Vector3(cameraCoorcd.x, cameraCoorcd.y, 0.0f);
+
+			int a = 0;
+		}
+
 	}
 
 	void PlayScene::FixedUpdate()
@@ -781,6 +552,440 @@ namespace ya
 		mBoomerMonsters.push_back(mBoomer);
 	}
 
+	void PlayScene::CreateDragonPet()
+	{
+		dragonPet = CreateSkillObject(eLayerType::Skill, L"DragonMaterial");
+		dragonPet->SetLayerType(eLayerType::Skill);
+		dragonPet->GetComponent<Transform>()->SetScale(Vector3(3.0f, 3.0f, 1.0f));
+		Animator* dragonAnimator = dragonPet->AddComponent<Animator>();
+		std::shared_ptr<Texture> dragonEggTexture = Resources::Find<Texture>(L"S_DragonEgg");
+		std::shared_ptr<Texture> dragonTexture = Resources::Find<Texture>(L"S_Dragon");
+		dragonAnimator->Create(L"DragonEgg", dragonEggTexture, Vector2::Zero, Vector2(32.0f, 32.0f), Vector2::Zero, 1, 255);
+		dragonAnimator->Create(L"DragonIdle", dragonTexture, Vector2::Zero, Vector2(32.0f, 32.0f), Vector2::Zero, 6, 0.1f);
+		dragonAnimator->Create(L"DragonAttack", dragonTexture, Vector2(0, 32.0f), Vector2(32.0f, 32.0f), Vector2::Zero, 4, 0.1f);
+		dragonAnimator->Play(L"DragonEgg", true);
+		dragonPet->AddComponent<DragonPetScript>();
+		dragonPet->Death();
+	}
+
+	void PlayScene::CreateDragonPetBullet()
+	{
+		for (size_t i = 0; i < 20; i++)
+		{
+			Bullet* bullet = object::Instantiate<Bullet>(eLayerType::Skill, this);
+			bullet->SetLayerType(eLayerType::Skill);
+			Transform* bTr = bullet->GetComponent<Transform>();
+			bTr->SetPosition(Vector3::Zero);
+			bTr->SetScale(Vector3(2.0f, 2.0f, 1.0f));
+			Collider2D* bulletColloder = bullet->AddComponent<Collider2D>();
+			bulletColloder->SetType(eColliderType::Rect);
+			bulletColloder->SetSize(Vector2(0.1f, 0.1f));
+			SpriteRenderer* render = bullet->AddComponent<SpriteRenderer>();
+			std::shared_ptr<Material> bulletMaterial = Resources::Find<Material>(L"BulletMaterial");
+			render->SetMaterial(bulletMaterial);
+			std::shared_ptr<Mesh> bulletMesh = Resources::Find<Mesh>(L"RectMesh");
+			render->SetMesh(bulletMesh);
+			Animator* bulletAnimator = bullet->AddComponent<Animator>();
+			std::shared_ptr<Texture> bulletTexture = Resources::Find<Texture>(L"BulletTexture");
+			bulletAnimator->Create(L"BulletAni", bulletTexture, Vector2(0.0f, 0.0f), Vector2(16.0f, 14.0f), Vector2::Zero, 2, 0.0f);
+			bulletAnimator->Play(L"BulletAni", true);
+			bulletAnimator->Stop();
+			bullet->AddComponent<DragonFireScript>();
+			bullet->Death();
+			dragonFires.push_back(bullet);
+		}
+	}
+
+	void PlayScene::CreateGhostPet()
+	{
+		ghostPet = CreateSkillObject(eLayerType::Skill, L"DragonMaterial");
+		ghostPet->SetLayerType(eLayerType::Skill);
+		ghostPet->GetComponent<Transform>()->SetScale(Vector3(3.0f, 3.0f, 1.0f));
+		Animator* ghostPetAnimator = ghostPet->AddComponent<Animator>();
+		std::shared_ptr<Texture> ghostPetTexture = Resources::Find<Texture>(L"S_GhostPet");
+		ghostPetAnimator->Create(L"ghostPetIdle", ghostPetTexture, Vector2::Zero, Vector2(16.0f, 16.0f), Vector2::Zero, 6, 0.1f);
+		ghostPetAnimator->Create(L"ghostPetAttack", ghostPetTexture, Vector2(0, 16.0f), Vector2(16.0f, 16.0f), Vector2::Zero, 4, 0.1f);
+		ghostPetAnimator->Play(L"ghostPetIdle", true);
+		ghostPet->AddComponent<GhostPetScript>();
+		ghostPet->Death();
+	}
+
+	void PlayScene::CreateGhostPetBullet()
+	{
+		for (size_t i = 0; i < 20; i++)
+		{
+			Bullet* bullet = object::Instantiate<Bullet>(eLayerType::Skill, this);
+			bullet->SetLayerType(eLayerType::Skill);
+			Transform* bTr = bullet->GetComponent<Transform>();
+			bTr->SetPosition(Vector3::Zero);
+			bTr->SetScale(Vector3(2.0f, 2.0f, 1.0f));
+			Collider2D* bulletColloder = bullet->AddComponent<Collider2D>();
+			bulletColloder->SetType(eColliderType::Rect);
+			bulletColloder->SetSize(Vector2(0.1f, 0.1f));
+			SpriteRenderer* render = bullet->AddComponent<SpriteRenderer>();
+			std::shared_ptr<Material> bulletMaterial = Resources::Find<Material>(L"BulletMaterial");
+			render->SetMaterial(bulletMaterial);
+			std::shared_ptr<Mesh> bulletMesh = Resources::Find<Mesh>(L"RectMesh");
+			render->SetMesh(bulletMesh);
+			Animator* bulletAnimator = bullet->AddComponent<Animator>();
+			std::shared_ptr<Texture> bulletTexture = Resources::Find<Texture>(L"BulletTexture");
+			bulletAnimator->Create(L"BulletAni", bulletTexture, Vector2(0.0f, 0.0f), Vector2(16.0f, 14.0f), Vector2::Zero, 2, 0.0f);
+			bulletAnimator->Play(L"BulletAni", true);
+			bulletAnimator->Stop();
+			bullet->AddComponent<GhostBullet>();
+			bullet->Death();
+			ghostBullets.push_back(bullet);
+		}
+	}
+
+	void PlayScene::CreateSmite()
+	{
+		for (size_t i = 0; i < 30; i++)
+		{
+			GameObject* smite = CreateSkillObject(eColliderType::Rect, eLayerType::Skill_Smite, L"SmiteFXMaterial");
+			smite->SetLayerType(eLayerType::Skill_Smite);
+			smite->GetComponent<Transform>()->SetPosition(Vector3::Zero);
+			smite->GetComponent<Transform>()->SetScale(Vector3(2.0f, 2.0f, 1.0f));
+			smite->GetComponent<Collider2D>()->SetSize(Vector2(0.3f, 0.3f));
+			smite->GetComponent<Collider2D>()->SetCenter(Vector2(0.0f, -0.6f));
+			Animator* smiteAnimator = smite->AddComponent<Animator>();
+			std::shared_ptr<Texture> smiteTexture = Resources::Find<Texture>(L"S_SmiteFX");
+			smiteAnimator->Create(L"Smite", smiteTexture, Vector2::Zero, Vector2(32.0f, 96.0f), Vector2::Zero, 4, 0.1f);
+			smiteAnimator->Play(L"Smite", false);
+			smite->AddComponent<SmiteScript>();
+			smite->Death();
+			smites.push_back(smite);
+		}
+
+		ghostPetRotobject = object::Instantiate<GameObject>(eLayerType::None, this);
+		ghostPetRotobject->GetComponent<Transform>()->SetPosition(Vector3::Zero);
+		ghostPetRotobject->AddComponent<RotScript>();
+	}
+
+	void PlayScene::CreateMagicLens()
+	{
+		magicLens = CreateSkillObject(eColliderType::Rect, eLayerType::Skill, L"MagicLensMaterial");
+		magicLens->SetLayerType(eLayerType::Skill);
+		magicLens->GetComponent<Transform>()->SetPosition(Vector3(-4.0f, 0.0f, 0.0f));
+		magicLens->GetComponent<Collider2D>()->SetSize(Vector2(0.2f, 1.0f));
+		Collider2D* lensCollider = magicLens->GetComponent<Collider2D>();
+		lensCollider->SetCenter(Vector2::Zero);
+		Animator* lensAnimator = magicLens->AddComponent<Animator>();
+		std::shared_ptr<Texture> lensTexture = Resources::Find<Texture>(L"S_MagicLens");
+		magicLens->AddComponent<MagicLensScript>();
+		magicLens->Death();
+	}
+
+	void PlayScene::CreateHolyShiled()
+	{
+		holyShield = CreateSkillObject(eLayerType::Skill, L"HolyShieldMaterial");
+		holyShield->GetComponent<Transform>()->SetScale(Vector3(3.0f, 3.0f, 1.0f));
+		Animator* shieldAnimator = holyShield->AddComponent<Animator>();
+		std::shared_ptr<Texture> ShieldIdle = Resources::Find<Texture>(L"S_HolyShieldIdle");
+		std::shared_ptr<Texture> ShieldIHit = Resources::Find<Texture>(L"S_HolyShieldIHit");
+		std::shared_ptr<Texture> shieldBreak = Resources::Find<Texture>(L"S_HolyShieldBreak");
+		shieldAnimator->Create(L"HolyShieldIdle", ShieldIdle, Vector2::Zero, Vector2(48.0f, 48.0f), Vector2::Zero, 7, 0.1f);
+		shieldAnimator->Create(L"HolyShieldIHit", ShieldIHit, Vector2::Zero, Vector2(48.0f, 48.0f), Vector2::Zero, 5, 0.1f);
+		shieldAnimator->Create(L"HolyShieldBreak", shieldBreak, Vector2::Zero, Vector2(52.0f, 52.0f), Vector2::Zero, 3, 0.1f);
+		shieldAnimator->Play(L"HolyShieldIdle", true);
+		holyShield->AddComponent<HolyShieldScript>();
+		holyShield->Death();
+	}
+
+	void PlayScene::CreateThunder()
+	{
+		for (size_t i = 0; i < 50; i++)
+		{
+			GameObject* thunderObject = object::Instantiate<GameObject>(eLayerType::Skill, this);
+			thunderObject->SetLayerType(eLayerType::Skill);
+			thunderObject->GetComponent<Transform>()->SetScale(Vector3(1.0f, 5.0f, 1.0f));
+			thunderObject->GetComponent<Transform>()->SetPosition(Vector3::Zero);
+			Collider2D* thunderCollider = thunderObject->AddComponent<Collider2D>();
+			thunderCollider->SetType(eColliderType::Rect);
+			thunderCollider->SetSize(Vector2(0.2f, 1.0f));
+			thunderCollider->SetCenter(Vector2(0.0f, 0.0f));
+			SpriteRenderer* render = thunderObject->AddComponent<SpriteRenderer>();
+			std::shared_ptr<Material> thunderMaterial = Resources::Find<Material>(L"ThunderMaterial");
+			render->SetMaterial(thunderMaterial);
+			std::shared_ptr<Mesh> thunderMesh = Resources::Find<Mesh>(L"RectMesh");
+			render->SetMesh(thunderMesh);
+			Animator* thunderAnimator = thunderObject->AddComponent<Animator>();
+			std::shared_ptr<Texture>thunderTexture = Resources::Find<Texture>(L"S_Thunder");
+			thunderAnimator->Create(L"ThunderAni", thunderTexture, Vector2::Zero, Vector2(32.0f, 450.0f), Vector2::Zero, 8, 0.05f);
+			thunderAnimator->Play(L"ThunderAni", false);
+			thunderObject->AddComponent<ThunderScript>();
+			thunderObject->Death();
+			thunders.push_back(thunderObject);
+		}
+	}
+
+	void PlayScene::CreateGale()
+	{
+		for (size_t i = 0; i < 20; i++)
+		{
+			gales.push_back(CreateSkillObject(eColliderType::Rect, eLayerType::Skill, L"GaleMaterial"));
+			Animator* galesAnimator = gales[i]->AddComponent<Animator>();
+			gales[i]->GetComponent<Transform>()->SetScale(Vector3(2.0f, 2.0f, 1.0f));
+			std::shared_ptr<Texture> galesTexture = Resources::Find<Texture>(L"S_Gale");
+			galesAnimator->Create(L"galeAni", galesTexture, Vector2::Zero, Vector2(96.0f, 96.0f), Vector2::Zero, 3, 0.01f);
+			galesAnimator->Play(L"galeAni", true);
+			gales[i]->Death();
+			gales[i]->AddComponent<GaleScript>();
+		}
+
+	}
+
+	void PlayScene::CreateScythe()
+	{
+		scythe = CreateSkillObject(eColliderType::Rect, eLayerType::Skill, L"ScytheMaterial");
+		scythe->SetLayerType(eLayerType::Skill);
+		scythe->Death();
+		scythe->AddComponent<ScytheScript>();
+	}
+
+	void PlayScene::CreateColliderChackObj()
+	{
+		colliderCheck = object::Instantiate<GameObject>(eLayerType::ColliderChack, this);
+		colliderCheck->SetLayerType(eLayerType::ColliderChack);
+		Transform* checkTr = colliderCheck->GetComponent<Transform>();
+		checkTr->SetPosition(Vector3::Zero);
+		checkTr->SetScale(Vector3::One);
+		Collider2D* checkCollider = colliderCheck->AddComponent<Collider2D>();
+		checkCollider->SetType(eColliderType::Rect);
+		checkCollider->SetType(eColliderType::Rect);
+		checkCollider->SetSize(Vector2(5.0f, 5.0f));
+		colliderCheck->AddComponent<ColliderCheckScript>();
+	}
+
+	void PlayScene::CreateSpear()
+	{
+		for (size_t i = 0; i < 2; i++)
+		{
+			GameObject* spear = CreateSkillObject(eColliderType::Rect, eLayerType::Skill, L"SpearMaterial");
+			spear->SetLayerType(eLayerType::Skill);
+			Collider2D* spearCollider = spear->GetComponent<Collider2D>();
+			spearCollider->SetSize(Vector2(0.5f, 1.0f));
+			spear->Death();
+			spears.push_back(spear);
+		}
+		spears[0]->AddComponent<SpearScript>(3);
+		spears[1]->AddComponent<SpearScript>(0);
+	}
+
+	void PlayScene::CreateThunderBug()
+	{
+		for (size_t i = 0; i < 2; i++)
+		{
+			GameObject* thunderBug = CreateSkillObject(eLayerType::None, L"ThunderBugMaterial");
+			thunderBug->SetLayerType(eLayerType::None);
+			thunderBug->Death();
+			thunderBugs.push_back(thunderBug);
+			Animator* bugAnimator = thunderBug->AddComponent<Animator>();
+			std::shared_ptr<Texture> bugTexture = Resources::Find<Texture>(L"S_ThunderBug");
+			bugAnimator->Create(L"BugIdle", bugTexture, Vector2::Zero, Vector2(16.0f, 16.0f), Vector2::Zero, 6, 0.1f);
+			bugAnimator->Create(L"BugAttack", bugTexture, Vector2(0, 16.0f), Vector2(16.0f, 16.0f), Vector2::Zero, 3, 0.1f);
+			bugAnimator->Play(L"BugIdle", true);
+
+		}
+		thunderBugs[0]->AddComponent<ThunderBugScript>(5);
+		thunderBugs[1]->AddComponent<ThunderBugScript>(2);
+	}
+
+	void PlayScene::CreateIcicle()
+	{
+		for (size_t i = 0; i < 100; i++)
+		{
+			GameObject* icicle = CreateSkillObject(eColliderType::Rect, eLayerType::Skill, L"IcicleMaterial");
+			icicle->SetLayerType(eLayerType::Skill);
+			icicle->GetComponent<Transform>()->SetScale(Vector3(0.8f, 0.3f, 1.0f));
+			Collider2D* icicleCollider = icicle->GetComponent<Collider2D>();
+			icicle->AddComponent<IcicleScript>();
+			icicle->Death();
+			icicles.push_back(icicle);
+		}
+	}
+
+	void PlayScene::CreateExpMarble()
+	{
+		for (size_t i = 0; i < 100; i++)
+		{
+			GameObject* expObj = object::Instantiate<GameObject>(eLayerType::ExpMarble, this);
+			expObj->SetLayerType(eLayerType::ExpMarble);
+			expObj->GetComponent<Transform>()->SetPosition(Vector3(-5.0f, 1.0f, 0.0f));
+			expObj->GetComponent<Transform>()->SetScale(Vector3(0.2f, 0.2f, 1.0f));
+			expObj->AddComponent<Collider2D>();
+			expObj->GetComponent<Collider2D>()->SetType(eColliderType::Rect);
+			SpriteRenderer* expRender = expObj->AddComponent<SpriteRenderer>();
+			std::shared_ptr<Material> expMaterial = Resources::Find<Material>(L"ExpObjectMaterial");
+			expRender->SetMaterial(expMaterial);
+			std::shared_ptr<Mesh> expMesh = Resources::Find<Mesh>(L"RectMesh");
+			expRender->SetMesh(expMesh);
+			expObj->AddComponent<ExpMarbleObject>();
+			expObj->Death();
+			expMarbles.push_back(expObj);
+		}
+		expMarbles[0]->Life();
+	}
+
+	void PlayScene::CreateGameManagers()
+	{
+		levelManager = object::Instantiate<GameObject>(eLayerType::None, this);
+		levelManager->AddComponent<PlayerLevelScript>();
+
+		skillManager = object::Instantiate<GameObject>(eLayerType::None, this);
+		skillManager->AddComponent<SkillManager>();
+
+		upgradeobj = object::Instantiate<GameObject>(eLayerType::None, this);
+		upgradeobj->AddComponent<UpgradeScript>();
+	}
+
+	void PlayScene::CreateHpUIobj(GameObject* parent)
+	{
+		for (size_t i = 0; i < 10; i++)
+		{
+			GameObject* hpObject = object::Instantiate<GameObject>(eLayerType::UI, this);
+			hpObject->SetLayerType(eLayerType::UI);
+			hpObject->GetComponent<Transform>()->SetPosition(Vector3(-10.0f + (float)i, 5.2f, 10.0f));
+			hpObject->GetComponent<Transform>()->SetScale(Vector3(3.0f, 3.0f, 1.0f));
+			hpObject->GetComponent<Transform>()->SetParent(parent->GetComponent<Transform>());
+			SpriteRenderer* render = hpObject->AddComponent<SpriteRenderer>();
+			std::shared_ptr<Material> hpMaterial = Resources::Find<Material>(L"HpMaterial");
+			render->SetMaterial(hpMaterial);
+			std::shared_ptr<Mesh> hpMesh = Resources::Find<Mesh>(L"RectMesh");
+			render->SetMesh(hpMesh);
+			Animator* uiAnimator = hpObject->AddComponent<Animator>();
+			std::shared_ptr<Texture> hpTexture = Resources::Find<Texture>(L"HPHeart");
+			uiAnimator->Create(L"heartbeat", hpTexture, Vector2::Zero, Vector2(32.0f, 32.0f), Vector2::Zero, 3, 0.1f);
+			uiAnimator->Create(L"heartArrest", hpTexture, Vector2(96.0f, 0.0f), Vector2(32.0f, 32.0f), Vector2::Zero, 1, 100.0f);
+			uiAnimator->Play(L"heartbeat", true);
+			hpObject->Death();
+			hpObjects.push_back(hpObject);
+		}
+	}
+
+	void PlayScene::CreateAbilityIcon(GameObject* parent)
+	{
+		for (size_t i = 0; i < 100; i++)
+		{
+			const std::wstring name = L"Icon_Ability_" + std::to_wstring(i) + L"Material";
+			CreateSkillIcon(name, parent, Vector3(0.0f, 0.0f, 1.0f), Vector3(0.08f, 0.08f, 1.0f));
+		}
+	}
+
+	void PlayScene::CreateLevelUpEffect()
+	{
+		levelUPEffectObj = object::Instantiate<GameObject>(eLayerType::Skill_Buff, this);
+		SpriteRenderer* levelUPEffectRender = levelUPEffectObj->AddComponent<SpriteRenderer>();
+		std::shared_ptr<Material> levelUPMaterial = Resources::Find<Material>(L"LevelUPEffectMaterial");
+		levelUPEffectRender->SetMaterial(levelUPMaterial);
+		std::shared_ptr<Mesh> levelUPEffectMesh = Resources::Find<Mesh>(L"RectMesh");
+		levelUPEffectRender->SetMesh(levelUPEffectMesh);
+		Animator* levelupAniamtor = levelUPEffectObj->AddComponent<Animator>();
+		std::shared_ptr<Texture> levelUPTexture = Resources::Find<Texture>(L"LevelUP");
+		levelupAniamtor->Create(L"LevelUPAni", levelUPTexture, Vector2::Zero, Vector2(96.0f, 1110.0f), Vector2::Zero, 9, 0.1f);
+		levelUPEffectObj->Death();
+		levelUPEffectObj->AddComponent<LevelUPEffectScript>();
+	}
+
+	void PlayScene::CreateUIPanal(GameObject* parent,Vector3 pos ,Vector3 scale)
+	{
+		GameObject* uiPanal = object::Instantiate<GameObject>(eLayerType::UI, this);
+		uiPanal->SetLayerType(eLayerType::UI);
+		uiPanal->GetComponent<Transform>()->SetPosition(pos);
+		uiPanal->GetComponent<Transform>()->SetScale(scale);
+		uiPanal->GetComponent<Transform>()->SetParent(parent->GetComponent<Transform>());
+		SpriteRenderer* panalRender = uiPanal->AddComponent<SpriteRenderer>();
+		std::shared_ptr<Material> panalMaterial = Resources::Find<Material>(L"PanalMaterial");
+		panalRender->SetMaterial(panalMaterial);
+		std::shared_ptr<Mesh> panalMesh = Resources::Find<Mesh>(L"RectMesh");
+		panalRender->SetMesh(panalMesh);
+
+		uiObjects.push_back(uiPanal);
+	}
+
+	void PlayScene::CreateUILeader(const std::wstring& key,GameObject* parent, Vector3 pos, Vector3 scale)
+	{
+		GameObject* uiLeader = object::Instantiate<GameObject>(eLayerType::UI, this);
+		uiLeader->SetLayerType(eLayerType::UI);
+		uiLeader->GetComponent<Transform>()->SetParent(parent->GetComponent<Transform>());
+		uiLeader->GetComponent<Transform>()->SetPosition(pos);
+		uiLeader->GetComponent<Transform>()->SetScale(scale);
+		SpriteRenderer* leaderRender = uiLeader->AddComponent<SpriteRenderer>();
+		std::shared_ptr<Material> leaderMaterial = Resources::Find<Material>(key);
+		leaderRender->SetMaterial(leaderMaterial);
+		std::shared_ptr<Mesh> leaderMesh = Resources::Find<Mesh>(L"RectMesh");
+		leaderRender->SetMesh(leaderMesh);
+
+		uiObjects.push_back(uiLeader);
+	}
+
+	void PlayScene::CreatePowerUpFrame(GameObject* parent, Vector3 pos, Vector3 scale)
+	{
+		GameObject* frame = object::Instantiate<GameObject>(eLayerType::UI, this);
+		frame->SetLayerType(eLayerType::UI);
+		frame->GetComponent<Transform>()->SetParent(parent->GetComponent<Transform>());
+		frame->GetComponent<Transform>()->SetPosition(pos);
+		frame->GetComponent<Transform>()->SetScale(scale);
+		SpriteRenderer* render = frame->AddComponent<SpriteRenderer>();
+		std::shared_ptr<Material> material = Resources::Find<Material>(L"PowerupFrameMaterial");
+		render->SetMaterial(material);
+		std::shared_ptr<Mesh> mesh = Resources::Find<Mesh>(L"RectMesh");
+		render->SetMesh(mesh);
+
+		GameObject* frameBG = object::Instantiate<GameObject>(eLayerType::UI, this);
+		frameBG->SetLayerType(eLayerType::UI);
+		frameBG->GetComponent<Transform>()->SetParent(parent->GetComponent<Transform>());
+		frameBG->GetComponent<Transform>()->SetPosition(pos - Vector3(0.0f,0.0f,-0.01f));
+		frameBG->GetComponent<Transform>()->SetScale(scale);
+		SpriteRenderer* bgRender = frameBG->AddComponent<SpriteRenderer>();
+		std::shared_ptr<Material> bgMaterial = Resources::Find<Material>(L"PowerupIconBGMaterial");
+		bgRender->SetMaterial(bgMaterial);
+		std::shared_ptr<Mesh> bgMesh = Resources::Find<Mesh>(L"RectMesh");
+		bgRender->SetMesh(bgMesh);
+
+
+		uiObjects.push_back(frame);
+		uiObjects.push_back(frameBG);
+	}
+
+	void PlayScene::CreateSkillUI(GameObject* parent)
+	{
+		CreateUIPanal(parent, Vector3(0.0f, 0.0f, 1.0f), Vector3(1.2f, 0.4f, 1.0f));
+		CreateUIPanal(parent, Vector3(0.0f, -0.3f, 1.0f), Vector3(0.8f, 0.1f, 1.0f));
+		CreateUIPanal(parent, Vector3(0.0f, -0.42f, 1.0f), Vector3(0.8f, 0.1f, 1.0f));
+		CreateUILeader(L"LeftDownLeaderMaterial", parent, Vector3(0.3f, 0.08f, 1.0f), Vector3(0.05f, 0.05f, 1.0f));
+		CreateUILeader(L"RightDownLeaderMaterial", parent, Vector3(0.5f, 0.08f, 1.0f), Vector3(0.05f, 0.05f, 1.0f));
+		CreateUILeader(L"DownRightLeaderMaterial", parent, Vector3(0.3f, -0.12f, 1.0f), Vector3(0.05f, 0.05f, 1.0f));
+		CreateUILeader(L"DownLeftLeaderMaterial", parent, Vector3(0.5f, -0.12f, 1.0f), Vector3(0.05f, 0.05f, 1.0f));
+		CreatePowerUpFrame(parent, Vector3(0.28f, -0.02f, 1.0f), Vector3(0.08f, 0.08f, 1.0f));
+		CreatePowerUpFrame(parent, Vector3(0.52f, -0.02f, 1.0f), Vector3(0.08f, 0.08f, 1.0f));
+		CreatePowerUpFrame(parent, Vector3(0.4f, 0.08f, 1.0f), Vector3(0.08f, 0.08f, 1.0f));
+		CreatePowerUpFrame(parent, Vector3(0.4f, -0.12f, 1.0f), Vector3(0.08f, 0.08f, 1.0f));
+
+		CreatePowerUpFrame(parent, Vector3(-0.3f, 0.26f, 1.0f), Vector3(0.08f, 0.08f, 1.0f));
+		CreatePowerUpFrame(parent, Vector3(-0.15f, 0.26f, 1.0f), Vector3(0.08f, 0.08f, 1.0f));
+		CreatePowerUpFrame(parent, Vector3(0.0f, 0.26f, 1.0f), Vector3(0.08f, 0.08f, 1.0f));
+		CreatePowerUpFrame(parent, Vector3(0.15f, 0.26f, 1.0f), Vector3(0.08f, 0.08f, 1.0f));
+		CreatePowerUpFrame(parent, Vector3(0.3f, 0.26f, 1.0f), Vector3(0.08f, 0.08f, 1.0f));
+	}
+
+	void PlayScene::CreateSkillIcon(const std::wstring& key, GameObject* parent, Vector3 pos, Vector3 scale)
+	{
+		GameObject* iconObj = object::Instantiate<GameObject>(eLayerType::UI, this);
+		iconObj->SetLayerType(eLayerType::UI);
+		iconObj->GetComponent<Transform>()->SetParent(parent->GetComponent<Transform>());
+		iconObj->GetComponent<Transform>()->SetPosition(pos);
+		iconObj->GetComponent<Transform>()->SetScale(scale);
+		SpriteRenderer* iconRender = iconObj->AddComponent<SpriteRenderer>();
+		std::shared_ptr<Material> iconMaterial = Resources::Find<Material>(key);
+		iconRender->SetMaterial(iconMaterial);
+		std::shared_ptr<Mesh> iconMesh = Resources::Find<Mesh>(L"RectMesh");
+		iconRender->SetMesh(iconMesh);
+
+		iconObj->Death();
+		iconObjects.push_back(iconObj);
+	}
+
 	void PlayScene::CreateCollider(auto* object, eColliderType type,Vector2 size)
 	{
 		Collider2D* collider = object->AddComponent<Collider2D>();
@@ -913,6 +1118,65 @@ namespace ya
 		upgradeobj->GetScript<UpgradeScript>()->Shadowblade(); 
 		upgradeobj->GetScript<UpgradeScript>()->Windcutter(); 
 		upgradeobj->GetScript<UpgradeScript>()->ScytheMastery();
+	}
+
+	glm::vec2 PlayScene::ScreenToCamera(const glm::vec2& screenCoord, const glm::mat4& viewProjectionMatrix, int screenWidth, int screenHeight)
+	{
+		glm::vec4 normalizedCoord
+		(
+			(screenCoord.x / screenWidth) * 2,
+			(screenCoord.y / screenHeight) * 2,
+			0.0f,
+			1.0f
+		);
+
+		glm::vec4 cameraCoord = viewProjectionMatrix * normalizedCoord;
+
+		return glm::vec2(cameraCoord);
+	}
+
+	void PlayScene::LevelUPUI()
+	{
+		//levelUPEffectObj->Life();
+		//levelUPEffectObj->GetComponent<Animator>()->Play(L"LevelUPAni", false);
+
+		int random[6];
+		int i, j;
+
+		srand((unsigned)time(NULL));
+
+		for (i = 0; i < 5; i++)
+		{
+			random[i] = (rand() % 23) + 1;
+
+			for (j = 0; j < i; j++)
+			{
+				if (random[i] == random[j]) i--;
+			}
+		}
+
+		for (size_t i = 0; i < 5; i++)
+		{
+			GetIcon()[random[i] * 4]->GetComponent<Transform>()->SetPosition(Vector3(-0.3f + (i * 0.15f), 0.26f, 1.0f));
+			GetIcon()[random[i] * 4]->Life();
+		}
+
+
+		SetStop();
+
+
+		for (size_t i = 0; i < uiObjects.size(); i++)
+		{
+			uiObjects[i]->Life();
+		}
+
+
+
+
+
+
+
+		uiOn = true;
 	}
 
 	void PlayScene::CreateDeathFX()

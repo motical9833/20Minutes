@@ -22,16 +22,18 @@ namespace ya
 		void Start();
 		void Action();
 		void End();
-		void Reset();
+		void GameReset();
 
 		void Circularmotion();
 		void LookPayer();
 
 		void SetDir(Vector3 dir) { mDir = dir; }
+		void SetHolySPearOn() { bHolySpear = true; }
+		void SetSoulKnightOn() { bSoulKnight = true; }
 		void Attack();
 
 		bool GetBAttack() { return bAttack; };
-
+	
 	private:
 		float mSpeed;
 		float mFireSpeed;
@@ -43,6 +45,8 @@ namespace ya
 		int mDamage;
 
 		bool bAttack;
+		bool bHolySpear;
+		bool bSoulKnight;
 		Vector3 mDir;
 	};
 }

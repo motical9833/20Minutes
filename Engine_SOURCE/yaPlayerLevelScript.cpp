@@ -3,6 +3,7 @@
 #include "yaPlayerScript.h"
 #include "yaGameObject.h"
 #include "yaPlayScene.h"
+#include "yaLevelUPEffectScript.h"
 
 namespace ya
 {
@@ -67,10 +68,12 @@ namespace ya
 		mLevel++;
 		mLevelUpExp += 5;
 		mCurrentExp = 0;
+		SceneManager::GetPlayScene()->GetLevelUPEffect()->GetScript<LevelUPEffectScript>()->LevelUPEffect();
 	}
 	void PlayerLevelScript::GetExp()
 	{
 		mCurrentExp++;
+
 
 		if (mCurrentExp == mLevelUpExp)
 			LevelUP();

@@ -20,6 +20,8 @@ namespace ya
 		void End();
 		void Reset();
 
+		void LevelUPEffect();
+
 	private:
 	};
 }
