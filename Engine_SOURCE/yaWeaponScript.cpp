@@ -74,6 +74,9 @@ namespace ya
 	}
 	void WeaponScript::Update()
 	{
+		if (pScene->GetUIOn())
+			return;
+
 		Cheat();
 		time += Time::DeltaTime();
 

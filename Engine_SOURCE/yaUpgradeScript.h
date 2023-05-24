@@ -147,10 +147,28 @@ namespace ya
 		void Windcutter(); // 이동속도 10% 이동속도 보너스의 양에따라 데미지 증가.
 		void ScytheMastery(); //총알 데미지 10% BulletDamage 보너스에 따라 데미지 증가
 
-		std::array<std::array<bool, 4>, 23> GetUpgradeBool() { return bupgrade; }
+		//소울 하트
+		void SoulReap();
+		void SoulConversion();
+		void SoulPowered();
+		void SoulLink();
+
+		//소환수 강화
+		void Trainer();
+		void PulsingSummons();
+		void FeedtheBeasts();
+		void Bloodsuckers();
+
+		//프렌지 트리
+		void Frenzy();
+		void Hellspawns();
+		void Tunderspawns();
+		void Culling();
+
+		std::array<std::array<bool, 4>, 25> GetUpgradeBool() { return bupgrade; }
 
 	private:
 		PlayScene* pscene;
-		std::array<std::array<bool, 4>, 23> bupgrade;
+		std::array<std::array<bool, 4>, 25> bupgrade;
 	};
 }

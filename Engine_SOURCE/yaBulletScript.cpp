@@ -65,6 +65,9 @@ namespace ya
 	}
 	void BulletScript::Update()
 	{
+		if (SceneManager::GetPlayScene()->GetUIOn())
+			return;
+
 		time += Time::DeltaTime();
 		Vector3 pos = mTr->GetPosition();
 

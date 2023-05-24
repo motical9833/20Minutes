@@ -72,6 +72,9 @@ namespace ya
 	}
 	void MonsterScript::Update()
 	{
+		if (SceneManager::GetPlayScene()->GetUIOn())
+			return;
+
 		if (bFreeze)
 		{
 			mSpeed = 0;

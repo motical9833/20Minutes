@@ -54,6 +54,8 @@ namespace ya
 		: Scene(eSceneType::Play)
 		, player(nullptr)
 		, uiOn(false)
+		, randomValue{}
+		, abliltyNumber(0)
 	{
 		
 	}
@@ -313,6 +315,12 @@ namespace ya
 
 	void PlayScene::Update()
 	{
+		if (uiOn)
+		{
+
+			Vector3 mousePos = UiMousePos();
+			UiButton(mousePos);
+		}
 
 		if (Input::GetKeyDown(eKeyCode::N))
 		{
@@ -376,7 +384,7 @@ namespace ya
 
 		if (Input::GetKeyDown(eKeyCode::NUM_1))
 		{
-			//ALLSKILL();
+
 		}
 		if (Input::GetKeyDown(eKeyCode::NUM_2))
 		{
@@ -386,9 +394,14 @@ namespace ya
 			{
 				uiObjects[i]->Death();
 			}
+			for (size_t i = 0; i < uiFrames.size(); i++)
+			{
+				uiFrames[i]->Death();
+			}
 			for (size_t i = 0; i < iconObjects.size(); i++)
 			{
 				iconObjects[i]->Death();
+				icons[i]->Death();
 			}
 		}
 
@@ -400,7 +413,7 @@ namespace ya
 		}
 
 
-		if (Input::GetKeyDown(eKeyCode::LBTN) && uiOn)
+		if (Input::GetKeyDown(eKeyCode::LBTN))
 		{
 			Vector3 pos = Input::GetMousePosition();
 
@@ -868,7 +881,7 @@ namespace ya
 		for (size_t i = 0; i < 100; i++)
 		{
 			const std::wstring name = L"Icon_Ability_" + std::to_wstring(i) + L"Material";
-			CreateSkillIcon(name, parent, Vector3(0.0f, 0.0f, 1.0f), Vector3(0.08f, 0.08f, 1.0f));
+			CreateSkillIcon(name, parent, Vector3(0.0f, 0.0f, 1.0f), Vector3(0.06f, 0.06f, 1.0f));
 		}
 	}
 
@@ -932,6 +945,8 @@ namespace ya
 		std::shared_ptr<Mesh> mesh = Resources::Find<Mesh>(L"RectMesh");
 		render->SetMesh(mesh);
 
+		uiFrames.push_back(frame);
+
 		GameObject* frameBG = object::Instantiate<GameObject>(eLayerType::UI, this);
 		frameBG->SetLayerType(eLayerType::UI);
 		frameBG->GetComponent<Transform>()->SetParent(parent->GetComponent<Transform>());
@@ -943,8 +958,6 @@ namespace ya
 		std::shared_ptr<Mesh> bgMesh = Resources::Find<Mesh>(L"RectMesh");
 		bgRender->SetMesh(bgMesh);
 
-
-		uiObjects.push_back(frame);
 		uiObjects.push_back(frameBG);
 	}
 
@@ -957,11 +970,10 @@ namespace ya
 		CreateUILeader(L"RightDownLeaderMaterial", parent, Vector3(0.5f, 0.08f, 1.0f), Vector3(0.05f, 0.05f, 1.0f));
 		CreateUILeader(L"DownRightLeaderMaterial", parent, Vector3(0.3f, -0.12f, 1.0f), Vector3(0.05f, 0.05f, 1.0f));
 		CreateUILeader(L"DownLeftLeaderMaterial", parent, Vector3(0.5f, -0.12f, 1.0f), Vector3(0.05f, 0.05f, 1.0f));
+		CreatePowerUpFrame(parent, Vector3(0.4f, 0.08f, 1.0f), Vector3(0.08f, 0.08f, 1.0f));
 		CreatePowerUpFrame(parent, Vector3(0.28f, -0.02f, 1.0f), Vector3(0.08f, 0.08f, 1.0f));
 		CreatePowerUpFrame(parent, Vector3(0.52f, -0.02f, 1.0f), Vector3(0.08f, 0.08f, 1.0f));
-		CreatePowerUpFrame(parent, Vector3(0.4f, 0.08f, 1.0f), Vector3(0.08f, 0.08f, 1.0f));
 		CreatePowerUpFrame(parent, Vector3(0.4f, -0.12f, 1.0f), Vector3(0.08f, 0.08f, 1.0f));
-
 		CreatePowerUpFrame(parent, Vector3(-0.3f, 0.26f, 1.0f), Vector3(0.08f, 0.08f, 1.0f));
 		CreatePowerUpFrame(parent, Vector3(-0.15f, 0.26f, 1.0f), Vector3(0.08f, 0.08f, 1.0f));
 		CreatePowerUpFrame(parent, Vector3(0.0f, 0.26f, 1.0f), Vector3(0.08f, 0.08f, 1.0f));
@@ -984,6 +996,20 @@ namespace ya
 
 		iconObj->Death();
 		iconObjects.push_back(iconObj);
+
+		GameObject* icon = object::Instantiate<GameObject>(eLayerType::UI, this);
+		icon->SetLayerType(eLayerType::UI);
+		icon->GetComponent<Transform>()->SetParent(parent->GetComponent<Transform>());
+		icon->GetComponent<Transform>()->SetPosition(pos);
+		icon->GetComponent<Transform>()->SetScale(scale);
+		SpriteRenderer* render = icon->AddComponent<SpriteRenderer>();
+		std::shared_ptr<Material> material = Resources::Find<Material>(key);
+		render->SetMaterial(material);
+		std::shared_ptr<Mesh> mesh = Resources::Find<Mesh>(L"RectMesh");
+		render->SetMesh(mesh);
+
+		icon->Death();
+		icons.push_back(icon);
 	}
 
 	void PlayScene::CreateCollider(auto* object, eColliderType type,Vector2 size)
@@ -1137,30 +1163,41 @@ namespace ya
 
 	void PlayScene::LevelUPUI()
 	{
-		//levelUPEffectObj->Life();
-		//levelUPEffectObj->GetComponent<Animator>()->Play(L"LevelUPAni", false);
-
-		int random[6];
-		int i, j;
 
 		srand((unsigned)time(NULL));
 
-		for (i = 0; i < 5; i++)
+		for (size_t i = 0; i < 5; i++)
 		{
-			random[i] = (rand() % 23) + 1;
+			randomValue[i] = (rand() % 23) + 1;
 
-			for (j = 0; j < i; j++)
+			for (size_t j = 0; j < i; j++)
 			{
-				if (random[i] == random[j]) i--;
+				if (randomValue[i] == randomValue[j]) i--;
 			}
 		}
 
 		for (size_t i = 0; i < 5; i++)
 		{
-			GetIcon()[random[i] * 4]->GetComponent<Transform>()->SetPosition(Vector3(-0.3f + (i * 0.15f), 0.26f, 1.0f));
-			GetIcon()[random[i] * 4]->Life();
+			iconObjects[randomValue[i] * 4]->GetComponent<Transform>()->SetPosition(Vector3(-0.3f + (i * 0.15f), 0.26f, 1.0f));
+			iconObjects[randomValue[i] * 4]->Life();
+		}
+		iconObjects[randomValue[0]]->GetComponent<Transform>()->SetScale(Vector3(0.12f, 0.12f, 1.0f));
+		uiFrames[4]->GetComponent<Transform>()->SetScale(Vector3(0.12f, 0.12f, 1.0f));
+		iconObjects[(randomValue[0] * 4)]->GetComponent<Transform>()->SetScale(Vector3(0.08f, 0.08f, 1.0f));
+
+
+		for (size_t i = 0; i < 5; i++)
+		{
+			icons[(randomValue[i] * 4) + 0]->GetComponent<Transform>()->SetPosition(Vector3(0.4f, 0.08f, 1.0f));
+			icons[(randomValue[i] * 4) + 1]->GetComponent<Transform>()->SetPosition(Vector3(0.28f, -0.02f, 1.0f));
+			icons[(randomValue[i] * 4) + 2]->GetComponent<Transform>()->SetPosition(Vector3(0.52f, -0.02f, 1.0f));
+			icons[(randomValue[i] * 4) + 3]->GetComponent<Transform>()->SetPosition(Vector3(0.4f, -0.12f, 1.0f));
 		}
 
+		for (size_t i = 0; i < 4; i++)
+		{
+			icons[(randomValue[0] * 4) + i]->Life();
+		}
 
 		SetStop();
 
@@ -1169,14 +1206,132 @@ namespace ya
 		{
 			uiObjects[i]->Life();
 		}
-
-
-
-
-
-
+		for (size_t i = 0; i < uiFrames.size(); i++)
+		{
+			uiFrames[i]->Life();
+		}
 
 		uiOn = true;
+	}
+
+	void PlayScene::UiButton(Vector3 pos)
+	{
+
+		if (Input::GetKeyDown(eKeyCode::LBTN))
+			int b = 0;
+
+		if (Input::GetKeyDown(eKeyCode::LBTN) && -0.321f <= pos.x && pos.x <= -0.25f && 0.386f <= pos.y && pos.y <= 0.522f)
+		{
+			AbilityUIClick(0);
+		}
+		if (Input::GetKeyDown(eKeyCode::LBTN) && -0.178f <= pos.x && pos.x <= -0.106f && 0.386f <= pos.y && pos.y <= 0.522f)
+		{
+			AbilityUIClick(1);
+		}
+		if (Input::GetKeyDown(eKeyCode::LBTN) && -0.03f <= pos.x && pos.x <= 0.069f && 0.386f <= pos.y && pos.y <= 0.522f)
+		{
+			AbilityUIClick(2);
+		}
+		if (Input::GetKeyDown(eKeyCode::LBTN) && 0.10f <= pos.x && pos.x <= 0.172f && 0.386f <= pos.y && pos.y <= 0.522f)
+		{
+			AbilityUIClick(3);
+		}
+		if (Input::GetKeyDown(eKeyCode::LBTN) && 0.25f <= pos.x && pos.x <= 0.322f && 0.386f <= pos.y && pos.y <= 0.522f)
+		{
+			AbilityUIClick(4);
+		}
+
+		if (Input::GetKeyDown(eKeyCode::LBTN) && 0.345f <= pos.x && pos.x <= 0.414f && 0.08f <= pos.y && pos.y <= 0.217f)
+		{
+			AbilityTreeClick(abliltyNumber,0);
+		}
+		if (Input::GetKeyDown(eKeyCode::LBTN) && 0.231f <= pos.x && pos.x <= 0.302f && -0.075f <= pos.y && pos.y <= 0.053f)
+		{
+			AbilityTreeClick(abliltyNumber, 1);
+		}
+		if (Input::GetKeyDown(eKeyCode::LBTN) && 0.460f <= pos.x && pos.x <= 0.531f && -0.075f <= pos.y && pos.y <= 0.053f)
+		{
+			AbilityTreeClick(abliltyNumber, 2);
+		}
+		if (Input::GetKeyDown(eKeyCode::LBTN) && 0.345f <= pos.x && pos.x <= 0.414f && -0.242f <= pos.y && pos.y <= -0.111f)
+		{
+			AbilityTreeClick(abliltyNumber, 3);
+		}
+
+		if (Input::GetKeyDown(eKeyCode::LBTN) && -0.380f <= pos.x && pos.x <= 0.380f && -0.555f <= pos.y && pos.y <= -0.393f)
+		{
+			int a = 0;
+		}
+		if (Input::GetKeyDown(eKeyCode::LBTN) && -0.380f <= pos.x && pos.x <= 0.380f && -0.753f <= pos.y && pos.y <= -0.591f)
+		{
+			int a = 0;
+		}
+	}
+
+	void PlayScene::AbilityUIClick(int number)
+	{
+		for (size_t i = 0; i < 4; i++)
+		{
+			for (size_t j = 0; j < 5; j++)
+			{
+				uiFrames[j + 4]->GetComponent<Transform>()->SetScale(Vector3(0.08f, 0.08f, 1.0f));
+				iconObjects[(randomValue[j] * 4)]->GetComponent<Transform>()->SetScale(Vector3(0.06f, 0.06f, 1.0f));
+				icons[(randomValue[j] * 4) + i]->Death();
+			}
+		}
+
+		for (size_t i = 0; i < 4; i++)
+		{
+			icons[(randomValue[number] * 4) + i]->Life();
+		}
+
+		uiFrames[number + 4]->GetComponent<Transform>()->SetScale(Vector3(0.12f, 0.12f, 1.0f));
+		iconObjects[(randomValue[number] * 4)]->GetComponent<Transform>()->SetScale(Vector3(0.08f, 0.08f, 1.0f));
+		AbilityTreeClickReset();
+
+
+		abliltyNumber = number;
+	}
+
+	void PlayScene::AbilityTreeClick(int ablityNum, int treeNum)
+	{
+		for (size_t i = 0; i < 4; i++)
+		{
+			icons[(randomValue[ablityNum] * 4) + i]->GetComponent<Transform>()->SetScale(Vector3(0.06f, 0.06f, 1.0f));
+			uiFrames[i]->GetComponent<Transform>()->SetScale(Vector3(0.08f, 0.08f, 1.0f));
+		}
+
+		icons[(randomValue[ablityNum] * 4) + treeNum]->GetComponent<Transform>()->SetScale(Vector3(0.08f, 0.08f, 1.0f));
+		uiFrames[treeNum]->GetComponent<Transform>()->SetScale(Vector3(0.12f, 0.12f, 1.0f));
+	}
+
+	void PlayScene::AbilityTreeClickReset()
+	{
+		for (size_t i = 0; i < 4; i++)
+		{
+			uiFrames[i]->GetComponent<Transform>()->SetScale(Vector3(0.08f, 0.08f, 1.0f));
+			for (size_t j = 0; j < 5; j++)
+			{
+				icons[(randomValue[j] * 4) + i]->GetComponent<Transform>()->SetScale(Vector3(0.06f, 0.06f, 1.0f));
+			}
+		}
+	}
+
+	Vector3 PlayScene::UiMousePos()
+	{
+		Vector3 pos = Input::GetMousePosition();
+
+		glm::vec2 screenCoord(pos.x, pos.y);
+		glm::mat4 viewProjectionMatrix(1.0f);
+
+		int screenWidth = 1600;
+		int screenHeight = 900;
+
+		glm::vec2 cameraCoorcd = ScreenToCamera(screenCoord, viewProjectionMatrix, screenWidth, screenHeight);
+
+		Vector3 mousePos = Vector3(cameraCoorcd.x, cameraCoorcd.y, 0.0f);
+
+		return mousePos;
 	}
 
 	void PlayScene::CreateDeathFX()

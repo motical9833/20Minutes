@@ -59,9 +59,11 @@ namespace ya
 		GameObject* GetScythe() { return scythe; }
 		GameObject* GetLevelUPEffect() { return levelUPEffectObj; }
 		GameObject* GetLevelManager() { return levelManager; }
+		bool GetUIOn() { return uiOn; }
 
 		std::vector<GameObject*> GetIcon() { return iconObjects; }
-
+		std::vector<GameObject*> GetIcons() { return icons; }
+		std::vector<GameObject*> GetUIframe() { return uiFrames; }
 		void CreatePlayer();
 		void CreateBrainMonster();
 		void CreateTreeMonster();
@@ -106,6 +108,13 @@ namespace ya
 		glm::vec2 ScreenToCamera(const glm::vec2& screenCoord, const glm::mat4& viewProjectionMatrix, int screenWidth, int screenHeight);
 
 		void LevelUPUI();
+		void UiButton(Vector3 pos);
+		void AbilityUIClick(int number);
+		void AbilityTreeClick(int ablityNum, int treeNum);
+		void AbilityTreeClickReset();
+
+		Vector3 UiMousePos();
+
 	private:
 		Player* player;
 		std::vector<Player*> players;
@@ -127,7 +136,9 @@ namespace ya
 		std::vector<GameObject*> icicles;
 		std::vector<GameObject*> expMarbles;
 		std::vector<GameObject*> uiObjects;
+		std::vector<GameObject*> uiFrames;
 		std::vector<GameObject*> iconObjects;
+		std::vector<GameObject*> icons;
 
 		GameObject* holyShield;
 		GameObject* magicLens;
@@ -151,6 +162,10 @@ namespace ya
 
 		//std::vector<GameObject*> firePos;
 		std::vector<GameObject*> hpUiObj;
+
+
+		int randomValue[5];
+		__int8 abliltyNumber;
 
 		bool uiOn;
 	};
