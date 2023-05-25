@@ -11,6 +11,8 @@
 #include "yaWeaponScript.h"
 #include "yaSkillManager.h"
 
+#define monsterSpeed 2
+
 namespace ya
 {
 	MonsterScript::MonsterScript()
@@ -31,15 +33,18 @@ namespace ya
 		, bRitualOn(false)
 		, bIgnition(false)
 		, curseMul(2.0f)
+		, mTime(0.0f)
 		, ignitionCnt(0)
 		, ignitionMaxCnt(10)
+		, mDir{}
+		, player(nullptr)
 	{
 
 	}
 	MonsterScript::MonsterScript(int hp)
 		: mCurrentHp(hp)
 		, mMaxHp(hp)
-		, mSpeed(5)
+		, mSpeed(monsterSpeed)
 		, mDamage(1)
 		, mIgnitionDamage(0)
 		, mColliderSize{}
@@ -53,8 +58,11 @@ namespace ya
 		, bRitualOn(false)
 		, bIgnition(false)
 		, curseMul(2.0f)
+		, mTime(0.0f)
 		, ignitionCnt(0)
 		, ignitionMaxCnt(10)
+		, mDir{}
+		, player(nullptr)
 	{
 	}
 	MonsterScript::~MonsterScript()
@@ -68,10 +76,13 @@ namespace ya
 		animator->GetCompleteEvent(L"DeathAnimation") = std::bind(&MonsterScript::End, this);
 		mColliderSize = GetOwner()->GetComponent<Collider2D>()->GetSize();
 
-		//player = SceneManager::GetPlayScene()->GetPlayer();
+		player = SceneManager::GetPlayScene()->GetPlayer();
 	}
 	void MonsterScript::Update()
 	{
+		mTime += Time::DeltaTime();
+		Vector3 pos = GetOwner()->GetComponent<Transform>()->GetPosition();
+
 		if (SceneManager::GetPlayScene()->GetUIOn())
 			return;
 
@@ -92,7 +103,7 @@ namespace ya
 				tr->GetChiled(0)->GetOwner()->Death();
 				bFreeze = false;
 				freezeTime = 0;
-				mSpeed = 5;
+				mSpeed = monsterSpeed;
 			}
 		}
 		else
@@ -106,6 +117,13 @@ namespace ya
 			{
 				animator->Play(L"m_Right", true);
 			}
+
+			GetDIr();
+
+			pos.x += mDir.x * mSpeed * Time::DeltaTime();
+			pos.y += mDir.y * mSpeed * Time::DeltaTime();
+
+			GetOwner()->GetComponent<Transform>()->SetPosition(pos);
 		}
 
 		if (bIgnition)
@@ -240,7 +258,7 @@ namespace ya
 		Animator* ani = GetOwner()->GetComponent<Animator>();
 		mCurrentHp = mMaxHp;
 		this->GetOwner()->Life();
-		mSpeed = 5;
+		mSpeed = monsterSpeed;
 		ani->Play(L"m_Right", true);
 		this->GetOwner()->GetComponent<Collider2D>()->SetScriptOff(false);
 		this->GetOwner()->SetLayerType(eLayerType::Monster);
@@ -266,6 +284,7 @@ namespace ya
 	{
 		if (mCurrentHp <= 0)
 		{
+			DropExpMarble();
 			Animator* ani = GetOwner()->GetComponent<Animator>();
 			this->GetOwner()->GetComponent<Collider2D>()->SetScriptOff(true);
 			this->GetOwner()->SetLayerType(eLayerType::None);
@@ -287,6 +306,7 @@ namespace ya
 	{
 		if (mCurrentHp <= 0)
 		{
+			DropExpMarble();
 			Animator* ani = GetOwner()->GetComponent<Animator>();
 			this->GetOwner()->GetComponent<Collider2D>()->SetScriptOff(true);
 			this->GetOwner()->SetLayerType(eLayerType::None);
@@ -352,5 +372,38 @@ namespace ya
 		ignitionCnt = 0;
 		ignitionTime = 0.0f;
 		bIgnition = true;
+	}
+	void MonsterScript::GetDIr()
+	{
+		Transform* tr = GetOwner()->GetComponent<Transform>();
+
+		Vector3 a = tr->GetPosition();
+
+		Vector3 b = SceneManager::GetPlayScene()->GetPlayer()->GetComponent<Transform>()->GetPosition();
+
+
+		Vector3 dir = b - a;
+
+		Vector3 fabsDir = Vector3(dir.x, dir.y, 0);
+
+		double value = sqrt(pow(fabsDir.x, 2) + pow(fabsDir.y, 2)); //피타고라스 R값
+
+		Vector3 dirValue = Vector3(fabsDir.x / value, fabsDir.y / value, 0);
+
+		mDir = dirValue;
+	}
+	void MonsterScript::DropExpMarble()
+	{
+		for (size_t i = 0; i < SceneManager::GetPlayScene()->GetExpMarble().size(); i++)
+		{
+			if (SceneManager::GetPlayScene()->GetExpMarble()[i]->IsDead() == false)
+				continue;
+
+			Vector3 pos = GetOwner()->GetComponent<Transform>()->GetPosition();
+
+			SceneManager::GetPlayScene()->GetExpMarble()[i]->GetComponent<Transform>()->SetPosition(pos);
+			SceneManager::GetPlayScene()->GetExpMarble()[i]->Life();
+			break;
+		}
 	}
 }

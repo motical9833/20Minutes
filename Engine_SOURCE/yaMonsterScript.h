@@ -1,7 +1,6 @@
 #pragma once
 #include "yaScript.h"
 
-
 namespace ya
 {
 	class Player;
@@ -52,11 +51,14 @@ namespace ya
 		bool GetcurseAtivate() { return bCurseActivate; }
 		int GetCurrentHP() { return mCurrentHp; }
 		int GetMaxHP() { return mMaxHp; }
-
+		void GetDIr();
+		void DropExpMarble();
 	private:
+		float mSpeed;
+		float mTime;
+
 		int mCurrentHp;
 		int mMaxHp;
-		float mSpeed;
 		int mDamage;
 		int mIgnitionDamage;
 		int curseMul;
@@ -77,6 +79,7 @@ namespace ya
 		float ignitionTime;
 
 		Vector2 mColliderSize;
+		Vector3 mDir;
 
 		Player* player;
 		Animator* animator;

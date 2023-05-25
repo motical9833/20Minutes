@@ -31,7 +31,8 @@ namespace ya
 	void UpgradeScript::Initalize()
 	{
 		pscene = SceneManager::GetPlayScene();
-		//bupgrade[4][3] = true;
+
+
 	}
 	void UpgradeScript::Update()
 	{
@@ -59,7 +60,7 @@ namespace ya
 		bupgrade[0][0] = true;
 	}
 	//T2 //ÅºÈ¯ ¼Óµµ 15% °üÅë+1
-	void UpgradeScript::Penteration()
+	void UpgradeScript::Penetration()
 	{
 		if (bupgrade[0][1])
 			return;
@@ -74,7 +75,7 @@ namespace ya
 		bupgrade[0][1] = true;
 	}
 	//T2 //ÅºÈ¯¼Óµµ 25% ÃÑ¾Ë °ø°Ý·Â 15%
-	void UpgradeScript::Smiper()
+	void UpgradeScript::Sniper()
 	{
 		if (bupgrade[0][2])
 			return;
@@ -1143,5 +1144,561 @@ namespace ya
 			return;
 
 		bupgrade[24][3] = true;
+	}
+
+	void UpgradeScript::FastBulletsTree(int step)
+	{
+		switch (step)
+		{
+		case 0:
+			TakeAim();
+			break;
+		case 1:
+			Penetration();
+			break;
+		case 2:
+			Sniper();
+			break;
+		case 3:
+			Assassin();
+			break;
+		}
+	}
+
+	void UpgradeScript::DamageBoostTree(int step)
+	{
+		switch (step)
+		{
+		case 0:
+			PowerShot();
+			break;
+		case 1:
+			BigShot();
+			break;
+		case 2:
+			Splinter();
+			break;
+		case 3:
+			ReaperRounds();
+			break;
+		}
+	}
+
+	void UpgradeScript::DragonSummonTree(int step)
+	{
+		switch (step)
+		{
+		case 0:
+			DragonEgg();
+			break;
+		case 1:
+			AgedDragon();
+			break;
+		case 2:
+			TrainedDragon();
+			break;
+		case 3:
+			DragonBond();
+			break;
+		}
+	}
+
+	void UpgradeScript::ElectromancyTree(int step)
+	{
+		switch (step)
+		{
+		case 0:
+			ElectroMage();
+			break;
+		case 1:
+			ElectroBug();
+			break;
+		case 2:
+			Energized();
+			break;
+		case 3:
+			ElectroMastery();
+			break;
+		}
+	}
+
+	void UpgradeScript::QuickShotsTree(int step)
+	{
+		switch (step)
+		{
+		case 0:
+			RapidFire();
+			break;
+		case 1:
+			LightBullets();
+			break;
+		case 2:
+			RubberBullets();
+			break;
+		case 3:
+			Siege();
+			break;
+		}
+	}
+
+	void UpgradeScript::GhostAllyTree(int step)
+	{
+		switch (step)
+		{
+		case 0:
+			GhostFriend();
+			break;
+		case 1:
+			EnergeticFriends();
+			break;
+		case 2:
+			InSync();
+			break;
+		case 3:
+			VengefulGhost();
+			break;
+		}
+	}
+
+	void UpgradeScript::HealthBoostTree(int step)
+	{
+		switch (step)
+		{
+		case 0:
+			Vitality();
+			break;
+		case 1:
+			AngerPoint();
+			break;
+		case 2:
+			Giant();
+			break;
+		case 3:
+			Regeneration();
+			break;
+		}
+	}
+
+	void UpgradeScript::ShieldBoostTree(int step)
+	{
+		switch (step)
+		{
+		case 0:
+			HolyShield();
+			break;
+		case 1:
+			DivineBlessing();
+			break;
+		case 2:
+			DivineWrath();
+			break;
+		case 3:
+			StalwartShield();
+			break;
+		}
+	}
+
+	void UpgradeScript::CryomancyTree(int step)
+	{
+		switch (step)
+		{
+		case 0:
+			FrostMage();
+			break;
+		case 1:
+			Frostbite();
+			break;
+		case 2:
+			IceShard();
+			break;
+		case 3:
+			Shatter();
+			break;
+		}
+	}
+
+	void UpgradeScript::MagicLensTree(int step)
+	{
+		switch (step)
+		{
+		case 0:
+			MagicLens();
+			break;
+		case 1:
+			IgnitingLens();
+			break;
+		case 2:
+			Refraction();
+			break;
+		case 3:
+			FocalPoint();
+			break;
+		}
+	}
+
+	void UpgradeScript::MagnetXPTree(int step)
+	{
+		switch (step)
+		{
+		case 0:
+			Magnetism();
+			break;
+		case 1:
+			Recharge();
+			break;
+		case 2:
+			WatchLearn();
+			break;
+		case 3:
+			Excitement();
+			break;
+		}
+	}
+
+	void UpgradeScript::SpeedBoostTree(int step)
+	{
+		switch (step)
+		{
+		case 0:
+			Haste();
+			break;
+		case 1:
+			BlazingSpeed();
+			break;
+		case 2:
+			RunGun();
+			break;
+		case 3:
+			IntheWind();
+			break;
+		}
+	}
+
+	void UpgradeScript::MultiShotsTree(int step)
+	{
+		switch (step)
+		{
+		case 0:
+			DoubleShot();
+			break;
+		case 1:
+			FanFire();
+			break;
+		case 2:
+			SplitFire();
+			break;
+		case 3:
+			Fusillade();
+			break;
+		}
+	}
+
+	void UpgradeScript::PyromancyTree(int step)
+	{
+		switch (step)
+		{
+		case 0:
+			PyroMage();
+			break;
+		case 1:
+			FireStarter();
+			break;
+		case 2:
+			IntenseBurn();
+			break;
+		case 3:
+			SoothingWarmth();
+			break;
+		}
+	}
+
+	void UpgradeScript::ReloadBoostTree(int step)
+	{
+		switch (step)
+		{
+		case 0:
+			QuickHands();
+			break;
+		case 1:
+			ArmedAndReady();
+			break;
+		case 2:
+			FreshClip();
+			break;
+		case 3:
+			KillClip();
+			break;
+		}
+	}
+
+	void UpgradeScript::SynergiesTree(int step)
+	{
+		switch (step)
+		{
+		case 0:
+			Glare();
+			break;
+		case 1:
+			IntenseGlare();
+			break;
+		case 2:
+			SightMagic();
+			break;
+		case 3:
+			Saccade();
+			break;
+		}
+	}
+
+	void UpgradeScript::MagicScythetree(int step)
+	{
+		switch (step)
+		{
+		case 0:
+			MagicScythe();
+			break;
+		case 1:
+			Shadowblade();
+			break;
+		case 2:
+			Windcutter();
+			break;
+		case 3:
+			ScytheMastery();
+			break;
+		}
+	}
+
+	void UpgradeScript::DarkArtsTree(int step)
+	{
+		switch (step)
+		{
+		case 0:
+			DarkArts();
+			break;
+		case 1:
+			Doom();
+			break;
+		case 2:
+			Wither();
+			break;
+		case 3:
+			Ritual();
+			break;
+		}
+	}
+
+	void UpgradeScript::HolyArtsTree(int step)
+	{
+		switch (step)
+		{
+		case 0:
+			HolyAttack();
+			break;
+		case 1:
+			HolyMight();
+			break;
+		case 2:
+			Justice();
+			break;
+		case 3:
+			Angelic();
+			break;
+		}
+	}
+
+	void UpgradeScript::AeroMagicTree(int step)
+	{
+		switch (step)
+		{
+		case 0:
+			AeroMagic();
+			break;
+		case 1:
+			WindBorne();
+			break;
+		case 2:
+			EyeoftheStorm();
+			break;
+		case 3:
+			AeroMastery();
+			break;
+		}
+	}
+
+	void UpgradeScript::DodgeBoostTree(int step)
+	{
+		switch (step)
+		{
+		case 0:
+			Evasive();
+			break;
+		case 1:
+			Nimble();
+			break;
+		case 2:
+			Tiny();
+			break;
+		case 3:
+			Reflex();
+			break;
+		}
+	}
+
+	void UpgradeScript::MagicSpearTree(int step)
+	{
+		switch (step)
+		{
+		case 0:
+			MagicSpear();
+			break;
+		case 1:
+			HolySpear();
+			break;
+		case 2:
+			SoulDrain();
+			break;
+		case 3:
+			SoulKnight();
+			break;
+		}
+	}
+
+	void UpgradeScript::SoulHeartTree(int step)
+	{
+		switch (step)
+		{
+		case 0:
+			SoulReap();
+			break;
+		case 1:
+			SoulConversion();
+			break;
+		case 2:
+			SoulPowered();
+			break;
+		case 3:
+			SoulLink();
+			break;
+		}
+	}
+
+	void UpgradeScript::TrainerTree(int step)
+	{
+		switch (step)
+		{
+		case 0:
+			Trainer();
+			break;
+		case 1:PulsingSummons();
+			break;
+		case 2:
+			FeedtheBeasts();
+			break;
+		case 3:
+			Bloodsuckers();
+			break;
+		}
+	}
+
+	void UpgradeScript::FrenzyTree(int step)
+	{
+		switch (step)
+		{
+		case 0:
+			Frenzy();
+			break;
+		case 1:
+			Hellspawns();
+			break;
+		case 2:
+			Tunderspawns();
+			break;
+		case 3:
+			Culling();
+			break;
+		}
+	}
+
+	void UpgradeScript::UpgradeSkill(int num, int step)
+	{
+		switch (num)
+		{
+		case 0:
+			FastBulletsTree(step);
+			break;
+		case 1:
+			DamageBoostTree(step);
+			break;
+		case 2:
+			DragonSummonTree(step);
+			break;
+		case 3:
+			ElectromancyTree(step);
+			break;
+		case 4:
+			QuickShotsTree(step);
+			break;
+		case 5:
+			GhostAllyTree(step);
+			break;
+		case 6:
+			HealthBoostTree(step);
+			break;
+		case 7:
+			ShieldBoostTree(step);
+			break;
+		case 8:
+			CryomancyTree(step);
+			break;
+		case 9:
+			MagicLensTree(step);
+			break;
+		case 10:
+			MagnetXPTree(step);
+			break;
+		case 11:
+			SpeedBoostTree(step);
+			break;
+		case 12:
+			MultiShotsTree(step);
+			break;
+		case 13:
+			PyromancyTree(step);
+			break;
+		case 14:
+			ReloadBoostTree(step);
+			break;
+		case 15:
+			SynergiesTree(step);
+			break;
+		case 16:
+			MagicScythetree(step);
+			break;
+		case 17:
+			DarkArtsTree(step);
+			break;
+		case 18:
+			HolyArtsTree(step);
+			break;
+		case 19:
+			AeroMagicTree(step);
+			break;
+		case 20:
+			DodgeBoostTree(step);
+			break;
+		case 21:
+			MagicSpearTree(step);
+			break;
+		case 22:
+			SoulHeartTree(step);
+			break;
+		case 23:
+			TrainerTree(step);
+			break;
+		case 24:
+			FrenzyTree(step);
+			break;
+		}
 	}
 }

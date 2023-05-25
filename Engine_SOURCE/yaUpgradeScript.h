@@ -7,6 +7,7 @@ namespace ya
 	class UpgradeScript :public Script
 	{
 	public:
+
 		UpgradeScript();
 		~UpgradeScript();
 
@@ -17,8 +18,8 @@ namespace ya
 
 		//빠른 탄환
 		void TakeAim(); //T1 탄환속도 30% 산탄 범위 -15%
-		void Penteration();//T2 //탄환 속도 15% 관통+1
-		void Smiper(); //T2 //탄환속도 25% 총알 공격력 15%
+		void Penetration();//T2 //탄환 속도 15% 관통+1
+		void Sniper(); //T2 //탄환속도 25% 총알 공격력 15%
 		void Assassin(); //T3 //탄속 10% 체력 20%미만 적 자동사살
 
 		//데미지 강화
@@ -44,7 +45,7 @@ namespace ya
 		void ArmedAndReady(); //T2 재장전속도 10%, 최대탄장 +2
 		void FreshClip(); //T2 재장전 속도 5%, 재장전 후 1초동안 총알 피해량 50%
 		void KillClip(); //T3 처치당 재장전 속도 5%증가 재장전 후 초기화
-		
+
 		//전기술사
 		void ElectroMage(); //(T1) : 탄환을 2회 발사할 때마다 22의 피해를 주는 번개를 소환한다. 커서가 위치하는 적을 타격한다.
 		void ElectroBug(); //(T2) : 매 초마다 근접한 두명의 적에게 번개를 떨어뜨리는 번개 벌레를 소환한다.
@@ -165,6 +166,36 @@ namespace ya
 		void Tunderspawns();
 		void Culling();
 
+
+		void FastBulletsTree(int step);
+		void DamageBoostTree(int step);
+		void DragonSummonTree(int step);
+		void ElectromancyTree(int step);
+		void QuickShotsTree(int step);
+		void GhostAllyTree(int step);
+		void HealthBoostTree(int step);
+		void ShieldBoostTree(int step);
+		void CryomancyTree(int step);
+		void MagicLensTree(int step);
+		void MagnetXPTree(int step);
+		void SpeedBoostTree(int step);
+		void MultiShotsTree(int step);
+		void PyromancyTree(int step);
+		void ReloadBoostTree(int step);
+		void SynergiesTree(int step);
+		void MagicScythetree(int step);
+		void DarkArtsTree(int step);
+		void HolyArtsTree(int step);
+		void AeroMagicTree(int step);
+		void DodgeBoostTree(int step);
+		void MagicSpearTree(int step);
+		void SoulHeartTree(int step);
+		void TrainerTree(int step);
+		void FrenzyTree(int step);
+
+
+
+		void UpgradeSkill(int num, int num2);
 		std::array<std::array<bool, 4>, 25> GetUpgradeBool() { return bupgrade; }
 
 	private:

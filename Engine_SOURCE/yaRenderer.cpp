@@ -715,6 +715,7 @@ namespace ya::renderer
 		Resources::Load<Texture>(L"RightDownArrows", L"UI\\T_PowerupTreeArrows_1.png");
 		Resources::Load<Texture>(L"DownRightArrows", L"UI\\T_PowerupTreeArrows_2.png");
 		Resources::Load<Texture>(L"DownLeftArrows", L"UI\\T_PowerupTreeArrows_3.png");
+		Resources::Load<Texture>(L"AmmoIcon", L"UI\\T_AmmoIcon.png");
 
 
 #pragma endregion
@@ -798,6 +799,7 @@ namespace ya::renderer
 			CreateMaterial(name, L"SpriteShader", eRenderingMode::Transparent, name + L"Material");
 		}
 
+		CreateMaterial(L"AmmoIcon", L"SpriteShader", eRenderingMode::Transparent, L"AmmoIconMaterial");
 
 #pragma endregion
 #pragma region PlayerUI

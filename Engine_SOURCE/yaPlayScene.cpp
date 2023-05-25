@@ -56,8 +56,8 @@ namespace ya
 		, uiOn(false)
 		, randomValue{}
 		, abliltyNumber(0)
+		, click{}
 	{
-		
 	}
 
 	PlayScene::~PlayScene()
@@ -290,7 +290,7 @@ namespace ya
 		CreateHpUIobj(cameraUIObj);
 		CreateSkillUI(cameraUIObj);
 		CreateAbilityIcon(cameraUIObj);
-
+		CreateAmmoIcon(cameraUIObj);
 
 		//Particle
 		//GameObject* particle = object::Instantiate<Player>(eLayerType::Particle, this);
@@ -382,34 +382,10 @@ namespace ya
 
 		Scene::Update();
 
-		if (Input::GetKeyDown(eKeyCode::NUM_1))
-		{
-
-		}
-		if (Input::GetKeyDown(eKeyCode::NUM_2))
-		{
-			SetStart(); 
-			uiOn = false;
-			for (size_t i = 0; i < uiObjects.size(); i++)
-			{
-				uiObjects[i]->Death();
-			}
-			for (size_t i = 0; i < uiFrames.size(); i++)
-			{
-				uiFrames[i]->Death();
-			}
-			for (size_t i = 0; i < iconObjects.size(); i++)
-			{
-				iconObjects[i]->Death();
-				icons[i]->Death();
-			}
-		}
-
 		if (Input::GetKeyDown(eKeyCode::P))
 		{
 			mBrainMonsters[0]->GetScript<MonsterScript>()->Respawn();
 			mBrainMonsters[0]->Life();
-			expMarbles[0]->Life();
 		}
 
 
@@ -494,75 +470,95 @@ namespace ya
 	}
 	void PlayScene::CreateBrainMonster()
 	{
-		Monster* m_Brain = object::Instantiate<Monster>(eLayerType::Monster, this);
-		m_Brain->SetLayerType(eLayerType::Monster);
-		m_Brain->SetName(L"brain");
-		M_DefaultTr(m_Brain, Vector3(-2.0f, 0.0f, 0.0f), Vector3(2.0f,2.0f,1.0f));
-		CreateCollider(m_Brain, eColliderType::Rect, Vector2(0.5f, 0.5f));
-		CreateSpriteRenderer(m_Brain, L"BrainMonsterMaterial");
-		Animator* mAnimator = m_Brain->AddComponent<Animator>();
-		std::shared_ptr<Texture> mTexture = Resources::Find<Texture>(L"BrainMonster");
-		std::shared_ptr<Texture> deathTexture = Resources::Find<Texture>(L"M_DeathFX");
-		mAnimator->Create(L"m_Right", mTexture, Vector2(0.0f, 0.0f), Vector2(64.0f, 64.0f), Vector2::Zero, 4, 0.1f);
-		mAnimator->Create(L"m_Left", mTexture, Vector2(0.0f, 64.0f), Vector2(64.0f, 64.0f), Vector2::Zero, 4, 0.1f);
-		mAnimator->Create(L"DeathAnimation", deathTexture, Vector2(0.0f, 0.0f), Vector2(40.0f, 40.0f), Vector2::Zero, 4, 0.1f);
-		mAnimator->Play(L"m_Left", true);
-		m_Brain->AddComponent<MonsterScript>(10);
-		mBrainMonsters.push_back(m_Brain);
+		for (size_t i = 0; i < 100; i++)
+		{
+			Monster* m_Brain = object::Instantiate<Monster>(eLayerType::Monster, this);
+			m_Brain->SetLayerType(eLayerType::Monster);
+			m_Brain->SetName(L"brain");
+			M_DefaultTr(m_Brain, Vector3(-2.0f, 0.0f, 0.0f), Vector3(2.0f, 2.0f, 1.0f));
+			CreateCollider(m_Brain, eColliderType::Rect, Vector2(0.5f, 0.5f));
+			CreateSpriteRenderer(m_Brain, L"BrainMonsterMaterial");
+			Animator* mAnimator = m_Brain->AddComponent<Animator>();
+			std::shared_ptr<Texture> mTexture = Resources::Find<Texture>(L"BrainMonster");
+			std::shared_ptr<Texture> deathTexture = Resources::Find<Texture>(L"M_DeathFX");
+			mAnimator->Create(L"m_Right", mTexture, Vector2(0.0f, 0.0f), Vector2(64.0f, 64.0f), Vector2::Zero, 4, 0.1f);
+			mAnimator->Create(L"m_Left", mTexture, Vector2(0.0f, 64.0f), Vector2(64.0f, 64.0f), Vector2::Zero, 4, 0.1f);
+			mAnimator->Create(L"DeathAnimation", deathTexture, Vector2(0.0f, 0.0f), Vector2(40.0f, 40.0f), Vector2::Zero, 4, 0.1f);
+			mAnimator->Play(L"m_Left", true);
+			m_Brain->AddComponent<MonsterScript>(10);
+			m_Brain->Death();
+			mBrainMonsters.push_back(m_Brain);
+		}
+		mBrainMonsters[0]->Life();
 	}
 	void PlayScene::CreateTreeMonster()
 	{
-		Monster* m_tree = object::Instantiate<Monster>(eLayerType::Monster, this);
-		m_tree->SetLayerType(eLayerType::Monster);
-		m_tree->SetName(L"tree");
-		M_DefaultTr(m_tree, Vector3(2.0f, 2.0f, 0.0f), Vector3(2.0f, 2.0f, 1.0f));
-		CreateCollider(m_tree, eColliderType::Rect, Vector2(0.7f, 0.9f));
-		CreateSpriteRenderer(m_tree, L"TreeMaterial");
-		Animator* treeAnimator = m_tree->AddComponent<Animator>();
-		std::shared_ptr<Texture> treeTexture = Resources::Find<Texture>(L"TreeSprite");
-		std::shared_ptr<Texture> deathTexture = Resources::Find<Texture>(L"M_DeathFX");
-		treeAnimator->Create(L"m_Right", treeTexture, Vector2(0.0f, 0.0f), Vector2(110.0f, 160.0f), Vector2::Zero, 3, 0.5f);
-		treeAnimator->Create(L"m_Left", treeTexture, Vector2(0.0f, 0.0f), Vector2(110.0f, 160.0f), Vector2::Zero, 3, 0.5f);
-		treeAnimator->Create(L"DeathAnimation", deathTexture, Vector2(0.0f, 0.0f), Vector2(40.0f, 40.0f), Vector2::Zero, 4, 0.1f);
-		treeAnimator->Play(L"m_Right", true);
-		m_tree->AddComponent<MonsterScript>();
-		mTreeMonsters.push_back(m_tree);
+		for (size_t i = 0; i < 100; i++)
+		{
+			Monster* m_tree = object::Instantiate<Monster>(eLayerType::Monster, this);
+			m_tree->SetLayerType(eLayerType::Monster);
+			m_tree->SetName(L"tree");
+			M_DefaultTr(m_tree, Vector3(2.0f, 2.0f, 0.0f), Vector3(2.0f, 2.0f, 1.0f));
+			CreateCollider(m_tree, eColliderType::Rect, Vector2(0.7f, 0.9f));
+			CreateSpriteRenderer(m_tree, L"TreeMaterial");
+			Animator* treeAnimator = m_tree->AddComponent<Animator>();
+			std::shared_ptr<Texture> treeTexture = Resources::Find<Texture>(L"TreeSprite");
+			std::shared_ptr<Texture> deathTexture = Resources::Find<Texture>(L"M_DeathFX");
+			treeAnimator->Create(L"m_Right", treeTexture, Vector2(0.0f, 0.0f), Vector2(110.0f, 160.0f), Vector2::Zero, 3, 0.5f);
+			treeAnimator->Create(L"m_Left", treeTexture, Vector2(0.0f, 0.0f), Vector2(110.0f, 160.0f), Vector2::Zero, 3, 0.5f);
+			treeAnimator->Create(L"DeathAnimation", deathTexture, Vector2(0.0f, 0.0f), Vector2(40.0f, 40.0f), Vector2::Zero, 4, 0.1f);
+			treeAnimator->Play(L"m_Right", true);
+			m_tree->AddComponent<MonsterScript>();
+			m_tree->Death();
+			mTreeMonsters.push_back(m_tree);
+		}
+		mTreeMonsters[0]->Life();
 	}
 	void PlayScene::CreateEyeMonster()
 	{
-		Monster* eyeMonster = object::Instantiate<Monster>(eLayerType::Monster, this);
-		eyeMonster->SetLayerType(eLayerType::Monster);
-		eyeMonster->SetName(L"EyeMonster");
-		M_DefaultTr(eyeMonster, Vector3(2.0f, -2.0f, 0.0f), Vector3(3.0f, 3.0f, 1.0f));
-		CreateCollider(eyeMonster, eColliderType::Rect, Vector2(0.3f, 0.3f));
-		CreateSpriteRenderer(eyeMonster, L"EyeMonsterMaterial");
-		Animator* m_EyeAnimator = eyeMonster->AddComponent<Animator>();
-		std::shared_ptr<Texture> m_EyeTexture = Resources::Find<Texture>(L"EyeMonsterSprite");
-		std::shared_ptr<Texture> deathTexture = Resources::Find<Texture>(L"M_DeathFX");
-		m_EyeAnimator->Create(L"m_Right", m_EyeTexture, Vector2(0.0f, 0.0f), Vector2(40.0f, 40.0f), Vector2::Zero, 3, 0.1f);
-		m_EyeAnimator->Create(L"m_Left", m_EyeTexture, Vector2(0.0f, 40.0f), Vector2(40.0f, 40.0f), Vector2::Zero, 3, 0.1f);
-		m_EyeAnimator->Create(L"DeathAnimation", deathTexture, Vector2(0.0f, 0.0f), Vector2(40.0f, 40.0f), Vector2::Zero, 4, 0.1f);
-		m_EyeAnimator->Play(L"m_Left", true);
-		eyeMonster->AddComponent<MonsterScript>(400);
-		mEyeMonsters.push_back(eyeMonster);
+		for (size_t i = 0; i < 100; i++)
+		{
+			Monster* eyeMonster = object::Instantiate<Monster>(eLayerType::Monster, this);
+			eyeMonster->SetLayerType(eLayerType::Monster);
+			eyeMonster->SetName(L"EyeMonster");
+			M_DefaultTr(eyeMonster, Vector3(2.0f, -2.0f, 0.0f), Vector3(3.0f, 3.0f, 1.0f));
+			CreateCollider(eyeMonster, eColliderType::Rect, Vector2(0.3f, 0.3f));
+			CreateSpriteRenderer(eyeMonster, L"EyeMonsterMaterial");
+			Animator* m_EyeAnimator = eyeMonster->AddComponent<Animator>();
+			std::shared_ptr<Texture> m_EyeTexture = Resources::Find<Texture>(L"EyeMonsterSprite");
+			std::shared_ptr<Texture> deathTexture = Resources::Find<Texture>(L"M_DeathFX");
+			m_EyeAnimator->Create(L"m_Right", m_EyeTexture, Vector2(0.0f, 0.0f), Vector2(40.0f, 40.0f), Vector2::Zero, 3, 0.1f);
+			m_EyeAnimator->Create(L"m_Left", m_EyeTexture, Vector2(0.0f, 40.0f), Vector2(40.0f, 40.0f), Vector2::Zero, 3, 0.1f);
+			m_EyeAnimator->Create(L"DeathAnimation", deathTexture, Vector2(0.0f, 0.0f), Vector2(40.0f, 40.0f), Vector2::Zero, 4, 0.1f);
+			m_EyeAnimator->Play(L"m_Left", true);
+			eyeMonster->AddComponent<MonsterScript>(400);
+			eyeMonster->Death();
+			mEyeMonsters.push_back(eyeMonster);
+		}
+		mEyeMonsters[0]->Life();
 	}
 	void PlayScene::CreateBommerMonster()
 	{
-		Monster* mBoomer = object::Instantiate<Monster>(eLayerType::Monster, this);
-		mBoomer->SetLayerType(eLayerType::Monster);
-		mBoomer->SetName(L"BigBoomer");
-		M_DefaultTr(mBoomer, Vector3(4.0f, 0.0f, 0.0f), Vector3(2.0f, 2.0f, 1.0f));
-		CreateCollider(mBoomer, eColliderType::Rect,Vector2(0.5f,0.5f));
-		CreateSpriteRenderer(mBoomer, L"BoomerMonsterMaterial");
-		Animator* boomerAnimator = mBoomer->AddComponent<Animator>();
-		std::shared_ptr<Texture> boomerTexture = Resources::Find<Texture>(L"BoomerMonsterSprite");
-		std::shared_ptr<Texture> deathTexture = Resources::Find<Texture>(L"M_DeathFX");
-		boomerAnimator->Create(L"m_Right", boomerTexture, Vector2(0.0f, 0.0f), Vector2(64.0f, 64.0f), Vector2::Zero, 4, 0.2f);
-		boomerAnimator->Create(L"m_Left", boomerTexture, Vector2(0.0f, 58.5f), Vector2(64.0f, 64.0f), Vector2::Zero, 4, 0.2f);
-		boomerAnimator->Create(L"DeathAnimation", deathTexture, Vector2(0.0f, 0.0f), Vector2(40.0f, 40.0f), Vector2::Zero, 4, 0.1f);
-		boomerAnimator->Play(L"m_Left", true);
-		mBoomer->AddComponent<MonsterScript>(500);
-		mBoomerMonsters.push_back(mBoomer);
+		for (size_t i = 0; i < 100; i++)
+		{
+			Monster* mBoomer = object::Instantiate<Monster>(eLayerType::Monster, this);
+			mBoomer->SetLayerType(eLayerType::Monster);
+			mBoomer->SetName(L"BigBoomer");
+			M_DefaultTr(mBoomer, Vector3(4.0f, 0.0f, 0.0f), Vector3(2.0f, 2.0f, 1.0f));
+			CreateCollider(mBoomer, eColliderType::Rect, Vector2(0.5f, 0.5f));
+			CreateSpriteRenderer(mBoomer, L"BoomerMonsterMaterial");
+			Animator* boomerAnimator = mBoomer->AddComponent<Animator>();
+			std::shared_ptr<Texture> boomerTexture = Resources::Find<Texture>(L"BoomerMonsterSprite");
+			std::shared_ptr<Texture> deathTexture = Resources::Find<Texture>(L"M_DeathFX");
+			boomerAnimator->Create(L"m_Right", boomerTexture, Vector2(0.0f, 0.0f), Vector2(64.0f, 64.0f), Vector2::Zero, 4, 0.2f);
+			boomerAnimator->Create(L"m_Left", boomerTexture, Vector2(0.0f, 58.5f), Vector2(64.0f, 64.0f), Vector2::Zero, 4, 0.2f);
+			boomerAnimator->Create(L"DeathAnimation", deathTexture, Vector2(0.0f, 0.0f), Vector2(40.0f, 40.0f), Vector2::Zero, 4, 0.1f);
+			boomerAnimator->Play(L"m_Left", true);
+			mBoomer->AddComponent<MonsterScript>(500);
+			mBoomer->Death();
+			mBoomerMonsters.push_back(mBoomer);
+		}
+		mBoomerMonsters[0]->Life();
 	}
 
 	void PlayScene::CreateDragonPet()
@@ -979,6 +975,22 @@ namespace ya
 		CreatePowerUpFrame(parent, Vector3(0.0f, 0.26f, 1.0f), Vector3(0.08f, 0.08f, 1.0f));
 		CreatePowerUpFrame(parent, Vector3(0.15f, 0.26f, 1.0f), Vector3(0.08f, 0.08f, 1.0f));
 		CreatePowerUpFrame(parent, Vector3(0.3f, 0.26f, 1.0f), Vector3(0.08f, 0.08f, 1.0f));
+
+
+		for (size_t i = 0; i < uiObjects.size(); i++)
+		{
+			uiObjects[i]->Death();
+		}
+		for (size_t i = 0; i < uiFrames.size(); i++)
+		{
+			uiFrames[i]->Death();
+		}
+		for (size_t i = 0; i < iconObjects.size(); i++)
+		{
+			iconObjects[i]->Death();
+			icons[i]->Death();
+		}
+		uiOn = false;
 	}
 
 	void PlayScene::CreateSkillIcon(const std::wstring& key, GameObject* parent, Vector3 pos, Vector3 scale)
@@ -1061,8 +1073,8 @@ namespace ya
 	void PlayScene::ALLSKILL()
 	{
 		upgradeobj->GetScript<UpgradeScript>()->TakeAim();
-		upgradeobj->GetScript<UpgradeScript>()->Penteration();
-		upgradeobj->GetScript<UpgradeScript>()->Smiper();
+		upgradeobj->GetScript<UpgradeScript>()->Penetration();
+		upgradeobj->GetScript<UpgradeScript>()->Sniper();
 		upgradeobj->GetScript<UpgradeScript>()->Assassin(); 
 		upgradeobj->GetScript<UpgradeScript>()->PowerShot();
 		upgradeobj->GetScript<UpgradeScript>()->Splinter(); 
@@ -1162,7 +1174,16 @@ namespace ya
 	}
 
 	void PlayScene::LevelUPUI()
-	{
+	{	
+		for (size_t i = 0; i < uiFrames.size(); i++)
+		{
+			uiFrames[i]->GetComponent<Transform>()->SetScale(Vector3(0.08f, 0.08f, 1.0f));
+		}
+		for (size_t i = 0; i < iconObjects.size(); i++)
+		{
+			iconObjects[i]->GetComponent<Transform>()->SetScale(Vector3(0.06f, 0.06f, 1.0f));
+			icons[i]->GetComponent<Transform>()->SetScale(Vector3(0.06f, 0.06f, 1.0f));
+		}
 
 		srand((unsigned)time(NULL));
 
@@ -1178,9 +1199,24 @@ namespace ya
 
 		for (size_t i = 0; i < 5; i++)
 		{
-			iconObjects[randomValue[i] * 4]->GetComponent<Transform>()->SetPosition(Vector3(-0.3f + (i * 0.15f), 0.26f, 1.0f));
-			iconObjects[randomValue[i] * 4]->Life();
+			click[i][0] = randomValue[i];
+			int a;
+			for (a = 0; a < 4; a++)
+			{
+				if (upgradeobj->GetScript<UpgradeScript>()->GetUpgradeBool()[randomValue[i]][a])
+				{
+					continue;
+				}
+				else
+				{
+					iconObjects[(randomValue[i] * 4) + a]->GetComponent<Transform>()->SetPosition(Vector3(-0.3f + (i * 0.15f), 0.26f, 1.0f));
+					iconObjects[(randomValue[i] * 4) + a]->Life();
+					break;
+				}
+			}
+			click[i][1] = a;
 		}
+
 		iconObjects[randomValue[0]]->GetComponent<Transform>()->SetScale(Vector3(0.12f, 0.12f, 1.0f));
 		uiFrames[4]->GetComponent<Transform>()->SetScale(Vector3(0.12f, 0.12f, 1.0f));
 		iconObjects[(randomValue[0] * 4)]->GetComponent<Transform>()->SetScale(Vector3(0.08f, 0.08f, 1.0f));
@@ -1260,7 +1296,7 @@ namespace ya
 
 		if (Input::GetKeyDown(eKeyCode::LBTN) && -0.380f <= pos.x && pos.x <= 0.380f && -0.555f <= pos.y && pos.y <= -0.393f)
 		{
-			int a = 0;
+			SelectAbility();
 		}
 		if (Input::GetKeyDown(eKeyCode::LBTN) && -0.380f <= pos.x && pos.x <= 0.380f && -0.753f <= pos.y && pos.y <= -0.591f)
 		{
@@ -1270,12 +1306,21 @@ namespace ya
 
 	void PlayScene::AbilityUIClick(int number)
 	{
+		int a = click[number][1];
+
+		for (size_t i = 0; i < uiFrames.size(); i++)
+		{
+			uiFrames[i]->GetComponent<Transform>()->SetScale(Vector3(0.08f, 0.08f, 1.0f));
+		}
+		for (size_t i = 0; i < iconObjects.size(); i++)
+		{
+			iconObjects[i]->GetComponent<Transform>()->SetScale(Vector3(0.06f, 0.06f, 1.0f));
+		}
+
 		for (size_t i = 0; i < 4; i++)
 		{
 			for (size_t j = 0; j < 5; j++)
 			{
-				uiFrames[j + 4]->GetComponent<Transform>()->SetScale(Vector3(0.08f, 0.08f, 1.0f));
-				iconObjects[(randomValue[j] * 4)]->GetComponent<Transform>()->SetScale(Vector3(0.06f, 0.06f, 1.0f));
 				icons[(randomValue[j] * 4) + i]->Death();
 			}
 		}
@@ -1286,9 +1331,8 @@ namespace ya
 		}
 
 		uiFrames[number + 4]->GetComponent<Transform>()->SetScale(Vector3(0.12f, 0.12f, 1.0f));
-		iconObjects[(randomValue[number] * 4)]->GetComponent<Transform>()->SetScale(Vector3(0.08f, 0.08f, 1.0f));
+		iconObjects[(randomValue[number] * 4) + a]->GetComponent<Transform>()->SetScale(Vector3(0.08f, 0.08f, 1.0f));
 		AbilityTreeClickReset();
-
 
 		abliltyNumber = number;
 	}
@@ -1315,6 +1359,27 @@ namespace ya
 				icons[(randomValue[j] * 4) + i]->GetComponent<Transform>()->SetScale(Vector3(0.06f, 0.06f, 1.0f));
 			}
 		}
+	}
+
+	void PlayScene::SelectAbility()
+	{
+		upgradeobj->GetScript<UpgradeScript>()->UpgradeSkill(click[abliltyNumber][0], click[abliltyNumber][1]);
+
+		for (size_t i = 0; i < uiObjects.size(); i++)
+		{
+			uiObjects[i]->Death();
+		}
+		for (size_t i = 0; i < uiFrames.size(); i++)
+		{
+			uiFrames[i]->Death();
+		}
+		for (size_t i = 0; i < iconObjects.size(); i++)
+		{
+			iconObjects[i]->Death();
+			icons[i]->Death();
+		}
+		uiOn = false;
+		SetStart();
 	}
 
 	Vector3 PlayScene::UiMousePos()
@@ -1350,6 +1415,20 @@ namespace ya
 		std::shared_ptr<Texture> deathTexture = Resources::Find<Texture>(L"M_DeathFX");
 		deathAni->Create(L"m_Idle", deathTexture, Vector2(0.0f, 0.0f), Vector2(40.0f, 40.0f), Vector2::Zero, 4, 0.2f);
 		deathAni->Play(L"m_Idle", false);
+	}
+
+	void PlayScene::CreateAmmoIcon(GameObject* parent)
+	{
+		GameObject* iconObj = object::Instantiate<GameObject>(eLayerType::UI, this);
+		iconObj->SetLayerType(eLayerType::UI);
+		iconObj->GetComponent<Transform>()->SetParent(parent->GetComponent<Transform>());
+		iconObj->GetComponent<Transform>()->SetPosition(Vector3(-10.0f , 4.0f, 10.0f));
+		iconObj->GetComponent<Transform>()->SetScale(Vector3(1.0f, 1.0f, 1.0f));
+		SpriteRenderer* iconRender = iconObj->AddComponent<SpriteRenderer>();
+		std::shared_ptr<Material> iconMaterial = Resources::Find<Material>(L"AmmoIconMaterial");
+		iconRender->SetMaterial(iconMaterial);
+		std::shared_ptr<Mesh> iconMesh = Resources::Find<Mesh>(L"RectMesh");
+		iconRender->SetMesh(iconMesh);
 	}
 
 	void PlayScene::CreateSpriteRenderer(auto* object, const std::wstring& materialKey)

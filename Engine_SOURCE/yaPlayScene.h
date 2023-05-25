@@ -5,7 +5,6 @@
 #include "yaBullet.h"
 #include "yaMonster.h"
 
-
 #include <iostream>
 #include "GLM/glm.hpp"
 #include "GLM/gtc/matrix_transform.hpp"
@@ -40,6 +39,7 @@ namespace ya
 		std::vector<GameObject*> GetHpObjects() { return hpObjects; }
 		std::vector<GameObject*> GetIcicles() { return icicles; }
 		std::vector<GameObject*> GetCurses() { return curses; }
+		std::vector<GameObject*> GetExpMarble() { return expMarbles; }
 		GameObject* GetGhostPet() { return ghostPet; }
 		GameObject* GetGhostPetRotObj() { return ghostPetRotobject; }
 		GameObject* GetMagicLens() { return magicLens; }
@@ -96,6 +96,7 @@ namespace ya
 		void CreateSkillIcon(const std::wstring& key, GameObject* parent, Vector3 pos, Vector3 scale);
 		void CreateCollider(auto* monster, eColliderType type,Vector2 size);
 		void CreateDeathFX();
+		void CreateAmmoIcon(GameObject* parent);
 		void CreateSpriteRenderer(auto* object, const std::wstring& materialKey);
 		GameObject* CreateSkillObject(eColliderType type, eLayerType layertype, const std::wstring& materialKey);
 		GameObject* CreateSkillObject(eLayerType layertype, const std::wstring& materialKey);
@@ -112,6 +113,7 @@ namespace ya
 		void AbilityUIClick(int number);
 		void AbilityTreeClick(int ablityNum, int treeNum);
 		void AbilityTreeClickReset();
+		void SelectAbility();
 
 		Vector3 UiMousePos();
 
@@ -160,13 +162,13 @@ namespace ya
 		std::vector<Monster*> mEyeMonsters;
 		std::vector<Monster*> mBoomerMonsters;
 
-		//std::vector<GameObject*> firePos;
 		std::vector<GameObject*> hpUiObj;
 
 
 		int randomValue[5];
 		__int8 abliltyNumber;
 
+		int click[5][2];
 		bool uiOn;
 	};
 }
