@@ -59,12 +59,16 @@ namespace ya
 		GameObject* GetScythe() { return scythe; }
 		GameObject* GetLevelUPEffect() { return levelUPEffectObj; }
 		GameObject* GetLevelManager() { return levelManager; }
+		GameObject* GetMuzzleFlash() { return muzzleFlash; }
 		bool GetUIOn() { return uiOn; }
 
 		std::vector<GameObject*> GetIcon() { return iconObjects; }
 		std::vector<GameObject*> GetIcons() { return icons; }
 		std::vector<GameObject*> GetUIframe() { return uiFrames; }
+		std::vector<GameObject*> GetReloadUI() { return reloadUI; }
 		void CreatePlayer();
+		void CreateWeapon();
+		void CreateFirePos();
 		void CreateBrainMonster();
 		void CreateTreeMonster();
 		void CreateEyeMonster();
@@ -94,6 +98,7 @@ namespace ya
 		void CreatePowerUpFrame(GameObject* parent, Vector3 pos, Vector3 scale);
 		void CreateSkillUI(GameObject* parent);
 		void CreateSkillIcon(const std::wstring& key, GameObject* parent, Vector3 pos, Vector3 scale);
+		void CreateExpBar(GameObject* parent);
 		void CreateCollider(auto* monster, eColliderType type,Vector2 size);
 		void CreateDeathFX();
 		void CreateAmmoIcon(GameObject* parent);
@@ -125,6 +130,7 @@ namespace ya
 		GameObject* pSceneCamera;
 		GameObject* skillManager;
 		GameObject* pulseObject;
+		GameObject* muzzleFlash;
 		Weapon* pWeapon;
 		std::vector<GameObject*> hpObjects;
 		std::vector<Bullet*> bullets;
@@ -141,6 +147,7 @@ namespace ya
 		std::vector<GameObject*> uiFrames;
 		std::vector<GameObject*> iconObjects;
 		std::vector<GameObject*> icons;
+		std::vector<GameObject*> reloadUI;
 
 		GameObject* holyShield;
 		GameObject* magicLens;
@@ -148,10 +155,8 @@ namespace ya
 		GameObject* ghostPet;
 		GameObject* ghostPetRotobject;
 		GameObject* scythe;
-
 		GameObject* colliderCheck;
 		GameObject* upgradeobj;
-
 
 		std::vector<Bullet*> ghostBullets;
 		std::vector<Bullet*> dragonFires;
@@ -163,7 +168,6 @@ namespace ya
 		std::vector<Monster*> mBoomerMonsters;
 
 		std::vector<GameObject*> hpUiObj;
-
 
 		int randomValue[5];
 		__int8 abliltyNumber;

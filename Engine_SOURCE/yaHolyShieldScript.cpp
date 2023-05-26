@@ -8,6 +8,7 @@
 #include "yaColliderCheckScript.h"
 #include "yaSkillManager.h"
 #include "yaTime.h"
+#include "yaExpBarScript.h"
 
 namespace ya
 {
@@ -52,6 +53,7 @@ namespace ya
 	{
 		SceneManager::GetPlayScene()->GetPlayer()->GetScript<PlayerScript>()->SetSpeedMul(0.25f);
 		SceneManager::GetPlayScene()->GetWeapon()->GetScript<WeaponScript>()->SetReloadTimeMul(0.25f);
+		SceneManager::GetPlayScene()->GetReloadUI()[1]->GetScript<ExpBarScript>()->SetReloadUITimeMul(0.25f);
 	}
 	void HolyShieldScript::DivineWrath()
 	{
@@ -100,6 +102,7 @@ namespace ya
 
 		SceneManager::GetPlayScene()->GetPlayer()->GetScript<PlayerScript>()->SetSpeedRed(0.25f);
 		SceneManager::GetPlayScene()->GetWeapon()->GetScript<WeaponScript>()->SetReloadTimeRed(0.25f);
+		SceneManager::GetPlayScene()->GetReloadUI()[1]->GetScript<ExpBarScript>()->SetReloadUITimeRed(0.25f);
 
 	}
 }

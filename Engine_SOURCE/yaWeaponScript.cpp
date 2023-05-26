@@ -7,6 +7,7 @@
 #include "yaSkillManager.h"
 #include "yaColliderCheckScript.h"
 #include "yaPlayerScript.h"
+#include "yaExpBarScript.h"
 
 #include <ctime>
 
@@ -78,17 +79,18 @@ namespace ya
 			return;
 
 		Cheat();
-		time += Time::DeltaTime();
+		rateFireTime += Time::DeltaTime();
 
 		if (mTransform->GetParent()->GetOwner()->IsDead() == true)
 		{
 			GetOwner()->Death();
 		}
+		if (bReload && pScene->GetPlayer()->GetScript<PlayerScript>()->GetShooting() == false)
+		{
+			Reload();
+		}
 
 		WeaponRotate();
-
-		if (bReload)
-			Reload();
 		
 		if (bReloading)
 		{
@@ -103,10 +105,12 @@ namespace ya
 				killClip = 0.0f;
 			}
 		}
-		if (bReloading == false && bReload == false)
+		if (currentBullet > 0)
 		{
 			if (Input::GetKeyDown(eKeyCode::LBTN))
 			{
+				SceneManager::GetPlayScene()->GetReloadUI()[1]->GetScript<ExpBarScript>()->UIOff();
+				mAnimator->Stop();
 				Fire();
 				BackFire();
 				if (currentBullet <= 0)
@@ -117,13 +121,17 @@ namespace ya
 					}
 
 
-					bReload = true;
-
 					if (bFanFireTrigger)
 						bFanFire = true;
 				}
+
+				time = 0.0f;
+				bReload = true;
+				bReloading = false;
 			}
 		}
+
+
 		FanFire();
 	}
 	void WeaponScript::Render()
@@ -311,9 +319,7 @@ namespace ya
 
 	void WeaponScript::Fire()
 	{
-		pScene->GetPlayer()->GetScript<PlayerScript>()->FireSlow();
-
-		if (time >= fireDelayTime * fireDelayTimeMul)
+		if (rateFireTime >= fireDelayTime * fireDelayTimeMul)
 		{
 			int a = 0;
 			for (size_t i = 0; i < bullets.size(); i++)
@@ -356,7 +362,9 @@ namespace ya
 
 				if (a >= oneShotFire)
 				{
-					time = 0;
+					pScene->GetPlayer()->GetScript<PlayerScript>()->FireSlow();
+					pScene->GetMuzzleFlash()->Life();
+					rateFireTime = 0;
 					break;
 				}
 			}
@@ -371,9 +379,6 @@ namespace ya
 					return;
 				}
 			}
-		
-
-			//SceneManager::GetPlayScene()->GetPlayer()->GetScript<PlayerScript>()->SetMove();
 			currentBullet--;
 		}
 	}
@@ -419,6 +424,7 @@ namespace ya
 		bReload = false;
 		bReloading = false;
 		time = 0.0f;
+		rateFireTime = 0.0f;
 		mAnimator->Stop();
 	}
 
@@ -440,6 +446,7 @@ namespace ya
 		bGaleTrigger = false;
 
 		time = 0.0f;
+		rateFireTime = 0.0f;
 		reloadTime = 1.0f;
 		fanFireTime = 0.0f;
 		killClip = 0.0f;
@@ -458,6 +465,7 @@ namespace ya
 
 	void WeaponScript::Reload()
 	{
+		SceneManager::GetPlayScene()->GetReloadUI()[1]->GetScript<ExpBarScript>()->UIOn();
 		ReloadSkill();
 		mAnimator->Play(L"Revolver");
 		mAnimator->Start();

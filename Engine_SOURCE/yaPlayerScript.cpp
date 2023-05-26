@@ -165,7 +165,7 @@ namespace ya
 		{
 			slowTime += Time::DeltaTime();
 
-			if (slowTime >= 1.0f)
+			if (slowTime >= 0.5f)
 			{
 				mSpeed = 6;
 				slowTime = 0;

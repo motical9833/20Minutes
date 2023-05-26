@@ -88,6 +88,7 @@ namespace ya
 		float time;
 		float reloadTime;
 		float fanFireTime;
+		float rateFireTime;
 		float killClip;
 
 		int maxBullet;

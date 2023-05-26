@@ -15,6 +15,7 @@
 #include "yaGhostBullet.h"
 #include "yaMagicLensScript.h"
 #include "yaSpearScript.h"
+#include "yaExpBarScript.h"
 
 namespace ya
 {
@@ -279,7 +280,8 @@ namespace ya
 		if (bupgrade[14][0])
 			return;
 
-		pscene->GetWeapon()->GetScript<WeaponScript>()->SetReloadTimeRed(0.20);
+		pscene->GetWeapon()->GetScript<WeaponScript>()->SetReloadTimeRed(0.2f);
+		pscene->GetReloadUI()[1]->GetScript<ExpBarScript>()->SetReloadUITimeMul(0.2f);
 		pscene->GetWeapon()->GetScript<WeaponScript>()->SetFireDelayTimeInc(0.05f);
 
 		bupgrade[14][0] = true;
@@ -290,7 +292,8 @@ namespace ya
 		if (bupgrade[14][1])
 			return;
 
-		pscene->GetWeapon()->GetScript<WeaponScript>()->SetReloadTimeRed(0.10);
+		pscene->GetWeapon()->GetScript<WeaponScript>()->SetReloadTimeRed(0.1f);
+		pscene->GetReloadUI()[1]->GetScript<ExpBarScript>()->SetReloadUITimeMul(0.1f);
 		pscene->GetWeapon()->GetScript<WeaponScript>()->SetMaxBullet(2);
 		bupgrade[14][1] = true;
 	}
@@ -300,6 +303,7 @@ namespace ya
 		if (bupgrade[14][2])
 			return;
 		pscene->GetWeapon()->GetScript<WeaponScript>()->SetReloadTimeRed(0.05);
+		pscene->GetReloadUI()[1]->GetScript<ExpBarScript>()->SetReloadUITimeMul(0.05f);
 
 		bupgrade[14][2] = true;
 	}

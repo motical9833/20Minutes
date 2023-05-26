@@ -178,6 +178,7 @@
     <ClInclude Include="yaEngine.h" />
     <ClInclude Include="yaEntity.h" />
     <ClInclude Include="yaEnums.h" />
+    <ClInclude Include="yaExpBarScript.h" />
     <ClInclude Include="yaExpMarbleObject.h" />
     <ClInclude Include="yaFadeInOutScript.h" />
     <ClInclude Include="yaFreezeScript.h" />
@@ -200,6 +201,7 @@
     <ClInclude Include="yaMeshRenderer.h" />
     <ClInclude Include="yaMonster.h" />
     <ClInclude Include="yaMonsterScript.h" />
+    <ClInclude Include="yaMuzzleFlashScript.h" />
     <ClInclude Include="yaObject.h" />
     <ClInclude Include="yaPaintShader.h" />
     <ClInclude Include="yaParticleShader.h" />
@@ -255,6 +257,7 @@
     <ClCompile Include="yaDragonFireScript.cpp" />
     <ClCompile Include="yaDragonPetScript.cpp" />
     <ClCompile Include="yaEntity.cpp" />
+    <ClCompile Include="yaExpBarScript.cpp" />
     <ClCompile Include="yaExpMarbleObject.cpp" />
     <ClCompile Include="yaFadeInOutScript.cpp" />
     <ClCompile Include="yaFreezeScript.cpp" />
@@ -276,6 +279,7 @@
     <ClCompile Include="yaMeshRenderer.cpp" />
     <ClCompile Include="yaMonster.cpp" />
     <ClCompile Include="yaMonsterScript.cpp" />
+    <ClCompile Include="yaMuzzleFlashScript.cpp" />
     <ClCompile Include="yaPaintShader.cpp" />
     <ClCompile Include="yaParticleShader.cpp" />
     <ClCompile Include="yaParticleSystem.cpp" />

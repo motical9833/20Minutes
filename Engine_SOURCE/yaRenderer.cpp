@@ -525,6 +525,7 @@ namespace ya::renderer
 		Resources::Load<Texture>(L"EyeMonsterSprite", L"Monster\\EyeMonster.png");
 		Resources::Load<Texture>(L"BoomerMonsterSprite", L"Monster\\BigBoomer.png");
 		Resources::Load<Texture>(L"W_RevolverSprite", L"Weapon\\T_Revolver_SS.png");
+		Resources::Load<Texture>(L"W_MuzzleFlash", L"Weapon\\MuzzleFlash.png");
 		Resources::Load<Texture>(L"HPHeart", L"UI\\T_HeartAnimation.png");
 		Resources::Load<Texture>(L"BulletTexture", L"Bullet\\BulletEffect.png");
 		Resources::Load<Texture>(L"FireEffect", L"Bullet\\FireEffect.png");
@@ -716,7 +717,8 @@ namespace ya::renderer
 		Resources::Load<Texture>(L"DownRightArrows", L"UI\\T_PowerupTreeArrows_2.png");
 		Resources::Load<Texture>(L"DownLeftArrows", L"UI\\T_PowerupTreeArrows_3.png");
 		Resources::Load<Texture>(L"AmmoIcon", L"UI\\T_AmmoIcon.png");
-
+		Resources::Load<Texture>(L"ReloadBar", L"UI\\ReloadBar.png");
+		Resources::Load<Texture>(L"ReloadBut", L"UI\\ReloadBut.png");
 
 #pragma endregion
 #pragma region DYNAMIC TEXTURE
@@ -769,8 +771,11 @@ namespace ya::renderer
 #pragma region WEAPON MATERIAL
 		// Revolver
 		CreateMaterial(L"W_RevolverSprite", L"SpriteShader", eRenderingMode::Transparent, L"RevolverMaterial");
+		CreateMaterial(L"W_MuzzleFlash", L"SpriteShader", eRenderingMode::Transparent, L"MuzzleFlashMaterial");
+
 		// Bullet
 		CreateMaterial(L"BulletTexture", L"SpriteShader", eRenderingMode::Transparent, L"BulletMaterial");
+
 #pragma endregion
 #pragma region UI MATERIAL
 		CreateMaterial(L"TitleLevesLeftSprite", L"SpriteShader", eRenderingMode::Transparent, L"leavsLeftMaterial");
@@ -790,6 +795,9 @@ namespace ya::renderer
 		CreateMaterial(L"PowerupFrame", L"SpriteShader", eRenderingMode::Transparent, L"PowerupFrameMaterial");
 
 		CreateMaterial(L"PowerupIconBG", L"SpriteShader", eRenderingMode::Transparent, L"PowerupIconBGMaterial");
+
+		CreateMaterial(L"ReloadBar", L"SpriteShader", eRenderingMode::Transparent, L"ReloadBarMaterial");
+		CreateMaterial(L"ReloadBut", L"SpriteShader", eRenderingMode::Transparent, L"ReloadButMaterial");
 
 		for (size_t i = 0; i < 100; i++)
 		{

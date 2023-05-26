@@ -51,6 +51,7 @@ namespace ya
 
 		float GetSpeedMul() { return mSpeedMul; }
 		bool GetPlayerHit() { return bPlayerHit; }
+		bool GetShooting() { return bShooting; }
 		int GetMaxHP() { return mMaxHP; }
 		void ShieldOn() { bShield = true; }
 

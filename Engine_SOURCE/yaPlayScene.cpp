@@ -39,6 +39,8 @@
 #include "yaPlayerLevelScript.h"
 #include "yaLevelUPEffectScript.h"
 #include "yaExpMarbleObject.h"
+#include "yaMuzzleFlashScript.h"
+#include "yaExpBarScript.h"
 
 #define SHANA 0
 #define ABBY 1
@@ -137,39 +139,8 @@ namespace ya
 			players.push_back(playerObj);
 		}
 
-
-
-
-		pWeapon = object::Instantiate<Weapon>(eLayerType::Player, this);
-		pWeapon->SetName(L"pWeapon");
-		SpriteRenderer* pWMr = pWeapon->AddComponent<SpriteRenderer>();
-		std::shared_ptr<Material> weaponMaterial = Resources::Find<Material>(L"RevolverMaterial");
-		pWMr->SetMaterial(weaponMaterial);
-		std::shared_ptr<Mesh> revolverMesh = Resources::Find<Mesh>(L"RectMesh");
-		pWMr->SetMesh(revolverMesh);
-		Animator* weaponAni = pWeapon->AddComponent<Animator>();
-		std::shared_ptr<Texture> revolverTexture = Resources::Load<Texture>(L"W_RevolverSprite", L"Weapon\\T_Revolver_SS.png");
-		weaponAni->Create(L"Revolver", revolverTexture, Vector2(0.0f, 0.0f), Vector2(16.0f, 15.0f), Vector2::Zero, 5, 0.0f);
-		weaponAni->Play(L"Revolver", true);
-		pWeapon->AddComponent<WeaponScript>();
-
-		for (size_t i = 0; i < 5; i++)
-		{
-			GameObject* firePosObject = object::Instantiate<GameObject>(eLayerType::None, this);
-			firePosObject->SetName(L"FirePosObject" + i);
-			firePosObject->GetComponent<Transform>()->SetParent(pWeapon->GetComponent<Transform>());
-			if (i == 4)
-			{
-				firePosObject->GetComponent<Transform>()->SetPosition(Vector3(-1.0f, 0.0f, 0.0f));
-				firePosObject->GetComponent<Transform>()->SetRotation(Vector3(0.0f, 0.0f, -3.1f));
-			}
-			else
-			{
-				firePosObject->GetComponent<Transform>()->SetPosition(Vector3(1.0f, 0.0f, 0.0f));
-				firePosObject->GetComponent<Transform>()->SetRotation(Vector3(0.0f, 0.0f, 0.0f));
-			}
-			pWeapon->GetScript<WeaponScript>()->SetFirePosObject(firePosObject);
-		}
+		CreateWeapon();
+		CreateFirePos();
 
 		for (size_t i = 0; i < 1000; i++)
 		{
@@ -291,6 +262,7 @@ namespace ya
 		CreateSkillUI(cameraUIObj);
 		CreateAbilityIcon(cameraUIObj);
 		CreateAmmoIcon(cameraUIObj);
+		CreateExpBar(cameraUIObj);
 
 		//Particle
 		//GameObject* particle = object::Instantiate<Player>(eLayerType::Particle, this);
@@ -317,9 +289,25 @@ namespace ya
 	{
 		if (uiOn)
 		{
-
 			Vector3 mousePos = UiMousePos();
 			UiButton(mousePos);
+		}
+
+		if (Input::GetKeyDown(eKeyCode::NUM_1))
+		{
+			upgradeobj->GetScript<UpgradeScript>()->QuickHands(); //T1 재장전 속도 +20, 연사 속도 5%
+		}
+		if (Input::GetKeyDown(eKeyCode::NUM_2))
+		{
+			upgradeobj->GetScript<UpgradeScript>()->ArmedAndReady(); //T2 재장전속도 10%, 최대탄장 +2
+		}
+		if (Input::GetKeyDown(eKeyCode::NUM_3))
+		{
+			upgradeobj->GetScript<UpgradeScript>()->FreshClip(); //T2 재장전 속도 5%, 재장전 후 1초동안 총알 피해량 50%
+		}
+		if (Input::GetKeyDown(eKeyCode::NUM_4))
+		{
+			upgradeobj->GetScript<UpgradeScript>()->KillClip(); //T3 처치당 재장전 속도 5%증가 재장전 후 초기화
 		}
 
 		if (Input::GetKeyDown(eKeyCode::N))
@@ -339,6 +327,8 @@ namespace ya
 			dragonPet->GetScript<DragonPetScript>()->GameReset();
 			ghostPet->GetScript<GhostPetScript>()->GameReset();
 			levelManager->GetScript<PlayerLevelScript>()->GameReset();
+
+			reloadUI[1]->GetScript<ExpBarScript>()->SetReloadUITimeMul(0.4f);
 
 			for (size_t i = 0; i < bullets.size(); i++)
 			{
@@ -427,6 +417,7 @@ namespace ya
 	{
 
 	}
+
 	void PlayScene::ChoosePlayers(int num)
 	{
 		players[num]->Life();
@@ -446,6 +437,8 @@ namespace ya
 		levelUPEffectObj->GetComponent<Transform>()->SetScale(Vector3(2.0f, 5.0f, 1.0f));
 
 		holyShield->GetComponent<Transform>()->SetParent(player->GetComponent<Transform>());
+		muzzleFlash->GetScript<MuzzleFlashScript>()->GetPlayer();
+		muzzleFlash->GetComponent<Transform>()->SetParent(player->GetComponent<Transform>());
 
 		for (size_t i = 0; i < mBrainMonsters.size(); i++)
 		{
@@ -464,10 +457,60 @@ namespace ya
 			mBoomerMonsters[i]->GetScript<MonsterScript>()->SetPlayer(players[num]);
 		}
 	}
+
 	void PlayScene::CreatePlayer()
 	{
 
 	}
+
+	void PlayScene::CreateWeapon()
+	{
+		pWeapon = object::Instantiate<Weapon>(eLayerType::Player, this);
+		pWeapon->SetName(L"pWeapon");
+		SpriteRenderer* pWMr = pWeapon->AddComponent<SpriteRenderer>();
+		std::shared_ptr<Material> weaponMaterial = Resources::Find<Material>(L"RevolverMaterial");
+		pWMr->SetMaterial(weaponMaterial);
+		std::shared_ptr<Mesh> revolverMesh = Resources::Find<Mesh>(L"RectMesh");
+		pWMr->SetMesh(revolverMesh);
+		Animator* weaponAni = pWeapon->AddComponent<Animator>();
+		std::shared_ptr<Texture> revolverTexture = Resources::Load<Texture>(L"W_RevolverSprite", L"Weapon\\T_Revolver_SS.png");
+		weaponAni->Create(L"Revolver", revolverTexture, Vector2(0.0f, 0.0f), Vector2(16.0f, 15.0f), Vector2::Zero, 5, 0.0f);
+		weaponAni->Play(L"Revolver", true);
+		pWeapon->AddComponent<WeaponScript>();
+
+		muzzleFlash = object::Instantiate<Weapon>(eLayerType::Particle, this);
+		muzzleFlash->GetComponent<Transform>()->SetScale(Vector3(0.3f, 0.3f, 1.0f));
+		muzzleFlash->SetLayerType(eLayerType::Particle);
+		SpriteRenderer* muzzleRender = muzzleFlash->AddComponent<SpriteRenderer>();
+		std::shared_ptr<Material> muzzleMaterial = Resources::Find<Material>(L"MuzzleFlashMaterial");
+		muzzleRender->SetMaterial(muzzleMaterial);
+		std::shared_ptr<Mesh>  muzzleMesh = Resources::Find<Mesh>(L"RectMesh");
+		muzzleRender->SetMesh(muzzleMesh);
+		muzzleFlash->Death();
+		muzzleFlash->AddComponent<MuzzleFlashScript>();
+	}
+
+	void PlayScene::CreateFirePos()
+	{
+		for (size_t i = 0; i < 5; i++)
+		{
+			GameObject* firePosObject = object::Instantiate<GameObject>(eLayerType::None, this);
+			firePosObject->SetName(L"FirePosObject" + i);
+			firePosObject->GetComponent<Transform>()->SetParent(pWeapon->GetComponent<Transform>());
+			if (i == 4)
+			{
+				firePosObject->GetComponent<Transform>()->SetPosition(Vector3(-1.0f, 0.0f, 0.0f));
+				firePosObject->GetComponent<Transform>()->SetRotation(Vector3(0.0f, 0.0f, -3.1f));
+			}
+			else
+			{
+				firePosObject->GetComponent<Transform>()->SetPosition(Vector3(1.0f, 0.0f, 0.0f));
+				firePosObject->GetComponent<Transform>()->SetRotation(Vector3(0.0f, 0.0f, 0.0f));
+			}
+			pWeapon->GetScript<WeaponScript>()->SetFirePosObject(firePosObject);
+		}
+	}
+
 	void PlayScene::CreateBrainMonster()
 	{
 		for (size_t i = 0; i < 100; i++)
@@ -491,6 +534,7 @@ namespace ya
 		}
 		mBrainMonsters[0]->Life();
 	}
+
 	void PlayScene::CreateTreeMonster()
 	{
 		for (size_t i = 0; i < 100; i++)
@@ -514,6 +558,7 @@ namespace ya
 		}
 		mTreeMonsters[0]->Life();
 	}
+
 	void PlayScene::CreateEyeMonster()
 	{
 		for (size_t i = 0; i < 100; i++)
@@ -537,6 +582,7 @@ namespace ya
 		}
 		mEyeMonsters[0]->Life();
 	}
+
 	void PlayScene::CreateBommerMonster()
 	{
 		for (size_t i = 0; i < 100; i++)
@@ -1022,6 +1068,37 @@ namespace ya
 
 		icon->Death();
 		icons.push_back(icon);
+	}
+
+	void PlayScene::CreateExpBar(GameObject* parent)
+	{
+		GameObject* reloadBarObject = object::Instantiate<GameObject>(eLayerType::UI, this);
+		reloadBarObject->SetLayerType(eLayerType::UI);
+		reloadBarObject->GetComponent<Transform>()->SetParent(parent->GetComponent<Transform>());
+		reloadBarObject->GetComponent<Transform>()->SetPosition(Vector3(0.0f, 0.8f, 10.0f));
+		reloadBarObject->GetComponent<Transform>()->SetScale(Vector3(2.1f,0.5f,1.0f));
+		SpriteRenderer* render = reloadBarObject->AddComponent<SpriteRenderer>();
+		std::shared_ptr<Material> material = Resources::Find<Material>(L"ReloadBarMaterial");
+		render->SetMaterial(material);
+		std::shared_ptr<Mesh> mesh = Resources::Find<Mesh>(L"RectMesh");
+		render->SetMesh(mesh);
+		reloadBarObject->Death();
+		reloadUI.push_back(reloadBarObject);
+
+		GameObject* reloadButObject = object::Instantiate<GameObject>(eLayerType::UI, this);
+		reloadButObject->SetLayerType(eLayerType::UI);
+		reloadButObject->GetComponent<Transform>()->SetParent(parent->GetComponent<Transform>());
+		reloadButObject->GetComponent<Transform>()->SetPosition(Vector3(-1.0f, 0.8f, 10.0f));
+		reloadButObject->GetComponent<Transform>()->SetScale(Vector3(0.2f, 0.5f, 1.0f));
+		SpriteRenderer* butRender = reloadButObject->AddComponent<SpriteRenderer>();
+		std::shared_ptr<Material> ButMaterial = Resources::Find<Material>(L"ReloadButMaterial");
+		butRender->SetMaterial(ButMaterial);
+		std::shared_ptr<Mesh> ButMesh = Resources::Find<Mesh>(L"RectMesh");
+		butRender->SetMesh(ButMesh);
+		reloadButObject->AddComponent<ExpBarScript>();
+		reloadButObject->Death();
+		reloadUI.push_back(reloadButObject);
+
 	}
 
 	void PlayScene::CreateCollider(auto* object, eColliderType type,Vector2 size)

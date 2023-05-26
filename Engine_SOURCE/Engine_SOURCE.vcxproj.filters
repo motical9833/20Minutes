@@ -258,7 +258,6 @@
     <ClCompile Include="yaGraphicDevice_DX11.cpp">
       <Filter>Graphics\API</Filter>
     </ClCompile>
-    <ClCompile Include="yaParticleSystem.cpp" />
     <ClCompile Include="yaParticleShader.cpp">
       <Filter>Resource\Shader\CS</Filter>
     </ClCompile>
@@ -325,9 +324,22 @@
     <ClCompile Include="yaRotScript.cpp">
       <Filter>Component\Script\Contents\SKILL\Manager</Filter>
     </ClCompile>
-    <ClCompile Include="yaPlayerLevelScript.cpp" />
-    <ClCompile Include="yaLevelUPEffectScript.cpp" />
-    <ClCompile Include="yaExpMarbleObject.cpp" />
+    <ClCompile Include="yaPlayerLevelScript.cpp">
+      <Filter>Component\Script\Contents</Filter>
+    </ClCompile>
+    <ClCompile Include="yaParticleSystem.cpp">
+      <Filter>Component\Script\Contents</Filter>
+    </ClCompile>
+    <ClCompile Include="yaMuzzleFlashScript.cpp">
+      <Filter>Component\Script\Contents</Filter>
+    </ClCompile>
+    <ClCompile Include="yaLevelUPEffectScript.cpp">
+      <Filter>Component\Script\Contents</Filter>
+    </ClCompile>
+    <ClCompile Include="yaExpMarbleObject.cpp">
+      <Filter>Component\Script\Contents</Filter>
+    </ClCompile>
+    <ClCompile Include="yaExpBarScript.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CommonInclude.h">
@@ -486,7 +498,6 @@
     <ClInclude Include="yaGraphicDevice_DX11.h">
       <Filter>Graphics\API</Filter>
     </ClInclude>
-    <ClInclude Include="yaParticleSystem.h" />
     <ClInclude Include="yaParticleShader.h">
       <Filter>Resource\Shader\CS</Filter>
     </ClInclude>
@@ -553,9 +564,22 @@
     <ClInclude Include="yaRotScript.h">
       <Filter>Component\Script\Contents\SKILL\Manager</Filter>
     </ClInclude>
-    <ClInclude Include="yaPlayerLevelScript.h" />
-    <ClInclude Include="yaLevelUPEffectScript.h" />
-    <ClInclude Include="yaExpMarbleObject.h" />
+    <ClInclude Include="yaPlayerLevelScript.h">
+      <Filter>Component\Script\Contents</Filter>
+    </ClInclude>
+    <ClInclude Include="yaParticleSystem.h">
+      <Filter>Component\Script\Contents</Filter>
+    </ClInclude>
+    <ClInclude Include="yaMuzzleFlashScript.h">
+      <Filter>Component\Script\Contents</Filter>
+    </ClInclude>
+    <ClInclude Include="yaLevelUPEffectScript.h">
+      <Filter>Component\Script\Contents</Filter>
+    </ClInclude>
+    <ClInclude Include="yaExpMarbleObject.h">
+      <Filter>Component\Script\Contents</Filter>
+    </ClInclude>
+    <ClInclude Include="yaExpBarScript.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="yaMath.inl">
