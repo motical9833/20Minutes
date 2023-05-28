@@ -719,6 +719,19 @@ namespace ya::renderer
 		Resources::Load<Texture>(L"AmmoIcon", L"UI\\T_AmmoIcon.png");
 		Resources::Load<Texture>(L"ReloadBar", L"UI\\ReloadBar.png");
 		Resources::Load<Texture>(L"ReloadBut", L"UI\\ReloadBut.png");
+		Resources::Load<Texture>(L"T_EyeBlink", L"UI\\T_EyeBlink.png");
+		Resources::Load<Texture>(L"T_SelectorBubble", L"UI\\T_SelectorBubble.png");
+		Resources::Load<Texture>(L"T_SelectScreenPanelUP", L"UI\\T_SelectScreenPanelUP.png");
+		Resources::Load<Texture>(L"T_SelectScreenPanelDown", L"UI\\T_SelectScreenPanelDown.png");
+		Resources::Load<Texture>(L"T_UISmallPanel", L"UI\\T_UISmallPanel.png");
+		Resources::Load<Texture>(L"T_RoundedRect", L"UI\\T_RoundedRect.png");
+		Resources::Load<Texture>(L"T_UILock", L"UI\\T_UILock.png");
+
+		Resources::Load<Texture>(L"Face_0", L"UI\\Face\\T_Shana_Portrait.png");
+		Resources::Load<Texture>(L"Face_1", L"UI\\Face\\T_Abby_Portrait.png");
+		Resources::Load<Texture>(L"Face_2", L"UI\\Face\\T_Diamond_Portrait.png");
+		Resources::Load<Texture>(L"Face_3", L"UI\\Face\\T_Hina_Portrait.png");
+		Resources::Load<Texture>(L"Face_4", L"UI\\Face\\T_Lilith_Portrait.png");
 
 #pragma endregion
 #pragma region DYNAMIC TEXTURE
@@ -798,6 +811,34 @@ namespace ya::renderer
 
 		CreateMaterial(L"ReloadBar", L"SpriteShader", eRenderingMode::Transparent, L"ReloadBarMaterial");
 		CreateMaterial(L"ReloadBut", L"SpriteShader", eRenderingMode::Transparent, L"ReloadButMaterial");
+
+		CreateMaterial(L"T_EyeBlink", L"SpriteShader", eRenderingMode::Transparent, L"EyeBlinkMaterial");
+		CreateMaterial(L"T_SelectorBubble", L"SpriteShader", eRenderingMode::Transparent, L"SelectorBubbleMaterial");
+		CreateMaterial(L"T_SelectScreenPanelUP", L"SpriteShader", eRenderingMode::Transparent, L"SelectScreenPanelUPMaterial");
+		CreateMaterial(L"T_SelectScreenPanelDown", L"SpriteShader", eRenderingMode::Transparent, L"SelectScreenPanelDownMaterial");
+		CreateMaterial(L"T_UISmallPanel", L"SpriteShader", eRenderingMode::Transparent, L"UISmallPanelMaterial");
+		CreateMaterial(L"T_RoundedRect", L"SpriteShader", eRenderingMode::Transparent, L"RoundedRectMaterial");
+		CreateMaterial(L"T_UILock", L"SpriteShader", eRenderingMode::Transparent, L"UILockMaterial");
+
+
+#pragma endregion
+#pragma region FACE MATERIAL
+
+		for (size_t i = 0; i < 5; i++)
+		{
+			const std::wstring faceName = L"Face_" + std::to_wstring(i);
+
+			CreateMaterial(faceName, L"SpriteShader", eRenderingMode::Transparent, faceName + L"Material");
+		}
+
+
+		CreateMaterial(L"Face_0", L"SpriteShader", eRenderingMode::Transparent, L"ShanaFaceMaterial");
+		CreateMaterial(L"Face_1", L"SpriteShader", eRenderingMode::Transparent, L"AbbyFaceMaterial");
+		CreateMaterial(L"Face_2", L"SpriteShader", eRenderingMode::Transparent, L"UILockMaterial");
+		CreateMaterial(L"Face_3", L"SpriteShader", eRenderingMode::Transparent, L"UILockMaterial");
+		CreateMaterial(L"Face_4", L"SpriteShader", eRenderingMode::Transparent, L"UILockMaterial");
+
+#pragma endregion
 
 		for (size_t i = 0; i < 100; i++)
 		{

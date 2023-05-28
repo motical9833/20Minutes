@@ -157,6 +157,7 @@
     <ClInclude Include="GaleScript.h" />
     <ClInclude Include="yaAnimation.h" />
     <ClInclude Include="yaAnimator.h" />
+    <ClInclude Include="yaBgEyeScript.h" />
     <ClInclude Include="yaBullet.h" />
     <ClInclude Include="yaBulletScript.h" />
     <ClInclude Include="yaCollider3D.h" />
@@ -180,9 +181,11 @@
     <ClInclude Include="yaEnums.h" />
     <ClInclude Include="yaExpBarScript.h" />
     <ClInclude Include="yaExpMarbleObject.h" />
+    <ClInclude Include="yaFaceTextureScript.h" />
     <ClInclude Include="yaFadeInOutScript.h" />
     <ClInclude Include="yaFreezeScript.h" />
     <ClInclude Include="yaGameObject.h" />
+    <ClInclude Include="yaGameTexts.h" />
     <ClInclude Include="yaGhostBullet.h" />
     <ClInclude Include="yaGhostPetScript.h" />
     <ClInclude Include="yaGraphicDevice_DX11.h" />
@@ -192,8 +195,10 @@
     <ClInclude Include="yaIcicleScript.h" />
     <ClInclude Include="yaInput.h" />
     <ClInclude Include="yaLayer.h" />
+    <ClInclude Include="yaLeavesScirpt.h" />
     <ClInclude Include="yaLevelUPEffectScript.h" />
     <ClInclude Include="yaLight.h" />
+    <ClInclude Include="yalogoScript.h" />
     <ClInclude Include="yaMagicLensScript.h" />
     <ClInclude Include="yaMaterial.h" />
     <ClInclude Include="yaMath.h" />
@@ -239,6 +244,7 @@
     <ClCompile Include="GaleScript.cpp" />
     <ClCompile Include="yaAnimation.cpp" />
     <ClCompile Include="yaAnimator.cpp" />
+    <ClCompile Include="yaBgEyeScript.cpp" />
     <ClCompile Include="yaBullet.cpp" />
     <ClCompile Include="yaBulletScript.cpp" />
     <ClCompile Include="yaCollider3D.cpp" />
@@ -259,9 +265,11 @@
     <ClCompile Include="yaEntity.cpp" />
     <ClCompile Include="yaExpBarScript.cpp" />
     <ClCompile Include="yaExpMarbleObject.cpp" />
+    <ClCompile Include="yaFaceTextureScript.cpp" />
     <ClCompile Include="yaFadeInOutScript.cpp" />
     <ClCompile Include="yaFreezeScript.cpp" />
     <ClCompile Include="yaGameObject.cpp" />
+    <ClCompile Include="yaGameTexts.cpp" />
     <ClCompile Include="yaGhostBullet.cpp" />
     <ClCompile Include="yaGhostPetScript.cpp" />
     <ClCompile Include="yaGraphicDevice_DX11.cpp" />
@@ -270,8 +278,10 @@
     <ClCompile Include="yaIcicleScript.cpp" />
     <ClCompile Include="yaInput.cpp" />
     <ClCompile Include="yaLayer.cpp" />
+    <ClCompile Include="yaLeavesScirpt.cpp" />
     <ClCompile Include="yaLevelUPEffectScript.cpp" />
     <ClCompile Include="yaLight.cpp" />
+    <ClCompile Include="yalogoScript.cpp" />
     <ClCompile Include="yaMagicLensScript.cpp" />
     <ClCompile Include="yaMaterial.cpp" />
     <ClCompile Include="yaMath.cpp" />

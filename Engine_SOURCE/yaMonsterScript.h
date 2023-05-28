@@ -53,6 +53,7 @@ namespace ya
 		int GetMaxHP() { return mMaxHp; }
 		void GetDIr();
 		void DropExpMarble();
+		void ClashwithPlayer();
 	private:
 		float mSpeed;
 		float mTime;
@@ -74,9 +75,11 @@ namespace ya
 		bool bDieBullet;
 		bool bKillClip;
 		bool bIgnition;
+		bool bClash;
 
 		float freezeTime;
 		float ignitionTime;
+		float clashTime;
 
 		Vector2 mColliderSize;
 		Vector3 mDir;

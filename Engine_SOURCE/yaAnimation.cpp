@@ -85,6 +85,31 @@ namespace ya
 			mSpriteSheet.push_back(sprite);
 		}
 	}
+	void Animation::Create(const std::wstring& name,
+		std::shared_ptr<Texture> atlas, Vector2 leftTop, 
+		Vector2 size, Vector2 offset, float atlasSizeX,
+		float atlasSizeY, UINT spriteLegth, float duration)
+	{
+		mAnimationName = name;
+
+		mAtlas = atlas;
+		float width = (float)atlas->GetWidth();
+		float height = (float)atlas->GetHeight();
+
+		for (size_t i = 0; i < spriteLegth; i++)
+		{
+			// API 와는 다르게 0~1 사이의 비율좌표로 위치를 표현해야한다.
+			Sprite sprite = {};
+			sprite.leftTop = Vector2((leftTop.x + (size.x * (float)i)) / width
+				, (leftTop.y) / height);
+			sprite.size = Vector2(size.x / width, size.y / height);
+			sprite.offset = offset;
+			sprite.duration = duration;
+			sprite.atlasSize = Vector2(atlasSizeX / width, atlasSizeY / height);
+
+			mSpriteSheet.push_back(sprite);
+		}
+	}
 
 	void Animation::BindShaderResource()
 	{

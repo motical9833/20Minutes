@@ -24,12 +24,31 @@ namespace ya
 		virtual void OnEnter() override;
 		virtual void OnExit() override;
 
+		void CreateCamera();
+		void CreateLeavs();
+		void CreateLogo();
+		void CreateBg();
+		void CreateBgEye();
+
+		void CreateSelectPanal();
+		void CreatePlayerFace(const std::wstring& key, Vector3 pos, Vector3 scale);
+
+		void FirstUI();
+		void StartUI();
+		void SelectScreenUI();
+
 		glm::vec2 ScreenToCamera(const glm::vec2 & screenCoord, const glm::mat4 & viewProjectionMatrix, int screenWidth, int screenHeight);
 
+		void Start(int num);
 	private:
-		std::vector<Transform*> objTr;
+		std::vector<GameObject*> leves;
+		std::vector<GameObject*> selectPanals;
+		std::vector<GameObject*> faceObjs;
 		float time;
 		bool bLoadScene;
+
 		GameObject* tSceneCamera;
+		GameObject* logo;
+		GameObject* bgEye;
 	};
 }

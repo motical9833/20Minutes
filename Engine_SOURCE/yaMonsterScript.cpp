@@ -12,7 +12,7 @@
 #include "yaSkillManager.h"
 #include "yaExpBarScript.h"
 
-#define monsterSpeed 0
+#define monsterSpeed 2
 
 namespace ya
 {
@@ -29,10 +29,12 @@ namespace ya
 		, bWitherOn(false)
 		, freezeTime(0.0f)
 		, ignitionTime(0.0f)
+		, clashTime(0.0f)
 		, bDieBullet(false)
 		, bKillClip(false)
 		, bRitualOn(false)
 		, bIgnition(false)
+		, bClash(false)
 		, curseMul(2.0f)
 		, mTime(0.0f)
 		, ignitionCnt(0)
@@ -54,10 +56,12 @@ namespace ya
 		, bCurseActivate(false)
 		, freezeTime(0.0f)
 		, ignitionTime(0.0f)
+		, clashTime(0.0f)
 		, bDieBullet(false)
 		, bKillClip(false)
 		, bRitualOn(false)
 		, bIgnition(false)
+		, bClash(false)
 		, curseMul(2.0f)
 		, mTime(0.0f)
 		, ignitionCnt(0)
@@ -119,12 +123,33 @@ namespace ya
 				animator->Play(L"m_Right", true);
 			}
 
-			GetDIr();
+			if (bClash)
+			{
+				clashTime += Time::DeltaTime();
 
-			pos.x += mDir.x * mSpeed * Time::DeltaTime();
-			pos.y += mDir.y * mSpeed * Time::DeltaTime();
+				GetDIr();
 
-			GetOwner()->GetComponent<Transform>()->SetPosition(pos);
+				pos.x -= mDir.x * mSpeed * Time::DeltaTime();
+				pos.y -= mDir.y * mSpeed * Time::DeltaTime();
+
+				GetOwner()->GetComponent<Transform>()->SetPosition(pos);
+
+				if (clashTime >= 0.1f)
+				{
+					bClash = false;
+					mSpeed = monsterSpeed;
+					clashTime = 0.0f;
+				}
+			}
+			else
+			{
+				GetDIr();
+
+				pos.x += mDir.x * mSpeed * Time::DeltaTime();
+				pos.y += mDir.y * mSpeed * Time::DeltaTime();
+
+				GetOwner()->GetComponent<Transform>()->SetPosition(pos);
+			}
 		}
 
 		if (bIgnition)
@@ -156,6 +181,7 @@ namespace ya
 		if (collider->GetOwner()->GetLayerType() == eLayerType::Player)
 		{
 			collider->GetOwner()->GetScript<PlayerScript>()->TakeDamage(mDamage);
+			ClashwithPlayer();
 		}
 	}
 	void MonsterScript::OnCollisionStay(Collider2D* collider)
@@ -412,5 +438,10 @@ namespace ya
 			SceneManager::GetPlayScene()->GetExpMarble()[i]->Life();
 			break;
 		}
+	}
+	void MonsterScript::ClashwithPlayer()
+	{
+		bClash = true;
+		mSpeed = 15.0f;
 	}
 }

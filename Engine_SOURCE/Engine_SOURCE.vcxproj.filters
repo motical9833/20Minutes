@@ -339,7 +339,14 @@
     <ClCompile Include="yaExpMarbleObject.cpp">
       <Filter>Component\Script\Contents</Filter>
     </ClCompile>
-    <ClCompile Include="yaExpBarScript.cpp" />
+    <ClCompile Include="yaGameTexts.cpp" />
+    <ClCompile Include="yaBgEyeScript.cpp" />
+    <ClCompile Include="yaExpBarScript.cpp">
+      <Filter>Component\Script\Contents</Filter>
+    </ClCompile>
+    <ClCompile Include="yalogoScript.cpp" />
+    <ClCompile Include="yaLeavesScirpt.cpp" />
+    <ClCompile Include="yaFaceTextureScript.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CommonInclude.h">
@@ -579,7 +586,14 @@
     <ClInclude Include="yaExpMarbleObject.h">
       <Filter>Component\Script\Contents</Filter>
     </ClInclude>
-    <ClInclude Include="yaExpBarScript.h" />
+    <ClInclude Include="yaGameTexts.h" />
+    <ClInclude Include="yaBgEyeScript.h" />
+    <ClInclude Include="yaExpBarScript.h">
+      <Filter>Component\Script\Contents</Filter>
+    </ClInclude>
+    <ClInclude Include="yalogoScript.h" />
+    <ClInclude Include="yaLeavesScirpt.h" />
+    <ClInclude Include="yaFaceTextureScript.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="yaMath.inl">
