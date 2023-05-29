@@ -115,6 +115,15 @@
     <Filter Include="Component\Script\Contents\SKILL\Manager">
       <UniqueIdentifier>{8247543a-4be3-4d64-b610-39dfd1721840}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Component\Script\Contents\UI">
+      <UniqueIdentifier>{76bed0a5-9d3e-421f-b61b-c58b8af19b71}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component\Script\Contents\GameObject">
+      <UniqueIdentifier>{141a41a2-7c1c-4e59-bd8f-6596dac30c96}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component\Script\Contents\Effect">
+      <UniqueIdentifier>{d656b264-af26-4247-88c5-830ef2c8257b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="yaApplication.cpp">
@@ -216,12 +225,6 @@
     <ClCompile Include="yaCollider.cpp">
       <Filter>Component\Collider</Filter>
     </ClCompile>
-    <ClCompile Include="yaPlayer.cpp">
-      <Filter>Component\Script\Contents</Filter>
-    </ClCompile>
-    <ClCompile Include="yaMonster.cpp">
-      <Filter>Component\Script\Contents</Filter>
-    </ClCompile>
     <ClCompile Include="yaAnimation.cpp">
       <Filter>Animation</Filter>
     </ClCompile>
@@ -231,23 +234,11 @@
     <ClCompile Include="yaLight.cpp">
       <Filter>Light</Filter>
     </ClCompile>
-    <ClCompile Include="yaWeapon.cpp">
-      <Filter>Component\Script\Contents</Filter>
-    </ClCompile>
-    <ClCompile Include="yaWeaponScript.cpp">
-      <Filter>Component\Script\Contents</Filter>
-    </ClCompile>
     <ClCompile Include="yaComputeShader.cpp">
       <Filter>Resource\Shader\CS</Filter>
     </ClCompile>
     <ClCompile Include="yaPaintShader.cpp">
       <Filter>Resource\Shader\CS</Filter>
-    </ClCompile>
-    <ClCompile Include="yaBullet.cpp">
-      <Filter>Component\Script\Contents</Filter>
-    </ClCompile>
-    <ClCompile Include="yaBulletScript.cpp">
-      <Filter>Component\Script\Contents</Filter>
     </ClCompile>
     <ClCompile Include="yaConstantBuffer.cpp">
       <Filter>Graphics\Buffer</Filter>
@@ -260,9 +251,6 @@
     </ClCompile>
     <ClCompile Include="yaParticleShader.cpp">
       <Filter>Resource\Shader\CS</Filter>
-    </ClCompile>
-    <ClCompile Include="yaMonsterScript.cpp">
-      <Filter>Component\Script\Contents</Filter>
     </ClCompile>
     <ClCompile Include="yaFadeInOutScript.cpp">
       <Filter>Component\Script\Contents</Filter>
@@ -324,29 +312,69 @@
     <ClCompile Include="yaRotScript.cpp">
       <Filter>Component\Script\Contents\SKILL\Manager</Filter>
     </ClCompile>
-    <ClCompile Include="yaPlayerLevelScript.cpp">
-      <Filter>Component\Script\Contents</Filter>
-    </ClCompile>
     <ClCompile Include="yaParticleSystem.cpp">
       <Filter>Component\Script\Contents</Filter>
     </ClCompile>
-    <ClCompile Include="yaMuzzleFlashScript.cpp">
-      <Filter>Component\Script\Contents</Filter>
+    <ClCompile Include="yaTitleUIManager.cpp">
+      <Filter>Component\Script\Contents\UI</Filter>
     </ClCompile>
-    <ClCompile Include="yaLevelUPEffectScript.cpp">
-      <Filter>Component\Script\Contents</Filter>
+    <ClCompile Include="yaSelectPanalScript.cpp">
+      <Filter>Component\Script\Contents\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="yalogoScript.cpp">
+      <Filter>Component\Script\Contents\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="yaLeavesScirpt.cpp">
+      <Filter>Component\Script\Contents\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="yaGameTexts.cpp">
+      <Filter>Component\Script\Contents\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="yaFaceTextureScript.cpp">
+      <Filter>Component\Script\Contents\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="yaBgEyeScript.cpp">
+      <Filter>Component\Script\Contents\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="yaBullet.cpp">
+      <Filter>Component\Script\Contents\GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="yaBulletScript.cpp">
+      <Filter>Component\Script\Contents\GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="yaExpBarScript.cpp">
+      <Filter>Component\Script\Contents\UI</Filter>
     </ClCompile>
     <ClCompile Include="yaExpMarbleObject.cpp">
-      <Filter>Component\Script\Contents</Filter>
+      <Filter>Component\Script\Contents\GameObject</Filter>
     </ClCompile>
-    <ClCompile Include="yaGameTexts.cpp" />
-    <ClCompile Include="yaBgEyeScript.cpp" />
-    <ClCompile Include="yaExpBarScript.cpp">
-      <Filter>Component\Script\Contents</Filter>
+    <ClCompile Include="yaMonster.cpp">
+      <Filter>Component\Script\Contents\GameObject</Filter>
     </ClCompile>
-    <ClCompile Include="yalogoScript.cpp" />
-    <ClCompile Include="yaLeavesScirpt.cpp" />
-    <ClCompile Include="yaFaceTextureScript.cpp" />
+    <ClCompile Include="yaMonsterScript.cpp">
+      <Filter>Component\Script\Contents\GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="yaPlayer.cpp">
+      <Filter>Component\Script\Contents\GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="yaPlayerLevelScript.cpp">
+      <Filter>Component\Script\Contents\GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="yaWeaponScript.cpp">
+      <Filter>Component\Script\Contents\GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="yaWeapon.cpp">
+      <Filter>Component\Script\Contents\GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="yaLevelUPEffectScript.cpp">
+      <Filter>Component\Script\Contents\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="yaMuzzleFlashScript.cpp">
+      <Filter>Component\Script\Contents\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="yaBubbleUIScript.cpp">
+      <Filter>Component\Script\Contents\UI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CommonInclude.h">
@@ -463,12 +491,6 @@
     <ClInclude Include="yaCollider.h">
       <Filter>Component\Collider</Filter>
     </ClInclude>
-    <ClInclude Include="yaPlayer.h">
-      <Filter>Component\Script\Contents</Filter>
-    </ClInclude>
-    <ClInclude Include="yaMonster.h">
-      <Filter>Component\Script\Contents</Filter>
-    </ClInclude>
     <ClInclude Include="yaAnimation.h">
       <Filter>Animation</Filter>
     </ClInclude>
@@ -478,23 +500,11 @@
     <ClInclude Include="yaLight.h">
       <Filter>Light</Filter>
     </ClInclude>
-    <ClInclude Include="yaWeapon.h">
-      <Filter>Component\Script\Contents</Filter>
-    </ClInclude>
-    <ClInclude Include="yaWeaponScript.h">
-      <Filter>Component\Script\Contents</Filter>
-    </ClInclude>
     <ClInclude Include="yaComputeShader.h">
       <Filter>Resource\Shader\CS</Filter>
     </ClInclude>
     <ClInclude Include="yaPaintShader.h">
       <Filter>Resource\Shader\CS</Filter>
-    </ClInclude>
-    <ClInclude Include="yaBullet.h">
-      <Filter>Component\Script\Contents</Filter>
-    </ClInclude>
-    <ClInclude Include="yaBulletScript.h">
-      <Filter>Component\Script\Contents</Filter>
     </ClInclude>
     <ClInclude Include="yaConstantBuffer.h">
       <Filter>Graphics\Buffer</Filter>
@@ -507,9 +517,6 @@
     </ClInclude>
     <ClInclude Include="yaParticleShader.h">
       <Filter>Resource\Shader\CS</Filter>
-    </ClInclude>
-    <ClInclude Include="yaMonsterScript.h">
-      <Filter>Component\Script\Contents</Filter>
     </ClInclude>
     <ClInclude Include="yaFadeInOutScript.h">
       <Filter>Component\Script\Contents</Filter>
@@ -571,29 +578,69 @@
     <ClInclude Include="yaRotScript.h">
       <Filter>Component\Script\Contents\SKILL\Manager</Filter>
     </ClInclude>
-    <ClInclude Include="yaPlayerLevelScript.h">
-      <Filter>Component\Script\Contents</Filter>
-    </ClInclude>
     <ClInclude Include="yaParticleSystem.h">
       <Filter>Component\Script\Contents</Filter>
     </ClInclude>
-    <ClInclude Include="yaMuzzleFlashScript.h">
-      <Filter>Component\Script\Contents</Filter>
+    <ClInclude Include="yaTitleUIManager.h">
+      <Filter>Component\Script\Contents\UI</Filter>
     </ClInclude>
-    <ClInclude Include="yaLevelUPEffectScript.h">
-      <Filter>Component\Script\Contents</Filter>
+    <ClInclude Include="yaSelectPanalScript.h">
+      <Filter>Component\Script\Contents\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="yalogoScript.h">
+      <Filter>Component\Script\Contents\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="yaLeavesScirpt.h">
+      <Filter>Component\Script\Contents\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="yaGameTexts.h">
+      <Filter>Component\Script\Contents\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="yaFaceTextureScript.h">
+      <Filter>Component\Script\Contents\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="yaBgEyeScript.h">
+      <Filter>Component\Script\Contents\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="yaBulletScript.h">
+      <Filter>Component\Script\Contents\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="yaBullet.h">
+      <Filter>Component\Script\Contents\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="yaExpBarScript.h">
+      <Filter>Component\Script\Contents\UI</Filter>
     </ClInclude>
     <ClInclude Include="yaExpMarbleObject.h">
-      <Filter>Component\Script\Contents</Filter>
+      <Filter>Component\Script\Contents\GameObject</Filter>
     </ClInclude>
-    <ClInclude Include="yaGameTexts.h" />
-    <ClInclude Include="yaBgEyeScript.h" />
-    <ClInclude Include="yaExpBarScript.h">
-      <Filter>Component\Script\Contents</Filter>
+    <ClInclude Include="yaMonster.h">
+      <Filter>Component\Script\Contents\GameObject</Filter>
     </ClInclude>
-    <ClInclude Include="yalogoScript.h" />
-    <ClInclude Include="yaLeavesScirpt.h" />
-    <ClInclude Include="yaFaceTextureScript.h" />
+    <ClInclude Include="yaMonsterScript.h">
+      <Filter>Component\Script\Contents\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="yaPlayer.h">
+      <Filter>Component\Script\Contents\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="yaPlayerLevelScript.h">
+      <Filter>Component\Script\Contents\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="yaWeaponScript.h">
+      <Filter>Component\Script\Contents\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="yaWeapon.h">
+      <Filter>Component\Script\Contents\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="yaLevelUPEffectScript.h">
+      <Filter>Component\Script\Contents\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="yaMuzzleFlashScript.h">
+      <Filter>Component\Script\Contents\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="yaBubbleUIScript.h">
+      <Filter>Component\Script\Contents\UI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="yaMath.inl">

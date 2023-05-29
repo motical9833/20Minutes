@@ -2,31 +2,30 @@
 #include "yaScript.h"
 
 
+
 namespace ya
 {
-	class FaceTextureScript : public Script
+	class BubbleUIScript : public Script
 	{
 	public:
-		FaceTextureScript(Vector3 posA, Vector3 posB);
-		virtual ~FaceTextureScript();
+		BubbleUIScript(Vector3 posA,Vector3 posB);
+		virtual ~BubbleUIScript();
 
 		virtual void Initalize();
 		virtual void Update();
 		virtual void FixedUpdate();
 		virtual void Render();
-
+		
 		Vector3 SetMoveDirection(Vector3 pos);
-		void UpDownMove();
 		void Next();
 		void Back();
 
 	private:
-		bool bMove;
-		bool bStop;
 
-		float mSpeed;
+		bool bStop;
+		bool bMove;
+
 		Vector3 targetPosA;
 		Vector3 targetPosB;
-
 	};
 }

@@ -1,54 +1,39 @@
-#include "yaFaceTextureScript.h"
+#include "yaSelectPanalScript.h"
 #include "yaGameObject.h"
 #include "yaTime.h"
 
 namespace ya
 {
-	FaceTextureScript::FaceTextureScript(Vector3 posA, Vector3 posB)
-		:mSpeed(0.05f)
+	SelectPanalScript::SelectPanalScript(Vector3 posA, Vector3 posB)
+		:bStop(true)
 		,bMove(false)
-		,bStop(true)
-		,targetPosA(posA)
-		,targetPosB(posB)
+		, targetPosA(posA)
+		, targetPosB(posB)
 	{
 
 	}
-	FaceTextureScript::~FaceTextureScript()
+	SelectPanalScript::~SelectPanalScript()
 	{
 
 	}
-	void FaceTextureScript::Initalize()
+	void SelectPanalScript::Initalize()
 	{
 
 	}
-	void FaceTextureScript::Update()
+	void SelectPanalScript::Update()
 	{
 		Vector3 pos = GetOwner()->GetComponent<Transform>()->GetPosition();
-
-		if (pos.y > 1.2f)
-		{
-			mSpeed = -0.05f;
-		}
-		else if (pos.y < 1.0f)
-		{
-			mSpeed = 0.05f;
-		}
-
-		pos.y += mSpeed * Time::DeltaTime();
-
-		GetOwner()->GetComponent<Transform>()->SetPosition(pos);
-
 
 		if (bStop == false && bMove == false)
 		{
 			Vector3 dir = SetMoveDirection(targetPosA);
 
 
-			pos.x += 7 * dir.x * Time::DeltaTime();
+			pos.y += 3 * dir.y * Time::DeltaTime();
 
 			GetOwner()->GetComponent<Transform>()->SetPosition(pos);
 
-			if (std::abs(targetPosA.x) >= std::abs(GetOwner()->GetComponent<Transform>()->GetPosition().x))
+			if (std::abs(targetPosA.y) >= std::abs(GetOwner()->GetComponent<Transform>()->GetPosition().y))
 			{
 				bStop = true;
 			}
@@ -59,25 +44,25 @@ namespace ya
 			Vector3 dir = SetMoveDirection(targetPosB);
 
 
-			pos.x += 7 * dir.x * Time::DeltaTime();
+			pos.y += 3 * dir.y * Time::DeltaTime();
 
 			GetOwner()->GetComponent<Transform>()->SetPosition(pos);
 
-			if (std::abs(targetPosB.x) <= std::abs(GetOwner()->GetComponent<Transform>()->GetPosition().x))
+			if (std::abs(targetPosB.y) <= std::abs(GetOwner()->GetComponent<Transform>()->GetPosition().y))
 			{
 				bStop = true;
 			}
 		}
 	}
-	void FaceTextureScript::FixedUpdate()
+	void SelectPanalScript::FixedUpdate()
 	{
 
 	}
-	void FaceTextureScript::Render()
+	void SelectPanalScript::Render()
 	{
 
 	}
-	Vector3 FaceTextureScript::SetMoveDirection(Vector3 pos)
+	Vector3 SelectPanalScript::SetMoveDirection(Vector3 pos)
 	{
 		Transform* tr = GetOwner()->GetComponent<Transform>();
 
@@ -95,16 +80,12 @@ namespace ya
 
 		return dirValue;
 	}
-	void FaceTextureScript::UpDownMove()
-	{
-
-	}
-	void FaceTextureScript::Next()
+	void SelectPanalScript::Next()
 	{
 		bStop = false;
 		bMove = false;
 	}
-	void FaceTextureScript::Back()
+	void SelectPanalScript::Back()
 	{
 		bStop = false;
 		bMove = true;

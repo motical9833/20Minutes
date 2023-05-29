@@ -1,14 +1,13 @@
 #pragma once
 #include "yaScript.h"
 
-
 namespace ya
 {
-	class FaceTextureScript : public Script
+	class SelectPanalScript : public Script
 	{
 	public:
-		FaceTextureScript(Vector3 posA, Vector3 posB);
-		virtual ~FaceTextureScript();
+		SelectPanalScript(Vector3 posA,Vector3 posB);
+		virtual ~SelectPanalScript();
 
 		virtual void Initalize();
 		virtual void Update();
@@ -16,17 +15,15 @@ namespace ya
 		virtual void Render();
 
 		Vector3 SetMoveDirection(Vector3 pos);
-		void UpDownMove();
+
 		void Next();
 		void Back();
 
 	private:
-		bool bMove;
 		bool bStop;
+		bool bMove;
 
-		float mSpeed;
 		Vector3 targetPosA;
 		Vector3 targetPosB;
-
 	};
 }

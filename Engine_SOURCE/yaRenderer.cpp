@@ -500,17 +500,17 @@ namespace ya::renderer
 		Resources::Load<Texture>(L"noise_02", L"noise\\noise_02.png");
 
 		Resources::Load<Texture>(L"PlayerSprite", L"Player\\Player.png");
-		Resources::Load<Texture>(L"Shana", L"Player\\Shana.png");
-		Resources::Load<Texture>(L"Abby", L"Player\\T_AbbySprite.png");
-		Resources::Load<Texture>(L"Dasher", L"Player\\T_Dasher.png");
-		Resources::Load<Texture>(L"Diamond", L"Player\\T_DiamondSprite.png");
-		Resources::Load<Texture>(L"Hastur", L"Player\\T_Hastur.png");
-		Resources::Load<Texture>(L"Hina", L"Player\\T_HinaSprite.png");
-		Resources::Load<Texture>(L"Lilith", L"Player\\T_LilithSprite.png");
-		Resources::Load<Texture>(L"Luna", L"Player\\T_Luna.png");
-		Resources::Load<Texture>(L"Scarlett", L"Player\\T_Scarlett.png");
-		Resources::Load<Texture>(L"Spark", L"Player\\T_Spark.png");
-		Resources::Load<Texture>(L"Yuki", L"Player\\T_Yuki.png");
+		Resources::Load<Texture>(L"Player_0", L"Player\\Shana.png");
+		Resources::Load<Texture>(L"Player_1", L"Player\\T_DiamondSprite.png");
+		Resources::Load<Texture>(L"Player_2", L"Player\\T_Scarlett.png");
+		Resources::Load<Texture>(L"Player_3", L"Player\\T_HinaSprite.png");
+		Resources::Load<Texture>(L"Player_4", L"Player\\T_Spark.png");
+		Resources::Load<Texture>(L"Player_5", L"Player\\T_LilithSprite.png");
+		Resources::Load<Texture>(L"Player_6", L"Player\\T_AbbySprite.png");
+		Resources::Load<Texture>(L"Player_7", L"Player\\T_Yuki.png");
+		Resources::Load<Texture>(L"Player_8", L"Player\\T_Luna.png");
+		Resources::Load<Texture>(L"Player_9", L"Player\\T_Dasher.png");
+		Resources::Load<Texture>(L"Player_10", L"Player\\T_Hastur.png");
 
 		Resources::Load<Texture>(L"LevelUP", L"Player\\T_LevelUpFX.png");
 		Resources::Load<Texture>(L"ExpObj", L"T_SmallCircle.png");
@@ -712,6 +712,7 @@ namespace ya::renderer
 		Resources::Load<Texture>(L"PowerupFrame_Large", L"UI\\Icon\\PowerupFrame_Large.png");
 		Resources::Load<Texture>(L"PowerupIconBG", L"UI\\Icon\\PowerupIconBG.png");
 		Resources::Load<Texture>(L"UIPanel", L"UI\\T_UIPanel.png");
+		Resources::Load<Texture>(L"UIPanelOrigin", L"UI\\T_UIPanelOrigin.png");
 		Resources::Load<Texture>(L"LeftDownArrows", L"UI\\T_PowerupTreeArrows_0.png");
 		Resources::Load<Texture>(L"RightDownArrows", L"UI\\T_PowerupTreeArrows_1.png");
 		Resources::Load<Texture>(L"DownRightArrows", L"UI\\T_PowerupTreeArrows_2.png");
@@ -800,6 +801,8 @@ namespace ya::renderer
 		CreateMaterial(L"LogoTexture", L"SpriteShader", eRenderingMode::Transparent, L"LogoMaterial");
 
 		CreateMaterial(L"UIPanel", L"SpriteShader", eRenderingMode::Transparent, L"PanalMaterial");
+		CreateMaterial(L"UIPanelOrigin", L"SpriteShader", eRenderingMode::Transparent, L"PanelOriginMaterial");
+
 
 		CreateMaterial(L"LeftDownArrows", L"SpriteShader", eRenderingMode::Transparent, L"LeftDownLeaderMaterial");
 		CreateMaterial(L"RightDownArrows", L"SpriteShader", eRenderingMode::Transparent, L"RightDownLeaderMaterial");
@@ -819,7 +822,6 @@ namespace ya::renderer
 		CreateMaterial(L"T_UISmallPanel", L"SpriteShader", eRenderingMode::Transparent, L"UISmallPanelMaterial");
 		CreateMaterial(L"T_RoundedRect", L"SpriteShader", eRenderingMode::Transparent, L"RoundedRectMaterial");
 		CreateMaterial(L"T_UILock", L"SpriteShader", eRenderingMode::Transparent, L"UILockMaterial");
-
 
 #pragma endregion
 #pragma region FACE MATERIAL

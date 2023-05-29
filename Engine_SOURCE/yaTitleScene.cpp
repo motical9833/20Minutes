@@ -23,6 +23,8 @@
 #include "yalogoScript.h"
 #include "yaLeavesScirpt.h"
 #include "yaFaceTextureScript.h"
+#include "yaSelectPanalScript.h"
+#include "yaBubbleUIScript.h"
 
 namespace ya
 {
@@ -59,29 +61,32 @@ namespace ya
 		//}
 
 		CreateCamera();
-		//CreateLeavs();
-		//CreateLogo();
+		CreateLeavs();
+		CreateLogo();
 		CreateBg();
-		//CreateBgEye();
-		//FirstUI();
+		CreateBgEye();
+		FirstUI();
+		CreateFaceImg();
+		CreateBubbleUI();
+		CreateLockObjet();
 		CreateSelectPanal();
-		for (size_t i = 0; i < 5; i++)
+		CreatePanal();
+		for (size_t i = 0; i < playerBubbles.size(); i++)
 		{
-			const std::wstring name = L"Face_" + std::to_wstring(i) + L"Material";
-			CreatePlayerFace(name, Vector3(14.0f, 1.0f, 9.9f), Vector3(5.0f, 6.0f, 1.0f));
+			const std::wstring name = L"Player_" + std::to_wstring(i);
+			CreateCharacterImg(name, playerBubbles[i]);
 		}
-
 		Scene::Initalize();
 	}
 	void TitleScene::Update()
 	{
 		if (Input::GetKeyDown(eKeyCode::N))
 		{
-			//StartUI();
+			StartUI();
 		}
 		if (Input::GetKeyDown(eKeyCode::Q))
 		{
-			//FirstUI();
+			FirstUI();
 			//Start(1);
 		}
 		if(bLoadScene)
@@ -239,23 +244,27 @@ namespace ya
 	{
 		GameObject* upPanal = object::Instantiate<GameObject>(eLayerType::UI);
 		upPanal->SetLayerType(eLayerType::UI);
-		upPanal->GetComponent<Transform>()->SetPosition(Vector3(1.0f, 5.15f, 9.9f));
+		upPanal->GetComponent<Transform>()->SetPosition(Vector3(1.0f, 10.15f, 9.9f));
 		upPanal->GetComponent<Transform>()->SetScale(Vector3(20.0f, 2.0f, 1.0f));
 		SpriteRenderer* upPanalRender = upPanal->AddComponent<SpriteRenderer>();
 		std::shared_ptr<Material> upPanalMat = Resources::Find<Material>(L"SelectScreenPanelUPMaterial");
 		upPanalRender->SetMaterial(upPanalMat);
 		std::shared_ptr<Mesh> upPanalMesh = Resources::Find<Mesh>(L"RectMesh");
 		upPanalRender->SetMesh(upPanalMesh);
+		upPanal->AddComponent<SelectPanalScript>(Vector3(1.0f, 5.15f, 9.9f),Vector3(1.0f, 10.15f, 9.9f));
+		selectPanals.push_back(upPanal);
 
 		GameObject* downPanal = object::Instantiate<GameObject>(eLayerType::UI);
 		downPanal->SetLayerType(eLayerType::UI);
-		downPanal->GetComponent<Transform>()->SetPosition(Vector3(1.0f, -3.2f, 9.9f));
+		downPanal->GetComponent<Transform>()->SetPosition(Vector3(1.0f, -8.2f, 9.9f));
 		downPanal->GetComponent<Transform>()->SetScale(Vector3(20.0f, 2.0f, 1.0f));
 		SpriteRenderer* downPanalRender = downPanal->AddComponent<SpriteRenderer>();
 		std::shared_ptr<Material> downPanalMat = Resources::Find<Material>(L"SelectScreenPanelDownMaterial");
 		downPanalRender->SetMaterial(downPanalMat);
 		std::shared_ptr<Mesh> downPanalMesh = Resources::Find<Mesh>(L"RectMesh");
 		downPanalRender->SetMesh(downPanalMesh);
+		downPanal->AddComponent<SelectPanalScript>(Vector3(1.0f, -3.2f, 9.9f), Vector3(1.0f, -8.2f, 9.9f));
+		selectPanals.push_back(downPanal);
 	}
 	void TitleScene::CreatePlayerFace(const std::wstring& key, Vector3 pos, Vector3 scale)
 	{
@@ -268,9 +277,136 @@ namespace ya
 		faceRender->SetMaterial(faceMaterial);
 		std::shared_ptr<Mesh> faceMesh = Resources::Find<Mesh>(L"RectMesh");
 		faceRender->SetMesh(faceMesh);
-		faceObj->AddComponent<FaceTextureScript>(Vector3(6.0f, 1.0f, 9.9f),Vector3(14.0f, 1.0f, 9.9f));
+		faceObj->AddComponent<FaceTextureScript>(Vector3(6.0f, 1.0f, 9.9f),Vector3(17.0f, 1.5f, 9.9f));
 
 		faceObjs.push_back(faceObj);
+	}
+	void TitleScene::CreateFaceImg()
+	{
+		for (size_t i = 0; i < 5; i++)
+		{
+			const std::wstring name = L"Face_" + std::to_wstring(i) + L"Material";
+			CreatePlayerFace(name, Vector3(17.0f, 1.0f, 9.9f), Vector3(5.0f, 6.0f, 1.0f));
+		}
+	}
+	void TitleScene::CreateBubble(std::vector<GameObject*>& keepArray,Vector3 targetPosA, Vector3 targetPosB)
+	{
+		GameObject* pbubble = object::Instantiate<GameObject>(eLayerType::UI);
+		pbubble->SetLayerType(eLayerType::UI);
+		pbubble->GetComponent<Transform>()->SetPosition(targetPosB);
+		pbubble->GetComponent<Transform>()->SetScale(Vector3(2.0f,2.0f,1.0f));
+		SpriteRenderer* render = pbubble->AddComponent<SpriteRenderer>();
+		std::shared_ptr<Material> material = Resources::Find<Material>(L"SelectorBubbleMaterial");
+		render->SetMaterial(material);
+		std::shared_ptr<Mesh> mesh = Resources::Find<Mesh>(L"RectMesh");
+		render->SetMesh(mesh);
+
+		Animator* animator = pbubble->AddComponent<Animator>();
+		std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"T_SelectorBubble");
+		animator->Create(L"BubbleAni", texture, Vector2(0.0f,0.0f), Vector2(64.0f, 64.0f), Vector2::Zero, 2, 0.1f);
+		animator->Play(L"BubbleAni", false);
+		animator->Stop();
+
+		pbubble->AddComponent<BubbleUIScript>(targetPosA, targetPosB);
+		keepArray.push_back(pbubble);
+	}
+	void TitleScene::CreateBubbleUI()
+	{
+		for (size_t i = 0; i < 6; i++)
+		{
+			CreateBubble(playerBubbles,Vector3(-6.0f + (1.5f * i), 0.0f, 9.0f), Vector3(-20.0f + (1.5f * i), 0.0f, 9.0f));
+		}
+		for (size_t i = 0; i < 4; i++)
+		{
+			CreateBubble(playerBubbles,Vector3(-6.0f + (1.5f * i), -1.5f, 9.0f), Vector3(-20.0f + (1.5f * i), -1.5f, 9.0f));
+		}
+		for (size_t i = 0; i < 6; i++)
+		{
+			CreateBubble(weaponBubbles, Vector3(-6.0f + (1.5f * i), 0.0f, 9.0f), Vector3(-20.0f + (1.5f * i), 0.0f, 9.0f));
+		}
+		for (size_t i = 0; i < 4; i++)
+		{
+			CreateBubble(weaponBubbles, Vector3(-6.0f + (1.5f * i), -1.5f, 9.0f), Vector3(-20.0f + (1.5f * i), -1.5f, 9.0f));
+		}
+	}
+	void TitleScene::CreateLock(GameObject* parent)
+	{
+		GameObject* lock = object::Instantiate<GameObject>(eLayerType::UI);
+		lock->SetLayerType(eLayerType::UI);
+		lock->GetComponent<Transform>()->SetParent(parent->GetComponent<Transform>());
+		lock->GetComponent<Transform>()->SetPosition(Vector3(-0.03f,-0.01f,-0.01f));
+		lock->GetComponent<Transform>()->SetScale(Vector3(0.4f, 0.4f, 1.0f));
+		SpriteRenderer* render = lock->AddComponent<SpriteRenderer>();
+		std::shared_ptr<Material> material = Resources::Find<Material>(L"UILockMaterial");
+		render->SetMaterial(material);
+		std::shared_ptr<Mesh> mesh = Resources::Find<Mesh>(L"RectMesh");
+		render->SetMesh(mesh);
+	}
+	void TitleScene::CreateLockObjet()
+	{
+		for (size_t i = 0; i < playerBubbles.size(); i++)
+		{
+			CreateLock(playerBubbles[i]);
+		};
+		for (size_t i = 0; i < playerBubbles.size(); i++)
+		{
+			CreateLock(weaponBubbles[i]);
+		};
+	}
+	void TitleScene::CreateCharacterImg(const std::wstring& key, GameObject* parent)
+	{
+		GameObject* character = object::Instantiate<GameObject>(eLayerType::UI);
+		character->SetLayerType(eLayerType::UI);
+		character->GetComponent<Transform>()->SetParent(parent->GetComponent<Transform>());
+		character->GetComponent<Transform>()->SetParent(parent->GetComponent<Transform>());
+		character->GetComponent<Transform>()->SetPosition(Vector3(-0.1f, 0.0f, 0.0f));
+		character->GetComponent<Transform>()->SetScale(Vector3(2.0f, 2.0f, 1.0f));
+		SpriteRenderer* render = character->AddComponent<SpriteRenderer>();
+		std::shared_ptr<Material> material = Resources::Find<Material>(L"PlayerMaterial");
+		render->SetMaterial(material);
+		std::shared_ptr<Mesh> mesh = Resources::Find<Mesh>(L"RectMesh");
+		render->SetMesh(mesh);
+
+		Animator* animator = character->AddComponent<Animator>();
+		std::shared_ptr<Texture> texture = Resources::Find<Texture>(key);
+
+		animator->Create(key + L"Ani", texture, Vector2(0.0f, 0.0f), Vector2(32.0f, 31.5f), Vector2::Zero, 6, 0.2f);
+		animator->Play(key + L"Ani", true);
+
+		uiPlayers.push_back(character);
+	}
+	void TitleScene::CreatePanal()
+	{
+		CreateUIPanal(L"PanalMaterial", selectPanals[0], Vector3(-7.0f, 0.7f, 0.0f));
+		CreateUIPanal(L"PanalMaterial", selectPanals[0], Vector3(-3.5f, 0.7f, 0.0f));
+		CreateUIPanal(L"PanalMaterial", selectPanals[1], Vector3(-7.0f, -0.2f, 0.0f), Vector3(-3.0f, 1.0f, 1.0f));
+		CreateUIPanal(L"PanalMaterial", selectPanals[1], Vector3(-3.5f, -0.2f, 0.0f), Vector3(-3.0f, 1.0f, 1.0f));
+	}
+	void TitleScene::CreateUIPanal(const std::wstring& key, GameObject* parent,Vector3 pos)
+	{
+		GameObject* panal = object::Instantiate<GameObject>(eLayerType::UI);
+		panal->SetLayerType(eLayerType::UI);
+		panal->GetComponent<Transform>()->SetParent(parent->GetComponent<Transform>());
+		panal->GetComponent<Transform>()->SetPosition(pos);
+		panal->GetComponent<Transform>()->SetScale(Vector3(3.0f, 1.0f, 1.0f));
+		SpriteRenderer* render = panal->AddComponent<SpriteRenderer>();
+		std::shared_ptr<Material> material = Resources::Find<Material>(key);
+		render->SetMaterial(material);
+		std::shared_ptr<Mesh> mesh = Resources::Find<Mesh>(L"RectMesh");
+		render->SetMesh(mesh);
+	}
+	void TitleScene::CreateUIPanal(const std::wstring& key, GameObject* parent, Vector3 pos, Vector3 scale)
+	{
+		GameObject* panal = object::Instantiate<GameObject>(eLayerType::UI);
+		panal->SetLayerType(eLayerType::UI);
+		panal->GetComponent<Transform>()->SetParent(parent->GetComponent<Transform>());
+		panal->GetComponent<Transform>()->SetPosition(pos);
+		panal->GetComponent<Transform>()->SetScale(scale);
+		SpriteRenderer* render = panal->AddComponent<SpriteRenderer>();
+		std::shared_ptr<Material> material = Resources::Find<Material>(key);
+		render->SetMaterial(material);
+		std::shared_ptr<Mesh> mesh = Resources::Find<Mesh>(L"RectMesh");
+		render->SetMesh(mesh);
 	}
 	void TitleScene::StartUI()
 	{
@@ -280,9 +416,24 @@ namespace ya
 		}
 		bgEye->GetScript<BgEyeScript>()->Next();
 		logo->GetScript<logoScript>()->Next();
+		
+		for (size_t i = 0; i < faceObjs.size(); i++)
+		{
+			faceObjs[i]->GetScript<FaceTextureScript>()->Next();
+		}
+		for (size_t i = 0; i < selectPanals.size(); i++)
+		{
+			selectPanals[i]->GetScript<SelectPanalScript>()->Next();
+		}
+		for (size_t i = 0; i < playerBubbles.size(); i++)
+		{
+			playerBubbles[i]->GetScript<BubbleUIScript>()->Next();
+
+		}
 	}
 	void TitleScene::SelectScreenUI()
 	{
+
 	}
 	void TitleScene::FirstUI()
 	{
@@ -292,6 +443,20 @@ namespace ya
 		}
 		bgEye->GetScript<BgEyeScript>()->Reset();
 		logo->GetScript<logoScript>()->Reset();
+
+		for (size_t i = 0; i < faceObjs.size(); i++)
+		{
+			faceObjs[i]->GetScript<FaceTextureScript>()->Back();
+		}
+		for (size_t i = 0; i < selectPanals.size(); i++)
+		{
+			selectPanals[i]->GetScript<SelectPanalScript>()->Back();
+		}
+		for (size_t i = 0; i < playerBubbles.size(); i++)
+		{
+			playerBubbles[i]->GetScript<BubbleUIScript>()->Back();
+
+		}
 	}
 	glm::vec2 TitleScene::ScreenToCamera(const glm::vec2& screenCoord, const glm::mat4& viewProjectionMatrix, int screenWidth, int screenHeight)
 	{

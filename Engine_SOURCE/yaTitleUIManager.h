@@ -1,6 +1,6 @@
 #pragma once
 #include "yaScript.h"
-
+#include <array>
 
 namespace ya
 {
@@ -15,7 +15,11 @@ namespace ya
 		virtual void FixedUpdate();
 		virtual void Render();
 
-	private:
+		void MainMenu();
+		void selectionScreenUI();
 
+	private:
+		UINT8 mainNumber;
+		UINT8 subNumber;
 	};
 }

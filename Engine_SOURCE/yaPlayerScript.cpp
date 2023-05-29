@@ -514,7 +514,7 @@ namespace ya
 	void PlayerScript::AbbyAnimation()
 	{
 		Animator* animator = GetOwner()->GetComponent<Animator>();
-		std::shared_ptr<Texture> textureAbby = Resources::Find<Texture>(L"Abby");
+		std::shared_ptr<Texture> textureAbby = Resources::Find<Texture>(L"Player_6");
 
 
 		animator->Create(L"pRightIdle", textureAbby, Vector2(0.0f, 0.0f), Vector2(32.0f, 33.3f), Vector2::Zero, 6, 0.2f);
@@ -535,7 +535,7 @@ namespace ya
 	void PlayerScript::DiamondAnimation()
 	{
 		Animator* animator = GetOwner()->GetComponent<Animator>();
-		std::shared_ptr<Texture> textureDiamond = Resources::Find<Texture>(L"Diamond");
+		std::shared_ptr<Texture> textureDiamond = Resources::Find<Texture>(L"Player_1");
 
 		animator->Create(L"pRightIdle", textureDiamond, Vector2(0.0f, 0.0f), Vector2(32.0f, 33.3f), Vector2::Zero, 6, 0.2f);
 		animator->Create(L"pLeftIdle", textureDiamond, Vector2(0.0f, 96.0f), Vector2(32.0f, 33.3f), Vector2::Zero, 6, 0.2f);
@@ -555,7 +555,7 @@ namespace ya
 	void PlayerScript::HinaAnimation()
 	{
 		Animator* animator = GetOwner()->GetComponent<Animator>();
-		std::shared_ptr<Texture> textureHina = Resources::Find<Texture>(L"Hina");
+		std::shared_ptr<Texture> textureHina = Resources::Find<Texture>(L"Player_3");
 
 		animator->Create(L"pRightIdle", textureHina, Vector2(0.0f, -1.0f), Vector2(32.0f, 33.3f), Vector2::Zero, 6, 0.2f);
 		animator->Create(L"pLeftIdle", textureHina, Vector2(0.0f, 95.0f), Vector2(32.0f, 33.3f), Vector2::Zero, 6, 0.2f);
@@ -575,7 +575,7 @@ namespace ya
 	void PlayerScript::LilithAnimation()
 	{
 		Animator* animator = GetOwner()->GetComponent<Animator>();
-		std::shared_ptr<Texture> textureLilith = Resources::Find<Texture>(L"Lilith");
+		std::shared_ptr<Texture> textureLilith = Resources::Find<Texture>(L"Player_5");
 
 		animator->Create(L"pRightIdle", textureLilith, Vector2(0.0f, -1.0f), Vector2(32.0f, 33.3f), Vector2::Zero, 6, 0.2f);
 		animator->Create(L"pLeftIdle", textureLilith, Vector2(0.0f, 95.0f), Vector2(32.0f, 33.3f), Vector2::Zero, 6, 0.2f);
@@ -597,7 +597,7 @@ namespace ya
 
 		Animator* animator = GetOwner()->GetComponent<Animator>();
 		//멤버함수 이기 떄문에 어떤 함수인지 풀네임으로 적어줘야 한다.
-		std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"Shana");
+		std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"Player_0");
 
 		animator->Create(L"pRightIdle", texture, Vector2(0.0f, 0.5f), Vector2(32.0f, 33.3f), Vector2::Zero, 6, 0.2f);
 		animator->Create(L"pLeftIdle", texture, Vector2(0.0f, 95.5f), Vector2(32.0f, 33.3f), Vector2::Zero, 6, 0.2f);

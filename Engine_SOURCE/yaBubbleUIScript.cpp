@@ -1,54 +1,39 @@
-#include "yaFaceTextureScript.h"
+#include "yaBubbleUIScript.h"
 #include "yaGameObject.h"
 #include "yaTime.h"
 
 namespace ya
 {
-	FaceTextureScript::FaceTextureScript(Vector3 posA, Vector3 posB)
-		:mSpeed(0.05f)
-		,bMove(false)
-		,bStop(true)
-		,targetPosA(posA)
-		,targetPosB(posB)
+	BubbleUIScript::BubbleUIScript(Vector3 posA, Vector3 posB)
+		: bMove(false)
+		, bStop(true)
+		, targetPosA(posA)
+		, targetPosB(posB)
 	{
 
 	}
-	FaceTextureScript::~FaceTextureScript()
+	BubbleUIScript::~BubbleUIScript()
 	{
 
 	}
-	void FaceTextureScript::Initalize()
+	void BubbleUIScript::Initalize()
 	{
 
 	}
-	void FaceTextureScript::Update()
+	void BubbleUIScript::Update()
 	{
 		Vector3 pos = GetOwner()->GetComponent<Transform>()->GetPosition();
 
-		if (pos.y > 1.2f)
-		{
-			mSpeed = -0.05f;
-		}
-		else if (pos.y < 1.0f)
-		{
-			mSpeed = 0.05f;
-		}
-
-		pos.y += mSpeed * Time::DeltaTime();
-
-		GetOwner()->GetComponent<Transform>()->SetPosition(pos);
-
-
 		if (bStop == false && bMove == false)
 		{
+			float distance = pos.x - targetPosA.x;
 			Vector3 dir = SetMoveDirection(targetPosA);
-
 
 			pos.x += 7 * dir.x * Time::DeltaTime();
 
 			GetOwner()->GetComponent<Transform>()->SetPosition(pos);
 
-			if (std::abs(targetPosA.x) >= std::abs(GetOwner()->GetComponent<Transform>()->GetPosition().x))
+			if (distance >= 0)
 			{
 				bStop = true;
 			}
@@ -56,6 +41,7 @@ namespace ya
 		else if (bStop == false && bMove)
 		{
 			Vector3 pos = GetOwner()->GetComponent<Transform>()->GetPosition();
+			float distance = pos.x - targetPosB.x;
 			Vector3 dir = SetMoveDirection(targetPosB);
 
 
@@ -63,21 +49,21 @@ namespace ya
 
 			GetOwner()->GetComponent<Transform>()->SetPosition(pos);
 
-			if (std::abs(targetPosB.x) <= std::abs(GetOwner()->GetComponent<Transform>()->GetPosition().x))
+			if (distance <= 0)
 			{
 				bStop = true;
 			}
 		}
 	}
-	void FaceTextureScript::FixedUpdate()
+	void BubbleUIScript::FixedUpdate()
 	{
 
 	}
-	void FaceTextureScript::Render()
+	void BubbleUIScript::Render()
 	{
 
 	}
-	Vector3 FaceTextureScript::SetMoveDirection(Vector3 pos)
+	Vector3 BubbleUIScript::SetMoveDirection(Vector3 pos)
 	{
 		Transform* tr = GetOwner()->GetComponent<Transform>();
 
@@ -95,16 +81,12 @@ namespace ya
 
 		return dirValue;
 	}
-	void FaceTextureScript::UpDownMove()
-	{
-
-	}
-	void FaceTextureScript::Next()
+	void BubbleUIScript::Next()
 	{
 		bStop = false;
 		bMove = false;
 	}
-	void FaceTextureScript::Back()
+	void BubbleUIScript::Back()
 	{
 		bStop = false;
 		bMove = true;

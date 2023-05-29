@@ -6,7 +6,7 @@ namespace ya
 {
 	LeavesScirpt::LeavesScirpt(Vector3 posA, Vector3 posB)
 		: value(1)
-		, mSpeed(4)
+		, mSpeed(5)
 		, bMove(false)
 		, bStop(true)
 		, leftPosX(-13.0f)
