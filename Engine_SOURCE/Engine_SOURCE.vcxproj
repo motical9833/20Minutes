@@ -239,6 +239,7 @@
     <ClInclude Include="yaTitleScene.h" />
     <ClInclude Include="yaTitleUIManager.h" />
     <ClInclude Include="yaTransform.h" />
+    <ClInclude Include="yaUIPanalMoveScript.h" />
     <ClInclude Include="yaUpgradeScript.h" />
     <ClInclude Include="yaWeapon.h" />
     <ClInclude Include="yaWeaponScript.h" />
@@ -324,6 +325,7 @@
     <ClCompile Include="yaTitleScene.cpp" />
     <ClCompile Include="yaTitleUIManager.cpp" />
     <ClCompile Include="yaTransform.cpp" />
+    <ClCompile Include="yaUIPanalMoveScript.cpp" />
     <ClCompile Include="yaUpgradeScript.cpp" />
     <ClCompile Include="yaWeapon.cpp" />
     <ClCompile Include="yaWeaponScript.cpp" />

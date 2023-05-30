@@ -231,6 +231,19 @@ namespace ya::renderer
 		bulletShader->Create(eShaderStage::PS, L"SpritePS.hlsl", "main");
 
 		Resources::Insert<Shader>(L"BulletShader", bulletShader);
+
+#pragma endregion
+#pragma region FADE SHADER
+		// FadeInOut
+		std::shared_ptr<Shader> fadeShader = std::make_shared<Shader>();
+		fadeShader->Create(eShaderStage::VS, L"FadeVS.hlsl", "main");
+		fadeShader->Create(eShaderStage::PS, L"FadePS.hlsl", "main");
+
+		fadeShader->SetRSState(eRSType::SolidNone);
+		fadeShader->SetDSState(eDSType::NoWrite);
+		fadeShader->SetBSState(eBSType::AlphaBlend);
+
+		Resources::Insert<Shader>(L"FadeShader", fadeShader);
 #pragma endregion
 	}
 
@@ -327,6 +340,13 @@ namespace ya::renderer
 			, bulletShader->GetVSBlobBufferPointer()
 			, bulletShader->GetVSBlobBufferSize()
 			, bulletShader->GetInputLayoutAddressOf());
+
+		// FadeInOut
+		std::shared_ptr<Shader> fadeShader = Resources::Find<Shader>(L"FadeShader");
+		GetDevice()->CreateInputLayout(arrLayoutDesc, 3
+			, gridShader->GetVSBlobBufferPointer()
+			, gridShader->GetVSBlobBufferSize()
+			, gridShader->GetInputLayoutAddressOf());
 
 
 #pragma endregion
@@ -482,6 +502,9 @@ namespace ya::renderer
 
 		constantBuffers[(UINT)eCBType::Noise] = new ConstantBuffer(eCBType::Noise);
 		constantBuffers[(UINT)eCBType::Noise]->Create(sizeof(NoiseCB));
+
+		constantBuffers[(UINT)eCBType::FadeInOut] = new ConstantBuffer(eCBType::FadeInOut);
+		constantBuffers[(UINT)eCBType::FadeInOut]->Create(sizeof(FadeInOutCB));
 #pragma endregion
 #pragma region STRUCTED BUFFER
 		lightsBuffer = new StructedBuffer();

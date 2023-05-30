@@ -33,11 +33,12 @@ namespace ya
 		void CreateSelectPanal();
 		void CreatePlayerFace(const std::wstring& key, Vector3 pos, Vector3 scale);
 		void CreateFaceImg();
-		void CreateBubble(std::vector<GameObject*>& keepArray, Vector3 targetPosA, Vector3 targetPosB);
+		void CreateBubble(std::vector<GameObject*>& keepArray, Vector3 pos);
 		void CreateBubbleUI();
-		void CreateLock(GameObject* parent);
+		void CreateLock(Vector3 pos);
 		void CreateLockObjet();
-		void CreateCharacterImg(const std::wstring& key, GameObject* parent);
+		void CreateCharacterImg(const std::wstring& key, Vector3 pos);
+		void CreateSelectCharacter();
 		void CreatePanal();
 		void CreateUIPanal(const std::wstring& key, GameObject* parent, Vector3 pos);
 		void CreateUIPanal(const std::wstring& key, GameObject* parent, Vector3 pos,Vector3 scale);
@@ -58,6 +59,7 @@ namespace ya
 		std::vector<GameObject*> playerBubbles;
 		std::vector<GameObject*> uiPanals;
 		std::vector<GameObject*> uiPlayers;;
+		std::vector<GameObject*> bubbleParents;
 		float time;
 		bool bLoadScene;
 

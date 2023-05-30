@@ -375,6 +375,7 @@
     <ClCompile Include="yaBubbleUIScript.cpp">
       <Filter>Component\Script\Contents\UI</Filter>
     </ClCompile>
+    <ClCompile Include="yaUIPanalMoveScript.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CommonInclude.h">
@@ -641,6 +642,7 @@
     <ClInclude Include="yaBubbleUIScript.h">
       <Filter>Component\Script\Contents\UI</Filter>
     </ClInclude>
+    <ClInclude Include="yaUIPanalMoveScript.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="yaMath.inl">

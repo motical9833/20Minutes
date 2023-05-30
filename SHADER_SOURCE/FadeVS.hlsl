@@ -20,7 +20,7 @@ VSOut main(VSIn In)
     
     float2 worldPos = float2(0.f, 0.f);
     worldPos.x = In.Pos.x * fCameraScale.x * fResolution.x + fCameraPosition.x;
-    worldPos.y = In.Pos.y * fCameraScale.y * fResolution.y + fCameraPosition.y;
+    worldPos.y = In.Pos.y * fCameraScale.y * fResolution.y  + fCameraPosition.y;
     
     const float meshScale = 2.f;
     Out.Pos = float4(In.Pos.xy * meshScale, 0.f, 1.f);
