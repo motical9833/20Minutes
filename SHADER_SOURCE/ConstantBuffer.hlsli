@@ -54,11 +54,10 @@ cbuffer ParticleSystem : register(b5)
     int padding;
 }
 
-cbuffer Fade : register(b6)
+cbuffer Fade : register(b7)
 {
-    float4 fCameraPosition;
-    float2 fCameraScale;
-    float2 fResolution;
-    float fadeDeltaTime;
-    float3 paddingFade;
+    float4 position;
+    float4 color;
+    float alpha;
+    float value;
 }

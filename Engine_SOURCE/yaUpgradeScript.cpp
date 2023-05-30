@@ -1594,7 +1594,8 @@ namespace ya
 		case 0:
 			Trainer();
 			break;
-		case 1:PulsingSummons();
+		case 1:
+			PulsingSummons();
 			break;
 		case 2:
 			FeedtheBeasts();

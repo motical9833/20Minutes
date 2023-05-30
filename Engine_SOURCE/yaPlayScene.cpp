@@ -293,23 +293,6 @@ namespace ya
 			UiButton(mousePos);
 		}
 
-		if (Input::GetKeyDown(eKeyCode::NUM_1))
-		{
-			upgradeobj->GetScript<UpgradeScript>()->QuickHands(); //T1 재장전 속도 +20, 연사 속도 5%
-		}
-		if (Input::GetKeyDown(eKeyCode::NUM_2))
-		{
-			upgradeobj->GetScript<UpgradeScript>()->ArmedAndReady(); //T2 재장전속도 10%, 최대탄장 +2
-		}
-		if (Input::GetKeyDown(eKeyCode::NUM_3))
-		{
-			upgradeobj->GetScript<UpgradeScript>()->FreshClip(); //T2 재장전 속도 5%, 재장전 후 1초동안 총알 피해량 50%
-		}
-		if (Input::GetKeyDown(eKeyCode::NUM_4))
-		{
-			upgradeobj->GetScript<UpgradeScript>()->KillClip(); //T3 처치당 재장전 속도 5%증가 재장전 후 초기화
-		}
-
 		if (Input::GetKeyDown(eKeyCode::N))
 		{
 			SceneManager::LoadScene(eSceneType::Tilte);
@@ -392,8 +375,6 @@ namespace ya
 			glm::vec2 cameraCoorcd = ScreenToCamera(screenCoord, viewProjectionMatrix, screenWidth, screenHeight);
 
 			Vector3 mousePos = Vector3(cameraCoorcd.x, cameraCoorcd.y, 0.0f);
-
-			int a = 0;
 		}
 
 	}
@@ -1329,10 +1310,6 @@ namespace ya
 
 	void PlayScene::UiButton(Vector3 pos)
 	{
-
-		if (Input::GetKeyDown(eKeyCode::LBTN))
-			int b = 0;
-
 		if (Input::GetKeyDown(eKeyCode::LBTN) && -0.321f <= pos.x && pos.x <= -0.25f && 0.386f <= pos.y && pos.y <= 0.522f)
 		{
 			AbilityUIClick(0);

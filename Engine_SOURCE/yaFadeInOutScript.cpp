@@ -21,12 +21,12 @@ namespace ya
 	}
 	void FadeScript::Update()
 	{
-		float time = Time::DeltaTime();
+		//float time = Time::DeltaTime();
+		//
+		//currentTime += time / 2;
 		
-		currentTime += time / 2;
-		
-		ConstantBuffer* cbBuffer = renderer::constantBuffers[(UINT)eCBType::FadeInOut];
-		renderer::FadeInOutCB fadeData;
+		//ConstantBuffer* cbBuffer = renderer::constantBuffers[(UINT)eCBType::FadeInOut];
+		//renderer::fadeeffect fadeData;
 		
 		//if (fadeData.alpha < 1)
 		//{

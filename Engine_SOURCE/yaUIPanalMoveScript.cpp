@@ -34,7 +34,7 @@ namespace ya
 			Vector3 dir = SetMoveDirection(targetPos);
 
 
-			pos += 7 * dir * Time::DeltaTime();
+			pos += 20 * dir * Time::DeltaTime();
 
 			GetOwner()->GetComponent<Transform>()->SetPosition(pos);
 
@@ -54,7 +54,7 @@ namespace ya
 			Vector3 dir = SetMoveDirection(originPos);
 
 
-			pos += 7 * dir * Time::DeltaTime();
+			pos += 20 * dir * Time::DeltaTime();
 
 			GetOwner()->GetComponent<Transform>()->SetPosition(pos);
 

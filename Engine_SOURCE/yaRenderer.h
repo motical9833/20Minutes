@@ -83,13 +83,13 @@ namespace ya::renderer
 		Vector4 noiseSize;
 	};
 
-	CBUFFER(FadeInOutCB, CBSLOT_FADEINOUT)
+	CBUFFER(FadeInOutCB, CBSLOT_FADEEFFECT)
 	{
-		Vector4 fCameraPosition;
-		Vector2 fCameraScale;
-		Vector2 fResolution;
-		float fadeDeltaTime;
-		Vector3 paddingFade;
+		Vector4 position;
+		Vector4 color;
+		Vector4 uv;
+		float alpha;
+		float value;
 	};
 
 	//NUMBEROFLIGHT

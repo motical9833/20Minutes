@@ -19,7 +19,7 @@
 #define CBSLOT_NUMBEROFLIGHT	4
 #define CBSLOT_PARTICLESYSTEM	5
 #define CBSLOT_NOISE			6
-#define CBSLOT_FADEINOUT        7
+#define CBSLOT_FADEEFFECT       7
 
 using namespace ya::math;
 namespace ya::graphics

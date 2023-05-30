@@ -13,6 +13,7 @@ namespace ya::enums
 	{
 		None = 0,
 		Camera,
+		Fade,
 		Grid,
 		Monster,
 		Player,
@@ -41,7 +42,7 @@ namespace ya::enums
 		ParticleSystem,
 		Light,
 		UI,
-		//FadeOut,FadeIn
+		FadeInOut,
 		Script,
 		End,
 	};

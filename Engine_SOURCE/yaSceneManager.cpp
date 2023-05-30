@@ -84,4 +84,10 @@ namespace ya
 
 		return scene;
 	}
+	TitleScene* SceneManager::GetTitleScene()
+	{
+		TitleScene* scene = (TitleScene*)mScenes[(UINT)eSceneType::Tilte];
+
+		return scene;
+	}
 }

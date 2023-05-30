@@ -30,23 +30,34 @@ namespace ya
 		void CreateBg();
 		void CreateBgEye();
 
+		void CreateUIManager();
 		void CreateSelectPanal();
 		void CreatePlayerFace(const std::wstring& key, Vector3 pos, Vector3 scale);
 		void CreateFaceImg();
+		void CreateWeaponUI(const std::wstring& key, GameObject* parent, Vector3 pos);
+		void CreateWeaponImg();
 		void CreateBubble(std::vector<GameObject*>& keepArray, Vector3 pos);
+		void CreateBubble(std::vector<GameObject*>& keepArray,GameObject* parent, Vector3 pos);
 		void CreateBubbleUI();
-		void CreateLock(Vector3 pos);
+		void CreateLock(GameObject* parent,Vector3 pos);
 		void CreateLockObjet();
 		void CreateCharacterImg(const std::wstring& key, Vector3 pos);
 		void CreateSelectCharacter();
 		void CreatePanal();
+		void CreateUIPanal(Vector3 pos);
 		void CreateUIPanal(const std::wstring& key, GameObject* parent, Vector3 pos);
 		void CreateUIPanal(const std::wstring& key, GameObject* parent, Vector3 pos,Vector3 scale);
+		void CreateBubblePanal();
+		void TemporaryPanal();
 
 		void FirstUI();
 		void StartUI();
+		void WeaponSelectUI();
+		void CharacterSelectUI();
+		void ClickCharacter(int num);
+		void ClickWeapon(int num);
 		void SelectScreenUI();
-
+		Vector3 UIMousePos();
 		glm::vec2 ScreenToCamera(const glm::vec2 & screenCoord, const glm::mat4 & viewProjectionMatrix, int screenWidth, int screenHeight);
 
 		void Start(int num);
@@ -60,11 +71,17 @@ namespace ya
 		std::vector<GameObject*> uiPanals;
 		std::vector<GameObject*> uiPlayers;;
 		std::vector<GameObject*> bubbleParents;
+		std::vector<GameObject*> mainUIbutterns;
 		float time;
 		bool bLoadScene;
 
 		GameObject* tSceneCamera;
 		GameObject* logo;
 		GameObject* bgEye;
+		GameObject* uiManager;
+		GameObject* faceParent;
+
+		int selectCharNum;
+		int selectWeaponNum;
 	};
 }

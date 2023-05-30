@@ -55,6 +55,7 @@ namespace ya::renderer
 		Resources::Insert<Mesh>(L"RectMesh", mesh);
 		mesh->CreateVertexBuffer(vertexes, 4);
 
+
 		std::vector<UINT> indexes;
 		indexes.push_back(0);
 		indexes.push_back(1);
@@ -156,6 +157,8 @@ namespace ya::renderer
 
 		Resources::Insert<Shader>(L"UIShader", uiShader);
 #pragma endregion
+
+
 #pragma region GRID SHADER
 		std::shared_ptr<Shader> gridShader = std::make_shared<Shader>();
 		gridShader->Create(eShaderStage::VS, L"GridVS.hlsl", "main");
@@ -232,19 +235,12 @@ namespace ya::renderer
 
 		Resources::Insert<Shader>(L"BulletShader", bulletShader);
 
-#pragma endregion
-#pragma region FADE SHADER
 		// FadeInOut
 		std::shared_ptr<Shader> fadeShader = std::make_shared<Shader>();
-		fadeShader->Create(eShaderStage::VS, L"FadeVS.hlsl", "main");
-		fadeShader->Create(eShaderStage::PS, L"FadePS.hlsl", "main");
-
-		fadeShader->SetRSState(eRSType::SolidNone);
-		fadeShader->SetDSState(eDSType::NoWrite);
-		fadeShader->SetBSState(eBSType::AlphaBlend);
+		fadeShader->Create(eShaderStage::VS, L"FadeEffectVS.hlsl", "main");
+		fadeShader->Create(eShaderStage::PS, L"FadeEffectPS.hlsl", "main");
 
 		Resources::Insert<Shader>(L"FadeShader", fadeShader);
-#pragma endregion
 	}
 
 	void SetUpState()
@@ -344,9 +340,9 @@ namespace ya::renderer
 		// FadeInOut
 		std::shared_ptr<Shader> fadeShader = Resources::Find<Shader>(L"FadeShader");
 		GetDevice()->CreateInputLayout(arrLayoutDesc, 3
-			, gridShader->GetVSBlobBufferPointer()
-			, gridShader->GetVSBlobBufferSize()
-			, gridShader->GetInputLayoutAddressOf());
+			, fadeShader->GetVSBlobBufferPointer()
+			, fadeShader->GetVSBlobBufferSize()
+			, fadeShader->GetInputLayoutAddressOf());
 
 
 #pragma endregion
@@ -752,10 +748,24 @@ namespace ya::renderer
 		Resources::Load<Texture>(L"T_UILock", L"UI\\T_UILock.png");
 
 		Resources::Load<Texture>(L"Face_0", L"UI\\Face\\T_Shana_Portrait.png");
-		Resources::Load<Texture>(L"Face_1", L"UI\\Face\\T_Abby_Portrait.png");
-		Resources::Load<Texture>(L"Face_2", L"UI\\Face\\T_Diamond_Portrait.png");
+		Resources::Load<Texture>(L"Face_1", L"UI\\Face\\T_Diamond_Portrait.png");
+		Resources::Load<Texture>(L"Face_2", L"UI\\Face\\T_Scarlett_Portrait.png");
 		Resources::Load<Texture>(L"Face_3", L"UI\\Face\\T_Hina_Portrait.png");
-		Resources::Load<Texture>(L"Face_4", L"UI\\Face\\T_Lilith_Portrait.png");
+		Resources::Load<Texture>(L"Face_4", L"UI\\Face\\T_Spark_Portrait.png");
+		Resources::Load<Texture>(L"Face_5", L"UI\\Face\\T_Lilith_Portrait.png");
+		Resources::Load<Texture>(L"Face_6", L"UI\\Face\\T_Abby_Portrait.png");
+		Resources::Load<Texture>(L"Face_7", L"UI\\Face\\T_Yuki_Portrait.png");
+		Resources::Load<Texture>(L"Face_8", L"UI\\Face\\T_Luna_Portrait.png");
+		Resources::Load<Texture>(L"Face_9", L"UI\\Face\\T_Dasher_Portrait.png");
+
+		Resources::Load<Texture>(L"Weapon_0", L"UI\\Weapon\\RevolverStill.png");
+		Resources::Load<Texture>(L"Weapon_1", L"UI\\Weapon\\T_Shotgun_SS_0.png");
+		Resources::Load<Texture>(L"Weapon_2", L"UI\\Weapon\\T_Crossbow_SS_0.png");
+		Resources::Load<Texture>(L"Weapon_3", L"UI\\Weapon\\SMGStill.png");
+		Resources::Load<Texture>(L"Weapon_4", L"UI\\Weapon\\T_BatGun_SS_0.png");
+		Resources::Load<Texture>(L"Weapon_5", L"UI\\Weapon\\T_FlameCannon_SS_0.png");
+		Resources::Load<Texture>(L"Weapon_6", L"UI\\Weapon\\GrenadeLauncherStill.png");
+		Resources::Load<Texture>(L"Weapon_7", L"UI\\Weapon\\BowStill.png");
 
 #pragma endregion
 #pragma region DYNAMIC TEXTURE
@@ -768,6 +778,7 @@ namespace ya::renderer
 
 	void LoadMaterial()
 	{
+
 #pragma region DEFAULT MATERIAL
 		CreateMaterial(L"PaintTexture", L"RectShader", eRenderingMode::Transparent, L"RectMaterial");
 #pragma endregion
@@ -849,19 +860,21 @@ namespace ya::renderer
 #pragma endregion
 #pragma region FACE MATERIAL
 
-		for (size_t i = 0; i < 5; i++)
+		for (size_t i = 0; i < 10; i++)
 		{
 			const std::wstring faceName = L"Face_" + std::to_wstring(i);
 
 			CreateMaterial(faceName, L"SpriteShader", eRenderingMode::Transparent, faceName + L"Material");
 		}
+		for (size_t i = 0; i < 8; i++)
+		{
+			const std::wstring weaponName = L"Weapon_" + std::to_wstring(i);
 
+			CreateMaterial(weaponName, L"SpriteShader", eRenderingMode::Transparent, weaponName + L"Material");
+		}
 
-		CreateMaterial(L"Face_0", L"SpriteShader", eRenderingMode::Transparent, L"ShanaFaceMaterial");
-		CreateMaterial(L"Face_1", L"SpriteShader", eRenderingMode::Transparent, L"AbbyFaceMaterial");
-		CreateMaterial(L"Face_2", L"SpriteShader", eRenderingMode::Transparent, L"UILockMaterial");
-		CreateMaterial(L"Face_3", L"SpriteShader", eRenderingMode::Transparent, L"UILockMaterial");
-		CreateMaterial(L"Face_4", L"SpriteShader", eRenderingMode::Transparent, L"UILockMaterial");
+		CreateMaterial(L"T_UILock", L"SpriteShader", eRenderingMode::Transparent, L"UILockMaterial");
+
 
 #pragma endregion
 
