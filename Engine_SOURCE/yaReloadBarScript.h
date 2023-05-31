@@ -4,11 +4,11 @@
 
 namespace ya
 {
-	class ExpBarScript : public Script
+	class ReloadBarScript : public Script
 	{
 	public:
-		ExpBarScript();
-		virtual ~ExpBarScript();
+		ReloadBarScript();
+		virtual ~ReloadBarScript();
 
 		virtual void Initalize();
 		virtual void Update();

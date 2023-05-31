@@ -7,7 +7,7 @@
 #include "yaSkillManager.h"
 #include "yaColliderCheckScript.h"
 #include "yaPlayerScript.h"
-#include "yaExpBarScript.h"
+#include "yaReloadBarScript.h"
 
 #include <ctime>
 
@@ -109,7 +109,7 @@ namespace ya
 		{
 			if (Input::GetKeyDown(eKeyCode::LBTN))
 			{
-				SceneManager::GetPlayScene()->GetReloadUI()[1]->GetScript<ExpBarScript>()->UIOff();
+				SceneManager::GetPlayScene()->GetReloadUI()[1]->GetScript<ReloadBarScript>()->UIOff();
 				mAnimator->Stop();
 				Fire();
 				BackFire();
@@ -465,7 +465,7 @@ namespace ya
 
 	void WeaponScript::Reload()
 	{
-		SceneManager::GetPlayScene()->GetReloadUI()[1]->GetScript<ExpBarScript>()->UIOn();
+		SceneManager::GetPlayScene()->GetReloadUI()[1]->GetScript<ReloadBarScript>()->UIOn();
 		ReloadSkill();
 		mAnimator->Play(L"Revolver");
 		mAnimator->Start();

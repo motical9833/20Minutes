@@ -61,6 +61,7 @@ namespace ya
 		glm::vec2 ScreenToCamera(const glm::vec2 & screenCoord, const glm::mat4 & viewProjectionMatrix, int screenWidth, int screenHeight);
 
 		void Start(int num);
+		void Start();
 	private:
 		std::vector<GameObject*> leves;
 		std::vector<GameObject*> selectPanals;

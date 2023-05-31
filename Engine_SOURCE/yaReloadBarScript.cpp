@@ -1,4 +1,4 @@
-#include "yaExpBarScript.h"
+#include "yaReloadBarScript.h"
 #include "yaGameObject.h"
 #include "yaSceneManager.h"
 #include "yaPlayScene.h"
@@ -9,7 +9,7 @@ namespace ya
 	float mCurrentTime;
 	float mTimeLimit;
 	float mSpeed;
-	ExpBarScript::ExpBarScript()
+	ReloadBarScript::ReloadBarScript()
 		:mCurrentTime(0.0f)
 		,mTimeLimit(0.0f)
 		,mSpeed(2.0f)
@@ -19,15 +19,15 @@ namespace ya
 	{
 
 	}
-	ExpBarScript::~ExpBarScript()
+	ReloadBarScript::~ReloadBarScript()
 	{
 
 	}
-	void ExpBarScript::Initalize()
+	void ReloadBarScript::Initalize()
 	{
 
 	}
-	void ExpBarScript::Update()
+	void ReloadBarScript::Update()
 	{
 		Vector3 pos = GetOwner()->GetComponent<Transform>()->GetPosition();
 
@@ -44,22 +44,22 @@ namespace ya
 			}
 		}
 	}
-	void ExpBarScript::FixedUpdate()
+	void ReloadBarScript::FixedUpdate()
 	{
 
 	}
-	void ExpBarScript::Render()
+	void ReloadBarScript::Render()
 	{
 
 	}
-	void ExpBarScript::UIOn()
+	void ReloadBarScript::UIOn()
 	{
 		for (size_t i = 0; i < 2; i++)
 		{
 			SceneManager::GetPlayScene()->GetReloadUI()[i]->Life();
 		}
 	}
-	void ExpBarScript::UIOff()
+	void ReloadBarScript::UIOff()
 	{
 		for (size_t i = 0; i < 2; i++)
 		{

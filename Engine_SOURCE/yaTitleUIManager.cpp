@@ -206,6 +206,7 @@ namespace ya
 		else if (mousePos.x >= -0.907f && mousePos.x <= -0.592f
 			&& mousePos.y >= -0.88f && mousePos.y <= -0.708f)
 		{
+			SceneManager::GetTitleScene()->Start();
 			mousePos = {};
 		}
 		else if (mousePos.x >= -0.532f && mousePos.x <= -0.217f

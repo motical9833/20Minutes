@@ -529,6 +529,8 @@ namespace ya::renderer
 		Resources::Load<Texture>(L"Player_7", L"Player\\T_Yuki.png");
 		Resources::Load<Texture>(L"Player_8", L"Player\\T_Luna.png");
 		Resources::Load<Texture>(L"Player_9", L"Player\\T_Dasher.png");
+		Resources::Load<Texture>(L"T_TileGrass", L"T_TileGrass.png");
+
 		Resources::Load<Texture>(L"Player_10", L"Player\\T_Hastur.png");
 
 		Resources::Load<Texture>(L"LevelUP", L"Player\\T_LevelUpFX.png");
@@ -856,6 +858,7 @@ namespace ya::renderer
 		CreateMaterial(L"T_UISmallPanel", L"SpriteShader", eRenderingMode::Transparent, L"UISmallPanelMaterial");
 		CreateMaterial(L"T_RoundedRect", L"SpriteShader", eRenderingMode::Transparent, L"RoundedRectMaterial");
 		CreateMaterial(L"T_UILock", L"SpriteShader", eRenderingMode::Transparent, L"UILockMaterial");
+		CreateMaterial(L"T_TileGrass", L"SpriteShader", eRenderingMode::Transparent, L"Tile_0Material");
 
 #pragma endregion
 #pragma region FACE MATERIAL

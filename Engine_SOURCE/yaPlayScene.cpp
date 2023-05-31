@@ -40,7 +40,8 @@
 #include "yaLevelUPEffectScript.h"
 #include "yaExpMarbleObject.h"
 #include "yaMuzzleFlashScript.h"
-#include "yaExpBarScript.h"
+#include "yaReloadBarScript.h"
+#include "yaStageOneTileManager.h"
 
 #define SHANA 0
 #define ABBY 1
@@ -74,6 +75,25 @@ namespace ya
 		std::shared_ptr<PaintShader> paintShader = Resources::Find<PaintShader>(L"PaintShader");
 		paintShader->SetTarget(Resources::Find<Texture>(L"PaintTexture"));
 		paintShader->OnExcute();
+
+
+		{
+			GameObject* playerPointLight = object::Instantiate<GameObject>(eLayerType::Player,this);
+			playerPointLight->GetComponent<Transform>()->SetPosition(Vector3(0.0f, 0.0f, 0.0f));
+			Light* lightComp = playerPointLight->AddComponent<Light>();
+			lightComp->SetType(eLightType::Point);
+			lightComp->SetRadius(3.0f);
+			lightComp->SetDiffuse(Vector4(1.0f, 1.0f, 1.0f, 1.0f));
+
+			GameObject* directionalLight = object::Instantiate<GameObject>(eLayerType::Player, this);
+			directionalLight->GetComponent<Transform>()->SetPosition(Vector3(0.0f, 0.0f, 0.0f));
+			Light* directLightComp = directionalLight->AddComponent<Light>();
+			//directLightComp->SetAmbient(Vector4(1.0f, 1.0f, 1.0f, 1.0f));
+			directLightComp->SetType(eLightType::Directional);
+			directLightComp->SetRadius(1.0f);
+			//directLightComp->SetDiffuse(Vector4(0.047f, 0.015f, 0.168f, -0.5f));
+			directLightComp->SetDiffuse(Vector4(-0.5f, -0.5f, -0.5f, 1.0f));
+		}
 
 
 		//SMILE RECT
@@ -263,7 +283,18 @@ namespace ya
 		CreateAbilityIcon(cameraUIObj);
 		CreateAmmoIcon(cameraUIObj);
 		CreateExpBar(cameraUIObj);
+		
+		stageOneMapManager = object::Instantiate<GameObject>(eLayerType::None, this);
+		stageOneMapManager->AddComponent<StageOneTileManager>();
 
+		for (size_t i = 0; i < 3; i++)
+		{
+			for (size_t j = 0; j < 3; j++)
+			{
+				CreateStageOneTile(Vector3(-40.0f + 40.0f * j, 40.0f - 40.0f * i, 1.0f));
+			}
+		}
+		//Tile_0Material
 		//Particle
 		//GameObject* particle = object::Instantiate<Player>(eLayerType::Particle, this);
 		//particle->SetName(L"Particle");
@@ -287,6 +318,7 @@ namespace ya
 
 	void PlayScene::Update()
 	{
+		stageOneMapManager->GetScript<StageOneTileManager>()->SetCurrentPos(player->GetComponent<Transform>()->GetPosition());
 		if (uiOn)
 		{
 			Vector3 mousePos = UiMousePos();
@@ -310,8 +342,6 @@ namespace ya
 			dragonPet->GetScript<DragonPetScript>()->GameReset();
 			ghostPet->GetScript<GhostPetScript>()->GameReset();
 			levelManager->GetScript<PlayerLevelScript>()->GameReset();
-
-			reloadUI[1]->GetScript<ExpBarScript>()->SetReloadUITimeMul(0.4f);
 
 			for (size_t i = 0; i < bullets.size(); i++)
 			{
@@ -1076,7 +1106,7 @@ namespace ya
 		butRender->SetMaterial(ButMaterial);
 		std::shared_ptr<Mesh> ButMesh = Resources::Find<Mesh>(L"RectMesh");
 		butRender->SetMesh(ButMesh);
-		reloadButObject->AddComponent<ExpBarScript>();
+		reloadButObject->AddComponent<ReloadBarScript>();
 		reloadButObject->Death();
 		reloadUI.push_back(reloadButObject);
 
@@ -1451,6 +1481,20 @@ namespace ya
 		Vector3 mousePos = Vector3(cameraCoorcd.x, cameraCoorcd.y, 0.0f);
 
 		return mousePos;
+	}
+
+	void PlayScene::CreateStageOneTile(Vector3 pos)
+	{
+		GameObject* tile = object::Instantiate<GameObject>(eLayerType::Tile, this);
+		tile->SetLayerType(eLayerType::Tile);
+		tile->GetComponent<Transform>()->SetScale(Vector3(40.0f, 40.0f, 1.0f));
+		tile->GetComponent<Transform>()->SetPosition(pos);
+		SpriteRenderer* render = tile->AddComponent<SpriteRenderer>();
+		std::shared_ptr<Material> material = Resources::Find<Material>(L"Tile_0Material");
+		render->SetMaterial(material);
+		std::shared_ptr<Mesh> mesh = Resources::Find<Mesh>(L"RectMesh");
+		stageOneMapManager->GetScript<StageOneTileManager>()->SetTile(tile);
+		render->SetMesh(mesh);
 	}
 
 	void PlayScene::CreateDeathFX()

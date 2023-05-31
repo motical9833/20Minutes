@@ -46,6 +46,8 @@ namespace ya
 			void IntheWind();
 			void IntheWindReset();
 
+			bool GetDivineBlessing() { return bDivineBlessing; }
+
 			void GameReset();
 	private:	
 		bool bShieldOn;

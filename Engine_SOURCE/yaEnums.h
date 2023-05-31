@@ -13,8 +13,9 @@ namespace ya::enums
 	{
 		None = 0,
 		Camera,
-		Fade,
 		Grid,
+		Tile,
+		Fade,
 		Monster,
 		Player,
 		Bullet,

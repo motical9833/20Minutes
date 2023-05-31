@@ -10,9 +10,9 @@
 #include "yaBulletScript.h"
 #include "yaWeaponScript.h"
 #include "yaSkillManager.h"
-#include "yaExpBarScript.h"
+#include "yaReloadBarScript.h"
 
-#define monsterSpeed 2
+#define monsterSpeed 0
 
 namespace ya
 {
@@ -323,7 +323,7 @@ namespace ya
 			if (bKillClip)
 			{
 				SceneManager::GetPlayScene()->GetWeapon()->GetScript<WeaponScript>()->SetKillCntInc();
-				SceneManager::GetPlayScene()->GetReloadUI()[1]->GetScript<ExpBarScript>()->SetKillClip(0.15f);
+				SceneManager::GetPlayScene()->GetReloadUI()[1]->GetScript<ReloadBarScript>()->SetKillClip(0.15f);
 			}
 
 			if (bDieBullet)
@@ -348,7 +348,7 @@ namespace ya
 			if (bKillClip)
 			{
 				SceneManager::GetPlayScene()->GetWeapon()->GetScript<WeaponScript>()->SetKillCntInc();
-				SceneManager::GetPlayScene()->GetReloadUI()[1]->GetScript<ExpBarScript>()->SetKillClip(0.15f);
+				SceneManager::GetPlayScene()->GetReloadUI()[1]->GetScript<ReloadBarScript>()->SetKillClip(0.15f);
 			}
 
 			if (type == eLayerType::Skill_Smite)
@@ -441,6 +441,9 @@ namespace ya
 	}
 	void MonsterScript::ClashwithPlayer()
 	{
+		if (mCurrentHp == NULL)
+			return;
+
 		bClash = true;
 		mSpeed = 15.0f;
 	}

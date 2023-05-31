@@ -26,7 +26,7 @@ namespace ya
 		, mSpeedMul(1.0f)
 		, mslowSPeedMul(1.0f)
 		, mScaleMul(1.0f)
-		, bShield(true)
+		, bShield(false)
 		, bMove(false)
 		, bIdle(false)
 		, bHitImmune(false)
@@ -54,7 +54,7 @@ namespace ya
 		, mSpeedMul(1.0f)
 		, mslowSPeedMul(1.0f)
 		, mScaleMul(1.0f)
-		, bShield(true)
+		, bShield(false)
 		, bMove(false)
 		, bIdle(false)
 		, bHitImmune(false)
@@ -411,7 +411,7 @@ namespace ya
 		bHitImmune = false;
 		bMove = false;
 		immuneTime = 0.0f;
-		bShield = true;
+		bShield = false;
 		bPlayerHit = false;
 		bAngerPointTrigger = false;
 		bRegeneration = false;

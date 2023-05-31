@@ -28,6 +28,12 @@
 #include "yaUIPanalMoveScript.h"
 #include "yaTitleUIManager.h"
 
+#define SHANA 0
+#define ABBY 1
+#define DIAMOND 2
+#define HINA 3
+#define LILITH 4
+
 namespace ya
 {
 	TitleScene::TitleScene()
@@ -100,16 +106,16 @@ namespace ya
 		{
 			CharacterSelectUI();
 		}
-		if(bLoadScene)
-		{
+		//if(bLoadScene)
+		//{
 
-		}
-		if (time > 2)
-		{
-			bLoadScene = false;
-			time = 0.0f;
-			Start(1);
-		}
+		//}
+		//if (time > 2)
+		//{
+		//	bLoadScene = false;
+		//	time = 0.0f;
+		//	Start(1);
+		//}
 
 		if (Input::GetKeyDown(eKeyCode::LBTN))
 		{
@@ -567,7 +573,27 @@ namespace ya
 			faceObjs[i]->Death();
 		}
 		faceObjs[num]->Life();
-		selectCharNum = num;
+
+		if (num == 1)
+		{
+			selectCharNum = DIAMOND;
+		}
+		else if (num == 3)
+		{
+			selectCharNum = HINA;
+		}
+		else if (num == 5)
+		{
+			selectCharNum = LILITH;
+		}
+		else if (num == 6)
+		{
+			selectCharNum = ABBY;
+		}
+		else
+		{
+			selectCharNum = SHANA;
+		}
 	}
 	void TitleScene::ClickWeapon(int num)
 	{
@@ -647,6 +673,14 @@ namespace ya
 		leves[0]->GetComponent<Transform>()->SetPosition(Vector3(-6.0f, 1.0f, 9.9f));
 		leves[1]->GetComponent<Transform>()->SetPosition(Vector3(8.0f, 1.0f, 9.9f));
 		SceneManager::GetPlayScene()->ChoosePlayers(num);
+		SceneManager::GetPlayScene()->GetPlayer()->GetScript<PlayerScript>()->StartSetting();
+		SceneManager::LoadScene(eSceneType::Play);
+	}
+	void TitleScene::Start()
+	{
+		leves[0]->GetComponent<Transform>()->SetPosition(Vector3(-6.0f, 1.0f, 9.9f));
+		leves[1]->GetComponent<Transform>()->SetPosition(Vector3(8.0f, 1.0f, 9.9f));
+		SceneManager::GetPlayScene()->ChoosePlayers(selectCharNum);
 		SceneManager::GetPlayScene()->GetPlayer()->GetScript<PlayerScript>()->StartSetting();
 		SceneManager::LoadScene(eSceneType::Play);
 	}

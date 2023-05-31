@@ -188,6 +188,7 @@ namespace ya
 		GameObject* shield = SceneManager::GetPlayScene()->GetShield();
 		shield->Life();
 		SceneManager::GetPlayScene()->GetPlayer()->GetScript<PlayerScript>()->ShieldOn();
+
 		if(bDivineBlessing)
 		shield->GetScript<HolyShieldScript>()->DivineBlessing();
 	}

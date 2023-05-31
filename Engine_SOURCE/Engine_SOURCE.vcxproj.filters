@@ -342,7 +342,7 @@
     <ClCompile Include="yaBulletScript.cpp">
       <Filter>Component\Script\Contents\GameObject</Filter>
     </ClCompile>
-    <ClCompile Include="yaExpBarScript.cpp">
+    <ClCompile Include="yaReloadBarScript.cpp">
       <Filter>Component\Script\Contents\UI</Filter>
     </ClCompile>
     <ClCompile Include="yaExpMarbleObject.cpp">
@@ -376,6 +376,7 @@
       <Filter>Component\Script\Contents\UI</Filter>
     </ClCompile>
     <ClCompile Include="yaUIPanalMoveScript.cpp" />
+    <ClCompile Include="yaStageOneTileManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CommonInclude.h">
@@ -609,7 +610,7 @@
     <ClInclude Include="yaBullet.h">
       <Filter>Component\Script\Contents\GameObject</Filter>
     </ClInclude>
-    <ClInclude Include="yaExpBarScript.h">
+    <ClInclude Include="yaReloadBarScript.h">
       <Filter>Component\Script\Contents\UI</Filter>
     </ClInclude>
     <ClInclude Include="yaExpMarbleObject.h">
@@ -643,6 +644,7 @@
       <Filter>Component\Script\Contents\UI</Filter>
     </ClInclude>
     <ClInclude Include="yaUIPanalMoveScript.h" />
+    <ClInclude Include="yaStageOneTileManager.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="yaMath.inl">

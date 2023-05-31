@@ -122,6 +122,8 @@ namespace ya
 
 		Vector3 UiMousePos();
 
+		void CreateStageOneTile(Vector3 pos);
+
 	private:
 		Player* player;
 		std::vector<Player*> players;
@@ -129,6 +131,7 @@ namespace ya
 		GameObject* levelManager;
 		GameObject* pSceneCamera;
 		GameObject* skillManager;
+		GameObject* stageOneMapManager;
 		GameObject* pulseObject;
 		GameObject* muzzleFlash;
 		Weapon* pWeapon;
