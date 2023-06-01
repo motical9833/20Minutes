@@ -12,7 +12,7 @@
 #include "yaSkillManager.h"
 #include "yaReloadBarScript.h"
 
-#define monsterSpeed 0
+#define monsterSpeed 1
 
 namespace ya
 {
@@ -183,10 +183,39 @@ namespace ya
 			collider->GetOwner()->GetScript<PlayerScript>()->TakeDamage(mDamage);
 			ClashwithPlayer();
 		}
+		if (collider->GetOwner()->GetLayerType() == eLayerType::Monster)
+		{
+			Vector3 otherPos = collider->GetOwner()->GetComponent<Transform>()->GetPosition();
+			Vector3 mPos = GetOwner()->GetComponent<Transform>()->GetPosition();
+		}
 	}
 	void MonsterScript::OnCollisionStay(Collider2D* collider)
 	{
+		if (collider->GetOwner()->GetLayerType() == eLayerType::Monster)
+		{
+			Vector3 otherPos = collider->GetOwner()->GetComponent<Transform>()->GetPosition();
+			Vector3 mPos = GetOwner()->GetComponent<Transform>()->GetPosition();
 
+			if (mPos.x - otherPos.x < -0.001f)
+			{
+				mPos.x -= 0.01f;
+				GetOwner()->GetComponent<Transform>()->SetPosition(mPos);
+			}
+			else if (mPos.x - otherPos.x > 0.001f)
+			{
+				mPos.x += 0.01f;
+				GetOwner()->GetComponent<Transform>()->SetPosition(mPos);
+			}
+			else if (mPos.y - otherPos.y > 0.001f)
+			{
+				mPos.y += 0.01f;
+			}
+			else if (mPos.y - otherPos.y < -0.001f)
+			{
+				mPos.y -= 0.01f;
+			}
+
+		}
 	}
 	void MonsterScript::OnCollisionExit(Collider2D* collider)
 	{
@@ -202,8 +231,10 @@ namespace ya
 	}
 	void MonsterScript::End()
 	{
-		GetOwner()->GetComponent<Collider2D>()->SetSize(mColliderSize);
-		mCurrentHp = mMaxHp;
+		//GetOwner()->GetComponent<Collider2D>()->SetSize(mColliderSize);
+		//mCurrentHp = mMaxHp;
+		//Animator* ani = GetOwner()->GetComponent<Animator>();
+		//Respawn();
 		this->GetOwner()->Death();
 	}
 	void MonsterScript::TakeDamage(int damage)

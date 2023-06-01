@@ -180,6 +180,7 @@
     <ClInclude Include="yaEngine.h" />
     <ClInclude Include="yaEntity.h" />
     <ClInclude Include="yaEnums.h" />
+    <ClInclude Include="yaMonsterFactoryScript.h" />
     <ClInclude Include="yaReloadBarScript.h" />
     <ClInclude Include="yaExpMarbleObject.h" />
     <ClInclude Include="yaFaceTextureScript.h" />
@@ -269,6 +270,7 @@
     <ClCompile Include="yaDragonFireScript.cpp" />
     <ClCompile Include="yaDragonPetScript.cpp" />
     <ClCompile Include="yaEntity.cpp" />
+    <ClCompile Include="yaMonsterFactoryScript.cpp" />
     <ClCompile Include="yaReloadBarScript.cpp" />
     <ClCompile Include="yaExpMarbleObject.cpp" />
     <ClCompile Include="yaFaceTextureScript.cpp" />

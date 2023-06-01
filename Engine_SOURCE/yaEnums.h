@@ -15,7 +15,7 @@ namespace ya::enums
 		Camera,
 		Grid,
 		Tile,
-		Fade,
+		Tree,
 		Monster,
 		Player,
 		Bullet,

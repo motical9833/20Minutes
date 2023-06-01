@@ -115,6 +115,7 @@ namespace ya
 				BackFire();
 				if (currentBullet <= 0)
 				{
+					ReloadSkill();
 					if (bIceShard)
 					{
 						IceShardFire();
@@ -386,7 +387,7 @@ namespace ya
 	{
 		mPos = mTrans->GetPosition() + mTrans->GetParent()->GetPosition();
 		
-		Vector3 rot = mTransform->GetRotation();
+	//	Vector3 rot = mTransform->GetRotation();
 
 		mMousePos = Input::GetMousePosition();
 		mRot = mTrans->GetRotation();
@@ -466,7 +467,6 @@ namespace ya
 	void WeaponScript::Reload()
 	{
 		SceneManager::GetPlayScene()->GetReloadUI()[1]->GetScript<ReloadBarScript>()->UIOn();
-		ReloadSkill();
 		mAnimator->Play(L"Revolver");
 		mAnimator->Start();
 		bReload = false;

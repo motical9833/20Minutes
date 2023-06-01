@@ -89,6 +89,8 @@ namespace ya
 		void CreateIcicle();
 		void CreateExpMarble();
 		void CreateGameManagers();
+		void CreateFreezes();
+		void CreateCurses();
 
 		void CreateHpUIobj(GameObject* parent);
 		void CreateAbilityIcon(GameObject* parent);
@@ -107,6 +109,8 @@ namespace ya
 		GameObject* CreateSkillObject(eLayerType layertype, const std::wstring& materialKey);
 		void M_DefaultTr(auto* object, Vector3 pos, Vector3 scale);
 
+		void FreezeAddToMonster();
+		void CurseAddToMonster();
 		GameObject* GetSkillManager() { return skillManager; };
 
 		void ALLSKILL();
@@ -160,6 +164,9 @@ namespace ya
 		GameObject* scythe;
 		GameObject* colliderCheck;
 		GameObject* upgradeobj;
+		GameObject* monsterFactoryManager;
+		GameObject* playerPointLight;
+		GameObject* directionalLight;
 
 		std::vector<Bullet*> ghostBullets;
 		std::vector<Bullet*> dragonFires;

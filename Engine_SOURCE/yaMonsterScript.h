@@ -26,7 +26,7 @@ namespace ya
 		void Action();
 		void End();
 		void TakeDamage(int damage);
-		void TakeDamage(int damage,eLayerType type);
+		void TakeDamage(int damage, eLayerType type);
 		void RitualStack();
 		void Respawn();
 		void GameReset();
@@ -51,6 +51,7 @@ namespace ya
 		bool GetcurseAtivate() { return bCurseActivate; }
 		int GetCurrentHP() { return mCurrentHp; }
 		int GetMaxHP() { return mMaxHp; }
+		float GetSpeed() { return mSpeed; }
 		void GetDIr();
 		void DropExpMarble();
 		void ClashwithPlayer();

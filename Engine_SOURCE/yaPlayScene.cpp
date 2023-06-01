@@ -42,6 +42,8 @@
 #include "yaMuzzleFlashScript.h"
 #include "yaReloadBarScript.h"
 #include "yaStageOneTileManager.h"
+#include "yaMonsterFactoryScript.h"
+#include <random>
 
 #define SHANA 0
 #define ABBY 1
@@ -78,14 +80,14 @@ namespace ya
 
 
 		{
-			GameObject* playerPointLight = object::Instantiate<GameObject>(eLayerType::Player,this);
+			playerPointLight = object::Instantiate<GameObject>(eLayerType::UI,this);
 			playerPointLight->GetComponent<Transform>()->SetPosition(Vector3(0.0f, 0.0f, 0.0f));
 			Light* lightComp = playerPointLight->AddComponent<Light>();
 			lightComp->SetType(eLightType::Point);
 			lightComp->SetRadius(3.0f);
 			lightComp->SetDiffuse(Vector4(1.0f, 1.0f, 1.0f, 1.0f));
 
-			GameObject* directionalLight = object::Instantiate<GameObject>(eLayerType::Player, this);
+			directionalLight = object::Instantiate<GameObject>(eLayerType::UI, this);
 			directionalLight->GetComponent<Transform>()->SetPosition(Vector3(0.0f, 0.0f, 0.0f));
 			Light* directLightComp = directionalLight->AddComponent<Light>();
 			//directLightComp->SetAmbient(Vector4(1.0f, 1.0f, 1.0f, 1.0f));
@@ -162,6 +164,17 @@ namespace ya
 		CreateWeapon();
 		CreateFirePos();
 
+		// Monster
+		{
+			CreateBrainMonster();
+			CreateEyeMonster();
+			for (size_t i = 0; i < 9; i++)
+			{
+				CreateTreeMonster();
+			}
+			CreateBommerMonster();
+		}
+
 		for (size_t i = 0; i < 1000; i++)
 		{
 			Bullet* bulletobj = object::Instantiate<Bullet>(eLayerType::Bullet, this);
@@ -190,15 +203,6 @@ namespace ya
 		}
 
 
-		// Monster
-		{
-			CreateBrainMonster();
-			CreateEyeMonster();
-			CreateTreeMonster();
-			CreateBommerMonster();
-		}
-
-
 		// SKill
 		CreateThunder();
 
@@ -211,59 +215,64 @@ namespace ya
 
 		CreateLevelUpEffect();
 
-		for (size_t i = 0; i < 200; i++)
-		{
-			GameObject* freeze = object::Instantiate<GameObject>(eLayerType::Skill, this);
-			freeze->GetComponent<Transform>()->SetPosition(Vector3::Zero);
-			freeze->GetComponent<Transform>()->SetScale(Vector3(2.0f, 2.0f, 1.0f));
-			freeze->SetLayerType(eLayerType::Skill);
-			SpriteRenderer* FreezeRender = freeze->AddComponent<SpriteRenderer>();
-			std::shared_ptr<Material> freezeMaterial = Resources::Find<Material>(L"FreezeMaterial");
-			FreezeRender->SetMaterial(freezeMaterial);
-			std::shared_ptr<Mesh> freezeMesh = Resources::Find<Mesh>(L"RectMesh");
-			FreezeRender->SetMesh(freezeMesh);
+		//for (size_t i = 0; i < 1000; i++)
+		//{
+		//	GameObject* freeze = object::Instantiate<GameObject>(eLayerType::Skill, this);
+		//	freeze->GetComponent<Transform>()->SetPosition(Vector3::Zero);
+		//	freeze->GetComponent<Transform>()->SetScale(Vector3(2.0f, 2.0f, 1.0f));
+		//	freeze->SetLayerType(eLayerType::Skill);
+		//	SpriteRenderer* FreezeRender = freeze->AddComponent<SpriteRenderer>();
+		//	std::shared_ptr<Material> freezeMaterial = Resources::Find<Material>(L"FreezeMaterial");
+		//	FreezeRender->SetMaterial(freezeMaterial);
+		//	std::shared_ptr<Mesh> freezeMesh = Resources::Find<Mesh>(L"RectMesh");
+		//	FreezeRender->SetMesh(freezeMesh);
 
-			Animator* freezeAnimator = freeze->AddComponent<Animator>();
-			std::shared_ptr<Texture> freezeTexture = Resources::Find<Texture>(L"S_Freeze");
+		//	Animator* freezeAnimator = freeze->AddComponent<Animator>();
+		//	std::shared_ptr<Texture> freezeTexture = Resources::Find<Texture>(L"S_Freeze");
 
-			freezeAnimator->Create(L"freezeAni", freezeTexture, Vector2::Zero, Vector2(64.0f, 64.0f), Vector2::Zero, 5, 0.1f);
-			freezeAnimator->Play(L"freezeAni", true);
-			freeze->Death();
-			freezes.push_back(freeze);
-		}
-		freezes[0]->GetComponent<Transform>()->SetParent(mBrainMonsters[0]->GetComponent<Transform>());
-		freezes[1]->GetComponent<Transform>()->SetParent(mBoomerMonsters[0]->GetComponent<Transform>());
-		freezes[2]->GetComponent<Transform>()->SetParent(mEyeMonsters[0]->GetComponent<Transform>());
-		freezes[3]->GetComponent<Transform>()->SetParent(mTreeMonsters[0]->GetComponent<Transform>());
+		//	freezeAnimator->Create(L"freezeAni", freezeTexture, Vector2::Zero, Vector2(64.0f, 64.0f), Vector2::Zero, 5, 0.1f);
+		//	freezeAnimator->Play(L"freezeAni", true);
+		//	freeze->Death();
+		//	freezes.push_back(freeze);
+		//}
+		CreateFreezes();
+		FreezeAddToMonster();
 
-		for (size_t i = 0; i < 200; i++)
-		{
-			GameObject* curse = object::Instantiate<GameObject>(eLayerType::Skill, this);
-			curse->SetLayerType(eLayerType::Skill);
-			curse->GetComponent<Transform>()->SetScale(Vector3(3.0f, 3.0f, 1.0f));
-			curse->GetComponent<Transform>()->SetPosition(Vector3::Zero);
-			SpriteRenderer* curseRender = curse->AddComponent<SpriteRenderer>();
-			std::shared_ptr<Material> curseMaterial = Resources::Find<Material>(L"CurseMaterial");
-			curseRender->SetMaterial(curseMaterial);
-			std::shared_ptr<Mesh> curseMesh = Resources::Find<Mesh>(L"RectMesh");
-			curseRender->SetMesh(curseMesh);
+		//freezes[0]->GetComponent<Transform>()->SetParent(mBrainMonsters[0]->GetComponent<Transform>());
+		//freezes[1]->GetComponent<Transform>()->SetParent(mBoomerMonsters[0]->GetComponent<Transform>());
+		//freezes[2]->GetComponent<Transform>()->SetParent(mEyeMonsters[0]->GetComponent<Transform>());
+		//freezes[3]->GetComponent<Transform>()->SetParent(mTreeMonsters[0]->GetComponent<Transform>());
 
-			Animator* curseAnimator = curse->AddComponent<Animator>();
-			std::shared_ptr<Texture> curseTexture = Resources::Find<Texture>(L"S_Curse");
+		//for (size_t i = 0; i < 1000; i++)
+		//{
+		//	GameObject* curse = object::Instantiate<GameObject>(eLayerType::Skill, this);
+		//	curse->SetLayerType(eLayerType::Skill);
+		//	curse->GetComponent<Transform>()->SetScale(Vector3(3.0f, 3.0f, 1.0f));
+		//	curse->GetComponent<Transform>()->SetPosition(Vector3::Zero);
+		//	SpriteRenderer* curseRender = curse->AddComponent<SpriteRenderer>();
+		//	std::shared_ptr<Material> curseMaterial = Resources::Find<Material>(L"CurseMaterial");
+		//	curseRender->SetMaterial(curseMaterial);
+		//	std::shared_ptr<Mesh> curseMesh = Resources::Find<Mesh>(L"RectMesh");
+		//	curseRender->SetMesh(curseMesh);
 
-			curseAnimator->Create(L"curseAni", curseTexture, Vector2::Zero, Vector2(32.0f, 32.0f), Vector2::Zero, 3, 0.2f);
-			curseAnimator->Create(L"curseUpgrade", curseTexture, Vector2::Zero, Vector2(32.0f, 32.0f), Vector2::Zero, 3, 0.4f);
-			curseAnimator->Play(L"curseAni", false);
+		//	Animator* curseAnimator = curse->AddComponent<Animator>();
+		//	std::shared_ptr<Texture> curseTexture = Resources::Find<Texture>(L"S_Curse");
 
-			curse->AddComponent<CurseScript>();
+		//	curseAnimator->Create(L"curseAni", curseTexture, Vector2::Zero, Vector2(32.0f, 32.0f), Vector2::Zero, 3, 0.2f);
+		//	curseAnimator->Create(L"curseUpgrade", curseTexture, Vector2::Zero, Vector2(32.0f, 32.0f), Vector2::Zero, 3, 0.4f);
+		//	curseAnimator->Play(L"curseAni", false);
 
-			curse->Death();
-			curses.push_back(curse);
-		}
-		curses[0]->GetComponent<Transform>()->SetParent(mBrainMonsters[0]->GetComponent<Transform>());
-		curses[1]->GetComponent<Transform>()->SetParent(mBoomerMonsters[0]->GetComponent<Transform>());
-		curses[2]->GetComponent<Transform>()->SetParent(mEyeMonsters[0]->GetComponent<Transform>());
-		curses[3]->GetComponent<Transform>()->SetParent(mTreeMonsters[0]->GetComponent<Transform>());
+		//	curse->AddComponent<CurseScript>();
+
+		//	curse->Death();
+		//	curses.push_back(curse);
+		//}
+		CreateCurses();
+		CurseAddToMonster();
+		//curses[0]->GetComponent<Transform>()->SetParent(mBrainMonsters[0]->GetComponent<Transform>());
+		//curses[1]->GetComponent<Transform>()->SetParent(mBoomerMonsters[0]->GetComponent<Transform>());
+		//curses[2]->GetComponent<Transform>()->SetParent(mEyeMonsters[0]->GetComponent<Transform>());
+		//curses[3]->GetComponent<Transform>()->SetParent(mTreeMonsters[0]->GetComponent<Transform>());
 
 		CreateSmite();
 		CreateMagicLens();
@@ -294,6 +303,9 @@ namespace ya
 				CreateStageOneTile(Vector3(-40.0f + 40.0f * j, 40.0f - 40.0f * i, 1.0f));
 			}
 		}
+
+		monsterFactoryManager = object::Instantiate<GameObject>(eLayerType::None, this);
+		monsterFactoryManager->AddComponent<MonsterFactoryScript>();
 		//Tile_0Material
 		//Particle
 		//GameObject* particle = object::Instantiate<Player>(eLayerType::Particle, this);
@@ -305,6 +317,8 @@ namespace ya
 
 
 		CollisionManager::CollisionLayerCheck(eLayerType::Player, eLayerType::Monster, true);
+		CollisionManager::CollisionLayerCheck(eLayerType::Player, eLayerType::Tree, true);
+		CollisionManager::CollisionLayerCheck(eLayerType::Monster, eLayerType::Monster, true);
 		CollisionManager::CollisionLayerCheck(eLayerType::Player, eLayerType::ExpMarble, true);
 		CollisionManager::CollisionLayerCheck(eLayerType::Bullet, eLayerType::Monster, true);
 		CollisionManager::CollisionLayerCheck(eLayerType::Skill, eLayerType::Monster, true);
@@ -319,6 +333,9 @@ namespace ya
 	void PlayScene::Update()
 	{
 		stageOneMapManager->GetScript<StageOneTileManager>()->SetCurrentPos(player->GetComponent<Transform>()->GetPosition());
+
+		playerPointLight->GetComponent<Transform>()->SetPosition(player->GetComponent<Transform>()->GetPosition());
+
 		if (uiOn)
 		{
 			Vector3 mousePos = UiMousePos();
@@ -434,9 +451,11 @@ namespace ya
 		players[num]->Life();
 		player = players[num];
 
+		playerPointLight->GetComponent<Transform>()->SetParent(player->GetComponent<Transform>());
+
 		Transform* mainCameraTr = pSceneCamera->GetComponent<Transform>();
 		mainCameraTr->SetParent(player->GetComponent<Transform>());
-		mainCameraTr->SetPosition(player->GetComponent<Transform>()->GetPosition() + Vector3(0.0f, 0.0f, -10.0f));
+		mainCameraTr->SetPosition(player->GetComponent<Transform>()->GetPosition() + Vector3(0.0f, 0.0f, -8.0f));
 
 		Transform* weaponTr = pWeapon->GetComponent<Transform>();
 		weaponTr->SetParent(player->GetComponent<Transform>());
@@ -543,31 +562,41 @@ namespace ya
 			m_Brain->Death();
 			mBrainMonsters.push_back(m_Brain);
 		}
-		mBrainMonsters[0]->Life();
 	}
 
 	void PlayScene::CreateTreeMonster()
 	{
-		for (size_t i = 0; i < 100; i++)
-		{
-			Monster* m_tree = object::Instantiate<Monster>(eLayerType::Monster, this);
-			m_tree->SetLayerType(eLayerType::Monster);
-			m_tree->SetName(L"tree");
-			M_DefaultTr(m_tree, Vector3(2.0f, 2.0f, 0.0f), Vector3(2.0f, 2.0f, 1.0f));
-			CreateCollider(m_tree, eColliderType::Rect, Vector2(0.7f, 0.9f));
-			CreateSpriteRenderer(m_tree, L"TreeMaterial");
-			Animator* treeAnimator = m_tree->AddComponent<Animator>();
-			std::shared_ptr<Texture> treeTexture = Resources::Find<Texture>(L"TreeSprite");
-			std::shared_ptr<Texture> deathTexture = Resources::Find<Texture>(L"M_DeathFX");
-			treeAnimator->Create(L"m_Right", treeTexture, Vector2(0.0f, 0.0f), Vector2(110.0f, 160.0f), Vector2::Zero, 3, 0.5f);
-			treeAnimator->Create(L"m_Left", treeTexture, Vector2(0.0f, 0.0f), Vector2(110.0f, 160.0f), Vector2::Zero, 3, 0.5f);
-			treeAnimator->Create(L"DeathAnimation", deathTexture, Vector2(0.0f, 0.0f), Vector2(40.0f, 40.0f), Vector2::Zero, 4, 0.1f);
-			treeAnimator->Play(L"m_Right", true);
-			m_tree->AddComponent<MonsterScript>();
-			m_tree->Death();
-			mTreeMonsters.push_back(m_tree);
-		}
-		mTreeMonsters[0]->Life();
+		Monster* m_tree = object::Instantiate<Monster>(eLayerType::Tree, this);
+		m_tree->SetLayerType(eLayerType::Tree);
+		m_tree->SetName(L"tree");
+		M_DefaultTr(m_tree, Vector3(2.0f, 2.0f, 0.0f), Vector3(2.0f, 2.0f, 1.0f));
+
+		std::random_device rd;
+		std::mt19937 rng(rd());
+
+		int minX = -20;
+		int maxX = 20;
+		int minY = -20;
+		int maxY = 20;
+
+		std::uniform_int_distribution<int> uniX(minX, maxX);
+		std::uniform_int_distribution<int> uniY(minY, maxY);
+
+		int randomX = uniX(rng);
+		int randomY = uniY(rng);
+
+		m_tree->GetComponent<Transform>()->SetPosition(Vector3(randomX,randomY,0.0f));
+		CreateCollider(m_tree, eColliderType::Rect, Vector2(0.7f, 0.9f));
+		CreateSpriteRenderer(m_tree, L"TreeMaterial");
+		Animator* treeAnimator = m_tree->AddComponent<Animator>();
+		std::shared_ptr<Texture> treeTexture = Resources::Find<Texture>(L"TreeSprite");
+		std::shared_ptr<Texture> deathTexture = Resources::Find<Texture>(L"M_DeathFX");
+		treeAnimator->Create(L"m_Right", treeTexture, Vector2(0.0f, 0.0f), Vector2(110.0f, 160.0f), Vector2::Zero, 3, 0.5f);
+		treeAnimator->Create(L"m_Left", treeTexture, Vector2(0.0f, 0.0f), Vector2(110.0f, 160.0f), Vector2::Zero, 3, 0.5f);
+		treeAnimator->Create(L"DeathAnimation", deathTexture, Vector2(0.0f, 0.0f), Vector2(40.0f, 40.0f), Vector2::Zero, 4, 0.1f);
+		treeAnimator->Play(L"m_Right", true);
+		m_tree->AddComponent<MonsterScript>();
+		mTreeMonsters.push_back(m_tree);
 	}
 
 	void PlayScene::CreateEyeMonster()
@@ -591,7 +620,6 @@ namespace ya
 			eyeMonster->Death();
 			mEyeMonsters.push_back(eyeMonster);
 		}
-		mEyeMonsters[0]->Life();
 	}
 
 	void PlayScene::CreateBommerMonster()
@@ -615,7 +643,6 @@ namespace ya
 			mBoomer->Death();
 			mBoomerMonsters.push_back(mBoomer);
 		}
-		mBoomerMonsters[0]->Life();
 	}
 
 	void PlayScene::CreateDragonPet()
@@ -905,6 +932,58 @@ namespace ya
 		upgradeobj->AddComponent<UpgradeScript>();
 	}
 
+	void PlayScene::CreateFreezes()
+	{
+		for (size_t i = 0; i < 1000; i++)
+		{
+			GameObject* freeze = object::Instantiate<GameObject>(eLayerType::Skill, this);
+			freeze->GetComponent<Transform>()->SetPosition(Vector3::Zero);
+			freeze->GetComponent<Transform>()->SetScale(Vector3(2.0f, 2.0f, 1.0f));
+			freeze->SetLayerType(eLayerType::Skill);
+			SpriteRenderer* FreezeRender = freeze->AddComponent<SpriteRenderer>();
+			std::shared_ptr<Material> freezeMaterial = Resources::Find<Material>(L"FreezeMaterial");
+			FreezeRender->SetMaterial(freezeMaterial);
+			std::shared_ptr<Mesh> freezeMesh = Resources::Find<Mesh>(L"RectMesh");
+			FreezeRender->SetMesh(freezeMesh);
+
+			Animator* freezeAnimator = freeze->AddComponent<Animator>();
+			std::shared_ptr<Texture> freezeTexture = Resources::Find<Texture>(L"S_Freeze");
+
+			freezeAnimator->Create(L"freezeAni", freezeTexture, Vector2::Zero, Vector2(64.0f, 64.0f), Vector2::Zero, 5, 0.1f);
+			freezeAnimator->Play(L"freezeAni", true);
+			freeze->Death();
+			freezes.push_back(freeze);
+		}
+	}
+
+	void PlayScene::CreateCurses()
+	{
+		for (size_t i = 0; i < 1000; i++)
+		{
+			GameObject* curse = object::Instantiate<GameObject>(eLayerType::Skill, this);
+			curse->SetLayerType(eLayerType::Skill);
+			curse->GetComponent<Transform>()->SetScale(Vector3(3.0f, 3.0f, 1.0f));
+			curse->GetComponent<Transform>()->SetPosition(Vector3::Zero);
+			SpriteRenderer* curseRender = curse->AddComponent<SpriteRenderer>();
+			std::shared_ptr<Material> curseMaterial = Resources::Find<Material>(L"CurseMaterial");
+			curseRender->SetMaterial(curseMaterial);
+			std::shared_ptr<Mesh> curseMesh = Resources::Find<Mesh>(L"RectMesh");
+			curseRender->SetMesh(curseMesh);
+
+			Animator* curseAnimator = curse->AddComponent<Animator>();
+			std::shared_ptr<Texture> curseTexture = Resources::Find<Texture>(L"S_Curse");
+
+			curseAnimator->Create(L"curseAni", curseTexture, Vector2::Zero, Vector2(32.0f, 32.0f), Vector2::Zero, 3, 0.2f);
+			curseAnimator->Create(L"curseUpgrade", curseTexture, Vector2::Zero, Vector2(32.0f, 32.0f), Vector2::Zero, 3, 0.4f);
+			curseAnimator->Play(L"curseAni", false);
+
+			curse->AddComponent<CurseScript>();
+
+			curse->Death();
+			curses.push_back(curse);
+		}
+	}
+
 	void PlayScene::CreateHpUIobj(GameObject* parent)
 	{
 		for (size_t i = 0; i < 10; i++)
@@ -1156,6 +1235,54 @@ namespace ya
 		Transform* mboomerTr = object->GetComponent<Transform>();
 		mboomerTr->SetPosition(pos);
 		mboomerTr->SetScale(scale);
+	}
+
+	void PlayScene::FreezeAddToMonster()
+	{
+		int a = mBrainMonsters.size();
+		int b = mBoomerMonsters.size();
+		int c = mEyeMonsters.size();
+		//int d = mTreeMonsters.size();
+		for (size_t i = 0; i < mBrainMonsters.size(); i++)
+		{
+			freezes[i]->GetComponent<Transform>()->SetParent(mBrainMonsters[i]->GetComponent<Transform>());
+		}
+		for (size_t i = 0; i < mBoomerMonsters.size(); i++)
+		{
+			freezes[a + i]->GetComponent<Transform>()->SetParent(mBoomerMonsters[i]->GetComponent<Transform>());
+		}
+		for (size_t i = 0; i < mEyeMonsters.size(); i++)
+		{
+			freezes[a + b + i]->GetComponent<Transform>()->SetParent(mBoomerMonsters[i]->GetComponent<Transform>());
+		}
+		for (size_t i = 0; i < mTreeMonsters.size(); i++)
+		{
+			freezes[a + b + c + i]->GetComponent<Transform>()->SetParent(mBoomerMonsters[i]->GetComponent<Transform>());
+		}
+	}
+
+	void PlayScene::CurseAddToMonster()
+	{
+		int a = mBrainMonsters.size();
+		int b = mBoomerMonsters.size();
+		int c = mEyeMonsters.size();
+		//int d = mTreeMonsters.size();
+		for (size_t i = 0; i < mBrainMonsters.size(); i++)
+		{
+			curses[i]->GetComponent<Transform>()->SetParent(mBrainMonsters[i]->GetComponent<Transform>());
+		}
+		for (size_t i = 0; i < mBoomerMonsters.size(); i++)
+		{
+			curses[a + i]->GetComponent<Transform>()->SetParent(mBoomerMonsters[i]->GetComponent<Transform>());
+		}
+		for (size_t i = 0; i < mEyeMonsters.size(); i++)
+		{
+			curses[a + b + i]->GetComponent<Transform>()->SetParent(mBoomerMonsters[i]->GetComponent<Transform>());
+		}
+		for (size_t i = 0; i < mTreeMonsters.size(); i++)
+		{
+			curses[a + b + c + i]->GetComponent<Transform>()->SetParent(mBoomerMonsters[i]->GetComponent<Transform>());
+		}
 	}
 
 	void PlayScene::ALLSKILL()

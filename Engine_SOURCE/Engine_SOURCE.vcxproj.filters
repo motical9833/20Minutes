@@ -377,6 +377,7 @@
     </ClCompile>
     <ClCompile Include="yaUIPanalMoveScript.cpp" />
     <ClCompile Include="yaStageOneTileManager.cpp" />
+    <ClCompile Include="yaMonsterFactoryScript.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CommonInclude.h">
@@ -645,6 +646,7 @@
     </ClInclude>
     <ClInclude Include="yaUIPanalMoveScript.h" />
     <ClInclude Include="yaStageOneTileManager.h" />
+    <ClInclude Include="yaMonsterFactoryScript.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="yaMath.inl">
