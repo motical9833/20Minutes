@@ -33,7 +33,7 @@ namespace ya
 
 		mTime += Time::DeltaTime();
 
-		if (mTime >= 1)
+		if (mTime >= 0.5f)
 		{
 			playerPos = SceneManager::GetPlayScene()->GetPlayer()->GetComponent<Transform>()->GetPosition();
 			MonsterSpawn();
@@ -83,20 +83,28 @@ namespace ya
 		pos.x += randomX;
 		pos.y += randomY;
 
-		if (randomX == 0)
+		if (randomX == 0)	
 		{
-			pos.x += 10;
+			pos.x += 8;
 		}
 		else if (-3 < randomX < 3)
+		{
+			pos.x += randomX * 3;
+		}
+		else if (6 < randomX > 3 || -6 > randomX < -3)
 		{
 			pos.x += randomX * 2;
 		}
 
 		if (randomY == 0)
 		{
-			pos.y += 10;
+			pos.y += 8;
 		}
 		else if (-2 < randomY < 2)
+		{
+			pos.y += randomY * 3;
+		}
+		else if (5 < randomY > 2 || -5 > randomY < -2)
 		{
 			pos.y += randomY * 2;
 		}

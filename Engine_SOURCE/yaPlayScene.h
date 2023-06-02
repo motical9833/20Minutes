@@ -166,6 +166,7 @@ namespace ya
 		GameObject* upgradeobj;
 		GameObject* monsterFactoryManager;
 		GameObject* playerPointLight;
+		GameObject* playerSubPointLight;
 		GameObject* directionalLight;
 
 		std::vector<Bullet*> ghostBullets;

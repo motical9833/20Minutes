@@ -29,30 +29,15 @@ float4 main(VSOut In) : SV_Target
         float2 diff = (atlasSize - spriteSize) / 2.0f;
         float2 UV = (leftTop - diff - offset) + (atlasSize * In.UV);
         
-       if (UV.x < leftTop.x || UV.y < leftTop.y || UV.x > leftTop.x  + spriteSize.x || UV.y > leftTop.y + spriteSize.y)
-           discard;
+        if (UV.x < leftTop.x || UV.y < leftTop.y || UV.x > leftTop.x + spriteSize.x || UV.y > leftTop.y + spriteSize.y)
+            discard;
          
         color = atlasTexture.Sample(anisotropicSampler, UV);
     }
-    else 
+    else
     {
         color = defaultTexture.Sample(anisotropicSampler, In.UV);
     }
     
-    
-    LightColor lightColor = (LightColor)0.0f;
-    for (int i = 0; i < numberOfLight; i++)
-    {
-        CalculateLight(lightColor, In.WorldPos.xyz, i);
-    }
-    
-    //if(numberOfLight <= 0)
-    //{
-    //    lightColor = (LightColor) 1.0f;
-    //}``
-    color *= lightColor.diffuse;
-    
-    
-    //color = defaultTexture.Sample(anisotropicSampler, In.UV);
     return color;
 }

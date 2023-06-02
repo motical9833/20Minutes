@@ -151,11 +151,17 @@ namespace ya::renderer
 		Resources::Insert<Shader>(L"SpriteShader", spriteShader);
 #pragma endregion
 #pragma region UI SHADER
-		std::shared_ptr<Shader> uiShader = std::make_shared<Shader>();
-		uiShader->Create(eShaderStage::VS, L"UserInterfaceVS.hlsl", "main");
-		uiShader->Create(eShaderStage::PS, L"UserInterfacePS.hlsl", "main");
+		//std::shared_ptr<Shader> uiShader = std::make_shared<Shader>();
+		//uiShader->Create(eShaderStage::VS, L"UserInterfaceVS.hlsl", "main");
+		//uiShader->Create(eShaderStage::PS, L"UserInterfacePS.hlsl", "main");
 
-		Resources::Insert<Shader>(L"UIShader", uiShader);
+		//Resources::Insert<Shader>(L"UIShader", uiShader);
+
+		std::shared_ptr<Shader> uiSpriteShader = std::make_shared<Shader>();
+		uiSpriteShader->Create(eShaderStage::VS, L"UISpriteVS.hlsl", "main");
+		uiSpriteShader->Create(eShaderStage::PS, L"UISpritePS.hlsl", "main");
+		uiSpriteShader->SetRSState(eRSType::SolidNone);
+		Resources::Insert<Shader>(L"UISpriteShader", uiSpriteShader);
 #pragma endregion
 
 
@@ -282,11 +288,18 @@ namespace ya::renderer
 			, spriteShader->GetVSBlobBufferSize()
 			, spriteShader->GetInputLayoutAddressOf());
 
-		std::shared_ptr<Shader> uiShader = Resources::Find<Shader>(L"UIShader");
+		//std::shared_ptr<Shader> uiShader = Resources::Find<Shader>(L"UIShader");
+		//GetDevice()->CreateInputLayout(arrLayoutDesc, 3
+		//	, uiShader->GetVSBlobBufferPointer()
+		//	, uiShader->GetVSBlobBufferSize()
+		//	, uiShader->GetInputLayoutAddressOf());
+
+		std::shared_ptr<Shader> uiSpriteShader = Resources::Find<Shader>(L"UISpriteShader");
 		GetDevice()->CreateInputLayout(arrLayoutDesc, 3
-			, uiShader->GetVSBlobBufferPointer()
-			, uiShader->GetVSBlobBufferSize()
-			, uiShader->GetInputLayoutAddressOf());
+			, uiSpriteShader->GetVSBlobBufferPointer()
+			, uiSpriteShader->GetVSBlobBufferSize()
+			, uiSpriteShader->GetInputLayoutAddressOf());
+
 
 		std::shared_ptr<Shader> gridShader = Resources::Find<Shader>(L"GridShader");
 		GetDevice()->CreateInputLayout(arrLayoutDesc, 3
@@ -836,20 +849,20 @@ namespace ya::renderer
 
 		CreateMaterial(L"LogoTexture", L"SpriteShader", eRenderingMode::Transparent, L"LogoMaterial");
 
-		CreateMaterial(L"UIPanel", L"SpriteShader", eRenderingMode::Transparent, L"PanalMaterial");
-		CreateMaterial(L"UIPanelOrigin", L"SpriteShader", eRenderingMode::Transparent, L"PanelOriginMaterial");
+		CreateMaterial(L"UIPanel", L"UISpriteShader", eRenderingMode::Transparent, L"PanalMaterial");
+		CreateMaterial(L"UIPanelOrigin", L"UISpriteShader", eRenderingMode::Transparent, L"PanelOriginMaterial");
 
 
-		CreateMaterial(L"LeftDownArrows", L"SpriteShader", eRenderingMode::Transparent, L"LeftDownLeaderMaterial");
-		CreateMaterial(L"RightDownArrows", L"SpriteShader", eRenderingMode::Transparent, L"RightDownLeaderMaterial");
-		CreateMaterial(L"DownRightArrows", L"SpriteShader", eRenderingMode::Transparent, L"DownRightLeaderMaterial");
-		CreateMaterial(L"DownLeftArrows", L"SpriteShader", eRenderingMode::Transparent, L"DownLeftLeaderMaterial");
-		CreateMaterial(L"PowerupFrame", L"SpriteShader", eRenderingMode::Transparent, L"PowerupFrameMaterial");
+		CreateMaterial(L"LeftDownArrows", L"UISpriteShader", eRenderingMode::Transparent, L"LeftDownLeaderMaterial");
+		CreateMaterial(L"RightDownArrows", L"UISpriteShader", eRenderingMode::Transparent, L"RightDownLeaderMaterial");
+		CreateMaterial(L"DownRightArrows", L"UISpriteShader", eRenderingMode::Transparent, L"DownRightLeaderMaterial");
+		CreateMaterial(L"DownLeftArrows", L"UISpriteShader", eRenderingMode::Transparent, L"DownLeftLeaderMaterial");
+		CreateMaterial(L"PowerupFrame", L"UISpriteShader", eRenderingMode::Transparent, L"PowerupFrameMaterial");
 
-		CreateMaterial(L"PowerupIconBG", L"SpriteShader", eRenderingMode::Transparent, L"PowerupIconBGMaterial");
+		CreateMaterial(L"PowerupIconBG", L"UISpriteShader", eRenderingMode::Transparent, L"PowerupIconBGMaterial");
 
-		CreateMaterial(L"ReloadBar", L"SpriteShader", eRenderingMode::Transparent, L"ReloadBarMaterial");
-		CreateMaterial(L"ReloadBut", L"SpriteShader", eRenderingMode::Transparent, L"ReloadButMaterial");
+		CreateMaterial(L"ReloadBar", L"UISpriteShader", eRenderingMode::Transparent, L"ReloadBarMaterial");
+		CreateMaterial(L"ReloadBut", L"UISpriteShader", eRenderingMode::Transparent, L"ReloadButMaterial");
 
 		CreateMaterial(L"T_EyeBlink", L"SpriteShader", eRenderingMode::Transparent, L"EyeBlinkMaterial");
 		CreateMaterial(L"T_SelectorBubble", L"SpriteShader", eRenderingMode::Transparent, L"SelectorBubbleMaterial");
@@ -886,14 +899,14 @@ namespace ya::renderer
 			const std::wstring name = L"Icon_Ability_" + std::to_wstring(i);
 
 
-			CreateMaterial(name, L"SpriteShader", eRenderingMode::Transparent, name + L"Material");
+			CreateMaterial(name, L"UISpriteShader", eRenderingMode::Transparent, name + L"Material");
 		}
 
-		CreateMaterial(L"AmmoIcon", L"SpriteShader", eRenderingMode::Transparent, L"AmmoIconMaterial");
+		CreateMaterial(L"AmmoIcon", L"UISpriteShader", eRenderingMode::Transparent, L"AmmoIconMaterial");
 
 #pragma endregion
 #pragma region PlayerUI
-		CreateMaterial(L"HPHeart", L"SpriteShader", eRenderingMode::Transparent, L"HpMaterial");
+		CreateMaterial(L"HPHeart", L"UISpriteShader", eRenderingMode::Transparent, L"HpMaterial");
 #pragma endregion
 #pragma region EFFECT MATERIAL
 		CreateMaterial(L"M_DeathFX", L"SpriteShader", eRenderingMode::Transparent, L"M_DeathMaterial");

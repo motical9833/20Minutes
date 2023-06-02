@@ -85,7 +85,14 @@ namespace ya
 			Light* lightComp = playerPointLight->AddComponent<Light>();
 			lightComp->SetType(eLightType::Point);
 			lightComp->SetRadius(3.0f);
-			lightComp->SetDiffuse(Vector4(1.0f, 1.0f, 1.0f, 1.0f));
+			lightComp->SetDiffuse(Vector4(0.5f, 0.5f, 0.5f, 1.0f));
+
+			playerSubPointLight = object::Instantiate<GameObject>(eLayerType::UI, this);
+			playerSubPointLight->GetComponent<Transform>()->SetPosition(Vector3(0.0f, 0.0f, 0.0f));
+			Light* sublightComp = playerSubPointLight->AddComponent<Light>();
+			sublightComp->SetType(eLightType::Point);
+			sublightComp->SetRadius(6.0f);
+			sublightComp->SetDiffuse(Vector4(0.5f, 0.5f, 0.5f, 1.0f));
 
 			directionalLight = object::Instantiate<GameObject>(eLayerType::UI, this);
 			directionalLight->GetComponent<Transform>()->SetPosition(Vector3(0.0f, 0.0f, 0.0f));
@@ -335,6 +342,7 @@ namespace ya
 		stageOneMapManager->GetScript<StageOneTileManager>()->SetCurrentPos(player->GetComponent<Transform>()->GetPosition());
 
 		playerPointLight->GetComponent<Transform>()->SetPosition(player->GetComponent<Transform>()->GetPosition());
+		playerSubPointLight->GetComponent<Transform>()->SetPosition(player->GetComponent<Transform>()->GetPosition());
 
 		if (uiOn)
 		{
