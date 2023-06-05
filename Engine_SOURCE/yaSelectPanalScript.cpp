@@ -7,8 +7,8 @@ namespace ya
 	SelectPanalScript::SelectPanalScript(Vector3 posA, Vector3 posB)
 		:bStop(true)
 		,bMove(false)
-		, targetPosA(posA)
-		, targetPosB(posB)
+		, targetPos(posA)
+		, originPos(posB)
 	{
 
 	}
@@ -26,14 +26,14 @@ namespace ya
 
 		if (bStop == false && bMove == false)
 		{
-			Vector3 dir = SetMoveDirection(targetPosA);
+			Vector3 dir = SetMoveDirection(targetPos);
 
 
 			pos.y += 3 * dir.y * Time::DeltaTime();
 
 			GetOwner()->GetComponent<Transform>()->SetPosition(pos);
 
-			if (std::abs(targetPosA.y) >= std::abs(GetOwner()->GetComponent<Transform>()->GetPosition().y))
+			if (std::abs(targetPos.y) >= std::abs(GetOwner()->GetComponent<Transform>()->GetPosition().y))
 			{
 				bStop = true;
 			}
@@ -41,14 +41,14 @@ namespace ya
 		else if (bStop == false && bMove)
 		{
 			Vector3 pos = GetOwner()->GetComponent<Transform>()->GetPosition();
-			Vector3 dir = SetMoveDirection(targetPosB);
+			Vector3 dir = SetMoveDirection(originPos);
 
 
 			pos.y += 3 * dir.y * Time::DeltaTime();
 
 			GetOwner()->GetComponent<Transform>()->SetPosition(pos);
 
-			if (std::abs(targetPosB.y) <= std::abs(GetOwner()->GetComponent<Transform>()->GetPosition().y))
+			if (std::abs(originPos.y) <= std::abs(GetOwner()->GetComponent<Transform>()->GetPosition().y))
 			{
 				bStop = true;
 			}
@@ -89,5 +89,12 @@ namespace ya
 	{
 		bStop = false;
 		bMove = true;
+	}
+	void SelectPanalScript::Reset()
+	{
+		bStop = true;
+		bMove = false;
+
+		GetOwner()->GetComponent<Transform>()->SetPosition(originPos);
 	}
 }

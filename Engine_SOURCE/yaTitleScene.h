@@ -7,7 +7,6 @@
 #include "GLM/glm.hpp"
 #include "GLM/gtc/matrix_transform.hpp"
 
-
 namespace ya
 {
 	class TitleScene : public Scene
@@ -50,6 +49,7 @@ namespace ya
 		void CreateBubblePanal();
 		void TemporaryPanal();
 
+		void UIReset();
 		void FirstUI();
 		void StartUI();
 		void WeaponSelectUI();
@@ -59,6 +59,8 @@ namespace ya
 		void SelectScreenUI();
 		Vector3 UIMousePos();
 		glm::vec2 ScreenToCamera(const glm::vec2 & screenCoord, const glm::mat4 & viewProjectionMatrix, int screenWidth, int screenHeight);
+
+		void TitleAudioClip();
 
 		void Start(int num);
 		void Start();
@@ -84,5 +86,6 @@ namespace ya
 
 		int selectCharNum;
 		int selectWeaponNum;
+
 	};
 }

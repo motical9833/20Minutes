@@ -41,6 +41,9 @@ namespace ya::enums
 		SpriteRenderer,
 		Animator,
 		ParticleSystem,
+		Audio,
+		AudioListener,
+		AudioSource,
 		Light,
 		UI,
 		FadeInOut,
@@ -59,6 +62,7 @@ namespace ya::enums
 		MeshData,
 		GraphicShader,
 		ComputeShader,
+		AudioClip,
 		Script,
 		End,
 	};

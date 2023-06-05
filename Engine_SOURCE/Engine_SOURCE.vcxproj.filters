@@ -124,6 +124,12 @@
     <Filter Include="Component\Script\Contents\Effect">
       <UniqueIdentifier>{d656b264-af26-4247-88c5-830ef2c8257b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Sound">
+      <UniqueIdentifier>{4ca1140f-7943-4f07-bc39-711aa1ad3a53}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component\Script\Contents\Manager">
+      <UniqueIdentifier>{fac01d6e-1902-454f-aa0e-ec0133cbba9e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="yaApplication.cpp">
@@ -375,9 +381,22 @@
     <ClCompile Include="yaBubbleUIScript.cpp">
       <Filter>Component\Script\Contents\UI</Filter>
     </ClCompile>
-    <ClCompile Include="yaUIPanalMoveScript.cpp" />
-    <ClCompile Include="yaStageOneTileManager.cpp" />
-    <ClCompile Include="yaMonsterFactoryScript.cpp" />
+    <ClCompile Include="yaCursorUIScript.cpp">
+      <Filter>Component\Script\Contents\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="yaUIPanalMoveScript.cpp">
+      <Filter>Component\Script\Contents\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="yaStageOneTileManager.cpp">
+      <Filter>Component\Script\Contents\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="yaMonsterFactoryScript.cpp">
+      <Filter>Component\Script\Contents\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="yaFmod.cpp" />
+    <ClCompile Include="yaAudioSource.cpp" />
+    <ClCompile Include="yaAudioListener.cpp" />
+    <ClCompile Include="yaAudioClip.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CommonInclude.h">
@@ -644,9 +663,22 @@
     <ClInclude Include="yaBubbleUIScript.h">
       <Filter>Component\Script\Contents\UI</Filter>
     </ClInclude>
-    <ClInclude Include="yaUIPanalMoveScript.h" />
-    <ClInclude Include="yaStageOneTileManager.h" />
-    <ClInclude Include="yaMonsterFactoryScript.h" />
+    <ClInclude Include="yaCursorUIScript.h">
+      <Filter>Component\Script\Contents\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="yaUIPanalMoveScript.h">
+      <Filter>Component\Script\Contents\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="yaStageOneTileManager.h">
+      <Filter>Component\Script\Contents\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="yaMonsterFactoryScript.h">
+      <Filter>Component\Script\Contents\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="yaFmod.h" />
+    <ClInclude Include="yaAudioSource.h" />
+    <ClInclude Include="yaAudioListener.h" />
+    <ClInclude Include="yaAudioClip.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="yaMath.inl">

@@ -217,6 +217,11 @@ namespace ya
 			mousePos = {};
 		}
 	}
+	void TitleUIManager::Reset()
+	{
+		mainNumber = 0;
+		subNumber = 0;
+	}
 	void TitleUIManager::selectionScreenUI()
 	{
 

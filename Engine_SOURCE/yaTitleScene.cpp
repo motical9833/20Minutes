@@ -27,6 +27,7 @@
 #include "yaBubbleUIScript.h"
 #include "yaUIPanalMoveScript.h"
 #include "yaTitleUIManager.h"
+#include "yaCursorUIScript.h"
 
 #define SHANA 0
 #define ABBY 1
@@ -60,6 +61,16 @@ namespace ya
 			lightComp->SetType(eLightType::Directional);
 			lightComp->SetDiffuse(Vector4(1.0f, 1.0f, 1.0f, 1.0f));
 		}
+
+		GameObject* cursorObject = object::Instantiate<GameObject>(eLayerType::UI, this);
+		SpriteRenderer* cursorRender = cursorObject->AddComponent<SpriteRenderer>();
+		std::shared_ptr<Material> cursorMat = Resources::Find<Material>(L"CursorMaterial");
+		cursorRender->SetMaterial(cursorMat);
+		std::shared_ptr<Mesh> cursorMesh = Resources::Find<Mesh>(L"RectMesh");
+		cursorRender->SetMesh(cursorMesh);
+		cursorObject->GetComponent<Transform>()->SetPosition(Vector3(0.0f, 0.0f, 0.0f));
+		cursorObject->GetComponent<Transform>()->SetScale(Vector3(0.5f, 0.5f, 1.0f));
+		cursorObject->AddComponent<CursorUIScript>();
 
 		//{
 		//	GameObject* directionalLight = object::Instantiate<GameObject>(eLayerType::Player);
@@ -98,6 +109,7 @@ namespace ya
 	}
 	void TitleScene::Update()
 	{
+
 		if (Input::GetKeyDown(eKeyCode::N))
 		{
 			WeaponSelectUI();
@@ -106,16 +118,6 @@ namespace ya
 		{
 			CharacterSelectUI();
 		}
-		//if(bLoadScene)
-		//{
-
-		//}
-		//if (time > 2)
-		//{
-		//	bLoadScene = false;
-		//	time = 0.0f;
-		//	Start(1);
-		//}
 
 		if (Input::GetKeyDown(eKeyCode::LBTN))
 		{
@@ -151,7 +153,7 @@ namespace ya
 	{
 		mainCamera = tSceneCamera->GetComponent<Camera>();
 	}
-	void TitleScene::OnExit()
+	void TitleScene::OnExit()	
 	{
 	}
 	void TitleScene::CreateCamera()
@@ -162,6 +164,8 @@ namespace ya
 		cameraComp->TurnLayerMask(eLayerType::UI, false);
 		mainCamera = cameraComp;
 		//renderer::cameras[0] = cameraComp;
+		
+		GameObject* soundObj = object::Instantiate<GameObject>(eLayerType::None);
 
 		// UI Camera
 		GameObject* cameraUIObj = object::Instantiate<GameObject>(eLayerType::Camera);
@@ -603,7 +607,7 @@ namespace ya
 	{
 		for (size_t i = 0; i < leves.size(); i++)
 		{
-			leves[i]->GetScript<LeavesScirpt>()->Reset();
+			leves[i]->GetScript<LeavesScirpt>()->Back();
 		}
 		bgEye->GetScript<BgEyeScript>()->Reset();
 		logo->GetScript<logoScript>()->Reset();
@@ -640,11 +644,34 @@ namespace ya
 	{
 
 	}
-	void TitleScene::FirstUI()
+	void TitleScene::UIReset()
 	{
 		for (size_t i = 0; i < leves.size(); i++)
 		{
 			leves[i]->GetScript<LeavesScirpt>()->Reset();
+		}
+		for (size_t i = 0; i < mainUIbutterns.size(); i++)
+		{
+			mainUIbutterns[i]->Life();
+		}
+		for (size_t i = 0; i < bubbleParents.size(); i++)
+		{
+			bubbleParents[i]->GetScript<UIPanalMoveScript>()->Reset();
+		}
+		for (size_t i = 0; i < selectPanals.size(); i++)
+		{
+			selectPanals[i]->GetScript<SelectPanalScript>()->Reset();
+		}
+		faceParent->GetScript<UIPanalMoveScript>()->Reset();
+		bgEye->GetScript<BgEyeScript>()->Reset();
+		logo->GetScript<logoScript>()->Reset();
+		uiManager->GetScript<TitleUIManager>()->Reset();
+	}
+	void TitleScene::FirstUI()
+	{
+		for (size_t i = 0; i < leves.size(); i++)
+		{
+			leves[i]->GetScript<LeavesScirpt>()->Back();
 		}
 		bgEye->GetScript<BgEyeScript>()->Reset();
 		logo->GetScript<logoScript>()->Reset();
@@ -674,6 +701,7 @@ namespace ya
 		leves[1]->GetComponent<Transform>()->SetPosition(Vector3(8.0f, 1.0f, 9.9f));
 		SceneManager::GetPlayScene()->ChoosePlayers(num);
 		SceneManager::GetPlayScene()->GetPlayer()->GetScript<PlayerScript>()->StartSetting();
+		UIReset();
 		SceneManager::LoadScene(eSceneType::Play);
 	}
 	void TitleScene::Start()
@@ -682,6 +710,7 @@ namespace ya
 		leves[1]->GetComponent<Transform>()->SetPosition(Vector3(8.0f, 1.0f, 9.9f));
 		SceneManager::GetPlayScene()->ChoosePlayers(selectCharNum);
 		SceneManager::GetPlayScene()->GetPlayer()->GetScript<PlayerScript>()->StartSetting();
+		UIReset();
 		SceneManager::LoadScene(eSceneType::Play);
 	}
 }

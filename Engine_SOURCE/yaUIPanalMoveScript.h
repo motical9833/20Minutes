@@ -17,6 +17,7 @@ namespace ya
 		Vector3 SetMoveDirection(Vector3 pos);
 		void Next();
 		void Back();
+		void Reset();
 	private:
 		bool bStop;
 		bool bMove;

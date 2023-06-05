@@ -11,8 +11,8 @@ namespace ya
 		, bStop(true)
 		, leftPosX(-13.0f)
 		, rightPosX(13.0f)
-		, targetPosA(posA)
-		, targetPosB(posB)
+		, originPos(posA)
+		, targetPos(posB)
 	{
 
 	}
@@ -29,14 +29,14 @@ namespace ya
 		if (bStop == false && bMove == false)
 		{
 			Vector3 pos = GetOwner()->GetComponent<Transform>()->GetPosition();
-			Vector3 dir = SetMoveDirection(targetPosA);
+			Vector3 dir = SetMoveDirection(originPos);
 
 
 			pos.x += mSpeed * dir.x * Time::DeltaTime();
 
 			GetOwner()->GetComponent<Transform>()->SetPosition(pos);
 
-			if (std::abs(targetPosA.x) >= std::abs(GetOwner()->GetComponent<Transform>()->GetPosition().x))
+			if (std::abs(originPos.x) >= std::abs(GetOwner()->GetComponent<Transform>()->GetPosition().x))
 			{
 				bStop = true;
 			}
@@ -44,14 +44,14 @@ namespace ya
 		else if (bStop == false && bMove == true)
 		{
 			Vector3 pos = GetOwner()->GetComponent<Transform>()->GetPosition();
-			Vector3 dir = SetMoveDirection(targetPosB);
+			Vector3 dir = SetMoveDirection(targetPos);
 
 
 			pos.x += mSpeed * dir.x * Time::DeltaTime();
 
 			GetOwner()->GetComponent<Transform>()->SetPosition(pos);
 
-			if (std::abs(targetPosB.x) <= std::abs(GetOwner()->GetComponent<Transform>()->GetPosition().x))
+			if (std::abs(targetPos.x) <= std::abs(GetOwner()->GetComponent<Transform>()->GetPosition().x))
 			{
 				bStop = true;
 			}
@@ -88,9 +88,16 @@ namespace ya
 		bMove = true;
 		bStop = false;
 	}
+	void LeavesScirpt::Back()
+	{
+		bMove = false;
+		bStop = false;
+	}
 	void LeavesScirpt::Reset()
 	{
 		bMove = false;
 		bStop = false;
+
+		GetOwner()->GetComponent<Transform>()->SetPosition(targetPos);
 	}
 }

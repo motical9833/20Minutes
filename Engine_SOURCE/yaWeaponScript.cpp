@@ -107,7 +107,7 @@ namespace ya
 		}
 		if (currentBullet > 0)
 		{
-			if (Input::GetKeyDown(eKeyCode::LBTN))
+			if (Input::GetKeyPress(eKeyCode::LBTN))
 			{
 				SceneManager::GetPlayScene()->GetReloadUI()[1]->GetScript<ReloadBarScript>()->UIOff();
 				mAnimator->Stop();

@@ -19,7 +19,7 @@ namespace ya
 		void SelectMenu();
 		void SelectCharacter();
 		void SelectWeapon();
-
+		void Reset();
 
 		void selectionScreenUI();
 		void SetMousePos(Vector3 pos) { mousePos = pos; }

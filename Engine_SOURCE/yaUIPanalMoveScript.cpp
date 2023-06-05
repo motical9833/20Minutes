@@ -101,4 +101,11 @@ namespace ya
 		bStop = false;
 		bMove = true;
 	}
+	void UIPanalMoveScript::Reset()
+	{
+		bStop = false;
+		bMove = true;
+
+		GetOwner()->GetComponent<Transform>()->SetPosition(originPos);
+	}
 }

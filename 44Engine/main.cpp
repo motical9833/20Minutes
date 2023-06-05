@@ -127,12 +127,10 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 
    HWND hWnd = CreateWindowW(szWindowClass, szTitle, WS_OVERLAPPEDWINDOW,
       0, 0, 1600, 900, nullptr, nullptr, hInstance, nullptr);
-
    if (!hWnd)
    {
       return FALSE;
    }
-
    application.SetWindow(hWnd, 1600, 900);
    application.Initalize();
    editor.Initalize();
@@ -183,6 +181,9 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
         break;
     case WM_DESTROY:
         PostQuitMessage(0);
+        break;
+    case WM_SETCURSOR:
+        SetCursor(NULL);
         break;
     default:
         return DefWindowProc(hWnd, message, wParam, lParam);

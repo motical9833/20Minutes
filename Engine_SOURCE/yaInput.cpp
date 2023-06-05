@@ -1,12 +1,14 @@
 #include "yaInput.h"
 #include "yaApplication.h"
-
+#include "yaRenderer.h"
+#include "yaGameObject.h"
 
 extern ya::Application application;
 namespace ya
 {
 	std::vector<Input::Key> Input::mKeys;
 	math::Vector3 Input::mMousePosition;
+	math::Vector2 Input::mMouseWorldPosition;
 	float Input::mWinWidthCenter;
 	float Input::mWinHeightCenter;
 
@@ -95,6 +97,7 @@ namespace ya
 			ScreenToClient(application.GetHwnd(), &mousePos);
 			mMousePosition.x = ((float)mousePos.x - mWinWidthCenter);
 			mMousePosition.y = -((float)mousePos.y - mWinHeightCenter);
+			ComputeMousePos();
 		}
 		else
 		{
@@ -122,5 +125,14 @@ namespace ya
 		swprintf_s(szFloat, 50, L"X : %f | Y : %f", mMousePosition.x, mMousePosition.y);
 
 		SetWindowText(hWnd, szFloat);
+	}
+	void Input::ComputeMousePos()
+	{
+		POINT mousePos = {};
+		GetCursorPos(&mousePos);
+		ScreenToClient(application.GetHwnd(), &mousePos);
+
+		mMouseWorldPosition.x = (2.0f * mousePos.x / application.GetWidth()) - 1.0f;
+		mMouseWorldPosition.y = 1.0f - (2.0f * mousePos.y / application.GetHeight());
 	}
 }

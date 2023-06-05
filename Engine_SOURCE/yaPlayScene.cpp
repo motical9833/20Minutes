@@ -43,6 +43,8 @@
 #include "yaReloadBarScript.h"
 #include "yaStageOneTileManager.h"
 #include "yaMonsterFactoryScript.h"
+#include "yaCursorUIScript.h"
+
 #include <random>
 
 #define SHANA 0
@@ -78,6 +80,15 @@ namespace ya
 		paintShader->SetTarget(Resources::Find<Texture>(L"PaintTexture"));
 		paintShader->OnExcute();
 
+		GameObject* cursorObject = object::Instantiate<GameObject>(eLayerType::UI, this);
+		SpriteRenderer* cursorRender = cursorObject->AddComponent<SpriteRenderer>();
+		std::shared_ptr<Material> cursorMat = Resources::Find<Material>(L"CursorMaterial");
+		cursorRender->SetMaterial(cursorMat);
+		std::shared_ptr<Mesh> cursorMesh = Resources::Find<Mesh>(L"RectMesh");
+		cursorRender->SetMesh(cursorMesh);
+		cursorObject->GetComponent<Transform>()->SetPosition(Vector3(0.0f, 0.0f, 0.0f));
+		cursorObject->GetComponent<Transform>()->SetScale(Vector3(0.5f, 0.5f, 1.0f));
+		cursorObject->AddComponent<CursorUIScript>();
 
 		{
 			playerPointLight = object::Instantiate<GameObject>(eLayerType::UI,this);

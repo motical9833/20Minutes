@@ -131,6 +131,9 @@
       </SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <PreBuildEvent>
+      <Command>copy "$(SolutionDir)fmodL.dll" "$(SolutionDir)\x64\Debug\"</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -152,11 +155,17 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <PreBuildEvent>
+      <Command>copy "$(SolutionDir)fmod.dl" "$(SolutionDir)\x64\Release\"</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="GaleScript.h" />
     <ClInclude Include="yaAnimation.h" />
     <ClInclude Include="yaAnimator.h" />
+    <ClInclude Include="yaAudioClip.h" />
+    <ClInclude Include="yaAudioListener.h" />
+    <ClInclude Include="yaAudioSource.h" />
     <ClInclude Include="yaBgEyeScript.h" />
     <ClInclude Include="yaBubbleUIScript.h" />
     <ClInclude Include="yaBullet.h" />
@@ -175,11 +184,13 @@
     <ClInclude Include="yaComputeShader.h" />
     <ClInclude Include="yaConstantBuffer.h" />
     <ClInclude Include="yaCurseScript.h" />
+    <ClInclude Include="yaCursorUIScript.h" />
     <ClInclude Include="yaDragonFireScript.h" />
     <ClInclude Include="yaDragonPetScript.h" />
     <ClInclude Include="yaEngine.h" />
     <ClInclude Include="yaEntity.h" />
     <ClInclude Include="yaEnums.h" />
+    <ClInclude Include="yaFmod.h" />
     <ClInclude Include="yaMonsterFactoryScript.h" />
     <ClInclude Include="yaReloadBarScript.h" />
     <ClInclude Include="yaExpMarbleObject.h" />
@@ -250,6 +261,9 @@
     <ClCompile Include="GaleScript.cpp" />
     <ClCompile Include="yaAnimation.cpp" />
     <ClCompile Include="yaAnimator.cpp" />
+    <ClCompile Include="yaAudioClip.cpp" />
+    <ClCompile Include="yaAudioListener.cpp" />
+    <ClCompile Include="yaAudioSource.cpp" />
     <ClCompile Include="yaBgEyeScript.cpp" />
     <ClCompile Include="yaBubbleUIScript.cpp" />
     <ClCompile Include="yaBullet.cpp" />
@@ -267,9 +281,11 @@
     <ClCompile Include="yaComputeShader.cpp" />
     <ClCompile Include="yaConstantBuffer.cpp" />
     <ClCompile Include="yaCurseScript.cpp" />
+    <ClCompile Include="yaCursorUIScript.cpp" />
     <ClCompile Include="yaDragonFireScript.cpp" />
     <ClCompile Include="yaDragonPetScript.cpp" />
     <ClCompile Include="yaEntity.cpp" />
+    <ClCompile Include="yaFmod.cpp" />
     <ClCompile Include="yaMonsterFactoryScript.cpp" />
     <ClCompile Include="yaReloadBarScript.cpp" />
     <ClCompile Include="yaExpMarbleObject.cpp" />

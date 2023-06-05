@@ -18,12 +18,13 @@ namespace ya
 
 		void Next();
 		void Back();
+		void Reset();
 
 	private:
 		bool bStop;
 		bool bMove;
 
-		Vector3 targetPosA;
-		Vector3 targetPosB;
+		Vector3 targetPos;
+		Vector3 originPos;
 	};
 }

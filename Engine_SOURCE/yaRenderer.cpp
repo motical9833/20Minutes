@@ -742,6 +742,7 @@ namespace ya::renderer
 		Resources::Load<Texture>(L"Book_Ability_4", L"UI\\Icon\\Icon_TomeRage.png");
 		Resources::Load<Texture>(L"Book_Ability_5", L"UI\\Icon\\Icon_TomeSummoning.png");
 
+		Resources::Load<Texture>(L"Cursor", L"UI\\T_CursorSprite.png");
 		Resources::Load<Texture>(L"PowerupFrame", L"UI\\Icon\\PowerupFrame.png");
 		Resources::Load<Texture>(L"PowerupFrame_Large", L"UI\\Icon\\PowerupFrame_Large.png");
 		Resources::Load<Texture>(L"PowerupIconBG", L"UI\\Icon\\PowerupIconBG.png");
@@ -873,6 +874,8 @@ namespace ya::renderer
 		CreateMaterial(L"T_UILock", L"SpriteShader", eRenderingMode::Transparent, L"UILockMaterial");
 		CreateMaterial(L"T_TileGrass", L"SpriteShader", eRenderingMode::Transparent, L"Tile_0Material");
 
+
+		CreateMaterial(L"Cursor", L"UISpriteShader", eRenderingMode::Transparent, L"CursorMaterial");
 #pragma endregion
 #pragma region FACE MATERIAL
 

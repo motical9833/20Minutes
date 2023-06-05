@@ -17,6 +17,7 @@ namespace ya
 
 		Vector3 SetMoveDirection(Vector3 pos);
 		void Next();
+		void Back();
 		void Reset();
 
 	private:
@@ -29,7 +30,7 @@ namespace ya
 		float rightPosX;
 		float leftPosX;
 
-		Vector3 targetPosA;
-		Vector3 targetPosB;
+		Vector3 originPos;
+		Vector3 targetPos;
 	};
 }
