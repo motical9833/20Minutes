@@ -5,6 +5,8 @@
 #include "yaPlayScene.h"
 #include "yaLevelUPEffectScript.h"
 
+#include "yaInput.h"
+
 namespace ya
 {
 	int mLevel;
@@ -23,11 +25,14 @@ namespace ya
 	}
 	void PlayerLevelScript::Initalize()
 	{
-
+		
 	}
 	void PlayerLevelScript::Update()
 	{
-
+		if (Input::GetKeyDown(eKeyCode::Q))
+		{
+			LevelUP();
+		}
 	}
 	void PlayerLevelScript::Render()
 	{

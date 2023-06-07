@@ -55,7 +55,9 @@ namespace ya
 		void GetDIr();
 		void DropExpMarble();
 		void ClashwithPlayer();
-	private:
+
+	protected:
+
 		float mSpeed;
 		float mTime;
 

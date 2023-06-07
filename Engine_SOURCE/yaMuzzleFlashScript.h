@@ -1,7 +1,6 @@
 #pragma once
 #include "yaScript.h"
 #include "yaPlayer.h"
-
 namespace ya
 {
 	class MuzzleFlashScript : public Script
@@ -16,6 +15,7 @@ namespace ya
 		virtual void Render();
 
 		void GetPlayer();
+		void FireSound();
 	private:
 		Player* player;
 

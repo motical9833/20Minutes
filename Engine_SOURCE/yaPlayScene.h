@@ -60,6 +60,7 @@ namespace ya
 		GameObject* GetLevelUPEffect() { return levelUPEffectObj; }
 		GameObject* GetLevelManager() { return levelManager; }
 		GameObject* GetMuzzleFlash() { return muzzleFlash; }
+		GameObject* GetSoundObjects(int number) { return soundObj[number]; }
 		bool GetUIOn() { return uiOn; }
 
 		std::vector<GameObject*> GetIcon() { return iconObjects; }
@@ -92,14 +93,14 @@ namespace ya
 		void CreateFreezes();
 		void CreateCurses();
 
-		void CreateHpUIobj(GameObject* parent);
+		void CreateHpUIobj();
 		void CreateAbilityIcon(GameObject* parent);
 		void CreateLevelUpEffect();
-		void CreateUIPanal(GameObject* parent, Vector3 pos, Vector3 scale);
-		void CreateUILeader(const std::wstring& key,GameObject* parent, Vector3 pos, Vector3 scale);
-		void CreatePowerUpFrame(GameObject* parent, Vector3 pos, Vector3 scale);
+		void CreateUIPanal(/*GameObject* parent*/Vector3 pos, Vector3 scale);
+		void CreateUILeader(const std::wstring& key/*,GameObject* parent*/, Vector3 pos, Vector3 scale);
+		void CreatePowerUpFrame(/*GameObject* parent, */Vector3 pos, Vector3 scale);
 		void CreateSkillUI(GameObject* parent);
-		void CreateSkillIcon(const std::wstring& key, GameObject* parent, Vector3 pos, Vector3 scale);
+		void CreateSkillIcon(const std::wstring& key/*, GameObject* parent*/, Vector3 pos, Vector3 scale);
 		void CreateExpBar(GameObject* parent);
 		void CreateCollider(auto* monster, eColliderType type,Vector2 size);
 		void CreateDeathFX();
@@ -155,6 +156,7 @@ namespace ya
 		std::vector<GameObject*> iconObjects;
 		std::vector<GameObject*> icons;
 		std::vector<GameObject*> reloadUI;
+		std::vector<GameObject*> soundObj;
 
 		GameObject* holyShield;
 		GameObject* magicLens;
@@ -177,6 +179,7 @@ namespace ya
 		std::vector<Monster*> mTreeMonsters;
 		std::vector<Monster*> mEyeMonsters;
 		std::vector<Monster*> mBoomerMonsters;
+		std::vector<Monster*> mBossMonsters;
 
 		std::vector<GameObject*> hpUiObj;
 

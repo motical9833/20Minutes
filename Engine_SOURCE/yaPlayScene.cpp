@@ -44,6 +44,9 @@
 #include "yaStageOneTileManager.h"
 #include "yaMonsterFactoryScript.h"
 #include "yaCursorUIScript.h"
+#include "yaAudioListener.h"
+#include "yaAudioSource.h"
+#include "yaHubNigguratScript.h"
 
 #include <random>
 
@@ -138,12 +141,17 @@ namespace ya
 			lightComp->SetDiffuse(Vector4(1.0f, 1.0f, 1.0f, 1.0f));
 		}
 
+		Resources::Load<AudioClip>(L"StageBGM", L"..\\Resources\\Sound\\WastelandCombatLoop.wav");
+
+
 		// Main Camera Game Object
 		pSceneCamera = object::Instantiate<GameObject>(eLayerType::Camera,this);
 		pSceneCamera->SetName(L"PSMCamera");
 		Camera* cameraComp = pSceneCamera->AddComponent<Camera>();
+		pSceneCamera->AddComponent<AudioListener>();
+		pSceneCamera->AddComponent<AudioSource>()->SetClip(Resources::Find<AudioClip>(L"StageBGM"));
+		pSceneCamera->GetComponent<AudioSource>()->SetLoop(true);
 		Transform* mainCameraTr = pSceneCamera->GetComponent<Transform>();
-		mainCameraTr->SetPosition(Vector3(0.0f, 0.0f, -10.0f));
 		cameraComp->SetProjectionType(Camera::eProjectionType::Perspective);
 		cameraComp->TurnLayerMask(eLayerType::UI, false);
 		pSceneCamera->AddComponent<CameraScript>();
@@ -191,6 +199,46 @@ namespace ya
 				CreateTreeMonster();
 			}
 			CreateBommerMonster();
+
+			Monster* hubNiggurat = object::Instantiate<Monster>(eLayerType::Monster, this);
+			hubNiggurat->SetLayerType(eLayerType::Monster);
+			hubNiggurat->SetName(L"hubNiggurat");
+			Transform* bossTr = hubNiggurat->GetComponent<Transform>();
+			bossTr->SetPosition(Vector3(5.0f,0.0f,0.0f));
+			bossTr->SetScale(Vector3(3.0f, 3.0f, 1.0f));
+			CreateCollider(hubNiggurat, eColliderType::Rect, Vector2(0.6f, 0.4f));
+			CreateSpriteRenderer(hubNiggurat, L"ShubNigguratMaterial");
+			Animator* hubAnimator = hubNiggurat->AddComponent<Animator>();
+			std::shared_ptr<Texture> hubNigguratTexture = Resources::Find<Texture>(L"Boss_ShubNiggurat");
+			std::shared_ptr<Texture> deathTexture = Resources::Find<Texture>(L"M_DeathFX");
+			hubAnimator->Create(L"Boss_RightMove", hubNigguratTexture, Vector2(0.0f, 0.0f), Vector2(96.0f, 96.0f), Vector2::Zero, 3, 0.2f);
+			hubAnimator->Create(L"Boss_RightCharge", hubNigguratTexture, Vector2(0.0f, 88.0f), Vector2(96.0f, 96.0f), Vector2::Zero, 5, 0.2f);
+			hubAnimator->Create(L"Boss_RightAttack", hubNigguratTexture, Vector2(0.0f, 184.0f), Vector2(96.0f, 96.0f), Vector2::Zero, 3, 0.2f);
+			hubAnimator->Create(L"Boss_LeftMove", hubNigguratTexture, Vector2(0.0f, 280.0f), Vector2(96.0f, 96.0f), Vector2::Zero, 3, 0.2f);
+			hubAnimator->Create(L"Boss_LeftCharge", hubNigguratTexture, Vector2(0.0f, 376.0f), Vector2(96.0f, 96.0f), Vector2::Zero, 5, 0.2f);
+			hubAnimator->Create(L"Boss_RightAttack", hubNigguratTexture, Vector2(0.0f, 472.0f), Vector2(96.0f, 96.0f), Vector2::Zero, 3, 0.2f);
+			hubAnimator->Create(L"DeathAnimation", deathTexture, Vector2(0.0f, 0.0f), Vector2(40.0f, 40.0f), Vector2::Zero, 4, 0.1f);
+			hubAnimator->Play(L"Boss_RightMove", true);
+			hubNiggurat->AddComponent<HubNigguratScript>(100);
+			mBossMonsters.push_back(hubNiggurat);
+
+			//Monster* mBoomer = object::Instantiate<Monster>(eLayerType::Monster, this);
+			//mBoomer->SetLayerType(eLayerType::Monster);
+			//mBoomer->SetName(L"BigBoomer");
+			//M_DefaultTr(mBoomer, Vector3(4.0f, 0.0f, 0.0f), Vector3(2.0f, 2.0f, 1.0f));
+			//CreateCollider(mBoomer, eColliderType::Rect, Vector2(0.5f, 0.5f));
+			//CreateSpriteRenderer(mBoomer, L"BoomerMonsterMaterial");
+			//Animator* boomerAnimator = mBoomer->AddComponent<Animator>();
+			//std::shared_ptr<Texture> boomerTexture = Resources::Find<Texture>(L"BoomerMonsterSprite");
+			//std::shared_ptr<Texture> deathTexture = Resources::Find<Texture>(L"M_DeathFX");
+			//boomerAnimator->Create(L"m_Right", boomerTexture, Vector2(0.0f, 0.0f), Vector2(64.0f, 64.0f), Vector2::Zero, 4, 0.2f);
+			//boomerAnimator->Create(L"m_Left", boomerTexture, Vector2(0.0f, 58.5f), Vector2(64.0f, 64.0f), Vector2::Zero, 4, 0.2f);
+			//boomerAnimator->Create(L"DeathAnimation", deathTexture, Vector2(0.0f, 0.0f), Vector2(40.0f, 40.0f), Vector2::Zero, 4, 0.1f);
+			//boomerAnimator->Play(L"m_Left", true);
+			//mBoomer->AddComponent<MonsterScript>(500);
+			//mBoomer->Death();
+			//mBoomerMonsters.push_back(mBoomer);
+
 		}
 
 		for (size_t i = 0; i < 1000; i++)
@@ -305,7 +353,7 @@ namespace ya
 		CreateIcicle();
 		CreateExpMarble();
 		CreateGameManagers();
-		CreateHpUIobj(cameraUIObj);
+		CreateHpUIobj();
 		CreateSkillUI(cameraUIObj);
 		CreateAbilityIcon(cameraUIObj);
 		CreateAmmoIcon(cameraUIObj);
@@ -322,8 +370,9 @@ namespace ya
 			}
 		}
 
-		monsterFactoryManager = object::Instantiate<GameObject>(eLayerType::None, this);
-		monsterFactoryManager->AddComponent<MonsterFactoryScript>();
+		//monsterFactoryManager = object::Instantiate<GameObject>(eLayerType::None, this);
+		//monsterFactoryManager->AddComponent<MonsterFactoryScript>();
+
 		//Tile_0Material
 		//Particle
 		//GameObject* particle = object::Instantiate<Player>(eLayerType::Particle, this);
@@ -333,6 +382,16 @@ namespace ya
 		//particle->AddComponent<ParticleSystem>();
 		//particleTr->SetParent(player->GetComponent<Transform>());
 
+		Resources::Load<AudioClip>(L"GetExpSound", L"..\\Resources\\Sound\\GetExpSound.wav");
+		Resources::Load<AudioClip>(L"ReloadSound", L"..\\Resources\\Sound\\Weapon_Shotgun_Reload.wav");
+
+		GameObject* expSound = object::Instantiate<GameObject>(eLayerType::None, this);
+		expSound->AddComponent<AudioSource>()->SetClip(Resources::Find<AudioClip>(L"GetExpSound"));
+		soundObj.push_back(expSound);
+
+		GameObject* reloadSound = object::Instantiate<GameObject>(eLayerType::None, this);
+		reloadSound->AddComponent<AudioSource>()->SetClip(Resources::Find<AudioClip>(L"ReloadSound"));
+		soundObj.push_back(reloadSound);
 
 		CollisionManager::CollisionLayerCheck(eLayerType::Player, eLayerType::Monster, true);
 		CollisionManager::CollisionLayerCheck(eLayerType::Player, eLayerType::Tree, true);
@@ -354,6 +413,11 @@ namespace ya
 
 		playerPointLight->GetComponent<Transform>()->SetPosition(player->GetComponent<Transform>()->GetPosition());
 		playerSubPointLight->GetComponent<Transform>()->SetPosition(player->GetComponent<Transform>()->GetPosition());
+
+		for (size_t i = 0; i < soundObj.size(); i++)
+		{
+			soundObj[i]->GetComponent<Transform>()->SetPosition(pSceneCamera->GetComponent<Transform>()->GetPosition());
+		}
 
 		if (uiOn)
 		{
@@ -458,11 +522,12 @@ namespace ya
 	void PlayScene::OnEnter()
 	{
 		mainCamera = pSceneCamera->GetComponent<Camera>();
+		pSceneCamera->GetComponent<AudioSource>()->Play();
 	}
 
 	void PlayScene::OnExit()
 	{
-
+		pSceneCamera->GetComponent<AudioSource>()->Stop();
 	}
 
 	void PlayScene::ChoosePlayers(int num)
@@ -470,11 +535,11 @@ namespace ya
 		players[num]->Life();
 		player = players[num];
 
+		pSceneCamera->GetScript<CameraScript>()->SetTarget(player);
 		playerPointLight->GetComponent<Transform>()->SetParent(player->GetComponent<Transform>());
 
-		Transform* mainCameraTr = pSceneCamera->GetComponent<Transform>();
-		mainCameraTr->SetParent(player->GetComponent<Transform>());
-		mainCameraTr->SetPosition(player->GetComponent<Transform>()->GetPosition() + Vector3(0.0f, 0.0f, -8.0f));
+		//Transform* mainCameraTr = pSceneCamera->GetComponent<Transform>();
+		//mainCameraTr->SetParent(player->GetComponent<Transform>());
 
 		Transform* weaponTr = pWeapon->GetComponent<Transform>();
 		weaponTr->SetParent(player->GetComponent<Transform>());
@@ -505,6 +570,10 @@ namespace ya
 		{
 			mBoomerMonsters[i]->GetScript<MonsterScript>()->SetPlayer(players[num]);
 		}
+		for (size_t i = 0; i < mBossMonsters.size(); i++)
+		{
+			mBossMonsters[i]->GetScript<MonsterScript>()->SetPlayer(players[num]);
+		}
 	}
 
 	void PlayScene::CreatePlayer()
@@ -527,6 +596,9 @@ namespace ya
 		weaponAni->Play(L"Revolver", true);
 		pWeapon->AddComponent<WeaponScript>();
 
+
+		Resources::Load<AudioClip>(L"FireSound", L"..\\Resources\\Sound\\single_shot.wav");
+
 		muzzleFlash = object::Instantiate<Weapon>(eLayerType::Particle, this);
 		muzzleFlash->GetComponent<Transform>()->SetScale(Vector3(0.3f, 0.3f, 1.0f));
 		muzzleFlash->SetLayerType(eLayerType::Particle);
@@ -536,6 +608,7 @@ namespace ya
 		std::shared_ptr<Mesh>  muzzleMesh = Resources::Find<Mesh>(L"RectMesh");
 		muzzleRender->SetMesh(muzzleMesh);
 		muzzleFlash->Death();
+		muzzleFlash->AddComponent<AudioSource>()->SetClip(Resources::Find<AudioClip>(L"FireSound"));
 		muzzleFlash->AddComponent<MuzzleFlashScript>();
 	}
 
@@ -1003,15 +1076,14 @@ namespace ya
 		}
 	}
 
-	void PlayScene::CreateHpUIobj(GameObject* parent)
+	void PlayScene::CreateHpUIobj()
 	{
 		for (size_t i = 0; i < 10; i++)
 		{
 			GameObject* hpObject = object::Instantiate<GameObject>(eLayerType::UI, this);
 			hpObject->SetLayerType(eLayerType::UI);
-			hpObject->GetComponent<Transform>()->SetPosition(Vector3(-10.0f + (float)i, 5.2f, 10.0f));
+			hpObject->GetComponent<Transform>()->SetPosition(Vector3(-9.0f + (float)i, 6.2f, 11.0f));
 			hpObject->GetComponent<Transform>()->SetScale(Vector3(3.0f, 3.0f, 1.0f));
-			hpObject->GetComponent<Transform>()->SetParent(parent->GetComponent<Transform>());
 			SpriteRenderer* render = hpObject->AddComponent<SpriteRenderer>();
 			std::shared_ptr<Material> hpMaterial = Resources::Find<Material>(L"HpMaterial");
 			render->SetMaterial(hpMaterial);
@@ -1032,7 +1104,7 @@ namespace ya
 		for (size_t i = 0; i < 100; i++)
 		{
 			const std::wstring name = L"Icon_Ability_" + std::to_wstring(i) + L"Material";
-			CreateSkillIcon(name, parent, Vector3(0.0f, 0.0f, 1.0f), Vector3(0.06f, 0.06f, 1.0f));
+			CreateSkillIcon(name, Vector3(0.0f, 0.0f, 9.0f), Vector3(0.54f, 0.54f, 1.0f));
 		}
 	}
 
@@ -1051,13 +1123,13 @@ namespace ya
 		levelUPEffectObj->AddComponent<LevelUPEffectScript>();
 	}
 
-	void PlayScene::CreateUIPanal(GameObject* parent,Vector3 pos ,Vector3 scale)
+	void PlayScene::CreateUIPanal(/*GameObject* parent*/Vector3 pos ,Vector3 scale)
 	{
 		GameObject* uiPanal = object::Instantiate<GameObject>(eLayerType::UI, this);
 		uiPanal->SetLayerType(eLayerType::UI);
 		uiPanal->GetComponent<Transform>()->SetPosition(pos);
 		uiPanal->GetComponent<Transform>()->SetScale(scale);
-		uiPanal->GetComponent<Transform>()->SetParent(parent->GetComponent<Transform>());
+		//uiPanal->GetComponent<Transform>()->SetParent(parent->GetComponent<Transform>());
 		SpriteRenderer* panalRender = uiPanal->AddComponent<SpriteRenderer>();
 		std::shared_ptr<Material> panalMaterial = Resources::Find<Material>(L"PanalMaterial");
 		panalRender->SetMaterial(panalMaterial);
@@ -1067,11 +1139,11 @@ namespace ya
 		uiObjects.push_back(uiPanal);
 	}
 
-	void PlayScene::CreateUILeader(const std::wstring& key,GameObject* parent, Vector3 pos, Vector3 scale)
+	void PlayScene::CreateUILeader(const std::wstring& key/*,GameObject* parent*/, Vector3 pos, Vector3 scale)
 	{
 		GameObject* uiLeader = object::Instantiate<GameObject>(eLayerType::UI, this);
 		uiLeader->SetLayerType(eLayerType::UI);
-		uiLeader->GetComponent<Transform>()->SetParent(parent->GetComponent<Transform>());
+		//uiLeader->GetComponent<Transform>()->SetParent(parent->GetComponent<Transform>());
 		uiLeader->GetComponent<Transform>()->SetPosition(pos);
 		uiLeader->GetComponent<Transform>()->SetScale(scale);
 		SpriteRenderer* leaderRender = uiLeader->AddComponent<SpriteRenderer>();
@@ -1083,11 +1155,11 @@ namespace ya
 		uiObjects.push_back(uiLeader);
 	}
 
-	void PlayScene::CreatePowerUpFrame(GameObject* parent, Vector3 pos, Vector3 scale)
+	void PlayScene::CreatePowerUpFrame(/*GameObject* parent, */Vector3 pos, Vector3 scale)
 	{
 		GameObject* frame = object::Instantiate<GameObject>(eLayerType::UI, this);
 		frame->SetLayerType(eLayerType::UI);
-		frame->GetComponent<Transform>()->SetParent(parent->GetComponent<Transform>());
+		//frame->GetComponent<Transform>()->SetParent(parent->GetComponent<Transform>());
 		frame->GetComponent<Transform>()->SetPosition(pos);
 		frame->GetComponent<Transform>()->SetScale(scale);
 		SpriteRenderer* render = frame->AddComponent<SpriteRenderer>();
@@ -1100,7 +1172,7 @@ namespace ya
 
 		GameObject* frameBG = object::Instantiate<GameObject>(eLayerType::UI, this);
 		frameBG->SetLayerType(eLayerType::UI);
-		frameBG->GetComponent<Transform>()->SetParent(parent->GetComponent<Transform>());
+		//frameBG->GetComponent<Transform>()->SetParent(parent->GetComponent<Transform>());
 		frameBG->GetComponent<Transform>()->SetPosition(pos - Vector3(0.0f,0.0f,-0.01f));
 		frameBG->GetComponent<Transform>()->SetScale(scale);
 		SpriteRenderer* bgRender = frameBG->AddComponent<SpriteRenderer>();
@@ -1114,22 +1186,22 @@ namespace ya
 
 	void PlayScene::CreateSkillUI(GameObject* parent)
 	{
-		CreateUIPanal(parent, Vector3(0.0f, 0.0f, 1.0f), Vector3(1.2f, 0.4f, 1.0f));
-		CreateUIPanal(parent, Vector3(0.0f, -0.3f, 1.0f), Vector3(0.8f, 0.1f, 1.0f));
-		CreateUIPanal(parent, Vector3(0.0f, -0.42f, 1.0f), Vector3(0.8f, 0.1f, 1.0f));
-		CreateUILeader(L"LeftDownLeaderMaterial", parent, Vector3(0.3f, 0.08f, 1.0f), Vector3(0.05f, 0.05f, 1.0f));
-		CreateUILeader(L"RightDownLeaderMaterial", parent, Vector3(0.5f, 0.08f, 1.0f), Vector3(0.05f, 0.05f, 1.0f));
-		CreateUILeader(L"DownRightLeaderMaterial", parent, Vector3(0.3f, -0.12f, 1.0f), Vector3(0.05f, 0.05f, 1.0f));
-		CreateUILeader(L"DownLeftLeaderMaterial", parent, Vector3(0.5f, -0.12f, 1.0f), Vector3(0.05f, 0.05f, 1.0f));
-		CreatePowerUpFrame(parent, Vector3(0.4f, 0.08f, 1.0f), Vector3(0.08f, 0.08f, 1.0f));
-		CreatePowerUpFrame(parent, Vector3(0.28f, -0.02f, 1.0f), Vector3(0.08f, 0.08f, 1.0f));
-		CreatePowerUpFrame(parent, Vector3(0.52f, -0.02f, 1.0f), Vector3(0.08f, 0.08f, 1.0f));
-		CreatePowerUpFrame(parent, Vector3(0.4f, -0.12f, 1.0f), Vector3(0.08f, 0.08f, 1.0f));
-		CreatePowerUpFrame(parent, Vector3(-0.3f, 0.26f, 1.0f), Vector3(0.08f, 0.08f, 1.0f));
-		CreatePowerUpFrame(parent, Vector3(-0.15f, 0.26f, 1.0f), Vector3(0.08f, 0.08f, 1.0f));
-		CreatePowerUpFrame(parent, Vector3(0.0f, 0.26f, 1.0f), Vector3(0.08f, 0.08f, 1.0f));
-		CreatePowerUpFrame(parent, Vector3(0.15f, 0.26f, 1.0f), Vector3(0.08f, 0.08f, 1.0f));
-		CreatePowerUpFrame(parent, Vector3(0.3f, 0.26f, 1.0f), Vector3(0.08f, 0.08f, 1.0f));
+		CreateUIPanal(Vector3(1.0f, 1.0f, 9.0f), Vector3(10.0f, 3.2f, 1.0f));
+		CreateUIPanal(Vector3(1.0f, -1.4f, 9.0f), Vector3(7.2f, 0.9f, 1.0f));
+		CreateUIPanal(Vector3(1.0f, -2.4f, 9.0f), Vector3(7.2f, 0.9f, 1.0f));
+		CreateUILeader(L"LeftDownLeaderMaterial", Vector3(3.4f, 1.6f, 9.0f), Vector3(0.45f, 0.45f, 1.0f));
+		CreateUILeader(L"RightDownLeaderMaterial", Vector3(5.0f, 1.6f, 9.0f), Vector3(0.45f, 0.45f, 1.0f));
+		CreateUILeader(L"DownRightLeaderMaterial", Vector3(3.4f, 0.0f, 9.0f), Vector3(0.45f, 0.45f, 1.0f));
+		CreateUILeader(L"DownLeftLeaderMaterial", Vector3(5.0f, 0.0f, 9.0f), Vector3(0.45f, 0.45f, 1.0f));
+		CreatePowerUpFrame(Vector3(4.2f, 1.7f, 9.0f), Vector3(0.72f, 0.72f, 1.0f));
+		CreatePowerUpFrame(Vector3(3.22f, 0.82f, 9.0f), Vector3(0.72f, 0.72f, 1.0f));
+		CreatePowerUpFrame(Vector3(5.10f, 0.82f, 9.0f), Vector3(0.72f, 0.72f, 1.0f));
+		CreatePowerUpFrame(Vector3(4.2f, 0.10f, 9.0f), Vector3(0.72f, 0.72f, 1.0f));
+		CreatePowerUpFrame(Vector3(-1.3f, 3.3f, 9.0f), Vector3(0.72f, 0.72f, 1.0f));
+		CreatePowerUpFrame(Vector3(-0.1f, 3.3f, 9.0f), Vector3(0.72f, 0.72f, 1.0f));
+		CreatePowerUpFrame(Vector3(1.1f, 3.3f, 9.0f), Vector3(0.72f, 0.72f, 1.0f));
+		CreatePowerUpFrame(Vector3(2.3f, 3.3f, 9.0f), Vector3(0.72f, 0.72f, 1.0f));
+		CreatePowerUpFrame(Vector3(3.5f, 3.3f, 9.0f), Vector3(0.72f, 0.72f, 1.0f));
 
 
 		for (size_t i = 0; i < uiObjects.size(); i++)
@@ -1148,11 +1220,11 @@ namespace ya
 		uiOn = false;
 	}
 
-	void PlayScene::CreateSkillIcon(const std::wstring& key, GameObject* parent, Vector3 pos, Vector3 scale)
+	void PlayScene::CreateSkillIcon(const std::wstring& key/*, GameObject* parent*/, Vector3 pos, Vector3 scale)
 	{
 		GameObject* iconObj = object::Instantiate<GameObject>(eLayerType::UI, this);
 		iconObj->SetLayerType(eLayerType::UI);
-		iconObj->GetComponent<Transform>()->SetParent(parent->GetComponent<Transform>());
+		//iconObj->GetComponent<Transform>()->SetParent(parent->GetComponent<Transform>());
 		iconObj->GetComponent<Transform>()->SetPosition(pos);
 		iconObj->GetComponent<Transform>()->SetScale(scale);
 		SpriteRenderer* iconRender = iconObj->AddComponent<SpriteRenderer>();
@@ -1166,7 +1238,7 @@ namespace ya
 
 		GameObject* icon = object::Instantiate<GameObject>(eLayerType::UI, this);
 		icon->SetLayerType(eLayerType::UI);
-		icon->GetComponent<Transform>()->SetParent(parent->GetComponent<Transform>());
+		//icon->GetComponent<Transform>()->SetParent(parent->GetComponent<Transform>());
 		icon->GetComponent<Transform>()->SetPosition(pos);
 		icon->GetComponent<Transform>()->SetScale(scale);
 		SpriteRenderer* render = icon->AddComponent<SpriteRenderer>();
@@ -1261,7 +1333,7 @@ namespace ya
 		int a = mBrainMonsters.size();
 		int b = mBoomerMonsters.size();
 		int c = mEyeMonsters.size();
-		//int d = mTreeMonsters.size();
+		int d = mBossMonsters.size();
 		for (size_t i = 0; i < mBrainMonsters.size(); i++)
 		{
 			freezes[i]->GetComponent<Transform>()->SetParent(mBrainMonsters[i]->GetComponent<Transform>());
@@ -1278,6 +1350,10 @@ namespace ya
 		{
 			freezes[a + b + c + i]->GetComponent<Transform>()->SetParent(mBoomerMonsters[i]->GetComponent<Transform>());
 		}
+		for (size_t i = 0; i < mBossMonsters.size(); i++)
+		{
+			freezes[a + b + c + i + d]->GetComponent<Transform>()->SetParent(mBoomerMonsters[i]->GetComponent<Transform>());
+		}
 	}
 
 	void PlayScene::CurseAddToMonster()
@@ -1285,7 +1361,7 @@ namespace ya
 		int a = mBrainMonsters.size();
 		int b = mBoomerMonsters.size();
 		int c = mEyeMonsters.size();
-		//int d = mTreeMonsters.size();
+		int d = mBossMonsters.size();
 		for (size_t i = 0; i < mBrainMonsters.size(); i++)
 		{
 			curses[i]->GetComponent<Transform>()->SetParent(mBrainMonsters[i]->GetComponent<Transform>());
@@ -1301,6 +1377,10 @@ namespace ya
 		for (size_t i = 0; i < mTreeMonsters.size(); i++)
 		{
 			curses[a + b + c + i]->GetComponent<Transform>()->SetParent(mBoomerMonsters[i]->GetComponent<Transform>());
+		}
+		for (size_t i = 0; i < mTreeMonsters.size(); i++)
+		{
+			curses[a + b + c + i + d]->GetComponent<Transform>()->SetParent(mBoomerMonsters[i]->GetComponent<Transform>());
 		}
 	}
 
@@ -1411,12 +1491,12 @@ namespace ya
 	{	
 		for (size_t i = 0; i < uiFrames.size(); i++)
 		{
-			uiFrames[i]->GetComponent<Transform>()->SetScale(Vector3(0.08f, 0.08f, 1.0f));
+			uiFrames[i]->GetComponent<Transform>()->SetScale(Vector3(0.72f, 0.72f, 1.0f));
 		}
 		for (size_t i = 0; i < iconObjects.size(); i++)
 		{
-			iconObjects[i]->GetComponent<Transform>()->SetScale(Vector3(0.06f, 0.06f, 1.0f));
-			icons[i]->GetComponent<Transform>()->SetScale(Vector3(0.06f, 0.06f, 1.0f));
+			iconObjects[i]->GetComponent<Transform>()->SetScale(Vector3(0.54f, 0.54f, 1.0f));
+			icons[i]->GetComponent<Transform>()->SetScale(Vector3(0.54f, 0.54f, 1.0f));
 		}
 
 		srand((unsigned)time(NULL));
@@ -1443,7 +1523,7 @@ namespace ya
 				}
 				else
 				{
-					iconObjects[(randomValue[i] * 4) + a]->GetComponent<Transform>()->SetPosition(Vector3(-0.3f + (i * 0.15f), 0.26f, 1.0f));
+					iconObjects[(randomValue[i] * 4) + a]->GetComponent<Transform>()->SetPosition(Vector3(-1.3f + (i * 1.2f), 3.3f, 9.0f));
 					iconObjects[(randomValue[i] * 4) + a]->Life();
 					break;
 				}
@@ -1451,17 +1531,17 @@ namespace ya
 			click[i][1] = a;
 		}
 
-		iconObjects[randomValue[0]]->GetComponent<Transform>()->SetScale(Vector3(0.12f, 0.12f, 1.0f));
-		uiFrames[4]->GetComponent<Transform>()->SetScale(Vector3(0.12f, 0.12f, 1.0f));
-		iconObjects[(randomValue[0] * 4)]->GetComponent<Transform>()->SetScale(Vector3(0.08f, 0.08f, 1.0f));
+		iconObjects[randomValue[0]]->GetComponent<Transform>()->SetScale(Vector3(1.08f, 1.08f, 1.0f));
+		uiFrames[4]->GetComponent<Transform>()->SetScale(Vector3(1.08f, 1.08f, 1.0f));
+		iconObjects[(randomValue[0] * 4)]->GetComponent<Transform>()->SetScale(Vector3(0.72f, 0.72f, 1.0f));
 
 
 		for (size_t i = 0; i < 5; i++)
 		{
-			icons[(randomValue[i] * 4) + 0]->GetComponent<Transform>()->SetPosition(Vector3(0.4f, 0.08f, 1.0f));
-			icons[(randomValue[i] * 4) + 1]->GetComponent<Transform>()->SetPosition(Vector3(0.28f, -0.02f, 1.0f));
-			icons[(randomValue[i] * 4) + 2]->GetComponent<Transform>()->SetPosition(Vector3(0.52f, -0.02f, 1.0f));
-			icons[(randomValue[i] * 4) + 3]->GetComponent<Transform>()->SetPosition(Vector3(0.4f, -0.12f, 1.0f));
+			icons[(randomValue[i] * 4) + 0]->GetComponent<Transform>()->SetPosition(Vector3(4.2f, 1.7f, 9.0f));
+			icons[(randomValue[i] * 4) + 1]->GetComponent<Transform>()->SetPosition(Vector3(3.22f, 0.82f, 9.0f));
+			icons[(randomValue[i] * 4) + 2]->GetComponent<Transform>()->SetPosition(Vector3(5.10f, 0.82f, 9.0f));
+			icons[(randomValue[i] * 4) + 3]->GetComponent<Transform>()->SetPosition(Vector3(4.2f, 0.1f, 9.0f));
 		}
 
 		for (size_t i = 0; i < 4; i++)
@@ -1469,7 +1549,25 @@ namespace ya
 			icons[(randomValue[0] * 4) + i]->Life();
 		}
 
-		SetStop();
+		//SetStop();
+		for (size_t i = 0; i < mBrainMonsters.size(); i++)
+		{
+			mBrainMonsters[i]->Stop();
+		}
+		for (size_t i = 0; i < mEyeMonsters.size(); i++)
+		{
+			mEyeMonsters[i]->Stop();
+		}
+		for (size_t i = 0; i < mBoomerMonsters.size(); i++)
+		{
+			mBoomerMonsters[i]->Stop();
+		}
+		for (size_t i = 0; i < mTreeMonsters.size(); i++)
+		{
+			mTreeMonsters[i]->Stop();
+		}
+		player->Stop();
+		pWeapon->Stop();
 
 
 		for (size_t i = 0; i < uiObjects.size(); i++)
@@ -1540,11 +1638,11 @@ namespace ya
 
 		for (size_t i = 0; i < uiFrames.size(); i++)
 		{
-			uiFrames[i]->GetComponent<Transform>()->SetScale(Vector3(0.08f, 0.08f, 1.0f));
+			uiFrames[i]->GetComponent<Transform>()->SetScale(Vector3(0.72f, 0.72f, 1.0f));
 		}
 		for (size_t i = 0; i < iconObjects.size(); i++)
 		{
-			iconObjects[i]->GetComponent<Transform>()->SetScale(Vector3(0.06f, 0.06f, 1.0f));
+			iconObjects[i]->GetComponent<Transform>()->SetScale(Vector3(0.54f, 0.54f, 1.0f));
 		}
 
 		for (size_t i = 0; i < 4; i++)
@@ -1560,8 +1658,8 @@ namespace ya
 			icons[(randomValue[number] * 4) + i]->Life();
 		}
 
-		uiFrames[number + 4]->GetComponent<Transform>()->SetScale(Vector3(0.12f, 0.12f, 1.0f));
-		iconObjects[(randomValue[number] * 4) + a]->GetComponent<Transform>()->SetScale(Vector3(0.08f, 0.08f, 1.0f));
+		uiFrames[number + 4]->GetComponent<Transform>()->SetScale(Vector3(1.08f, 1.08f, 1.0f));
+		iconObjects[(randomValue[number] * 4) + a]->GetComponent<Transform>()->SetScale(Vector3(0.72f, 0.72f, 1.0f));
 		AbilityTreeClickReset();
 
 		abliltyNumber = number;
@@ -1571,22 +1669,22 @@ namespace ya
 	{
 		for (size_t i = 0; i < 4; i++)
 		{
-			icons[(randomValue[ablityNum] * 4) + i]->GetComponent<Transform>()->SetScale(Vector3(0.06f, 0.06f, 1.0f));
-			uiFrames[i]->GetComponent<Transform>()->SetScale(Vector3(0.08f, 0.08f, 1.0f));
+			icons[(randomValue[ablityNum] * 4) + i]->GetComponent<Transform>()->SetScale(Vector3(0.54f, 0.54f, 1.0f));
+			uiFrames[i]->GetComponent<Transform>()->SetScale(Vector3(0.72f, 0.72f, 1.0f));
 		}
 
-		icons[(randomValue[ablityNum] * 4) + treeNum]->GetComponent<Transform>()->SetScale(Vector3(0.08f, 0.08f, 1.0f));
-		uiFrames[treeNum]->GetComponent<Transform>()->SetScale(Vector3(0.12f, 0.12f, 1.0f));
+		icons[(randomValue[ablityNum] * 4) + treeNum]->GetComponent<Transform>()->SetScale(Vector3(0.72f, 0.72f, 1.0f));
+		uiFrames[treeNum]->GetComponent<Transform>()->SetScale(Vector3(1.08f, 1.08f, 1.0f));
 	}
 
 	void PlayScene::AbilityTreeClickReset()
 	{
 		for (size_t i = 0; i < 4; i++)
 		{
-			uiFrames[i]->GetComponent<Transform>()->SetScale(Vector3(0.08f, 0.08f, 1.0f));
+			uiFrames[i]->GetComponent<Transform>()->SetScale(Vector3(0.72f, 0.72f, 1.0f));
 			for (size_t j = 0; j < 5; j++)
 			{
-				icons[(randomValue[j] * 4) + i]->GetComponent<Transform>()->SetScale(Vector3(0.06f, 0.06f, 1.0f));
+				icons[(randomValue[j] * 4) + i]->GetComponent<Transform>()->SetScale(Vector3(0.54f, 0.54f, 1.0f));
 			}
 		}
 	}
@@ -1609,6 +1707,26 @@ namespace ya
 			icons[i]->Death();
 		}
 		uiOn = false;
+
+		for (size_t i = 0; i < mBrainMonsters.size(); i++)
+		{
+			mBrainMonsters[i]->Start();
+		}
+		for (size_t i = 0; i < mEyeMonsters.size(); i++)
+		{
+			mEyeMonsters[i]->Start();
+		}
+		for (size_t i = 0; i < mBoomerMonsters.size(); i++)
+		{
+			mBoomerMonsters[i]->Start();
+		}
+		for (size_t i = 0; i < mTreeMonsters.size(); i++)
+		{
+			mTreeMonsters[i]->Start();
+		}
+		player->Start();
+		pWeapon->Start();
+
 		SetStart();
 	}
 

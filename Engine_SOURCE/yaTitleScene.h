@@ -6,6 +6,7 @@
 #include <iostream>
 #include "GLM/glm.hpp"
 #include "GLM/gtc/matrix_transform.hpp"
+#include "yaFmod.h"
 
 namespace ya
 {
@@ -60,7 +61,7 @@ namespace ya
 		Vector3 UIMousePos();
 		glm::vec2 ScreenToCamera(const glm::vec2 & screenCoord, const glm::mat4 & viewProjectionMatrix, int screenWidth, int screenHeight);
 
-		void TitleAudioClip();
+		//void TitleAudioClip();
 
 		void Start(int num);
 		void Start();
@@ -79,6 +80,7 @@ namespace ya
 		bool bLoadScene;
 
 		GameObject* tSceneCamera;
+		GameObject* tUICamera;
 		GameObject* logo;
 		GameObject* bgEye;
 		GameObject* uiManager;
@@ -86,6 +88,5 @@ namespace ya
 
 		int selectCharNum;
 		int selectWeaponNum;
-
 	};
 }

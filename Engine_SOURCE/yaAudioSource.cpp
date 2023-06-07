@@ -2,12 +2,15 @@
 #include "yaAudioClip.h"
 #include "yaTransform.h"
 #include "yaGameObject.h"
+#include "yaResources.h"
 
 namespace ya
 {
 	AudioSource::AudioSource()
 		: Component(eComponentType::AudioSource)
 		, mAudioClip(nullptr)
+		,mAudioClips{}
+		, clipsNumber(0)
 	{
 
 	}
@@ -32,6 +35,9 @@ namespace ya
 		Vector3 foward = tr->Foward();
 
 		mAudioClip->Set3DAttributes(pos, foward);
+
+		if(mAudioClips.size() != 0)
+		mAudioClips[clipsNumber]->Set3DAttributes(pos, foward);
 	}
 
 	void AudioSource::Render()
@@ -45,9 +51,26 @@ namespace ya
 	void AudioSource::Stop()
 	{
 		mAudioClip->Stop();
+
 	}
 	void AudioSource::SetLoop(bool loop)
 	{
 		mAudioClip->SetLoop(loop);
+	}
+	void AudioSource::Play(int number)
+	{
+
+		if (mAudioClips.size() > number)
+			mAudioClips[number]->Play();
+	}
+	void AudioSource::Stop(int number)
+	{
+		if (mAudioClips.size() > number)
+			mAudioClips[number]->Stop();
+	}
+	void AudioSource::SetLoop(int number, bool loop)
+	{
+		if (mAudioClips.size() > number)
+			mAudioClips[number]->SetLoop(loop);
 	}
 }

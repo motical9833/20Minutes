@@ -80,8 +80,6 @@ namespace ya
 		animator = GetOwner()->GetComponent<Animator>();
 		animator->GetCompleteEvent(L"DeathAnimation") = std::bind(&MonsterScript::End, this);
 		mColliderSize = GetOwner()->GetComponent<Collider2D>()->GetSize();
-
-		player = SceneManager::GetPlayScene()->GetPlayer();
 	}
 	void MonsterScript::Update()
 	{
@@ -214,7 +212,6 @@ namespace ya
 			{
 				mPos.y -= 0.01f;
 			}
-
 		}
 	}
 	void MonsterScript::OnCollisionExit(Collider2D* collider)
@@ -365,7 +362,7 @@ namespace ya
 	}
 	void MonsterScript::DieChack(eLayerType type)
 	{
-		if (mCurrentHp <= 0)
+		if (mCurrentHp <= 0 && GetOwner()->GetComponent<Transform>()->GetChiled(0)->GetOwner()->GetState() != GameObject::Dead)
 		{
 			DropExpMarble();
 			Animator* ani = GetOwner()->GetComponent<Animator>();

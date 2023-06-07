@@ -397,6 +397,7 @@
     <ClCompile Include="yaAudioSource.cpp" />
     <ClCompile Include="yaAudioListener.cpp" />
     <ClCompile Include="yaAudioClip.cpp" />
+    <ClCompile Include="yaHubNigguratScript.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CommonInclude.h">
@@ -679,6 +680,7 @@
     <ClInclude Include="yaAudioSource.h" />
     <ClInclude Include="yaAudioListener.h" />
     <ClInclude Include="yaAudioClip.h" />
+    <ClInclude Include="yaHubNigguratScript.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="yaMath.inl">

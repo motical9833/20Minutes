@@ -3,6 +3,7 @@
 #include "yaLayer.h"
 #include "yaGameObject.h"
 
+
 namespace ya
 {
 	using namespace ya::enums;

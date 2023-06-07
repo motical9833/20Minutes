@@ -87,7 +87,7 @@ namespace ya
 
 		for (iter = monsters.begin(); iter != monsters.end(); iter++)
 		{
-			if ((*iter)->IsDead())
+			if ((*iter)->GetState() != GameObject::Active)
 			{
 				monsters.erase(iter);
 				return;

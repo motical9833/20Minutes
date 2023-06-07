@@ -14,6 +14,10 @@ namespace ya
 		virtual void FixedUpdate();
 		virtual void Render();
 
+		void Stop() { bStop = true; }
+		void Start() { bStop = false; }
+
 	private:
+		bool bStop;
 	};
 }

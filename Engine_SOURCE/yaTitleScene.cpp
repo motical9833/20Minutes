@@ -28,6 +28,9 @@
 #include "yaUIPanalMoveScript.h"
 #include "yaTitleUIManager.h"
 #include "yaCursorUIScript.h"
+#include "yaAudioListener.h"
+#include "yaAudioSource.h"
+
 
 #define SHANA 0
 #define ABBY 1
@@ -51,6 +54,7 @@ namespace ya
 	}
 	TitleScene::~TitleScene()
 	{
+
 	}
 	void TitleScene::Initalize()
 	{
@@ -152,27 +156,40 @@ namespace ya
 	void TitleScene::OnEnter()
 	{
 		mainCamera = tSceneCamera->GetComponent<Camera>();
+		tUICamera->GetComponent<AudioSource>()->Play();
 	}
 	void TitleScene::OnExit()	
 	{
+		tUICamera->GetComponent<AudioSource>()->Stop();
 	}
 	void TitleScene::CreateCamera()
 	{
+		Resources::Load<AudioClip>(L"TitleBGM", L"..\\Resources\\Sound\\PrettyDungeonLOOP.wav");
+
 		// Main Camera Game Object
 		tSceneCamera = object::Instantiate<GameObject>(eLayerType::Camera);
 		Camera* cameraComp = tSceneCamera->AddComponent<Camera>();
 		cameraComp->TurnLayerMask(eLayerType::UI, false);
+		tSceneCamera->AddComponent<AudioListener>();
+
 		mainCamera = cameraComp;
 		//renderer::cameras[0] = cameraComp;
 		
 		GameObject* soundObj = object::Instantiate<GameObject>(eLayerType::None);
 
 		// UI Camera
-		GameObject* cameraUIObj = object::Instantiate<GameObject>(eLayerType::Camera);
-		Camera* cameraUIComp = cameraUIObj->AddComponent<Camera>();
+		tUICamera = object::Instantiate<GameObject>(eLayerType::Camera);
+		Camera* cameraUIComp = tUICamera->AddComponent<Camera>();
 		cameraComp->SetProjectionType(Camera::eProjectionType::Perspective);
 		cameraUIComp->DisableLayerMasks();
 		cameraUIComp->TurnLayerMask(eLayerType::UI, true);
+		AudioSource* audio = tUICamera->AddComponent<AudioSource>();
+		audio->SetClip(Resources::Find<AudioClip>(L"TitleBGM"));
+		audio->SetLoop(true);
+		audio->Play();
+
+
+
 		GameObject* mouseObj = object::Instantiate<GameObject>(eLayerType::UI);
 		mouseObj->SetName(L"MouseObj");
 		mouseObj->DontDestroy(true);

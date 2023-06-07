@@ -17,10 +17,16 @@ namespace ya
 	}
 	void Monster::Update()
 	{
+		if (bStop)
+			return;
+
 		GameObject::Update();
 	}
 	void Monster::FixedUpdate()
 	{
+		if (bStop)
+			return;
+
 		GameObject::FixedUpdate();
 	}
 	void Monster::Render()

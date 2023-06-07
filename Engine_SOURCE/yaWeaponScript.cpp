@@ -8,7 +8,7 @@
 #include "yaColliderCheckScript.h"
 #include "yaPlayerScript.h"
 #include "yaReloadBarScript.h"
-
+#include "yaAudioSource.h"
 #include <ctime>
 
 
@@ -365,6 +365,7 @@ namespace ya
 				{
 					pScene->GetPlayer()->GetScript<PlayerScript>()->FireSlow();
 					pScene->GetMuzzleFlash()->Life();
+					pScene->GetMuzzleFlash()->GetComponent<AudioSource>()->Play();
 					rateFireTime = 0;
 					break;
 				}
@@ -467,6 +468,7 @@ namespace ya
 	void WeaponScript::Reload()
 	{
 		SceneManager::GetPlayScene()->GetReloadUI()[1]->GetScript<ReloadBarScript>()->UIOn();
+		SceneManager::GetPlayScene()->GetSoundObjects(1)->GetComponent<AudioSource>()->Play();
 		mAnimator->Play(L"Revolver");
 		mAnimator->Start();
 		bReload = false;

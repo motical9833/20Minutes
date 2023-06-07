@@ -4,6 +4,7 @@
 #include "yaPlayScene.h"
 #include "yaInput.h"
 #include "yaTime.h"
+#include "yaAudioSource.h"
 
 namespace ya
 {
@@ -61,5 +62,9 @@ namespace ya
 	void MuzzleFlashScript::GetPlayer()
 	{
 		player = SceneManager::GetPlayScene()->GetPlayer();
+	}
+	void MuzzleFlashScript::FireSound()
+	{
+		GetOwner()->GetComponent<AudioSource>()->Play();
 	}
 }

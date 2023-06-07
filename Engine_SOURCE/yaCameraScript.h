@@ -4,6 +4,7 @@
 
 namespace ya
 {
+	class Player;
 	class CameraScript : public Script
 	{
 	public:
@@ -14,7 +15,9 @@ namespace ya
 		virtual void Update() override;
 		virtual void Render() override;
 
-	private:
 
+		void SetTarget(Player* object) { target = object; }
+	private:
+		Player* target;
 	};
 }

@@ -4,6 +4,7 @@
 namespace ya
 {
 	Weapon::Weapon()
+		:bStop(false)
 	{
 
 	}
@@ -17,10 +18,16 @@ namespace ya
 	}
 	void Weapon::Update()
 	{
+		if (bStop)
+			return;
+
 		GameObject::Update();
 	}
 	void Weapon::FixedUpdate()
 	{
+		if (bStop)
+			return;
+
 		GameObject::FixedUpdate();
 	}
 	void Weapon::Render()

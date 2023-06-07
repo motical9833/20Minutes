@@ -4,6 +4,7 @@
 #include "yaSceneManager.h"
 #include "yaPlayerLevelScript.h"
 #include "yaPlayScene.h"
+#include "yaAudioSource.h"
 
 namespace ya
 {
@@ -74,6 +75,7 @@ namespace ya
 		if (collider->GetOwner()->GetLayerType() == eLayerType::Player)
 		{
 			SceneManager::GetPlayScene()->GetLevelManager()->GetScript<PlayerLevelScript>()->GetExp();
+			SceneManager::GetPlayScene()->GetSoundObjects(0)->GetComponent<AudioSource>()->Play();
 			GetOwner()->Death();
 			Reset();
 		}

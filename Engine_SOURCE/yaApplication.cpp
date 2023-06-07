@@ -5,6 +5,8 @@
 #include "yaSceneManager.h"
 #include "yaResources.h"
 #include "yaCollisionManager.h"
+#include "yaFmod.h"
+
 
 namespace ya
 {
@@ -22,6 +24,7 @@ namespace ya
 
 	void Application::Initalize()
 	{
+		Fmod::Initialize();
 		Time::Initialize();
 		Input::Initialize();
 		CollisionManager::Initialize();

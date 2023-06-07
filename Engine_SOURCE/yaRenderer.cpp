@@ -215,8 +215,8 @@ namespace ya::renderer
 #pragma endregion
 #pragma region MONSTER SHADER
 		std::shared_ptr<Shader> monsterShader = std::make_shared<Shader>();
-		monsterShader->Create(eShaderStage::VS, L"SpriteVS.hlsl", "main");
-		monsterShader->Create(eShaderStage::PS, L"SpritePS.hlsl", "main");
+		monsterShader->Create(eShaderStage::VS, L"MonsterVS.hlsl", "main");
+		monsterShader->Create(eShaderStage::PS, L"MonsterPS.hlsl", "main");
 
 		Resources::Insert<Shader>(L"MonsterShader", monsterShader);
 #pragma endregion
@@ -549,15 +549,19 @@ namespace ya::renderer
 		Resources::Load<Texture>(L"LevelUP", L"Player\\T_LevelUpFX.png");
 		Resources::Load<Texture>(L"ExpObj", L"T_SmallCircle.png");
 
-		Resources::Load<Texture>(L"TitleLevesLeftSprite", L"T_TitleLeavesLeft.png");
-		Resources::Load<Texture>(L"TitleLevesRightSprite", L"T_TitleLeavesRight.png");
-		Resources::Load<Texture>(L"BackGroundTexture", L"BackGround.png");
-		Resources::Load<Texture>(L"LogoTexture", L"Logo.png");
 		Resources::Load<Texture>(L"MonsterSprite", L"BrainMonster_0.png");
 		Resources::Load<Texture>(L"BrainMonster", L"Monster\\BrainMonster.png");
 		Resources::Load<Texture>(L"TreeSprite", L"Monster\\T_TreeMonster.png");
 		Resources::Load<Texture>(L"EyeMonsterSprite", L"Monster\\EyeMonster.png");
 		Resources::Load<Texture>(L"BoomerMonsterSprite", L"Monster\\BigBoomer.png");
+		Resources::Load<Texture>(L"Boss_ShubNiggurat", L"Monster\\Boss_ShubNiggurat.png");
+
+
+
+		Resources::Load<Texture>(L"TitleLevesLeftSprite", L"T_TitleLeavesLeft.png");
+		Resources::Load<Texture>(L"TitleLevesRightSprite", L"T_TitleLeavesRight.png");
+		Resources::Load<Texture>(L"BackGroundTexture", L"BackGround.png");
+		Resources::Load<Texture>(L"LogoTexture", L"Logo.png");
 		Resources::Load<Texture>(L"W_RevolverSprite", L"Weapon\\T_Revolver_SS.png");
 		Resources::Load<Texture>(L"W_MuzzleFlash", L"Weapon\\MuzzleFlash.png");
 		Resources::Load<Texture>(L"HPHeart", L"UI\\T_HeartAnimation.png");
@@ -789,6 +793,8 @@ namespace ya::renderer
 		uavTexture->Create(1024, 1024, DXGI_FORMAT_R8G8B8A8_UNORM
 			, D3D11_BIND_SHADER_RESOURCE | D3D11_BIND_UNORDERED_ACCESS);
 		Resources::Insert<Texture>(L"PaintTexture", uavTexture);
+
+		
 #pragma endregion
 	}
 
@@ -831,6 +837,10 @@ namespace ya::renderer
 		// BoomerMonster
 		CreateMaterial(L"BoomerMonsterSprite", L"MonsterShader", eRenderingMode::Transparent, L"BoomerMonsterMaterial");
 
+		//Resources::Load<Texture>(L"Boss_ShubNiggurat", L"Monster\\Boss_ShubNiggurat.png");
+
+		CreateMaterial(L"Boss_ShubNiggurat", L"MonsterShader", eRenderingMode::Transparent, L"ShubNigguratMaterial");
+
 #pragma endregion
 #pragma region WEAPON MATERIAL
 		// Revolver
@@ -842,37 +852,37 @@ namespace ya::renderer
 
 #pragma endregion
 #pragma region UI MATERIAL
-		CreateMaterial(L"TitleLevesLeftSprite", L"SpriteShader", eRenderingMode::Transparent, L"leavsLeftMaterial");
+		CreateMaterial(L"TitleLevesLeftSprite", L"SpriteShader", eRenderingMode::Opaque, L"leavsLeftMaterial");
 
-		CreateMaterial(L"TitleLevesRightSprite", L"SpriteShader", eRenderingMode::Transparent, L"leavsRightMaterial");
+		CreateMaterial(L"TitleLevesRightSprite", L"SpriteShader", eRenderingMode::Opaque, L"leavsRightMaterial");
 
-		CreateMaterial(L"BackGroundTexture", L"SpriteShader", eRenderingMode::Transparent, L"backgroundMaterial");
+		CreateMaterial(L"BackGroundTexture", L"SpriteShader", eRenderingMode::Opaque, L"backgroundMaterial");
 
-		CreateMaterial(L"LogoTexture", L"SpriteShader", eRenderingMode::Transparent, L"LogoMaterial");
+		CreateMaterial(L"LogoTexture", L"SpriteShader", eRenderingMode::Opaque, L"LogoMaterial");
 
-		CreateMaterial(L"UIPanel", L"UISpriteShader", eRenderingMode::Transparent, L"PanalMaterial");
-		CreateMaterial(L"UIPanelOrigin", L"UISpriteShader", eRenderingMode::Transparent, L"PanelOriginMaterial");
+		CreateMaterial(L"UIPanel", L"UISpriteShader", eRenderingMode::Opaque, L"PanalMaterial");
+		CreateMaterial(L"UIPanelOrigin", L"UISpriteShader", eRenderingMode::Opaque, L"PanelOriginMaterial");
 
 
-		CreateMaterial(L"LeftDownArrows", L"UISpriteShader", eRenderingMode::Transparent, L"LeftDownLeaderMaterial");
-		CreateMaterial(L"RightDownArrows", L"UISpriteShader", eRenderingMode::Transparent, L"RightDownLeaderMaterial");
-		CreateMaterial(L"DownRightArrows", L"UISpriteShader", eRenderingMode::Transparent, L"DownRightLeaderMaterial");
-		CreateMaterial(L"DownLeftArrows", L"UISpriteShader", eRenderingMode::Transparent, L"DownLeftLeaderMaterial");
-		CreateMaterial(L"PowerupFrame", L"UISpriteShader", eRenderingMode::Transparent, L"PowerupFrameMaterial");
+		CreateMaterial(L"LeftDownArrows", L"UISpriteShader", eRenderingMode::Opaque, L"LeftDownLeaderMaterial");
+		CreateMaterial(L"RightDownArrows", L"UISpriteShader", eRenderingMode::Opaque, L"RightDownLeaderMaterial");
+		CreateMaterial(L"DownRightArrows", L"UISpriteShader", eRenderingMode::Opaque, L"DownRightLeaderMaterial");
+		CreateMaterial(L"DownLeftArrows", L"UISpriteShader", eRenderingMode::Opaque, L"DownLeftLeaderMaterial");
+		CreateMaterial(L"PowerupFrame", L"UISpriteShader", eRenderingMode::Opaque, L"PowerupFrameMaterial");
 
-		CreateMaterial(L"PowerupIconBG", L"UISpriteShader", eRenderingMode::Transparent, L"PowerupIconBGMaterial");
+		CreateMaterial(L"PowerupIconBG", L"UISpriteShader", eRenderingMode::Opaque, L"PowerupIconBGMaterial");
 
-		CreateMaterial(L"ReloadBar", L"UISpriteShader", eRenderingMode::Transparent, L"ReloadBarMaterial");
-		CreateMaterial(L"ReloadBut", L"UISpriteShader", eRenderingMode::Transparent, L"ReloadButMaterial");
+		CreateMaterial(L"ReloadBar", L"UISpriteShader", eRenderingMode::Opaque, L"ReloadBarMaterial");
+		CreateMaterial(L"ReloadBut", L"UISpriteShader", eRenderingMode::Opaque, L"ReloadButMaterial");
 
-		CreateMaterial(L"T_EyeBlink", L"SpriteShader", eRenderingMode::Transparent, L"EyeBlinkMaterial");
-		CreateMaterial(L"T_SelectorBubble", L"SpriteShader", eRenderingMode::Transparent, L"SelectorBubbleMaterial");
-		CreateMaterial(L"T_SelectScreenPanelUP", L"SpriteShader", eRenderingMode::Transparent, L"SelectScreenPanelUPMaterial");
-		CreateMaterial(L"T_SelectScreenPanelDown", L"SpriteShader", eRenderingMode::Transparent, L"SelectScreenPanelDownMaterial");
-		CreateMaterial(L"T_UISmallPanel", L"SpriteShader", eRenderingMode::Transparent, L"UISmallPanelMaterial");
-		CreateMaterial(L"T_RoundedRect", L"SpriteShader", eRenderingMode::Transparent, L"RoundedRectMaterial");
-		CreateMaterial(L"T_UILock", L"SpriteShader", eRenderingMode::Transparent, L"UILockMaterial");
-		CreateMaterial(L"T_TileGrass", L"SpriteShader", eRenderingMode::Transparent, L"Tile_0Material");
+		CreateMaterial(L"T_EyeBlink", L"SpriteShader", eRenderingMode::Opaque, L"EyeBlinkMaterial");
+		CreateMaterial(L"T_SelectorBubble", L"SpriteShader", eRenderingMode::Opaque, L"SelectorBubbleMaterial");
+		CreateMaterial(L"T_SelectScreenPanelUP", L"SpriteShader", eRenderingMode::Opaque, L"SelectScreenPanelUPMaterial");
+		CreateMaterial(L"T_SelectScreenPanelDown", L"SpriteShader", eRenderingMode::Opaque, L"SelectScreenPanelDownMaterial");
+		CreateMaterial(L"T_UISmallPanel", L"SpriteShader", eRenderingMode::Opaque, L"UISmallPanelMaterial");
+		CreateMaterial(L"T_RoundedRect", L"SpriteShader", eRenderingMode::Opaque, L"RoundedRectMaterial");
+		CreateMaterial(L"T_UILock", L"SpriteShader", eRenderingMode::Opaque, L"UILockMaterial");
+		CreateMaterial(L"T_TileGrass", L"SpriteShader", eRenderingMode::Opaque, L"Tile_0Material");
 
 
 		CreateMaterial(L"Cursor", L"UISpriteShader", eRenderingMode::Transparent, L"CursorMaterial");
@@ -883,16 +893,16 @@ namespace ya::renderer
 		{
 			const std::wstring faceName = L"Face_" + std::to_wstring(i);
 
-			CreateMaterial(faceName, L"SpriteShader", eRenderingMode::Transparent, faceName + L"Material");
+			CreateMaterial(faceName, L"SpriteShader", eRenderingMode::Opaque, faceName + L"Material");
 		}
 		for (size_t i = 0; i < 8; i++)
 		{
 			const std::wstring weaponName = L"Weapon_" + std::to_wstring(i);
 
-			CreateMaterial(weaponName, L"SpriteShader", eRenderingMode::Transparent, weaponName + L"Material");
+			CreateMaterial(weaponName, L"SpriteShader", eRenderingMode::Opaque, weaponName + L"Material");
 		}
 
-		CreateMaterial(L"T_UILock", L"SpriteShader", eRenderingMode::Transparent, L"UILockMaterial");
+		CreateMaterial(L"T_UILock", L"SpriteShader", eRenderingMode::Opaque, L"UILockMaterial");
 
 
 #pragma endregion
@@ -902,14 +912,14 @@ namespace ya::renderer
 			const std::wstring name = L"Icon_Ability_" + std::to_wstring(i);
 
 
-			CreateMaterial(name, L"UISpriteShader", eRenderingMode::Transparent, name + L"Material");
+			CreateMaterial(name, L"UISpriteShader", eRenderingMode::Opaque, name + L"Material");
 		}
 
-		CreateMaterial(L"AmmoIcon", L"UISpriteShader", eRenderingMode::Transparent, L"AmmoIconMaterial");
+		CreateMaterial(L"AmmoIcon", L"UISpriteShader", eRenderingMode::Opaque, L"AmmoIconMaterial");
 
 #pragma endregion
 #pragma region PlayerUI
-		CreateMaterial(L"HPHeart", L"UISpriteShader", eRenderingMode::Transparent, L"HpMaterial");
+		CreateMaterial(L"HPHeart", L"UISpriteShader", eRenderingMode::Opaque, L"HpMaterial");
 #pragma endregion
 #pragma region EFFECT MATERIAL
 		CreateMaterial(L"M_DeathFX", L"SpriteShader", eRenderingMode::Transparent, L"M_DeathMaterial");
