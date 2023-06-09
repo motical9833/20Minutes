@@ -55,7 +55,9 @@ namespace ya
 		void Play(const std::wstring& name, bool loop = true);
 		void Binds();
 		void Clear();
-		void Stop();
+		void ResetStop();
+		void Pause();
+		void PlayAgain();
 		void Start();
 
 		std::function<void()>& GetStartEvent(const std::wstring& name);

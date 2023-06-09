@@ -68,7 +68,7 @@ namespace ya
 		mTransform = GetOwner()->GetComponent<Transform>();
 		mTrans = GetOwner()->GetComponent<Transform>();
 		mAnimator = GetOwner()->GetComponent<Animator>();
-		mAnimator->Stop();
+		mAnimator->ResetStop();
 
 		pScene = dynamic_cast<PlayScene*>(SceneManager::GetPlaySCene());
 
@@ -98,7 +98,7 @@ namespace ya
 
 			if (time >= (reloadTime * (reloadTimeMul - killClip)))
 			{
-				mAnimator->Stop();
+				mAnimator->ResetStop();
 				bReloading = false;
 				currentBullet = maxBullet;
 				time = 0.0f;
@@ -110,7 +110,7 @@ namespace ya
 			if (Input::GetKeyPress(eKeyCode::LBTN))
 			{
 				SceneManager::GetPlayScene()->GetReloadUI()[1]->GetScript<ReloadBarScript>()->UIOff();
-				mAnimator->Stop();
+				mAnimator->ResetStop();
 				Fire();
 				BackFire();
 				if (currentBullet <= 0)
@@ -204,7 +204,7 @@ namespace ya
 					bullets[i]->SetPosition(pos);
 					bullets[i]->GetOwner()->GetScript<BulletScript>()->Setdir(rot);
 					bullets[i]->SetParent(nullptr);
-					bullets[i]->GetOwner()->GetComponent<Animator>()->Stop();
+					bullets[i]->GetOwner()->GetComponent<Animator>()->ResetStop();
 
 					bullets[i]->GetOwner()->Life();
 
@@ -240,7 +240,7 @@ namespace ya
 				bullets[i]->GetOwner()->GetScript<BulletScript>()->Setdir(rot);
 				bullets[i]->SetParent(nullptr);
 				bullets[i]->GetOwner()->Life();
-				bullets[i]->GetOwner()->GetComponent<Animator>()->Stop();
+				bullets[i]->GetOwner()->GetComponent<Animator>()->ResetStop();
 				break;
 			}
 		}
@@ -336,7 +336,7 @@ namespace ya
 				bullets[i]->GetOwner()->GetScript<BulletScript>()->Setdir(rot);
 				bullets[i]->SetParent(nullptr);
 				bullets[i]->GetOwner()->Life();
-				bullets[i]->GetOwner()->GetComponent<Animator>()->Stop();
+				bullets[i]->GetOwner()->GetComponent<Animator>()->ResetStop();
 
 
 				if (pScene->GetPlayer()->GetScript<PlayerScript>()->GetPlayerHit())
@@ -427,7 +427,7 @@ namespace ya
 		bReloading = false;
 		time = 0.0f;
 		rateFireTime = 0.0f;
-		mAnimator->Stop();
+		mAnimator->ResetStop();
 	}
 
 	void WeaponScript::GameReset()

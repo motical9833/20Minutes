@@ -53,6 +53,8 @@ namespace ya
 		int GetMaxHP() { return mMaxHp; }
 		float GetSpeed() { return mSpeed; }
 		void GetDIr();
+		void TargetPosMove(Vector3 targetPos);
+		float Distance(Vector3 myPos, Vector3 targetPos);
 		void DropExpMarble();
 		void ClashwithPlayer();
 

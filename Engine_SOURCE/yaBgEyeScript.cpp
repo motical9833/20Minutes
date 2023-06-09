@@ -67,7 +67,7 @@ namespace ya
 	void BgEyeScript::End()
 	{
 		Animator* animator = GetOwner()->GetComponent<Animator>();
-		animator->Stop();
+		animator->ResetStop();
 		bStop = true;
 	}
 	void BgEyeScript::Next()

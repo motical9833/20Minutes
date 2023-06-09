@@ -199,28 +199,7 @@ namespace ya
 				CreateTreeMonster();
 			}
 			CreateBommerMonster();
-
-			Monster* hubNiggurat = object::Instantiate<Monster>(eLayerType::Monster, this);
-			hubNiggurat->SetLayerType(eLayerType::Monster);
-			hubNiggurat->SetName(L"hubNiggurat");
-			Transform* bossTr = hubNiggurat->GetComponent<Transform>();
-			bossTr->SetPosition(Vector3(5.0f,0.0f,0.0f));
-			bossTr->SetScale(Vector3(3.0f, 3.0f, 1.0f));
-			CreateCollider(hubNiggurat, eColliderType::Rect, Vector2(0.6f, 0.4f));
-			CreateSpriteRenderer(hubNiggurat, L"ShubNigguratMaterial");
-			Animator* hubAnimator = hubNiggurat->AddComponent<Animator>();
-			std::shared_ptr<Texture> hubNigguratTexture = Resources::Find<Texture>(L"Boss_ShubNiggurat");
-			std::shared_ptr<Texture> deathTexture = Resources::Find<Texture>(L"M_DeathFX");
-			hubAnimator->Create(L"Boss_RightMove", hubNigguratTexture, Vector2(0.0f, 0.0f), Vector2(96.0f, 96.0f), Vector2::Zero, 3, 0.2f);
-			hubAnimator->Create(L"Boss_RightCharge", hubNigguratTexture, Vector2(0.0f, 88.0f), Vector2(96.0f, 96.0f), Vector2::Zero, 5, 0.2f);
-			hubAnimator->Create(L"Boss_RightAttack", hubNigguratTexture, Vector2(0.0f, 184.0f), Vector2(96.0f, 96.0f), Vector2::Zero, 3, 0.2f);
-			hubAnimator->Create(L"Boss_LeftMove", hubNigguratTexture, Vector2(0.0f, 280.0f), Vector2(96.0f, 96.0f), Vector2::Zero, 3, 0.2f);
-			hubAnimator->Create(L"Boss_LeftCharge", hubNigguratTexture, Vector2(0.0f, 376.0f), Vector2(96.0f, 96.0f), Vector2::Zero, 5, 0.2f);
-			hubAnimator->Create(L"Boss_RightAttack", hubNigguratTexture, Vector2(0.0f, 472.0f), Vector2(96.0f, 96.0f), Vector2::Zero, 3, 0.2f);
-			hubAnimator->Create(L"DeathAnimation", deathTexture, Vector2(0.0f, 0.0f), Vector2(40.0f, 40.0f), Vector2::Zero, 4, 0.1f);
-			hubAnimator->Play(L"Boss_RightMove", true);
-			hubNiggurat->AddComponent<HubNigguratScript>(100);
-			mBossMonsters.push_back(hubNiggurat);
+			CreateBossMonster();
 
 			//Monster* mBoomer = object::Instantiate<Monster>(eLayerType::Monster, this);
 			//mBoomer->SetLayerType(eLayerType::Monster);
@@ -263,7 +242,7 @@ namespace ya
 			std::shared_ptr<Texture> bulletTexture = Resources::Find<Texture>(L"BulletTexture");
 			bulletAnimator->Create(L"BulletAni", bulletTexture, Vector2(0.0f, 0.0f), Vector2(16.0f, 14.0f), Vector2::Zero, 2, 0.0f);
 			bulletAnimator->Play(L"BulletAni", true);
-			bulletAnimator->Stop();
+			bulletAnimator->ResetStop();
 			bullets[i]->AddComponent<BulletScript>();
 			pWeapon->GetScript<WeaponScript>()->SetBullets(bullets[i]->GetComponent<Transform>());
 		}
@@ -737,6 +716,48 @@ namespace ya
 		}
 	}
 
+	void PlayScene::CreateBossMonster()
+	{
+		Monster* hubNiggurat = object::Instantiate<Monster>(eLayerType::Monster, this);
+		hubNiggurat->SetLayerType(eLayerType::Monster);
+		hubNiggurat->SetName(L"hubNiggurat");
+		Transform* bossTr = hubNiggurat->GetComponent<Transform>();
+		bossTr->SetPosition(Vector3(10.0f, 0.0f, 0.0f));
+		bossTr->SetScale(Vector3(3.0f, 3.0f, 1.0f));
+		CreateCollider(hubNiggurat, eColliderType::Rect, Vector2(0.6f, 0.4f));
+		CreateSpriteRenderer(hubNiggurat, L"ShubNigguratMaterial");
+		Animator* hubAnimator = hubNiggurat->AddComponent<Animator>();
+		std::shared_ptr<Texture> hubNigguratTexture = Resources::Find<Texture>(L"Boss_ShubNiggurat");
+		std::shared_ptr<Texture> deathTexture = Resources::Find<Texture>(L"M_DeathFX");
+		hubAnimator->Create(L"Boss_RightMove", hubNigguratTexture, Vector2(0.0f, 0.0f), Vector2(96.0f, 96.0f), Vector2::Zero, 3, 0.2f);
+		hubAnimator->Create(L"Boss_RightCharge", hubNigguratTexture, Vector2(0.0f, 88.0f), Vector2(96.0f, 96.0f), Vector2::Zero, 5, 0.2f);
+		hubAnimator->Create(L"Boss_RightAttack", hubNigguratTexture, Vector2(0.0f, 184.0f), Vector2(96.0f, 96.0f), Vector2::Zero, 3, 0.2f);
+		hubAnimator->Create(L"Boss_LeftMove", hubNigguratTexture, Vector2(0.0f, 280.0f), Vector2(96.0f, 96.0f), Vector2::Zero, 3, 0.2f);
+		hubAnimator->Create(L"Boss_LeftCharge", hubNigguratTexture, Vector2(0.0f, 376.0f), Vector2(96.0f, 96.0f), Vector2::Zero, 5, 0.2f);
+		hubAnimator->Create(L"Boss_LeftAttack", hubNigguratTexture, Vector2(0.0f, 472.0f), Vector2(96.0f, 96.0f), Vector2::Zero, 3, 0.2f);
+		hubAnimator->Create(L"DeathAnimation", deathTexture, Vector2(0.0f, 0.0f), Vector2(40.0f, 40.0f), Vector2::Zero, 4, 0.1f);
+		hubAnimator->Play(L"Boss_RightMove", true);
+		hubNiggurat->AddComponent<HubNigguratScript>(1000);
+		mBossMonsters.push_back(hubNiggurat);
+
+		//Monster* shoggoth = object::Instantiate<Monster>(eLayerType::Monster, this);
+		//shoggoth->SetLayerType(eLayerType::Monster);
+		//shoggoth->SetName(L"hubNiggurat");
+		//Transform* shoggothTr = shoggoth->GetComponent<Transform>();
+		//shoggothTr->SetPosition(Vector3(-10.0f, 0.0f, 0.0f));
+		//shoggothTr->SetScale(Vector3(3.0f, 3.0f, 1.0f));
+		//CreateCollider(shoggoth, eColliderType::Rect, Vector2(0.6f, 0.4f));
+		//CreateSpriteRenderer(shoggoth, L"ShoggothMaterial");
+		//Animator* shoggothAnimator = shoggoth->AddComponent<Animator>();
+		//std::shared_ptr<Texture> shoggothTexture = Resources::Find<Texture>(L"Boss_Shoggoth");
+		//std::shared_ptr<Texture> shoggothDeathTexture = Resources::Find<Texture>(L"M_DeathFX");
+		//shoggothAnimator->Create(L"ShoggothAnimation", shoggothTexture, Vector2(0.0f, 0.0f), Vector2(96.0f, 96.0f), Vector2::Zero, 3, 0.2f);
+		//shoggothAnimator->Play(L"ShoggothAnimation", true);
+
+
+		//mBossMonsters.push_back(shoggoth);
+	}
+
 	void PlayScene::CreateDragonPet()
 	{
 		dragonPet = CreateSkillObject(eLayerType::Skill, L"DragonMaterial");
@@ -774,7 +795,7 @@ namespace ya
 			std::shared_ptr<Texture> bulletTexture = Resources::Find<Texture>(L"BulletTexture");
 			bulletAnimator->Create(L"BulletAni", bulletTexture, Vector2(0.0f, 0.0f), Vector2(16.0f, 14.0f), Vector2::Zero, 2, 0.0f);
 			bulletAnimator->Play(L"BulletAni", true);
-			bulletAnimator->Stop();
+			bulletAnimator->ResetStop();
 			bullet->AddComponent<DragonFireScript>();
 			bullet->Death();
 			dragonFires.push_back(bullet);
@@ -816,7 +837,7 @@ namespace ya
 			std::shared_ptr<Texture> bulletTexture = Resources::Find<Texture>(L"BulletTexture");
 			bulletAnimator->Create(L"BulletAni", bulletTexture, Vector2(0.0f, 0.0f), Vector2(16.0f, 14.0f), Vector2::Zero, 2, 0.0f);
 			bulletAnimator->Play(L"BulletAni", true);
-			bulletAnimator->Stop();
+			bulletAnimator->ResetStop();
 			bullet->AddComponent<GhostBullet>();
 			bullet->Death();
 			ghostBullets.push_back(bullet);
@@ -1344,15 +1365,11 @@ namespace ya
 		}
 		for (size_t i = 0; i < mEyeMonsters.size(); i++)
 		{
-			freezes[a + b + i]->GetComponent<Transform>()->SetParent(mBoomerMonsters[i]->GetComponent<Transform>());
-		}
-		for (size_t i = 0; i < mTreeMonsters.size(); i++)
-		{
-			freezes[a + b + c + i]->GetComponent<Transform>()->SetParent(mBoomerMonsters[i]->GetComponent<Transform>());
+			freezes[a + b + i]->GetComponent<Transform>()->SetParent(mEyeMonsters[i]->GetComponent<Transform>());
 		}
 		for (size_t i = 0; i < mBossMonsters.size(); i++)
 		{
-			freezes[a + b + c + i + d]->GetComponent<Transform>()->SetParent(mBoomerMonsters[i]->GetComponent<Transform>());
+			freezes[a + b + c + i]->GetComponent<Transform>()->SetParent(mBossMonsters[i]->GetComponent<Transform>());
 		}
 	}
 
@@ -1372,15 +1389,11 @@ namespace ya
 		}
 		for (size_t i = 0; i < mEyeMonsters.size(); i++)
 		{
-			curses[a + b + i]->GetComponent<Transform>()->SetParent(mBoomerMonsters[i]->GetComponent<Transform>());
+			curses[a + b + i]->GetComponent<Transform>()->SetParent(mEyeMonsters[i]->GetComponent<Transform>());
 		}
-		for (size_t i = 0; i < mTreeMonsters.size(); i++)
+		for (size_t i = 0; i < mBossMonsters.size(); i++)
 		{
-			curses[a + b + c + i]->GetComponent<Transform>()->SetParent(mBoomerMonsters[i]->GetComponent<Transform>());
-		}
-		for (size_t i = 0; i < mTreeMonsters.size(); i++)
-		{
-			curses[a + b + c + i + d]->GetComponent<Transform>()->SetParent(mBoomerMonsters[i]->GetComponent<Transform>());
+			curses[a + b + c + i]->GetComponent<Transform>()->SetParent(mBossMonsters[i]->GetComponent<Transform>());
 		}
 	}
 

@@ -102,6 +102,7 @@ namespace ya
 					TakeDamage(damage);
 				}
 
+				animator->PlayAgain();
 				Transform* tr = GetOwner()->GetComponent<Transform>();
 				tr->GetChiled(0)->GetOwner()->Death();
 				bFreeze = false;
@@ -391,6 +392,7 @@ namespace ya
 	void MonsterScript::Freeze()
 	{
 		bFreeze = true;
+		animator->Pause();
 		Transform* tr = GetOwner()->GetComponent<Transform>();
 		tr->GetChiled(0)->GetOwner()->Life();
 		freezeTime = 0;
@@ -419,7 +421,7 @@ namespace ya
 			SceneManager::GetPlayScene()->GetBullet()[i]->GetComponent<Transform>()->SetPosition(pos);
 			SceneManager::GetPlayScene()->GetBullet()[i]->GetScript<BulletScript>()->Setdir(rot);
 			SceneManager::GetPlayScene()->GetBullet()[i]->GetScript<BulletScript>()->SetDieBulletOn();
-			SceneManager::GetPlayScene()->GetBullet()[i]->GetComponent<Animator>()->Stop();
+			SceneManager::GetPlayScene()->GetBullet()[i]->GetComponent<Animator>()->ResetStop();
 			SceneManager::GetPlayScene()->GetBullet()[i]->Life();
 			a++;
 
@@ -452,6 +454,32 @@ namespace ya
 		Vector3 dirValue = Vector3(fabsDir.x / value, fabsDir.y / value, 0);
 
 		mDir = dirValue;
+	}
+	void MonsterScript::TargetPosMove(Vector3 targetPos)
+	{
+		Transform* tr = GetOwner()->GetComponent<Transform>();
+
+		Vector3 a = tr->GetPosition();
+
+		Vector3 dir = targetPos - a;
+
+		Vector3 fabsDir = Vector3(dir.x, dir.y, 0);
+
+		double value = sqrt(pow(fabsDir.x, 2) + pow(fabsDir.y, 2)); //피타고라스 R값
+
+		Vector3 dirValue = Vector3(fabsDir.x / value, fabsDir.y / value, 0);
+
+		mDir = dirValue;
+	}
+	float MonsterScript::Distance(Vector3 myPos,Vector3 targetPos)
+	{
+		Vector3 dir = targetPos - myPos;
+
+		Vector3 fabsDir = Vector3(dir.x, dir.y, 0);
+
+		float value = sqrt(pow(fabsDir.x, 2) + pow(fabsDir.y, 2)); //피타고라스 R값
+
+		return value;
 	}
 	void MonsterScript::DropExpMarble()
 	{

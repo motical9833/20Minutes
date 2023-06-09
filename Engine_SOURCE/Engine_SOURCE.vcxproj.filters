@@ -130,6 +130,9 @@
     <Filter Include="Component\Script\Contents\Manager">
       <UniqueIdentifier>{fac01d6e-1902-454f-aa0e-ec0133cbba9e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Component\Script\Contents\Monster">
+      <UniqueIdentifier>{9fd4a877-1d45-48af-9bfa-2fe93d9b58d7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="yaApplication.cpp">
@@ -354,12 +357,6 @@
     <ClCompile Include="yaExpMarbleObject.cpp">
       <Filter>Component\Script\Contents\GameObject</Filter>
     </ClCompile>
-    <ClCompile Include="yaMonster.cpp">
-      <Filter>Component\Script\Contents\GameObject</Filter>
-    </ClCompile>
-    <ClCompile Include="yaMonsterScript.cpp">
-      <Filter>Component\Script\Contents\GameObject</Filter>
-    </ClCompile>
     <ClCompile Include="yaPlayer.cpp">
       <Filter>Component\Script\Contents\GameObject</Filter>
     </ClCompile>
@@ -397,7 +394,18 @@
     <ClCompile Include="yaAudioSource.cpp" />
     <ClCompile Include="yaAudioListener.cpp" />
     <ClCompile Include="yaAudioClip.cpp" />
-    <ClCompile Include="yaHubNigguratScript.cpp" />
+    <ClCompile Include="yaMonster.cpp">
+      <Filter>Component\Script\Contents\Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="yaMonsterScript.cpp">
+      <Filter>Component\Script\Contents\Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="yaShoggothScript.cpp">
+      <Filter>Component\Script\Contents\Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="yaHubNigguratScript.cpp">
+      <Filter>Component\Script\Contents\Monster</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CommonInclude.h">
@@ -637,12 +645,6 @@
     <ClInclude Include="yaExpMarbleObject.h">
       <Filter>Component\Script\Contents\GameObject</Filter>
     </ClInclude>
-    <ClInclude Include="yaMonster.h">
-      <Filter>Component\Script\Contents\GameObject</Filter>
-    </ClInclude>
-    <ClInclude Include="yaMonsterScript.h">
-      <Filter>Component\Script\Contents\GameObject</Filter>
-    </ClInclude>
     <ClInclude Include="yaPlayer.h">
       <Filter>Component\Script\Contents\GameObject</Filter>
     </ClInclude>
@@ -680,7 +682,18 @@
     <ClInclude Include="yaAudioSource.h" />
     <ClInclude Include="yaAudioListener.h" />
     <ClInclude Include="yaAudioClip.h" />
-    <ClInclude Include="yaHubNigguratScript.h" />
+    <ClInclude Include="yaMonster.h">
+      <Filter>Component\Script\Contents\Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="yaMonsterScript.h">
+      <Filter>Component\Script\Contents\Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="yaShoggothScript.h">
+      <Filter>Component\Script\Contents\Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="yaHubNigguratScript.h">
+      <Filter>Component\Script\Contents\Monster</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="yaMath.inl">

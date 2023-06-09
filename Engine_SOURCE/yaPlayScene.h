@@ -74,6 +74,8 @@ namespace ya
 		void CreateTreeMonster();
 		void CreateEyeMonster();
 		void CreateBommerMonster();
+		void CreateBossMonster();
+
 		void CreateDragonPet();
 		void CreateDragonPetBullet();
 		void CreateGhostPet();

@@ -379,7 +379,7 @@ namespace ya
 		std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"T_SelectorBubble");
 		animator->Create(L"BubbleAni", texture, Vector2(0.0f,0.0f), Vector2(64.0f, 64.0f), Vector2::Zero, 2, 0.1f);
 		animator->Play(L"BubbleAni", false);
-		animator->Stop();
+		animator->ResetStop();
 
 		keepArray.push_back(pbubble);
 	}
@@ -400,7 +400,7 @@ namespace ya
 		std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"T_SelectorBubble");
 		animator->Create(L"BubbleAni", texture, Vector2(0.0f, 0.0f), Vector2(64.0f, 64.0f), Vector2::Zero, 2, 0.1f);
 		animator->Play(L"BubbleAni", false);
-		animator->Stop();
+		animator->ResetStop();
 
 		keepArray.push_back(pbubble);
 	}

@@ -169,13 +169,29 @@ namespace ya
 		mActiveAnimation->Clear();
 	}
 
-	void Animator::Stop()
+	void Animator::ResetStop()
 	{
 		if (mActiveAnimation == nullptr)
 			return;
 
 		mActiveAnimation->Reset();
 		mActiveAnimation->Idle();
+	}
+
+	void Animator::Pause()
+	{
+		if (mActiveAnimation == nullptr)
+			return;
+
+		mActiveAnimation->Idle();
+	}
+
+	void Animator::PlayAgain()
+	{
+		if (mActiveAnimation == nullptr)
+			return;
+
+		mActiveAnimation->Start();
 	}
 
 	void Animator::Start()

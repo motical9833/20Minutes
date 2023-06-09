@@ -17,6 +17,7 @@ namespace ya::enums
 		Tile,
 		Tree,
 		Monster,
+		Boss,
 		Player,
 		Bullet,
 		Skill,

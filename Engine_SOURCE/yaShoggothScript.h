@@ -1,9 +1,10 @@
 #pragma once
 #include "yaMonsterScript.h"
 
+
 namespace ya
 {
-	class HubNigguratScript : public MonsterScript
+	class ShoggothScript : public MonsterScript
 	{
 		enum class States
 		{
@@ -14,9 +15,9 @@ namespace ya
 		States state = States::MOVE;
 
 	public:
-		HubNigguratScript();
-		HubNigguratScript(int hp);
-		virtual ~HubNigguratScript();
+		ShoggothScript();
+		ShoggothScript(int hp);
+		virtual ~ShoggothScript();
 
 		virtual void Initalize() override;
 		virtual void Update() override;

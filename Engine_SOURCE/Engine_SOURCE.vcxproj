@@ -240,6 +240,7 @@
     <ClInclude Include="yaScytheScript.h" />
     <ClInclude Include="yaSelectPanalScript.h" />
     <ClInclude Include="yaShader.h" />
+    <ClInclude Include="yaShoggothScript.h" />
     <ClInclude Include="yaSkillManager.h" />
     <ClInclude Include="yaSmiteScript.h" />
     <ClInclude Include="yaSpearScript.h" />
@@ -334,6 +335,7 @@
     <ClCompile Include="yaScytheScript.cpp" />
     <ClCompile Include="yaSelectPanalScript.cpp" />
     <ClCompile Include="yaShader.cpp" />
+    <ClCompile Include="yaShoggothScript.cpp" />
     <ClCompile Include="yaSkillManager.cpp" />
     <ClCompile Include="yaSmiteScript.cpp" />
     <ClCompile Include="yaSpearScript.cpp" />

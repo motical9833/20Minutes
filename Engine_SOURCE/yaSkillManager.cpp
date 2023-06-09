@@ -208,7 +208,7 @@ namespace ya
 
 			SceneManager::GetPlayScene()->GetDragonFires()[i]->GetComponent<Transform>()->SetPosition(pos);
 			SceneManager::GetPlayScene()->GetDragonFires()[i]->GetScript<DragonFireScript>()->SetDir(dir);
-			SceneManager::GetPlayScene()->GetDragonFires()[i]->GetComponent<Animator>()->Stop();
+			SceneManager::GetPlayScene()->GetDragonFires()[i]->GetComponent<Animator>()->ResetStop();
 			SceneManager::GetPlayScene()->GetDragonFires()[i]->Life();
 			break;
 		}
