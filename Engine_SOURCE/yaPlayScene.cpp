@@ -47,6 +47,7 @@
 #include "yaAudioListener.h"
 #include "yaAudioSource.h"
 #include "yaHubNigguratScript.h"
+#include "yaShoggothScript.h"
 
 #include <random>
 
@@ -189,6 +190,7 @@ namespace ya
 
 		CreateWeapon();
 		CreateFirePos();
+		CreateLaser();
 
 		// Monster
 		{
@@ -740,22 +742,22 @@ namespace ya
 		hubNiggurat->AddComponent<HubNigguratScript>(1000);
 		mBossMonsters.push_back(hubNiggurat);
 
-		//Monster* shoggoth = object::Instantiate<Monster>(eLayerType::Monster, this);
-		//shoggoth->SetLayerType(eLayerType::Monster);
-		//shoggoth->SetName(L"hubNiggurat");
-		//Transform* shoggothTr = shoggoth->GetComponent<Transform>();
-		//shoggothTr->SetPosition(Vector3(-10.0f, 0.0f, 0.0f));
-		//shoggothTr->SetScale(Vector3(3.0f, 3.0f, 1.0f));
-		//CreateCollider(shoggoth, eColliderType::Rect, Vector2(0.6f, 0.4f));
-		//CreateSpriteRenderer(shoggoth, L"ShoggothMaterial");
-		//Animator* shoggothAnimator = shoggoth->AddComponent<Animator>();
-		//std::shared_ptr<Texture> shoggothTexture = Resources::Find<Texture>(L"Boss_Shoggoth");
-		//std::shared_ptr<Texture> shoggothDeathTexture = Resources::Find<Texture>(L"M_DeathFX");
-		//shoggothAnimator->Create(L"ShoggothAnimation", shoggothTexture, Vector2(0.0f, 0.0f), Vector2(96.0f, 96.0f), Vector2::Zero, 3, 0.2f);
-		//shoggothAnimator->Play(L"ShoggothAnimation", true);
+		Monster* shoggoth = object::Instantiate<Monster>(eLayerType::Monster, this);
+		shoggoth->SetLayerType(eLayerType::Monster);
+		shoggoth->SetName(L"hubNiggurat");
+		Transform* shoggothTr = shoggoth->GetComponent<Transform>();
+		shoggothTr->SetPosition(Vector3(-10.0f, 0.0f, 0.0f));
+		shoggothTr->SetScale(Vector3(3.0f, 3.0f, 1.0f));
+		CreateCollider(shoggoth, eColliderType::Rect, Vector2(0.6f, 0.4f));
+		CreateSpriteRenderer(shoggoth, L"ShoggothMaterial");
+		Animator* shoggothAnimator = shoggoth->AddComponent<Animator>();
+		std::shared_ptr<Texture> shoggothTexture = Resources::Find<Texture>(L"Boss_Shoggoth");
+		std::shared_ptr<Texture> shoggothDeathTexture = Resources::Find<Texture>(L"M_DeathFX");
+		shoggothAnimator->Create(L"ShoggothAnimation", shoggothTexture, Vector2(0.0f, 0.0f), Vector2(96.0f, 96.0f), Vector2::Zero, 3, 0.2f);
+		shoggothAnimator->Play(L"ShoggothAnimation", true);
 
-
-		//mBossMonsters.push_back(shoggoth);
+		shoggoth->AddComponent<ShoggothScript>(1000);
+		mBossMonsters.push_back(shoggoth);
 	}
 
 	void PlayScene::CreateDragonPet()
@@ -1095,6 +1097,49 @@ namespace ya
 			curse->Death();
 			curses.push_back(curse);
 		}
+	}
+
+	void PlayScene::CreateLaser()
+	{
+		GameObject* laser = object::Instantiate<GameObject>(eLayerType::Tree, this);
+		laser->SetLayerType(eLayerType::Tree);
+		laser->GetComponent<Transform>()->SetPosition(Vector3(0.0f, 0.0f, 0.0f));
+		laser->GetComponent<Transform>()->SetScale(Vector3(2.0f, 15.0f, 1.0f));
+		Collider2D* laserCollider = laser->AddComponent<Collider2D>();
+		laserCollider->SetType(eColliderType::Rect);
+		laserCollider->SetSize(Vector2(1.0f, 1.0f));
+		SpriteRenderer* laserRender = laser->AddComponent<SpriteRenderer>();
+		std::shared_ptr<Material> laserMaterial = Resources::Find<Material>(L"LaserMaterial");
+		laserRender->SetMaterial(laserMaterial);
+		std::shared_ptr<Mesh> laserMesh = Resources::Find<Mesh>(L"RectMesh");
+		laserRender->SetMesh(laserMesh);
+		Animator* laserAnimator = laser->AddComponent<Animator>();
+		std::shared_ptr<Texture> laserTexture = Resources::Find<Texture>(L"Boss_ShoggothLaser");
+		laserAnimator->Create(L"laserAni", laserTexture, Vector2(0.0f, 0.0f), Vector2(32.0f, 400.0f), Vector2::Zero,5,3,100.0f,200.0f, 6, 0.1f);
+		laserAnimator->Play(L"laserAni", true);
+
+		//Bullet* bulletobj = object::Instantiate<Bullet>(eLayerType::Bullet, this);
+		//bullets.push_back(bulletobj);
+		//bullets[i]->SetLayerType(eLayerType::Bullet);
+		//bullets[i]->SetName(L"Bullet" + i);
+		//bullets[i]->GetComponent<Transform>()->SetParent(pWeapon->GetComponent<Transform>());
+		//bullets[i]->GetComponent<Transform>()->SetPosition(Vector3(0.0f, 0.0f, 0.0f));
+		//bullets[i]->GetComponent<Transform>()->SetScale(Vector3(2.0f, 2.0f, 1.0f));
+		//Collider2D* bulletColloder = bullets[i]->AddComponent<Collider2D>();
+		//bulletColloder->SetType(eColliderType::Rect);
+		//bulletColloder->SetSize(Vector2(0.1f, 0.1f));
+		//SpriteRenderer* render = bullets[i]->AddComponent<SpriteRenderer>();
+		//std::shared_ptr<Material> bulletMaterial = Resources::Find<Material>(L"BulletMaterial");
+		//render->SetMaterial(bulletMaterial);
+		//std::shared_ptr<Mesh> bulletMesh = Resources::Find<Mesh>(L"RectMesh");
+		//render->SetMesh(bulletMesh);
+		//Animator* bulletAnimator = bullets[i]->AddComponent<Animator>();
+		//std::shared_ptr<Texture> bulletTexture = Resources::Find<Texture>(L"BulletTexture");
+		//bulletAnimator->Create(L"BulletAni", bulletTexture, Vector2(0.0f, 0.0f), Vector2(16.0f, 14.0f), Vector2::Zero, 2, 0.0f);
+		//bulletAnimator->Play(L"BulletAni", true);
+		//bulletAnimator->ResetStop();
+		//bullets[i]->AddComponent<BulletScript>();
+		//pWeapon->GetScript<WeaponScript>()->SetBullets(bullets[i]->GetComponent<Transform>());
 	}
 
 	void PlayScene::CreateHpUIobj()

@@ -12,14 +12,14 @@ namespace ya
 {
 	HubNigguratScript::HubNigguratScript()
 		:attackPos{}
-		, mCoolTime(1.0f)
+		, mCoolTime(0.0f)
 		, bAttack(false)
 	{
 
 	}
 	HubNigguratScript::HubNigguratScript(int hp)
 		:MonsterScript(hp)
-		, mCoolTime(1.0f)
+		, mCoolTime(0.0f)
 		, bAttack(false)
 	{
 
@@ -43,8 +43,6 @@ namespace ya
 	}
 	void HubNigguratScript::Update()
 	{
-		mTime += Time::DeltaTime();
-
 		if (SceneManager::GetPlayScene()->GetUIOn())
 			return;
 
@@ -182,11 +180,11 @@ namespace ya
 
 		mSpeed = monsterSpeed;
 
-		if (ani->AnimationName() == L"Boss_RightAttack")
+		if (GetOwner()->GetComponent<Transform>()->GetPosition().x < player->GetComponent<Transform>()->GetPosition().x)
 		{
 			animator->Play(L"Boss_RightMove", true);
 		}
-		else if (ani->AnimationName() == L"Boss_LeftAttack")
+		else if (GetOwner()->GetComponent<Transform>()->GetPosition().x > player->GetComponent<Transform>()->GetPosition().x)
 		{
 			animator->Play(L"Boss_LeftMove", true);
 		}
@@ -203,6 +201,8 @@ namespace ya
 	}
 	void HubNigguratScript::Move()
 	{
+		mCoolTime += Time::DeltaTime();
+
 		Vector3 pos = GetOwner()->GetComponent<Transform>()->GetPosition();
 
 		Animation* ani = animator->GetActiveAnimation();
@@ -243,10 +243,10 @@ namespace ya
 
 			GetOwner()->GetComponent<Transform>()->SetPosition(pos);
 		}
-		if(Distance(pos,player->GetComponent<Transform>()->GetPosition()) <= 7.0f)
+		if(Distance(pos,player->GetComponent<Transform>()->GetPosition()) <= 7.0f && mCoolTime >= 0.5f)
 		{
-			state = States::CHARGE;
-			 
+			mCoolTime = 0;
+
 			if (ani->AnimationName() == L"Boss_RightMove")
 			{
 				animator->Play(L"Boss_RightCharge", false);
@@ -255,6 +255,8 @@ namespace ya
 			{
 				animator->Play(L"Boss_LeftCharge", false);
 			}
+
+			state = States::CHARGE;
 		}
 
 	}

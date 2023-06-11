@@ -101,6 +101,28 @@ namespace ya
 		mEvents.insert(std::make_pair(name, events));
 	}
 
+	bool Animator::Create(const std::wstring& name, std::shared_ptr<Texture> atlas,
+		Vector2 leftTop, Vector2 size, Vector2 offset, int loopcnt, int loopnumber, float atlasSizeX,
+		float atlasSizeY, UINT spriteLegth, float duration)
+	{
+		if (atlas == nullptr)
+			return false;
+
+		Animation* animation = FindAnimation(name);
+		if (animation != nullptr)
+			return false;
+
+		animation = new Animation();
+		animation->Create(name, atlas, leftTop, size,
+			offset,loopcnt,loopnumber, atlasSizeX, atlasSizeY, spriteLegth,duration);
+
+
+		mAnimations.insert(std::make_pair(name, animation));
+		Events* events = new Events();
+		events->mEvents.resize(spriteLegth);
+		mEvents.insert(std::make_pair(name, events));
+	}
+
 	Animation* Animator::FindAnimation(const std::wstring& name)
 	{
 		std::map<std::wstring, Animation*>::iterator iter
@@ -134,6 +156,26 @@ namespace ya
 		return iter->second;
 	}
 	void Animator::Play(const std::wstring& name, bool loop)
+	{
+		Animation* prevAnimation = mActiveAnimation;
+		Events* events = nullptr;
+		if (prevAnimation)
+			events = FindEvents(prevAnimation->AnimationName());
+
+		if (events)
+			events->mEndEvent();
+
+		mActiveAnimation = FindAnimation(name);
+		mActiveAnimation->Reset();
+		mbLoop = loop;
+
+		events = FindEvents(mActiveAnimation->AnimationName());
+
+		if (events)
+			events->mStartEvent();
+	}
+
+	void Animator::Play(const std::wstring& name, int loopNumber, bool loop)
 	{
 		Animation* prevAnimation = mActiveAnimation;
 		Events* events = nullptr;

@@ -556,7 +556,8 @@ namespace ya::renderer
 		Resources::Load<Texture>(L"BoomerMonsterSprite", L"Monster\\BigBoomer.png");
 		Resources::Load<Texture>(L"Boss_ShubNiggurat", L"Monster\\Boss_ShubNiggurat.png");
 		Resources::Load<Texture>(L"Boss_Shoggoth", L"Monster\\Boss_Shoggoth.png");
-
+		Resources::Load<Texture>(L"Boss_ShoggothLaser", L"Monster\\T_ShoggothLaser.png");
+		Resources::Load<Texture>(L"Boss_ShoggothLaserWindup", L"Monster\\T_ShoggothLaserWindup.png");
 
 
 		Resources::Load<Texture>(L"TitleLevesLeftSprite", L"T_TitleLeavesLeft.png");
@@ -843,6 +844,8 @@ namespace ya::renderer
 		CreateMaterial(L"Boss_ShubNiggurat", L"MonsterShader", eRenderingMode::Transparent, L"ShubNigguratMaterial");
 
 		CreateMaterial(L"Boss_Shoggoth", L"MonsterShader", eRenderingMode::Transparent, L"ShoggothMaterial");
+		CreateMaterial(L"Boss_ShoggothLaser", L"MonsterShader", eRenderingMode::Transparent, L"LaserMaterial");
+		CreateMaterial(L"Boss_ShoggothLaserWindup", L"MonsterShader", eRenderingMode::Transparent, L"LaserWindupMaterial");
 
 #pragma endregion
 #pragma region WEAPON MATERIAL

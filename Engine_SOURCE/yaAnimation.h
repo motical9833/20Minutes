@@ -45,6 +45,13 @@ namespace ya
 			std::shared_ptr<Texture> atlas, Vector2 leftTop,
 			Vector2 size, Vector2 offset, float atlasSizeX,
 			float atlasSizeY, UINT spriteLegth, float duration);
+
+		void Create(const std::wstring& name,
+			std::shared_ptr<Texture> atlas, Vector2 leftTop,
+			Vector2 size, Vector2 offset, int loopcnt, int loopnumber, float atlasSizeX,
+			float atlasSizeY, UINT spriteLegth, float duration);
+
+
 		void BindShaderResource();
 		void Reset();
 		void Clear();
@@ -61,6 +68,9 @@ namespace ya
 		std::vector<Sprite> mSpriteSheet;
 		int mIndex;
 		float mTime;
+		int loopCnt;
+		int loopMaxCnt;
+		int loopNumber;
 		bool mbComplete;
 		bool mbIdle;
 	};

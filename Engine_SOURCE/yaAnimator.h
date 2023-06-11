@@ -47,12 +47,17 @@ namespace ya
 			Vector2 leftTop, Vector2 size, Vector2 offset, float atlasSizeX,
 			float atlasSizeY, UINT spriteLegth, float duration);
 
+		bool Create(const std::wstring& name, std::shared_ptr<Texture> atlas,
+			Vector2 leftTop, Vector2 size, Vector2 offset,int loopcnt,int loopnumber ,float atlasSizeX,
+			float atlasSizeY, UINT spriteLegth, float duration);
+
 		Animation* FindAnimation(const std::wstring& name);
 		Animation* GetActiveAnimation() { return mActiveAnimation; }
 
 		//void FindAnimationAndDuration(const std::wstring& name, float duration);
 		Events* FindEvents(const std::wstring& name);
 		void Play(const std::wstring& name, bool loop = true);
+		void Play(const std::wstring& name,int loopNumber ,bool loop = true);
 		void Binds();
 		void Clear();
 		void ResetStop();
