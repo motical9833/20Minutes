@@ -400,12 +400,10 @@
     <ClCompile Include="yaMonsterScript.cpp">
       <Filter>Component\Script\Contents\Monster</Filter>
     </ClCompile>
-    <ClCompile Include="yaShoggothScript.cpp">
-      <Filter>Component\Script\Contents\Monster</Filter>
-    </ClCompile>
     <ClCompile Include="yaHubNigguratScript.cpp">
       <Filter>Component\Script\Contents\Monster</Filter>
     </ClCompile>
+    <ClCompile Include="yaFontWrapper.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CommonInclude.h">
@@ -688,12 +686,10 @@
     <ClInclude Include="yaMonsterScript.h">
       <Filter>Component\Script\Contents\Monster</Filter>
     </ClInclude>
-    <ClInclude Include="yaShoggothScript.h">
-      <Filter>Component\Script\Contents\Monster</Filter>
-    </ClInclude>
     <ClInclude Include="yaHubNigguratScript.h">
       <Filter>Component\Script\Contents\Monster</Filter>
     </ClInclude>
+    <ClInclude Include="yaFontWrapper.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="yaMath.inl">

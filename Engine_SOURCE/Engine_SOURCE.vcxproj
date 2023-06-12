@@ -132,7 +132,8 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PreBuildEvent>
-      <Command>copy "$(SolutionDir)fmodL.dll" "$(SolutionDir)\x64\Debug\"</Command>
+      <Command>copy "$(SolutionDir)fmodL.dll" "$(SolutionDir)\x64\Debug\"
+copy "$(SolutionDir)FW1FontWrapperL.dll" "$(SolutionDir)\x64\Debug\"</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -156,7 +157,12 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PreBuildEvent>
-      <Command>copy "$(SolutionDir)fmod.dl" "$(SolutionDir)\x64\Release\"</Command>
+      <Command>copy "$(SolutionDir)fmodL.dll" "$(SolutionDir)\x64\Debug\"
+copy "$(SolutionDir)fmodstudioL.dll" "$(SolutionDir)\x64\Debug\"
+copy "$(SolutionDir)FW1FontWrapperL.dll" "$(SolutionDir)\x64\Debug\"
+copy "$(SolutionDir)fmod.dl" "$(SolutionDir)\x64\Release\"
+copy "$(SolutionDir)FW1FontWrapper.dll" "$(SolutionDir)\x64\Release\"
+copy "$(SolutionDir)fmodstudio.dll" "$(SolutionDir)\x64\Release\"</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -191,6 +197,7 @@
     <ClInclude Include="yaEntity.h" />
     <ClInclude Include="yaEnums.h" />
     <ClInclude Include="yaFmod.h" />
+    <ClInclude Include="yaFontWrapper.h" />
     <ClInclude Include="yaHubNigguratScript.h" />
     <ClInclude Include="yaMonsterFactoryScript.h" />
     <ClInclude Include="yaReloadBarScript.h" />
@@ -240,7 +247,6 @@
     <ClInclude Include="yaScytheScript.h" />
     <ClInclude Include="yaSelectPanalScript.h" />
     <ClInclude Include="yaShader.h" />
-    <ClInclude Include="yaShoggothScript.h" />
     <ClInclude Include="yaSkillManager.h" />
     <ClInclude Include="yaSmiteScript.h" />
     <ClInclude Include="yaSpearScript.h" />
@@ -288,6 +294,7 @@
     <ClCompile Include="yaDragonPetScript.cpp" />
     <ClCompile Include="yaEntity.cpp" />
     <ClCompile Include="yaFmod.cpp" />
+    <ClCompile Include="yaFontWrapper.cpp" />
     <ClCompile Include="yaHubNigguratScript.cpp" />
     <ClCompile Include="yaMonsterFactoryScript.cpp" />
     <ClCompile Include="yaReloadBarScript.cpp" />
@@ -335,7 +342,6 @@
     <ClCompile Include="yaScytheScript.cpp" />
     <ClCompile Include="yaSelectPanalScript.cpp" />
     <ClCompile Include="yaShader.cpp" />
-    <ClCompile Include="yaShoggothScript.cpp" />
     <ClCompile Include="yaSkillManager.cpp" />
     <ClCompile Include="yaSmiteScript.cpp" />
     <ClCompile Include="yaSpearScript.cpp" />

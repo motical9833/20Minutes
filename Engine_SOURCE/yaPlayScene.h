@@ -94,7 +94,6 @@ namespace ya
 		void CreateGameManagers();
 		void CreateFreezes();
 		void CreateCurses();
-		void CreateLaser();
 
 
 		void CreateHpUIobj();
@@ -161,8 +160,6 @@ namespace ya
 		std::vector<GameObject*> icons;
 		std::vector<GameObject*> reloadUI;
 		std::vector<GameObject*> soundObj;
-		std::vector<GameObject*> lasers;
-		std::vector<GameObject*> laserWindups;
 
 	
 
