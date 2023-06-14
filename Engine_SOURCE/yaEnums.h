@@ -9,6 +9,13 @@ namespace ya::enums
 		End,
 	};
 
+	enum class eMouseState
+	{
+		IDLE,
+		CLICK,
+		HOLD,
+	};
+
 	enum class eLayerType
 	{
 		None = 0,

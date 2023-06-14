@@ -645,7 +645,7 @@ namespace ya::renderer
 		Resources::Load<Texture>(L"Icon_Ability_54", L"UI\\Icon\\Icon_IntenseBurn.png");
 		Resources::Load<Texture>(L"Icon_Ability_55", L"UI\\Icon\\Icon_SoothingWarmth.png");
 		Resources::Load<Texture>(L"Icon_Ability_56", L"UI\\Icon\\Icon_QuickHands.png");
-		Resources::Load<Texture>(L"Icon_Ability_57", L"UI\\Icon\\Icon_QuickHands.png");
+		Resources::Load<Texture>(L"Icon_Ability_57", L"UI\\Icon\\Icon_ArmedAndReady.png");
 		Resources::Load<Texture>(L"Icon_Ability_58", L"UI\\Icon\\Icon_FreshClip.png");
 		Resources::Load<Texture>(L"Icon_Ability_59", L"UI\\Icon\\Icon_KillClip.png");
 		Resources::Load<Texture>(L"Icon_Ability_60", L"UI\\Icon\\Icon_Glare.png");
@@ -686,6 +686,7 @@ namespace ya::renderer
 		Resources::Load<Texture>(L"Icon_Ability_95", L"UI\\Icon\\Icon_Bloodsuckers.png");
 		Resources::Load<Texture>(L"Icon_Ability_96", L"UI\\Icon\\Icon_Frenzy.png");
 		Resources::Load<Texture>(L"Icon_Ability_97", L"UI\\Icon\\Icon_Hellspawns.png");
+		Resources::Load<Texture>(L"Icon_Ability_98", L"UI\\Icon\\Icon_Electrospawns.png");
 		Resources::Load<Texture>(L"Icon_Ability_99", L"UI\\Icon\\Icon_Culling.png");
 
 		Resources::Load<Texture>(L"Icon_Ability_200", L"UI\\Icon\\Icon_DeathPlague.png");
@@ -700,6 +701,109 @@ namespace ya::renderer
 		Resources::Load<Texture>(L"Icon_Ability_209", L"UI\\Icon\\Icon_SummonMastery.png");
 		Resources::Load<Texture>(L"Icon_Ability_210", L"UI\\Icon\\Icon_SwordAndShield.png");
 		Resources::Load<Texture>(L"Icon_Ability_211", L"UI\\Icon\\Icon_Titan.png");
+
+		Resources::Load<Texture>(L"Ability_Text_0", L"UI\\Icon\\Text\\TakeAimText_0.png");
+		Resources::Load<Texture>(L"Ability_Text_1", L"UI\\Icon\\Text\\PenetratorText_1.png");
+		Resources::Load<Texture>(L"Ability_Text_2", L"UI\\Icon\\Text\\SniperText_2.png");
+		Resources::Load<Texture>(L"Ability_Text_3", L"UI\\Icon\\Text\\AssassinText_3.png");
+		Resources::Load<Texture>(L"Ability_Text_4", L"UI\\Icon\\Text\\PowershotText_4.png");
+		Resources::Load<Texture>(L"Ability_Text_5", L"UI\\Icon\\Text\\BigShotText_5.png");
+		Resources::Load<Texture>(L"Ability_Text_6", L"UI\\Icon\\Text\\SplinterText_6.png");
+		Resources::Load<Texture>(L"Ability_Text_7", L"UI\\Icon\\Text\\ReaperRoundsText_7.png");
+		Resources::Load<Texture>(L"Ability_Text_8", L"UI\\Icon\\Text\\DragonEggText_8.png");
+		Resources::Load<Texture>(L"Ability_Text_9", L"UI\\Icon\\Text\\AgedDragonText_9.png");
+		Resources::Load<Texture>(L"Ability_Text_10", L"UI\\Icon\\Text\\TrainedDragonText_10.png");
+		Resources::Load<Texture>(L"Ability_Text_11", L"UI\\Icon\\Text\\DragonBondText_11.png");
+		Resources::Load<Texture>(L"Ability_Text_12", L"UI\\Icon\\Text\\ElectroMagicText_12.png");
+		Resources::Load<Texture>(L"Ability_Text_13", L"UI\\Icon\\Text\\ElectroBugText_13.png");
+		Resources::Load<Texture>(L"Ability_Text_14", L"UI\\Icon\\Text\\EnergizedText_14.png");
+		Resources::Load<Texture>(L"Ability_Text_15", L"UI\\Icon\\Text\\ElectroMasteryText_15.png");
+		Resources::Load<Texture>(L"Ability_Text_16", L"UI\\Icon\\Text\\RapidFireText_16.png");
+		Resources::Load<Texture>(L"Ability_Text_17", L"UI\\Icon\\Text\\LightBulletText_17.png");
+		Resources::Load<Texture>(L"Ability_Text_18", L"UI\\Icon\\Text\\RubberBulletsText_18.png");
+		Resources::Load<Texture>(L"Ability_Text_19", L"UI\\Icon\\Text\\SiegeText_19.png");
+		Resources::Load<Texture>(L"Ability_Text_20", L"UI\\Icon\\Text\\GhostFriendText_20.png");
+		Resources::Load<Texture>(L"Ability_Text_21", L"UI\\Icon\\Text\\EnergeticFriendText_21.png");
+		Resources::Load<Texture>(L"Ability_Text_22", L"UI\\Icon\\Text\\GhostWizardText_22.png");
+		Resources::Load<Texture>(L"Ability_Text_23", L"UI\\Icon\\Text\\VengefulGhostText_23.png");
+		Resources::Load<Texture>(L"Ability_Text_24", L"UI\\Icon\\Text\\VitalityText_24.png");
+		Resources::Load<Texture>(L"Ability_Text_25", L"UI\\Icon\\Text\\AngerPointText_25.png");
+		Resources::Load<Texture>(L"Ability_Text_26", L"UI\\Icon\\Text\\GiantText_26.png");
+		Resources::Load<Texture>(L"Ability_Text_27", L"UI\\Icon\\Text\\RegenerationText_27.png");
+		Resources::Load<Texture>(L"Ability_Text_28", L"UI\\Icon\\Text\\HolyShieldText_28.png");
+		Resources::Load<Texture>(L"Ability_Text_29", L"UI\\Icon\\Text\\DivineBlessingText_29.png");
+		Resources::Load<Texture>(L"Ability_Text_30", L"UI\\Icon\\Text\\DivineWrathText_30.png");
+		Resources::Load<Texture>(L"Ability_Text_31", L"UI\\Icon\\Text\\StalwartShieldText_31.png");
+		Resources::Load<Texture>(L"Ability_Text_32", L"UI\\Icon\\Text\\IceMagicText_32.png");
+		Resources::Load<Texture>(L"Ability_Text_33", L"UI\\Icon\\Text\\FrostBitText_33.png");
+		Resources::Load<Texture>(L"Ability_Text_34", L"UI\\Icon\\Text\\IceShardText_34.png");
+		Resources::Load<Texture>(L"Ability_Text_35", L"UI\\Icon\\Text\\ShatterText_35.png");
+		Resources::Load<Texture>(L"Ability_Text_36", L"UI\\Icon\\Text\\MagicLensText_36.png");
+		Resources::Load<Texture>(L"Ability_Text_37", L"UI\\Icon\\Text\\IgnitingLensText_37.png");
+		Resources::Load<Texture>(L"Ability_Text_38", L"UI\\Icon\\Text\\RefractionText_38.png");
+		Resources::Load<Texture>(L"Ability_Text_39", L"UI\\Icon\\Text\\FocalPointText_39.png");
+		Resources::Load<Texture>(L"Ability_Text_40", L"UI\\Icon\\Text\\MagnetismText_40.png");
+		Resources::Load<Texture>(L"Ability_Text_41", L"UI\\Icon\\Text\\RechargeText_41.png");
+		Resources::Load<Texture>(L"Ability_Text_42", L"UI\\Icon\\Text\\WatchAndLearnText_42.png");
+		Resources::Load<Texture>(L"Ability_Text_43", L"UI\\Icon\\Text\\ExcitementText_43.png");
+		Resources::Load<Texture>(L"Ability_Text_44", L"UI\\Icon\\Text\\HasteText_44.png");
+		Resources::Load<Texture>(L"Ability_Text_45", L"UI\\Icon\\Text\\BlazingSpeedText_45.png");
+		Resources::Load<Texture>(L"Ability_Text_46", L"UI\\Icon\\Text\\RunAndGunText_46.png");
+		Resources::Load<Texture>(L"Ability_Text_47", L"UI\\Icon\\Text\\InTheWindText_47.png");
+		Resources::Load<Texture>(L"Ability_Text_48", L"UI\\Icon\\Text\\DoubleShotText_48.png");
+		Resources::Load<Texture>(L"Ability_Text_49", L"UI\\Icon\\Text\\FanFireText_49.png");
+		Resources::Load<Texture>(L"Ability_Text_50", L"UI\\Icon\\Text\\SplitShotText_50.png");
+		Resources::Load<Texture>(L"Ability_Text_51", L"UI\\Icon\\Text\\FusilladeText_51.png");
+		Resources::Load<Texture>(L"Ability_Text_52", L"UI\\Icon\\Text\\FireMagicText_52.png");
+		Resources::Load<Texture>(L"Ability_Text_53", L"UI\\Icon\\Text\\FireStarterText_53.png");
+		Resources::Load<Texture>(L"Ability_Text_54", L"UI\\Icon\\Text\\IntenseBurnText_54.png");
+		Resources::Load<Texture>(L"Ability_Text_55", L"UI\\Icon\\Text\\SoothingWarmthText_55.png");
+		Resources::Load<Texture>(L"Ability_Text_56", L"UI\\Icon\\Text\\QuickHandsText_56.png");
+		Resources::Load<Texture>(L"Ability_Text_57", L"UI\\Icon\\Text\\ArmedAndReadyText_57.png");
+		Resources::Load<Texture>(L"Ability_Text_58", L"UI\\Icon\\Text\\FreshClipText_58.png");
+		Resources::Load<Texture>(L"Ability_Text_59", L"UI\\Icon\\Text\\KillClipText_59.png");
+		Resources::Load<Texture>(L"Ability_Text_60", L"UI\\Icon\\Text\\GlareText_60.png");
+		Resources::Load<Texture>(L"Ability_Text_61", L"UI\\Icon\\Text\\IntenseGlareText_61.png");
+		Resources::Load<Texture>(L"Ability_Text_62", L"UI\\Icon\\Text\\SightMagicText_62.png");
+		Resources::Load<Texture>(L"Ability_Text_63", L"UI\\Icon\\Text\\SaccadeText_63.png");
+		Resources::Load<Texture>(L"Ability_Text_64", L"UI\\Icon\\Text\\MagicScytheText_64.png");
+		Resources::Load<Texture>(L"Ability_Text_65", L"UI\\Icon\\Text\\ShadowScytheText_65.png");
+		Resources::Load<Texture>(L"Ability_Text_66", L"UI\\Icon\\Text\\WindcutterText_66.png");
+		Resources::Load<Texture>(L"Ability_Text_67", L"UI\\Icon\\Text\\ScytheMasteryText_67.png");
+		Resources::Load<Texture>(L"Ability_Text_68", L"UI\\Icon\\Text\\DarkArtsText_68.png");
+		Resources::Load<Texture>(L"Ability_Text_69", L"UI\\Icon\\Text\\DoomText_69.png");
+		Resources::Load<Texture>(L"Ability_Text_70", L"UI\\Icon\\Text\\WitherText_70.png");
+		Resources::Load<Texture>(L"Ability_Text_71", L"UI\\Icon\\Text\\RitualText_71.png");
+		Resources::Load<Texture>(L"Ability_Text_72", L"UI\\Icon\\Text\\HolyArtsText_72.png");
+		Resources::Load<Texture>(L"Ability_Text_73", L"UI\\Icon\\Text\\HolyMightText_73.png");
+		Resources::Load<Texture>(L"Ability_Text_74", L"UI\\Icon\\Text\\JusticeText_74.png");
+		Resources::Load<Texture>(L"Ability_Text_75", L"UI\\Icon\\Text\\AngelicText_75.png");
+		Resources::Load<Texture>(L"Ability_Text_76", L"UI\\Icon\\Text\\AeroMagicText_76.png");
+		Resources::Load<Texture>(L"Ability_Text_77", L"UI\\Icon\\Text\\WindborneText_77.png");
+		Resources::Load<Texture>(L"Ability_Text_78", L"UI\\Icon\\Text\\EyeOfTheStormText_78.png");
+		Resources::Load<Texture>(L"Ability_Text_79", L"UI\\Icon\\Text\\AeroMasteryText_79.png");
+		Resources::Load<Texture>(L"Ability_Text_80", L"UI\\Icon\\Text\\EvasiveText_80.png");
+		Resources::Load<Texture>(L"Ability_Text_81", L"UI\\Icon\\Text\\NimbleText_81.png");
+		Resources::Load<Texture>(L"Ability_Text_82", L"UI\\Icon\\Text\\TinyText_82.png");
+		Resources::Load<Texture>(L"Ability_Text_83", L"UI\\Icon\\Text\\ReflexText_83.png");
+		Resources::Load<Texture>(L"Ability_Text_84", L"UI\\Icon\\Text\\MagicSpearText_84.png");
+		Resources::Load<Texture>(L"Ability_Text_85", L"UI\\Icon\\Text\\HolySpearText_85.png");
+		Resources::Load<Texture>(L"Ability_Text_86", L"UI\\Icon\\Text\\SoulDrainText_86.png");
+		Resources::Load<Texture>(L"Ability_Text_87", L"UI\\Icon\\Text\\SoulKnightText_87.png");
+		Resources::Load<Texture>(L"Ability_Text_88", L"UI\\Icon\\Text\\SoulReapText_88.png");
+		Resources::Load<Texture>(L"Ability_Text_89", L"UI\\Icon\\Text\\SoulConversionText_89.png");
+		Resources::Load<Texture>(L"Ability_Text_90", L"UI\\Icon\\Text\\SoulPoweredText_90.png");
+		Resources::Load<Texture>(L"Ability_Text_91", L"UI\\Icon\\Text\\SoulLinkText_91.png");
+		Resources::Load<Texture>(L"Ability_Text_92", L"UI\\Icon\\Text\\TrainerText_92.png");
+		Resources::Load<Texture>(L"Ability_Text_93", L"UI\\Icon\\Text\\PulsingSummonsText_93.png");
+		Resources::Load<Texture>(L"Ability_Text_94", L"UI\\Icon\\Text\\FeedTheBeastsText_94.png");
+		Resources::Load<Texture>(L"Ability_Text_95", L"UI\\Icon\\Text\\BloodsuckersText_95.png");
+		Resources::Load<Texture>(L"Ability_Text_96", L"UI\\Icon\\Text\\FrenzyText_96.png");
+		Resources::Load<Texture>(L"Ability_Text_97", L"UI\\Icon\\Text\\HellspawnsText_97.png");
+		Resources::Load<Texture>(L"Ability_Text_98", L"UI\\Icon\\Text\\ElectrospawnsText_98.png");
+		Resources::Load<Texture>(L"Ability_Text_99", L"UI\\Icon\\Text\\CullingText_99.png");
+
+
 
 		Resources::Load<Texture>(L"Yiki_Ability_0", L"UI\\Icon\\Icon_ButterflyDance.png");
 		Resources::Load<Texture>(L"Yiki_Ability_1", L"UI\\Icon\\Icon_Brittle.png");
@@ -761,6 +865,8 @@ namespace ya::renderer
 		Resources::Load<Texture>(L"AmmoIcon", L"UI\\T_AmmoIcon.png");
 		Resources::Load<Texture>(L"ReloadBar", L"UI\\ReloadBar.png");
 		Resources::Load<Texture>(L"ReloadBut", L"UI\\ReloadBut.png");
+		Resources::Load<Texture>(L"LevelGaugeZero", L"UI\\LevelGaugeZero.png");
+		Resources::Load<Texture>(L"LevelGauge", L"UI\\LevelGauge.png");
 		Resources::Load<Texture>(L"T_EyeBlink", L"UI\\T_EyeBlink.png");
 		Resources::Load<Texture>(L"T_SelectorBubble", L"UI\\T_SelectorBubble.png");
 		Resources::Load<Texture>(L"T_SelectScreenPanelUP", L"UI\\T_SelectScreenPanelUP.png");
@@ -768,6 +874,35 @@ namespace ya::renderer
 		Resources::Load<Texture>(L"T_UISmallPanel", L"UI\\T_UISmallPanel.png");
 		Resources::Load<Texture>(L"T_RoundedRect", L"UI\\T_RoundedRect.png");
 		Resources::Load<Texture>(L"T_UILock", L"UI\\T_UILock.png");
+
+		Resources::Load<Texture>(L"StartRedBut", L"UI\\StartRedBut.png");
+		Resources::Load<Texture>(L"StartWhiteBut", L"UI\\StartWhiteBut.png");
+		Resources::Load<Texture>(L"LanguageRed", L"UI\\LanguageRed.png");
+		Resources::Load<Texture>(L"LanguageWhite", L"UI\\LanguageWhite.png");
+		Resources::Load<Texture>(L"SettingRedBut", L"UI\\SettingRedBut.png");
+		Resources::Load<Texture>(L"SettingWhiteBut", L"UI\\SettingWhiteBut.png");
+		Resources::Load<Texture>(L"ExitRedBut", L"UI\\ExitRedBut.png");
+		Resources::Load<Texture>(L"ExitWhiteBut", L"UI\\ExitWhiteBut.png");
+		Resources::Load<Texture>(L"BackwardsRed", L"UI\\BackwardsRed.png");
+		Resources::Load<Texture>(L"BackwardsWhite", L"UI\\BackwardsWhite.png");
+		Resources::Load<Texture>(L"BackButRed", L"UI\\BackButRed.png");
+		Resources::Load<Texture>(L"BackButWhite", L"UI\\BackButWhite.png");
+		Resources::Load<Texture>(L"RefreshRed", L"UI\\RefreshRed.png");
+		Resources::Load<Texture>(L"RefreshWhite", L"UI\\RefreshWhite.png");
+		Resources::Load<Texture>(L"SelectPanalRed", L"UI\\SelectPanalRed.png");
+		Resources::Load<Texture>(L"SelectPanalWhite", L"UI\\SelectPanalWhite.png");
+
+
+		Resources::Load<Texture>(L"RuneRed", L"UI\\RuneRed.png");
+		Resources::Load<Texture>(L"RuneWhite", L"UI\\RuneWhite.png");
+		Resources::Load<Texture>(L"CoinTextBox", L"UI\\CoinTextBox.png");
+
+		Resources::Load<Texture>(L"Map_0", L"UI\\DarkforestNone.png");
+		Resources::Load<Texture>(L"Map_1", L"UI\\DarkforestSelect.png");
+		Resources::Load<Texture>(L"Map_2", L"UI\\TempleNone.png");
+		Resources::Load<Texture>(L"Map_3", L"UI\\TempleSelect.png");
+		Resources::Load<Texture>(L"Map_4", L"UI\\PumpkinNone.png");
+		Resources::Load<Texture>(L"Map_5", L"UI\\PumpkinSelect.png");
 
 		Resources::Load<Texture>(L"Face_0", L"UI\\Face\\T_Shana_Portrait.png");
 		Resources::Load<Texture>(L"Face_1", L"UI\\Face\\T_Diamond_Portrait.png");
@@ -779,6 +914,17 @@ namespace ya::renderer
 		Resources::Load<Texture>(L"Face_7", L"UI\\Face\\T_Yuki_Portrait.png");
 		Resources::Load<Texture>(L"Face_8", L"UI\\Face\\T_Luna_Portrait.png");
 		Resources::Load<Texture>(L"Face_9", L"UI\\Face\\T_Dasher_Portrait.png");
+
+		Resources::Load<Texture>(L"FaceText_0", L"UI\\Face\\ShanaText.png");
+		Resources::Load<Texture>(L"FaceText_1", L"UI\\Face\\DiamondText.png");
+		Resources::Load<Texture>(L"FaceText_2", L"UI\\Face\\ScarlettText.png");
+		Resources::Load<Texture>(L"FaceText_3", L"UI\\Face\\HinaText.png");
+		Resources::Load<Texture>(L"FaceText_4", L"UI\\Face\\SparkText.png");
+		Resources::Load<Texture>(L"FaceText_5", L"UI\\Face\\LilithText.png");
+		Resources::Load<Texture>(L"FaceText_6", L"UI\\Face\\AbbyText.png");
+		Resources::Load<Texture>(L"FaceText_7", L"UI\\Face\\YukiText.png");
+		Resources::Load<Texture>(L"FaceText_8", L"UI\\Face\\LunaText.png");
+		Resources::Load<Texture>(L"FaceText_9", L"UI\\Face\\DasherText.png");
 
 		Resources::Load<Texture>(L"Weapon_0", L"UI\\Weapon\\RevolverStill.png");
 		Resources::Load<Texture>(L"Weapon_1", L"UI\\Weapon\\T_Shotgun_SS_0.png");
@@ -869,6 +1015,27 @@ namespace ya::renderer
 		CreateMaterial(L"UIPanel", L"UISpriteShader", eRenderingMode::Opaque, L"PanalMaterial");
 		CreateMaterial(L"UIPanelOrigin", L"UISpriteShader", eRenderingMode::Opaque, L"PanelOriginMaterial");
 
+		CreateMaterial(L"StartRedBut", L"UISpriteShader", eRenderingMode::Opaque, L"StartRedMaterial");
+		CreateMaterial(L"StartWhiteBut", L"UISpriteShader", eRenderingMode::Opaque, L"StartWhiteMaterial");
+		CreateMaterial(L"LanguageRed", L"UISpriteShader", eRenderingMode::Opaque, L"LanguageRedMaterial");
+		CreateMaterial(L"LanguageWhite", L"UISpriteShader", eRenderingMode::Opaque, L"LanguageWhiteMaterial");
+		CreateMaterial(L"SettingRedBut", L"UISpriteShader", eRenderingMode::Opaque, L"SettingRedMaterial");
+		CreateMaterial(L"SettingWhiteBut", L"UISpriteShader", eRenderingMode::Opaque, L"SettingWhiteMaterial");
+		CreateMaterial(L"ExitRedBut", L"UISpriteShader", eRenderingMode::Opaque, L"ExitRedMaterial");
+		CreateMaterial(L"ExitWhiteBut", L"UISpriteShader", eRenderingMode::Opaque, L"ExitWhiteMaterial");
+		CreateMaterial(L"BackwardsRed", L"UISpriteShader", eRenderingMode::Opaque, L"BackwardsRedMaterial");
+		CreateMaterial(L"BackwardsWhite", L"UISpriteShader", eRenderingMode::Opaque, L"BackwardsWhiteMaterial");
+		CreateMaterial(L"BackButRed", L"UISpriteShader", eRenderingMode::Opaque, L"BackButRedMaterial");
+		CreateMaterial(L"BackButWhite", L"UISpriteShader", eRenderingMode::Opaque, L"BackButWhiteMaterial");
+
+		CreateMaterial(L"RefreshRed", L"UISpriteShader", eRenderingMode::Opaque, L"RefreshRedMaterial");
+		CreateMaterial(L"RefreshWhite", L"UISpriteShader", eRenderingMode::Opaque, L"RefreshWhiteMaterial");
+		CreateMaterial(L"SelectPanalRed", L"UISpriteShader", eRenderingMode::Opaque, L"SelectPanalRedMaterial");
+		CreateMaterial(L"SelectPanalWhite", L"UISpriteShader", eRenderingMode::Opaque, L"SelectPanalWhiteMaterial");
+
+		CreateMaterial(L"RuneRed", L"UISpriteShader", eRenderingMode::Opaque, L"RuneRedMaterial");
+		CreateMaterial(L"RuneWhite", L"UISpriteShader", eRenderingMode::Opaque, L"RuneWhiteMaterial");
+		CreateMaterial(L"CoinTextBox", L"UISpriteShader", eRenderingMode::Opaque, L"CoinTextBoxMaterial");
 
 		CreateMaterial(L"LeftDownArrows", L"UISpriteShader", eRenderingMode::Opaque, L"LeftDownLeaderMaterial");
 		CreateMaterial(L"RightDownArrows", L"UISpriteShader", eRenderingMode::Opaque, L"RightDownLeaderMaterial");
@@ -880,6 +1047,10 @@ namespace ya::renderer
 
 		CreateMaterial(L"ReloadBar", L"UISpriteShader", eRenderingMode::Opaque, L"ReloadBarMaterial");
 		CreateMaterial(L"ReloadBut", L"UISpriteShader", eRenderingMode::Opaque, L"ReloadButMaterial");
+
+		CreateMaterial(L"LevelGaugeZero", L"UISpriteShader", eRenderingMode::Opaque, L"LevelGaugeZeroMaterial");
+		CreateMaterial(L"LevelGauge", L"UISpriteShader", eRenderingMode::Opaque, L"LevelGaugeMaterial");
+
 
 		CreateMaterial(L"T_EyeBlink", L"SpriteShader", eRenderingMode::Opaque, L"EyeBlinkMaterial");
 		CreateMaterial(L"T_SelectorBubble", L"SpriteShader", eRenderingMode::Opaque, L"SelectorBubbleMaterial");
@@ -901,6 +1072,12 @@ namespace ya::renderer
 
 			CreateMaterial(faceName, L"SpriteShader", eRenderingMode::Opaque, faceName + L"Material");
 		}
+		for (size_t i = 0; i < 10; i++)
+		{
+			const std::wstring faceText = L"FaceText_" + std::to_wstring(i);
+
+			CreateMaterial(faceText, L"SpriteShader", eRenderingMode::Opaque, faceText + L"Material");
+		}
 		for (size_t i = 0; i < 8; i++)
 		{
 			const std::wstring weaponName = L"Weapon_" + std::to_wstring(i);
@@ -909,6 +1086,15 @@ namespace ya::renderer
 		}
 
 		CreateMaterial(L"T_UILock", L"SpriteShader", eRenderingMode::Opaque, L"UILockMaterial");
+
+#pragma region MAP MATERIAL
+		for (size_t i = 0; i < 6; i++)
+		{
+			const std::wstring mapName = L"Map_" + std::to_wstring(i);
+
+			CreateMaterial(mapName, L"SpriteShader", eRenderingMode::Opaque, mapName + L"Material");
+		}
+#pragma endregion
 
 
 #pragma endregion
@@ -919,6 +1105,15 @@ namespace ya::renderer
 
 
 			CreateMaterial(name, L"UISpriteShader", eRenderingMode::Opaque, name + L"Material");
+		}
+
+		//Ability_Text_99
+		for (size_t i = 0; i < 100; i++)
+		{
+			const std::wstring text = L"Ability_Text_" + std::to_wstring(i);
+
+
+			CreateMaterial(text, L"UISpriteShader", eRenderingMode::Opaque, text + L"Material");
 		}
 
 		CreateMaterial(L"AmmoIcon", L"UISpriteShader", eRenderingMode::Opaque, L"AmmoIconMaterial");

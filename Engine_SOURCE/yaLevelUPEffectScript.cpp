@@ -4,6 +4,7 @@
 #include "yaSceneManager.h"
 #include "yaPlayScene.h"
 #include "yaPlayerLevelScript.h"
+#include "yaPlayerScript.h"
 
 namespace ya
 {
@@ -39,6 +40,10 @@ namespace ya
 	}
 	void LevelUPEffectScript::End()
 	{
+		if (SceneManager::GetPlayScene()->GetPlayer()->GetScript<PlayerScript>()->GetCharacterNumber() == 0)
+		{
+			SceneManager::GetPlayScene()->SetReroll(true);
+		}
 		SceneManager::GetPlayScene()->LevelUPUI();
 		GetOwner()->Death();
 	}

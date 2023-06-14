@@ -57,6 +57,7 @@ namespace ya
 		static math::Vector2 mMouseWorldPosition;
 		static float mWinWidthCenter;
 		static float mWinHeightCenter;
+		static eMouseState state;
 
 	public:
 		static void Initialize();

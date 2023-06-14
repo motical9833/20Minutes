@@ -29,8 +29,10 @@ namespace ya
 		void GetExp();
 
 	private:
+		GameObject* gaugeObj;
+
 		int mLevel;
-		int mCurrentExp;
-		int mLevelUpExp;
+		float mCurrentExp;
+		float mLevelUpExp;
 	};
 }

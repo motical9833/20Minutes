@@ -67,6 +67,7 @@ namespace ya
 		, randomValue{}
 		, abliltyNumber(0)
 		, click{}
+		, bReroll(false)
 	{
 	}
 
@@ -115,7 +116,7 @@ namespace ya
 			directLightComp->SetType(eLightType::Directional);
 			directLightComp->SetRadius(1.0f);
 			//directLightComp->SetDiffuse(Vector4(0.047f, 0.015f, 0.168f, -0.5f));
-			directLightComp->SetDiffuse(Vector4(-0.5f, -0.5f, -0.5f, 1.0f));
+			directLightComp->SetDiffuse(Vector4(-0.8f, -0.8f, -0.8f, 1.0f));
 		}
 
 
@@ -181,7 +182,25 @@ namespace ya
 			std::shared_ptr<Mesh> pMesh = Resources::Find<Mesh>(L"RectMesh");
 			pMr->SetMesh(pMesh);
 			playerObj->AddComponent<Animator>();
-			playerObj->AddComponent<PlayerScript>(i, 3);
+
+			switch (i)
+			{
+			case 0:
+				playerObj->AddComponent<PlayerScript>(i, 4);
+				break;
+			case 1:
+				playerObj->AddComponent<PlayerScript>(i, 4);
+				break;
+			case 2:
+				playerObj->AddComponent<PlayerScript>(i, 7);
+				break;
+			case 3:
+				playerObj->AddComponent<PlayerScript>(i, 3);
+				break;
+			case 4:
+				playerObj->AddComponent<PlayerScript>(i, 4);
+				break;
+			}
 			playerObj->GetScript<PlayerScript>()->Reset();
 			playerObj->Death();
 			players.push_back(playerObj);
@@ -200,24 +219,6 @@ namespace ya
 			}
 			CreateBommerMonster();
 			CreateBossMonster();
-
-			//Monster* mBoomer = object::Instantiate<Monster>(eLayerType::Monster, this);
-			//mBoomer->SetLayerType(eLayerType::Monster);
-			//mBoomer->SetName(L"BigBoomer");
-			//M_DefaultTr(mBoomer, Vector3(4.0f, 0.0f, 0.0f), Vector3(2.0f, 2.0f, 1.0f));
-			//CreateCollider(mBoomer, eColliderType::Rect, Vector2(0.5f, 0.5f));
-			//CreateSpriteRenderer(mBoomer, L"BoomerMonsterMaterial");
-			//Animator* boomerAnimator = mBoomer->AddComponent<Animator>();
-			//std::shared_ptr<Texture> boomerTexture = Resources::Find<Texture>(L"BoomerMonsterSprite");
-			//std::shared_ptr<Texture> deathTexture = Resources::Find<Texture>(L"M_DeathFX");
-			//boomerAnimator->Create(L"m_Right", boomerTexture, Vector2(0.0f, 0.0f), Vector2(64.0f, 64.0f), Vector2::Zero, 4, 0.2f);
-			//boomerAnimator->Create(L"m_Left", boomerTexture, Vector2(0.0f, 58.5f), Vector2(64.0f, 64.0f), Vector2::Zero, 4, 0.2f);
-			//boomerAnimator->Create(L"DeathAnimation", deathTexture, Vector2(0.0f, 0.0f), Vector2(40.0f, 40.0f), Vector2::Zero, 4, 0.1f);
-			//boomerAnimator->Play(L"m_Left", true);
-			//mBoomer->AddComponent<MonsterScript>(500);
-			//mBoomer->Death();
-			//mBoomerMonsters.push_back(mBoomer);
-
 		}
 
 		for (size_t i = 0; i < 1000; i++)
@@ -259,66 +260,10 @@ namespace ya
 
 
 		CreateLevelUpEffect();
-
-		//for (size_t i = 0; i < 1000; i++)
-		//{
-		//	GameObject* freeze = object::Instantiate<GameObject>(eLayerType::Skill, this);
-		//	freeze->GetComponent<Transform>()->SetPosition(Vector3::Zero);
-		//	freeze->GetComponent<Transform>()->SetScale(Vector3(2.0f, 2.0f, 1.0f));
-		//	freeze->SetLayerType(eLayerType::Skill);
-		//	SpriteRenderer* FreezeRender = freeze->AddComponent<SpriteRenderer>();
-		//	std::shared_ptr<Material> freezeMaterial = Resources::Find<Material>(L"FreezeMaterial");
-		//	FreezeRender->SetMaterial(freezeMaterial);
-		//	std::shared_ptr<Mesh> freezeMesh = Resources::Find<Mesh>(L"RectMesh");
-		//	FreezeRender->SetMesh(freezeMesh);
-
-		//	Animator* freezeAnimator = freeze->AddComponent<Animator>();
-		//	std::shared_ptr<Texture> freezeTexture = Resources::Find<Texture>(L"S_Freeze");
-
-		//	freezeAnimator->Create(L"freezeAni", freezeTexture, Vector2::Zero, Vector2(64.0f, 64.0f), Vector2::Zero, 5, 0.1f);
-		//	freezeAnimator->Play(L"freezeAni", true);
-		//	freeze->Death();
-		//	freezes.push_back(freeze);
-		//}
 		CreateFreezes();
 		FreezeAddToMonster();
-
-		//freezes[0]->GetComponent<Transform>()->SetParent(mBrainMonsters[0]->GetComponent<Transform>());
-		//freezes[1]->GetComponent<Transform>()->SetParent(mBoomerMonsters[0]->GetComponent<Transform>());
-		//freezes[2]->GetComponent<Transform>()->SetParent(mEyeMonsters[0]->GetComponent<Transform>());
-		//freezes[3]->GetComponent<Transform>()->SetParent(mTreeMonsters[0]->GetComponent<Transform>());
-
-		//for (size_t i = 0; i < 1000; i++)
-		//{
-		//	GameObject* curse = object::Instantiate<GameObject>(eLayerType::Skill, this);
-		//	curse->SetLayerType(eLayerType::Skill);
-		//	curse->GetComponent<Transform>()->SetScale(Vector3(3.0f, 3.0f, 1.0f));
-		//	curse->GetComponent<Transform>()->SetPosition(Vector3::Zero);
-		//	SpriteRenderer* curseRender = curse->AddComponent<SpriteRenderer>();
-		//	std::shared_ptr<Material> curseMaterial = Resources::Find<Material>(L"CurseMaterial");
-		//	curseRender->SetMaterial(curseMaterial);
-		//	std::shared_ptr<Mesh> curseMesh = Resources::Find<Mesh>(L"RectMesh");
-		//	curseRender->SetMesh(curseMesh);
-
-		//	Animator* curseAnimator = curse->AddComponent<Animator>();
-		//	std::shared_ptr<Texture> curseTexture = Resources::Find<Texture>(L"S_Curse");
-
-		//	curseAnimator->Create(L"curseAni", curseTexture, Vector2::Zero, Vector2(32.0f, 32.0f), Vector2::Zero, 3, 0.2f);
-		//	curseAnimator->Create(L"curseUpgrade", curseTexture, Vector2::Zero, Vector2(32.0f, 32.0f), Vector2::Zero, 3, 0.4f);
-		//	curseAnimator->Play(L"curseAni", false);
-
-		//	curse->AddComponent<CurseScript>();
-
-		//	curse->Death();
-		//	curses.push_back(curse);
-		//}
 		CreateCurses();
 		CurseAddToMonster();
-		//curses[0]->GetComponent<Transform>()->SetParent(mBrainMonsters[0]->GetComponent<Transform>());
-		//curses[1]->GetComponent<Transform>()->SetParent(mBoomerMonsters[0]->GetComponent<Transform>());
-		//curses[2]->GetComponent<Transform>()->SetParent(mEyeMonsters[0]->GetComponent<Transform>());
-		//curses[3]->GetComponent<Transform>()->SetParent(mTreeMonsters[0]->GetComponent<Transform>());
-
 		CreateSmite();
 		CreateMagicLens();
 		CreateDragonPet();
@@ -331,13 +276,13 @@ namespace ya
 		CreateThunderBug();
 		CreateIcicle();
 		CreateExpMarble();
-		CreateGameManagers();
 		CreateHpUIobj();
 		CreateSkillUI(cameraUIObj);
 		CreateAbilityIcon(cameraUIObj);
 		CreateAmmoIcon(cameraUIObj);
 		CreateExpBar(cameraUIObj);
-		
+		CreateGameManagers();
+
 		stageOneMapManager = object::Instantiate<GameObject>(eLayerType::None, this);
 		stageOneMapManager->AddComponent<StageOneTileManager>();
 
@@ -363,14 +308,13 @@ namespace ya
 
 		Resources::Load<AudioClip>(L"GetExpSound", L"..\\Resources\\Sound\\GetExpSound.wav");
 		Resources::Load<AudioClip>(L"ReloadSound", L"..\\Resources\\Sound\\Weapon_Shotgun_Reload.wav");
+		Resources::Load<AudioClip>(L"ButMousePos", L"..\\Resources\\Sound\\ButMousePos.wav");
+		Resources::Load<AudioClip>(L"UIClick", L"..\\Resources\\Sound\\UIClick.wav");
 
-		GameObject* expSound = object::Instantiate<GameObject>(eLayerType::None, this);
-		expSound->AddComponent<AudioSource>()->SetClip(Resources::Find<AudioClip>(L"GetExpSound"));
-		soundObj.push_back(expSound);
-
-		GameObject* reloadSound = object::Instantiate<GameObject>(eLayerType::None, this);
-		reloadSound->AddComponent<AudioSource>()->SetClip(Resources::Find<AudioClip>(L"ReloadSound"));
-		soundObj.push_back(reloadSound);
+		CreateSoundobject(L"GetExpSound");
+		CreateSoundobject(L"ReloadSound");
+		CreateSoundobject(L"ButMousePos");
+		CreateSoundobject(L"UIClick");
 
 		CollisionManager::CollisionLayerCheck(eLayerType::Player, eLayerType::Monster, true);
 		CollisionManager::CollisionLayerCheck(eLayerType::Player, eLayerType::Tree, true);
@@ -1086,7 +1030,7 @@ namespace ya
 		{
 			GameObject* hpObject = object::Instantiate<GameObject>(eLayerType::UI, this);
 			hpObject->SetLayerType(eLayerType::UI);
-			hpObject->GetComponent<Transform>()->SetPosition(Vector3(-9.0f + (float)i, 6.2f, 11.0f));
+			hpObject->GetComponent<Transform>()->SetPosition(Vector3(-9.0f + (float)i, 5.7f, 11.0f));
 			hpObject->GetComponent<Transform>()->SetScale(Vector3(3.0f, 3.0f, 1.0f));
 			SpriteRenderer* render = hpObject->AddComponent<SpriteRenderer>();
 			std::shared_ptr<Material> hpMaterial = Resources::Find<Material>(L"HpMaterial");
@@ -1110,6 +1054,20 @@ namespace ya
 			const std::wstring name = L"Icon_Ability_" + std::to_wstring(i) + L"Material";
 			CreateSkillIcon(name, Vector3(0.0f, 0.0f, 9.0f), Vector3(0.54f, 0.54f, 1.0f));
 		}
+
+		for (size_t i = 0; i < 100; i++)
+		{
+			const std::wstring name = L"Icon_Ability_" + std::to_wstring(i) + L"Material";
+			CreateSkillIcon(name, Vector3(0.0f, 0.0f, 9.0f), Vector3(0.54f, 0.54f, 1.0f));
+		}
+
+		for (size_t i = 0; i < 100; i++)
+		{
+			const std::wstring name = L"Ability_Text_" + std::to_wstring(i) + L"Material";
+			CreateIconText(name, Vector3(-0.7f, 1.0f, 9.0f), Vector3(6.5f, 3.0f, 1.0f));
+		}
+
+		//CreateIconText
 	}
 
 	void PlayScene::CreateLevelUpEffect()
@@ -1127,13 +1085,12 @@ namespace ya
 		levelUPEffectObj->AddComponent<LevelUPEffectScript>();
 	}
 
-	void PlayScene::CreateUIPanal(/*GameObject* parent*/Vector3 pos ,Vector3 scale)
+	void PlayScene::CreateUIPanal(Vector3 pos ,Vector3 scale)
 	{
 		GameObject* uiPanal = object::Instantiate<GameObject>(eLayerType::UI, this);
 		uiPanal->SetLayerType(eLayerType::UI);
 		uiPanal->GetComponent<Transform>()->SetPosition(pos);
 		uiPanal->GetComponent<Transform>()->SetScale(scale);
-		//uiPanal->GetComponent<Transform>()->SetParent(parent->GetComponent<Transform>());
 		SpriteRenderer* panalRender = uiPanal->AddComponent<SpriteRenderer>();
 		std::shared_ptr<Material> panalMaterial = Resources::Find<Material>(L"PanalMaterial");
 		panalRender->SetMaterial(panalMaterial);
@@ -1143,11 +1100,10 @@ namespace ya
 		uiObjects.push_back(uiPanal);
 	}
 
-	void PlayScene::CreateUILeader(const std::wstring& key/*,GameObject* parent*/, Vector3 pos, Vector3 scale)
+	void PlayScene::CreateUIObject(const std::wstring& key, Vector3 pos, Vector3 scale)
 	{
 		GameObject* uiLeader = object::Instantiate<GameObject>(eLayerType::UI, this);
 		uiLeader->SetLayerType(eLayerType::UI);
-		//uiLeader->GetComponent<Transform>()->SetParent(parent->GetComponent<Transform>());
 		uiLeader->GetComponent<Transform>()->SetPosition(pos);
 		uiLeader->GetComponent<Transform>()->SetScale(scale);
 		SpriteRenderer* leaderRender = uiLeader->AddComponent<SpriteRenderer>();
@@ -1191,12 +1147,15 @@ namespace ya
 	void PlayScene::CreateSkillUI(GameObject* parent)
 	{
 		CreateUIPanal(Vector3(1.0f, 1.0f, 9.0f), Vector3(10.0f, 3.2f, 1.0f));
-		CreateUIPanal(Vector3(1.0f, -1.4f, 9.0f), Vector3(7.2f, 0.9f, 1.0f));
-		CreateUIPanal(Vector3(1.0f, -2.4f, 9.0f), Vector3(7.2f, 0.9f, 1.0f));
-		CreateUILeader(L"LeftDownLeaderMaterial", Vector3(3.4f, 1.6f, 9.0f), Vector3(0.45f, 0.45f, 1.0f));
-		CreateUILeader(L"RightDownLeaderMaterial", Vector3(5.0f, 1.6f, 9.0f), Vector3(0.45f, 0.45f, 1.0f));
-		CreateUILeader(L"DownRightLeaderMaterial", Vector3(3.4f, 0.0f, 9.0f), Vector3(0.45f, 0.45f, 1.0f));
-		CreateUILeader(L"DownLeftLeaderMaterial", Vector3(5.0f, 0.0f, 9.0f), Vector3(0.45f, 0.45f, 1.0f));
+		CreateUIObject(L"SelectPanalRedMaterial", Vector3(1.0f, -1.4f, 9.0f), Vector3(6.5f, 0.7f, 1.0f));
+		CreateUIObject(L"SelectPanalWhiteMaterial", Vector3(1.0f, -1.4f, 9.0f), Vector3(6.5f, 0.7f, 1.0f));
+		CreateUIObject(L"RefreshRedMaterial", Vector3(1.0f, -2.4f, 9.0f), Vector3(6.5f, 0.7f, 1.0f));
+		CreateUIObject(L"RefreshWhiteMaterial", Vector3(1.0f, -2.4f, 9.0f), Vector3(6.5f, 0.7f, 1.0f));
+
+		CreateUIObject(L"LeftDownLeaderMaterial", Vector3(3.4f, 1.6f, 9.0f), Vector3(0.45f, 0.45f, 1.0f));
+		CreateUIObject(L"RightDownLeaderMaterial", Vector3(5.0f, 1.6f, 9.0f), Vector3(0.45f, 0.45f, 1.0f));
+		CreateUIObject(L"DownRightLeaderMaterial", Vector3(3.4f, 0.0f, 9.0f), Vector3(0.45f, 0.45f, 1.0f));
+		CreateUIObject(L"DownLeftLeaderMaterial", Vector3(5.0f, 0.0f, 9.0f), Vector3(0.45f, 0.45f, 1.0f));
 		CreatePowerUpFrame(Vector3(4.2f, 1.7f, 9.0f), Vector3(0.72f, 0.72f, 1.0f));
 		CreatePowerUpFrame(Vector3(3.22f, 0.82f, 9.0f), Vector3(0.72f, 0.72f, 1.0f));
 		CreatePowerUpFrame(Vector3(5.10f, 0.82f, 9.0f), Vector3(0.72f, 0.72f, 1.0f));
@@ -1220,6 +1179,10 @@ namespace ya
 		{
 			iconObjects[i]->Death();
 			icons[i]->Death();
+		}
+		for (size_t i = 0; i < iconTexts.size(); i++)
+		{
+			iconTexts[i]->Death();
 		}
 		uiOn = false;
 	}
@@ -1255,8 +1218,48 @@ namespace ya
 		icons.push_back(icon);
 	}
 
+	void PlayScene::CreateIconText(const std::wstring& key, Vector3 pos, Vector3 scale)
+	{
+		GameObject* text = object::Instantiate<GameObject>(eLayerType::UI, this);
+		text->SetLayerType(eLayerType::UI);
+		//iconObj->GetComponent<Transform>()->SetParent(parent->GetComponent<Transform>());
+		text->GetComponent<Transform>()->SetPosition(pos);
+		text->GetComponent<Transform>()->SetScale(scale);
+		SpriteRenderer* textRender = text->AddComponent<SpriteRenderer>();
+		std::shared_ptr<Material> textMat = Resources::Find<Material>(key);
+		textRender->SetMaterial(textMat);
+		std::shared_ptr<Mesh> textMesh = Resources::Find<Mesh>(L"RectMesh");
+		textRender->SetMesh(textMesh);
+
+		text->Death();
+		iconTexts.push_back(text);
+	}
+
 	void PlayScene::CreateExpBar(GameObject* parent)
 	{
+		GameObject* expBar = object::Instantiate<GameObject>(eLayerType::UI, this);
+		expBar->SetLayerType(eLayerType::UI);
+		expBar->GetComponent<Transform>()->SetParent(parent->GetComponent<Transform>());
+		expBar->GetComponent<Transform>()->SetPosition(Vector3(0.0f, 5.5f, 10.0f));
+		expBar->GetComponent<Transform>()->SetScale(Vector3(21.0f, 0.5f, 1.0f));
+		SpriteRenderer* expBarRender = expBar->AddComponent<SpriteRenderer>();
+		std::shared_ptr<Material> expBarMat = Resources::Find<Material>(L"LevelGaugeZeroMaterial");
+		expBarRender->SetMaterial(expBarMat);
+		std::shared_ptr<Mesh> expBarMesh = Resources::Find<Mesh>(L"RectMesh");
+		expBarRender->SetMesh(expBarMesh);
+
+		expGauge = object::Instantiate<GameObject>(eLayerType::UI, this);
+		expGauge->SetLayerType(eLayerType::UI);
+		expGauge->GetComponent<Transform>()->SetParent(parent->GetComponent<Transform>());
+		expGauge->GetComponent<Transform>()->SetPosition(Vector3(-10.0f, 5.5f, 10.0f));
+		expGauge->GetComponent<Transform>()->SetScale(Vector3(0.0f, 0.5f, 1.0f));
+		SpriteRenderer* gaugeRender = expGauge->AddComponent<SpriteRenderer>();
+		std::shared_ptr<Material> gaugeMat = Resources::Find<Material>(L"LevelGaugeMaterial");
+		gaugeRender->SetMaterial(gaugeMat);
+		std::shared_ptr<Mesh> gaugeMesh = Resources::Find<Mesh>(L"RectMesh");
+		gaugeRender->SetMesh(gaugeMesh);
+
+
 		GameObject* reloadBarObject = object::Instantiate<GameObject>(eLayerType::UI, this);
 		reloadBarObject->SetLayerType(eLayerType::UI);
 		reloadBarObject->GetComponent<Transform>()->SetParent(parent->GetComponent<Transform>());
@@ -1484,7 +1487,7 @@ namespace ya
 	}
 
 	void PlayScene::LevelUPUI()
-	{	
+	{
 		for (size_t i = 0; i < uiFrames.size(); i++)
 		{
 			uiFrames[i]->GetComponent<Transform>()->SetScale(Vector3(0.72f, 0.72f, 1.0f));
@@ -1524,6 +1527,7 @@ namespace ya
 					break;
 				}
 			}
+			iconTexts[(randomValue[0] * 4) + a]->Life();
 			click[i][1] = a;
 		}
 
@@ -1532,6 +1536,7 @@ namespace ya
 		iconObjects[(randomValue[0] * 4)]->GetComponent<Transform>()->SetScale(Vector3(0.72f, 0.72f, 1.0f));
 
 
+		//AbilityTree
 		for (size_t i = 0; i < 5; i++)
 		{
 			icons[(randomValue[i] * 4) + 0]->GetComponent<Transform>()->SetPosition(Vector3(4.2f, 1.7f, 9.0f));
@@ -1575,6 +1580,16 @@ namespace ya
 			uiFrames[i]->Life();
 		}
 
+		uiObjects[2]->Death();
+		
+		if (bReroll == false)
+		{
+			uiObjects[3]->Death();
+			uiObjects[4]->Death();
+		}
+		else
+		uiObjects[4]->Death();
+
 		uiOn = true;
 	}
 
@@ -1584,53 +1599,107 @@ namespace ya
 		{
 			AbilityUIClick(0);
 		}
-		if (Input::GetKeyDown(eKeyCode::LBTN) && -0.178f <= pos.x && pos.x <= -0.106f && 0.386f <= pos.y && pos.y <= 0.522f)
+		else if (uiFrames[0 + 4]->GetComponent<Transform>()->GetScale() != Vector3(1.08f, 1.08f, 1.0f) && -0.321f <= pos.x && pos.x <= -0.25f && 0.386f <= pos.y && pos.y <= 0.522f)
+		{
+			AbilityUIMousePoint(0);
+		}
+		else if (Input::GetKeyDown(eKeyCode::LBTN) && -0.178f <= pos.x && pos.x <= -0.106f && 0.386f <= pos.y && pos.y <= 0.522f)
 		{
 			AbilityUIClick(1);
 		}
-		if (Input::GetKeyDown(eKeyCode::LBTN) && -0.03f <= pos.x && pos.x <= 0.069f && 0.386f <= pos.y && pos.y <= 0.522f)
+		else if (uiFrames[1 + 4]->GetComponent<Transform>()->GetScale() != Vector3(1.08f, 1.08f, 1.0f)  && -0.178f <= pos.x && pos.x <= -0.106f && 0.386f <= pos.y && pos.y <= 0.522f)
+		{
+			AbilityUIMousePoint(1);
+		}
+		else if (Input::GetKeyDown(eKeyCode::LBTN) && -0.03f <= pos.x && pos.x <= 0.069f && 0.386f <= pos.y && pos.y <= 0.522f)
 		{
 			AbilityUIClick(2);
 		}
-		if (Input::GetKeyDown(eKeyCode::LBTN) && 0.10f <= pos.x && pos.x <= 0.172f && 0.386f <= pos.y && pos.y <= 0.522f)
+		else if (uiFrames[2 + 4]->GetComponent<Transform>()->GetScale() != Vector3(1.08f, 1.08f, 1.0f) && -0.03f <= pos.x && pos.x <= 0.069f && 0.386f <= pos.y && pos.y <= 0.522f)
+		{
+			AbilityUIMousePoint(2);
+		}
+		else if (Input::GetKeyDown(eKeyCode::LBTN) && 0.10f <= pos.x && pos.x <= 0.172f && 0.386f <= pos.y && pos.y <= 0.522f)
 		{
 			AbilityUIClick(3);
 		}
-		if (Input::GetKeyDown(eKeyCode::LBTN) && 0.25f <= pos.x && pos.x <= 0.322f && 0.386f <= pos.y && pos.y <= 0.522f)
+		else if (uiFrames[3 + 4]->GetComponent<Transform>()->GetScale() != Vector3(1.08f, 1.08f, 1.0f) && 0.10f <= pos.x && pos.x <= 0.172f && 0.386f <= pos.y && pos.y <= 0.522f)
+		{
+			AbilityUIMousePoint(3);
+		}
+		else if (Input::GetKeyDown(eKeyCode::LBTN) && 0.25f <= pos.x && pos.x <= 0.322f && 0.386f <= pos.y && pos.y <= 0.522f)
 		{
 			AbilityUIClick(4);
 		}
-
-		if (Input::GetKeyDown(eKeyCode::LBTN) && 0.345f <= pos.x && pos.x <= 0.414f && 0.08f <= pos.y && pos.y <= 0.217f)
+		else if (uiFrames[4 + 4]->GetComponent<Transform>()->GetScale() != Vector3(1.08f, 1.08f, 1.0f) && 0.25f <= pos.x && pos.x <= 0.322f && 0.386f <= pos.y && pos.y <= 0.522f)
+		{
+			AbilityUIMousePoint(4);
+		}
+		else if (uiFrames[0]->GetComponent<Transform>()->GetScale() != Vector3(1.08f, 1.08f, 1.0f) && 0.345f <= pos.x && pos.x <= 0.414f && 0.08f <= pos.y && pos.y <= 0.217f)
 		{
 			AbilityTreeClick(abliltyNumber,0);
 		}
-		if (Input::GetKeyDown(eKeyCode::LBTN) && 0.231f <= pos.x && pos.x <= 0.302f && -0.075f <= pos.y && pos.y <= 0.053f)
+		else if (uiFrames[1]->GetComponent<Transform>()->GetScale() != Vector3(1.08f, 1.08f, 1.0f) && 0.231f <= pos.x && pos.x <= 0.302f && -0.075f <= pos.y && pos.y <= 0.053f)
 		{
 			AbilityTreeClick(abliltyNumber, 1);
 		}
-		if (Input::GetKeyDown(eKeyCode::LBTN) && 0.460f <= pos.x && pos.x <= 0.531f && -0.075f <= pos.y && pos.y <= 0.053f)
+		else if (uiFrames[2]->GetComponent<Transform>()->GetScale() != Vector3(1.08f, 1.08f, 1.0f) && 0.460f <= pos.x && pos.x <= 0.531f && -0.075f <= pos.y && pos.y <= 0.053f)
 		{
 			AbilityTreeClick(abliltyNumber, 2);
 		}
-		if (Input::GetKeyDown(eKeyCode::LBTN) && 0.345f <= pos.x && pos.x <= 0.414f && -0.242f <= pos.y && pos.y <= -0.111f)
+		else if (uiFrames[3]->GetComponent<Transform>()->GetScale() != Vector3(1.08f, 1.08f, 1.0f) && 0.345f <= pos.x && pos.x <= 0.414f && -0.242f <= pos.y && pos.y <= -0.111f)
 		{
 			AbilityTreeClick(abliltyNumber, 3);
 		}
-
-		if (Input::GetKeyDown(eKeyCode::LBTN) && -0.380f <= pos.x && pos.x <= 0.380f && -0.555f <= pos.y && pos.y <= -0.393f)
+		else if (Input::GetKeyDown(eKeyCode::LBTN) && -0.380f <= pos.x && pos.x <= 0.380f && -0.555f <= pos.y && pos.y <= -0.393f)
 		{
 			SelectAbility();
 		}
-		if (Input::GetKeyDown(eKeyCode::LBTN) && -0.380f <= pos.x && pos.x <= 0.380f && -0.753f <= pos.y && pos.y <= -0.591f)
+		else if (uiObjects[2]->GetState() == GameObject::Dead && -0.380f <= pos.x && pos.x <= 0.380f && -0.555f <= pos.y && pos.y <= -0.393f)
 		{
-			int a = 0;
+			uiObjects[4]->Death();
+
+			soundObj[2]->GetComponent<AudioSource>()->Play();
+			uiObjects[2]->Life();
+		}
+		else if (bReroll == true && Input::GetKeyDown(eKeyCode::LBTN) && -0.380f <= pos.x && pos.x <= 0.380f && -0.753f <= pos.y && pos.y <= -0.591f)
+		{
+			bReroll = false;
+
+			for (size_t i = 0; i < uiObjects.size(); i++)
+			{
+				uiObjects[i]->Death();
+			}
+			for (size_t i = 0; i < uiFrames.size(); i++)
+			{
+				uiFrames[i]->Death();
+			}
+			for (size_t i = 0; i < iconObjects.size(); i++)
+			{
+				iconObjects[i]->Death();
+				icons[i]->Death();
+			}
+			for (size_t i = 0; i < iconTexts.size(); i++)
+			{
+				iconTexts[i]->Death();
+			}
+			LevelUPUI();
+		}
+		else if (bReroll == true && uiObjects[4]->GetState() == GameObject::Dead && -0.380f <= pos.x && pos.x <= 0.380f && -0.753f <= pos.y && pos.y <= -0.591f)
+		{
+			uiObjects[2]->Death();
+
+			soundObj[2]->GetComponent<AudioSource>()->Play();
+			uiObjects[4]->Life();
 		}
 	}
 
 	void PlayScene::AbilityUIClick(int number)
 	{
+		uiObjects[2]->Death();
+		uiObjects[4]->Death();
 		int a = click[number][1];
+		soundObj[3]->GetComponent<AudioSource>()->Play();
 
 		for (size_t i = 0; i < uiFrames.size(); i++)
 		{
@@ -1648,6 +1717,11 @@ namespace ya
 				icons[(randomValue[j] * 4) + i]->Death();
 			}
 		}
+		for (size_t i = 0; i < iconTexts.size(); i++)
+		{
+			iconTexts[i]->Death();
+		}
+
 
 		for (size_t i = 0; i < 4; i++)
 		{
@@ -1656,20 +1730,57 @@ namespace ya
 
 		uiFrames[number + 4]->GetComponent<Transform>()->SetScale(Vector3(1.08f, 1.08f, 1.0f));
 		iconObjects[(randomValue[number] * 4) + a]->GetComponent<Transform>()->SetScale(Vector3(0.72f, 0.72f, 1.0f));
+		iconTexts[(randomValue[number] * 4) + a]->Life();
 		AbilityTreeClickReset();
 
 		abliltyNumber = number;
 	}
 
+	void PlayScene::AbilityUIMousePoint(int number)
+	{
+		uiObjects[2]->Death();
+		uiObjects[4]->Death();
+		soundObj[2]->GetComponent<AudioSource>()->Play();
+
+		int a = click[number][1];
+
+		for (size_t i = 0; i < uiFrames.size(); i++)
+		{
+			uiFrames[i]->GetComponent<Transform>()->SetScale(Vector3(0.72f, 0.72f, 1.0f));
+		}
+		for (size_t i = 0; i < iconObjects.size(); i++)
+		{
+			iconObjects[i]->GetComponent<Transform>()->SetScale(Vector3(0.54f, 0.54f, 1.0f));
+		}
+		for (size_t i = 0; i < icons.size(); i++)
+		{
+			icons[i]->GetComponent<Transform>()->SetScale(Vector3(0.54f, 0.54f, 1.0f));
+		}
+
+
+		uiFrames[number + 4]->GetComponent<Transform>()->SetScale(Vector3(1.08f, 1.08f, 1.0f));
+		iconObjects[(randomValue[number] * 4) + a]->GetComponent<Transform>()->SetScale(Vector3(0.72f, 0.72f, 1.0f));
+	}
+
 	void PlayScene::AbilityTreeClick(int ablityNum, int treeNum)
 	{
+		soundObj[2]->GetComponent<AudioSource>()->Play();
+		uiObjects[2]->Death();
+		uiObjects[4]->Death();
+
 		for (size_t i = 0; i < 4; i++)
 		{
 			icons[(randomValue[ablityNum] * 4) + i]->GetComponent<Transform>()->SetScale(Vector3(0.54f, 0.54f, 1.0f));
 			uiFrames[i]->GetComponent<Transform>()->SetScale(Vector3(0.72f, 0.72f, 1.0f));
 		}
 
+		for (size_t i = 0; i < iconTexts.size(); i++)
+		{
+			iconTexts[i]->Death();
+		}
+
 		icons[(randomValue[ablityNum] * 4) + treeNum]->GetComponent<Transform>()->SetScale(Vector3(0.72f, 0.72f, 1.0f));
+		iconTexts[(randomValue[ablityNum] * 4) + treeNum]->Life();
 		uiFrames[treeNum]->GetComponent<Transform>()->SetScale(Vector3(1.08f, 1.08f, 1.0f));
 	}
 
@@ -1687,6 +1798,7 @@ namespace ya
 
 	void PlayScene::SelectAbility()
 	{
+		soundObj[3]->GetComponent<AudioSource>()->Play();
 		upgradeobj->GetScript<UpgradeScript>()->UpgradeSkill(click[abliltyNumber][0], click[abliltyNumber][1]);
 
 		for (size_t i = 0; i < uiObjects.size(); i++)
@@ -1701,6 +1813,10 @@ namespace ya
 		{
 			iconObjects[i]->Death();
 			icons[i]->Death();
+		}
+		for (size_t i = 0; i < iconTexts.size(); i++)
+		{
+			iconTexts[i]->Death();
 		}
 		uiOn = false;
 
@@ -1780,7 +1896,7 @@ namespace ya
 		GameObject* iconObj = object::Instantiate<GameObject>(eLayerType::UI, this);
 		iconObj->SetLayerType(eLayerType::UI);
 		iconObj->GetComponent<Transform>()->SetParent(parent->GetComponent<Transform>());
-		iconObj->GetComponent<Transform>()->SetPosition(Vector3(-10.0f , 4.0f, 10.0f));
+		iconObj->GetComponent<Transform>()->SetPosition(Vector3(-10.0f , 3.7f, 10.0f));
 		iconObj->GetComponent<Transform>()->SetScale(Vector3(1.0f, 1.0f, 1.0f));
 		SpriteRenderer* iconRender = iconObj->AddComponent<SpriteRenderer>();
 		std::shared_ptr<Material> iconMaterial = Resources::Find<Material>(L"AmmoIconMaterial");
@@ -1796,5 +1912,12 @@ namespace ya
 		spriteRender->SetMaterial(material);
 		std::shared_ptr<Mesh> mesh = Resources::Find<Mesh>(L"RectMesh");
 		spriteRender->SetMesh(mesh);
+	}
+	void PlayScene::CreateSoundobject(const std::wstring& key)
+	{
+		GameObject* soundObject = object::Instantiate<GameObject>(eLayerType::None, this);
+		soundObject->SetLayerType(eLayerType::None);
+		soundObject->AddComponent<AudioSource>()->SetClip(Resources::Find<AudioClip>(key));
+		soundObj.push_back(soundObject);
 	}
 }

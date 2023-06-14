@@ -43,6 +43,7 @@ namespace ya
 		GameObject* GetGhostPet() { return ghostPet; }
 		GameObject* GetGhostPetRotObj() { return ghostPetRotobject; }
 		GameObject* GetMagicLens() { return magicLens; }
+		GameObject* GetExpGauge() { return expGauge; }
 
 		std::vector<Monster*> GetBrainMonsters() { return mBrainMonsters; }
 		std::vector<Monster*> GetTreeMonsters() { return mTreeMonsters; }
@@ -65,8 +66,12 @@ namespace ya
 
 		std::vector<GameObject*> GetIcon() { return iconObjects; }
 		std::vector<GameObject*> GetIcons() { return icons; }
+		std::vector<GameObject*> GetIconsTexts() { return iconTexts; }
 		std::vector<GameObject*> GetUIframe() { return uiFrames; }
 		std::vector<GameObject*> GetReloadUI() { return reloadUI; }
+
+		void SetReroll(bool bValue) { bReroll = bValue; }
+
 		void CreatePlayer();
 		void CreateWeapon();
 		void CreateFirePos();
@@ -100,15 +105,17 @@ namespace ya
 		void CreateAbilityIcon(GameObject* parent);
 		void CreateLevelUpEffect();
 		void CreateUIPanal(/*GameObject* parent*/Vector3 pos, Vector3 scale);
-		void CreateUILeader(const std::wstring& key/*,GameObject* parent*/, Vector3 pos, Vector3 scale);
+		void CreateUIObject(const std::wstring& key/*,GameObject* parent*/, Vector3 pos, Vector3 scale);
 		void CreatePowerUpFrame(/*GameObject* parent, */Vector3 pos, Vector3 scale);
 		void CreateSkillUI(GameObject* parent);
 		void CreateSkillIcon(const std::wstring& key/*, GameObject* parent*/, Vector3 pos, Vector3 scale);
+		void CreateIconText(const std::wstring& key, Vector3 pos, Vector3 scale);
 		void CreateExpBar(GameObject* parent);
 		void CreateCollider(auto* monster, eColliderType type,Vector2 size);
 		void CreateDeathFX();
 		void CreateAmmoIcon(GameObject* parent);
 		void CreateSpriteRenderer(auto* object, const std::wstring& materialKey);
+		void CreateSoundobject(const std::wstring& key);
 		GameObject* CreateSkillObject(eColliderType type, eLayerType layertype, const std::wstring& materialKey);
 		GameObject* CreateSkillObject(eLayerType layertype, const std::wstring& materialKey);
 		void M_DefaultTr(auto* object, Vector3 pos, Vector3 scale);
@@ -124,6 +131,7 @@ namespace ya
 		void LevelUPUI();
 		void UiButton(Vector3 pos);
 		void AbilityUIClick(int number);
+		void AbilityUIMousePoint(int number);
 		void AbilityTreeClick(int ablityNum, int treeNum);
 		void AbilityTreeClickReset();
 		void SelectAbility();
@@ -158,9 +166,10 @@ namespace ya
 		std::vector<GameObject*> uiFrames;
 		std::vector<GameObject*> iconObjects;
 		std::vector<GameObject*> icons;
+		std::vector<GameObject*> iconTexts;
 		std::vector<GameObject*> reloadUI;
 		std::vector<GameObject*> soundObj;
-
+		
 	
 
 		GameObject* holyShield;
@@ -175,6 +184,7 @@ namespace ya
 		GameObject* playerPointLight;
 		GameObject* playerSubPointLight;
 		GameObject* directionalLight;
+		GameObject* expGauge;
 
 		std::vector<Bullet*> ghostBullets;
 		std::vector<Bullet*> dragonFires;
@@ -193,5 +203,6 @@ namespace ya
 
 		int click[5][2];
 		bool uiOn;
+		bool bReroll;
 	};
 }

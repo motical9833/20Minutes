@@ -17,6 +17,8 @@ namespace ya
 
 		void MainMenu();
 		void SelectMenu();
+		void SelectMap();
+		void Map();
 		void SelectCharacter();
 		void SelectWeapon();
 		void Reset();
@@ -35,6 +37,7 @@ namespace ya
 	private:
 		UINT8 mainNumber;
 		UINT8 subNumber;
+		int selectNum;
 
 		Vector3 mousePos;
 	};

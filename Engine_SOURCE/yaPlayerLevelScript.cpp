@@ -14,8 +14,8 @@ namespace ya
 	int mLevelUpExp;
 	PlayerLevelScript::PlayerLevelScript()
 		:mLevel(1)
-		, mCurrentExp(0)
-		, mLevelUpExp(5)
+		, mCurrentExp(0.0f)
+		, mLevelUpExp(5.0f)
 	{
 
 	}
@@ -25,7 +25,7 @@ namespace ya
 	}
 	void PlayerLevelScript::Initalize()
 	{
-		
+		gaugeObj = SceneManager::GetPlayScene()->GetExpGauge();
 	}
 	void PlayerLevelScript::Update()
 	{
@@ -65,20 +65,22 @@ namespace ya
 	void PlayerLevelScript::GameReset()
 	{
 		mLevel = 1;
-		mCurrentExp = 0;
-		mLevelUpExp = 5;
+		mCurrentExp = 0.0f;
+		mLevelUpExp = 5.0f;
 	}
 	void PlayerLevelScript::LevelUP()
 	{
 		mLevel++;
-		mLevelUpExp += 5;
-		mCurrentExp = 0;
+		mLevelUpExp += 5.0f;
+		mCurrentExp = 0.0f;
+		gaugeObj->GetComponent<Transform>()->SetScale(Vector3(0.0f, 0.5f, 1.0f));
 		SceneManager::GetPlayScene()->GetLevelUPEffect()->GetScript<LevelUPEffectScript>()->LevelUPEffect();
 	}
 	void PlayerLevelScript::GetExp()
 	{
 		mCurrentExp++;
-
+		float gaugeX = mCurrentExp / mLevelUpExp * 42.0f;
+		gaugeObj->GetComponent<Transform>()->SetScale(Vector3(gaugeX, 0.5f, 1.0f));
 
 		if (mCurrentExp == mLevelUpExp)
 			LevelUP();

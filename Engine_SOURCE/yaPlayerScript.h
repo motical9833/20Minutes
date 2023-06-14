@@ -54,6 +54,7 @@ namespace ya
 		bool GetShooting() { return bShooting; }
 		int GetMaxHP() { return mMaxHP; }
 		void ShieldOn() { bShield = true; }
+		int GetCharacterNumber() { return characterNumber; }
 
 		void FireSlow();
 

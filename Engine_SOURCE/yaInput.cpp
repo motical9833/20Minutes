@@ -64,6 +64,7 @@ namespace ya
 				// 해당키가 현재 눌려있다.
 				if (GetAsyncKeyState(ASCII[i]) & 0x8000)
 				{
+
 					// 이전 프레임에도 눌려 있었다.
 					if (mKeys[i].bPressed)
 					{
@@ -91,7 +92,6 @@ namespace ya
 					mKeys[i].bPressed = false;
 				}
 			}
-
 			POINT mousePos = {};
 			GetCursorPos(&mousePos);
 			ScreenToClient(application.GetHwnd(), &mousePos);
