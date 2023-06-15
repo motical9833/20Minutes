@@ -21,21 +21,21 @@ namespace ya
 	}
 	void FadeScript::Update()
 	{
-		//float time = Time::DeltaTime();
-		//
-		//currentTime += time / 2;
+		float time = Time::DeltaTime();
 		
-		//ConstantBuffer* cbBuffer = renderer::constantBuffers[(UINT)eCBType::FadeInOut];
-		//renderer::fadeeffect fadeData;
+		currentTime += time / 2;
 		
-		//if (fadeData.alpha < 1)
-		//{
-		//	fadeData.alpha = currentTime;
-		//}
-		//
-		//cbBuffer->BindSRV(&fadeData);
-		//cbBuffer->SetPipline(eShaderStage::VS);
-		//cbBuffer->SetPipline(eShaderStage::PS);
+		ConstantBuffer* cbBuffer = renderer::constantBuffers[(UINT)eCBType::FadeInOut];
+		renderer::FadeInOutCB fadeData;
+		
+		if (fadeData.alpha < 1)
+		{
+			fadeData.alpha = currentTime;
+		}
+		
+		cbBuffer->Setdata(&fadeData);
+		cbBuffer->BindSRV(eShaderStage::VS);
+		cbBuffer->BindSRV(eShaderStage::PS);
 
 	}
 	void FadeScript::FixedUpdate()

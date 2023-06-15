@@ -11,6 +11,7 @@
 #include "yaWeaponScript.h"
 #include "yaSkillManager.h"
 #include "yaReloadBarScript.h"
+#include "yaMonsterFactoryScript.h"
 
 #define monsterSpeed 1
 
@@ -334,12 +335,12 @@ namespace ya
 		bIgnition = false;
 		ignitionCnt = 0;
 		ignitionMaxCnt = 10;
-
 	}
 	void MonsterScript::DieChack()
 	{
 		if (mCurrentHp <= 0)
 		{
+			SceneManager::GetPlayScene()->GetMonsterFactory()->GetScript<MonsterFactoryScript>()->CurrentMonsterCntDec();
 			DropExpMarble();
 			Animator* ani = GetOwner()->GetComponent<Animator>();
 			this->GetOwner()->GetComponent<Collider2D>()->SetScriptOff(true);
@@ -365,6 +366,7 @@ namespace ya
 	{
 		if (mCurrentHp <= 0 && GetOwner()->GetComponent<Transform>()->GetChiled(0)->GetOwner()->GetState() != GameObject::Dead)
 		{
+
 			DropExpMarble();
 			Animator* ani = GetOwner()->GetComponent<Animator>();
 			this->GetOwner()->GetComponent<Collider2D>()->SetScriptOff(true);

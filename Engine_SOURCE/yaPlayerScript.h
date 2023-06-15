@@ -79,6 +79,8 @@ namespace ya
 		float regenerationTime;
 		float slowTime;
 
+		float testTime;
+
 		float mSpeed;
 		float mslowSpeed;
 		float mSpeedMul;

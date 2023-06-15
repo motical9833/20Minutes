@@ -62,6 +62,7 @@ namespace ya
 		GameObject* GetLevelManager() { return levelManager; }
 		GameObject* GetMuzzleFlash() { return muzzleFlash; }
 		GameObject* GetSoundObjects(int number) { return soundObj[number]; }
+		GameObject* GetMonsterFactory() { return monsterFactoryManager; }
 		bool GetUIOn() { return uiOn; }
 
 		std::vector<GameObject*> GetIcon() { return iconObjects; }

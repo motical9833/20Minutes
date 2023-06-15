@@ -17,6 +17,7 @@ namespace ya
 
 		void MonsterSpawn();
 		Vector3 MonsterPos(Vector3 pos);
+		void CurrentMonsterCntDec() { currentMonsterCnt--; }
 	private:
 		float mTime;
 

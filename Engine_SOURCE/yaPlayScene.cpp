@@ -294,8 +294,8 @@ namespace ya
 			}
 		}
 
-		//monsterFactoryManager = object::Instantiate<GameObject>(eLayerType::None, this);
-		//monsterFactoryManager->AddComponent<MonsterFactoryScript>();
+		monsterFactoryManager = object::Instantiate<GameObject>(eLayerType::None, this);
+		monsterFactoryManager->AddComponent<MonsterFactoryScript>();
 
 		//Tile_0Material
 		//Particle

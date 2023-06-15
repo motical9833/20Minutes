@@ -8,6 +8,7 @@
 #include "yaSkillManager.h"
 #include "yaSceneManager.h"
 #include "yaPlayScene.h"
+#include "yaRenderer.h"
 
 namespace ya
 {
@@ -63,6 +64,7 @@ namespace ya
 		, bRegeneration(false)
 		, bShooting(false)
 		, bReflex(false)
+		, testTime(0.0f)
 	{
 
 	}
@@ -98,6 +100,23 @@ namespace ya
 	{
 	    Move();
 
+		float time = Time::DeltaTime();
+
+		testTime += time / 2;
+
+		ConstantBuffer* cbBuffer = renderer::constantBuffers[(UINT)eCBType::FadeInOut];
+		renderer::FadeInOutCB fadeData;
+
+		if (fadeData.alpha < 1)
+		{
+			fadeData.alpha = testTime;
+		}
+
+		cbBuffer->Setdata(&fadeData);
+		cbBuffer->BindSRV(eShaderStage::VS);
+		cbBuffer->BindSRV(eShaderStage::PS);
+
+
 		if (bHitImmune)
 		{
 			immuneTime += Time::DeltaTime();
@@ -131,6 +150,7 @@ namespace ya
 				regenerationTime = 0.0f;
 			}
 		}
+
 	}
 
 	void PlayerScript::Render()

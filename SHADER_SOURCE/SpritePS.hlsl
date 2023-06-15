@@ -37,6 +37,7 @@ float4 main(VSOut In) : SV_Target
     else 
     {
         color = defaultTexture.Sample(anisotropicSampler, In.UV);
+        //color.w = 0.5f;
     }
     
     
@@ -52,6 +53,9 @@ float4 main(VSOut In) : SV_Target
     //}``
     color *= lightColor.diffuse;
     
+    //loat4 color = (float) 0.0f;
+    
+   //color = defaultTexture.Sample(anisotropicSampler, 0);  
     
     //color = defaultTexture.Sample(anisotropicSampler, In.UV);
     return color;

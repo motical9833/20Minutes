@@ -4,8 +4,10 @@
 #include "yaPlayScene.h"
 #include "yaTime.h"
 #include "yaMonsterScript.h"
-#include <random>
+#include <random>>
 
+#define _USE_MATH_DEFINES
+#include <math.h>
 
 namespace ya
 {
@@ -28,6 +30,9 @@ namespace ya
 	}
 	void MonsterFactoryScript::Update()
 	{
+		if (SceneManager::GetPlayScene()->GetUIOn())
+			return;
+
 		if (currentMonsterCnt > maxMonsterCnt)
 			return;
 
@@ -65,50 +70,20 @@ namespace ya
 	}
 	Vector3 MonsterFactoryScript::MonsterPos(Vector3 pos)
 	{
+
+		double x = 0;
+		double y = 0;
+
 		std::random_device rd;
-		std::mt19937 rng(rd());
+		std::mt19937 gen(rd());
+		std::uniform_real_distribution<double> dis(0, 2 * M_PI);
 
-		int minX = -10;
-		int maxX = 10;
-		int minY = -10;
-		int maxY = 10;
+		double theta = dis(gen);
 
-		std::uniform_int_distribution<int> uniX(minX, maxX);
-		std::uniform_int_distribution<int> uniY(minY, maxY);
-
-		int randomX = uniX(rng);
-		int randomY = uniY(rng);
+		x = pos.x + 10 * cosf(theta);
+		y = pos.y + 10 * sinf(theta);
 
 
-		pos.x += randomX;
-		pos.y += randomY;
-
-		if (randomX == 0)	
-		{
-			pos.x += 8;
-		}
-		else if (-3 < randomX < 3)
-		{
-			pos.x += randomX * 3;
-		}
-		else if (6 < randomX > 3 || -6 > randomX < -3)
-		{
-			pos.x += randomX * 2;
-		}
-
-		if (randomY == 0)
-		{
-			pos.y += 8;
-		}
-		else if (-2 < randomY < 2)
-		{
-			pos.y += randomY * 3;
-		}
-		else if (5 < randomY > 2 || -5 > randomY < -2)
-		{
-			pos.y += randomY * 2;
-		}
-
-		return pos;
+		return Vector3(x,y,0.0f);
 	}
 }
