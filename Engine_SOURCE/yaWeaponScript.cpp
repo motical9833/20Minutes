@@ -320,6 +320,8 @@ namespace ya
 
 	void WeaponScript::Fire()
 	{
+		SceneManager::GetPlayScene()->GetBulletFireLight()->Life();
+
 		if (rateFireTime >= fireDelayTime * fireDelayTimeMul)
 		{
 			int a = 0;
@@ -387,10 +389,17 @@ namespace ya
 	void WeaponScript::WeaponRotate()
 	{
 		mPos = mTrans->GetPosition() + mTrans->GetParent()->GetPosition();
-		
-	//	Vector3 rot = mTransform->GetRotation();
 
 		mMousePos = Input::GetMousePosition();
+
+		if (mMousePos.x > 0 && bReloading == false)
+		{
+			mAnimator->Play(L"Revolver");
+		}
+		else if (mMousePos.x < 0 && bReloading == false)
+		{
+			mAnimator->Play(L"RevolverLeft");
+		}
 		mRot = mTrans->GetRotation();
 		mRot.z = atan2(mMousePos.y - mPos.y, mMousePos.x - mPos.x);
 		mTrans->SetRotation(mRot);

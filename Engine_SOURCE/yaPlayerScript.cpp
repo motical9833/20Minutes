@@ -22,8 +22,8 @@ namespace ya
 		, hitBuffTime(0.0f)
 		, regenerationTime(0.0f)
 		, slowTime(0.0f)
-		, mSpeed(6.0f)
-		, mslowSpeed(2.5f)
+		, mSpeed(3.0f)
+		, mslowSpeed(1.5f)
 		, mSpeedMul(1.0f)
 		, mslowSPeedMul(1.0f)
 		, mScaleMul(1.0f)
@@ -187,14 +187,14 @@ namespace ya
 
 			if (slowTime >= 0.5f)
 			{
-				mSpeed = 6;
+				mSpeed = 3;
 				slowTime = 0;
 				bShooting = false;
 
-				if (animator->GetActiveAnimation()->AnimationName() == L"pRightAttackMove")
-					animator->Play(L"pRightMove");
-				else if (animator->GetActiveAnimation()->AnimationName() == L"pLeftAttackMove")
-					animator->Play(L"pLeftMove");
+				//if (animator->GetActiveAnimation()->AnimationName() == L"pRightAttackMove")
+				//	animator->Play(L"pRightMove");
+				//else if (animator->GetActiveAnimation()->AnimationName() == L"pLeftAttackMove")
+				//	animator->Play(L"pLeftMove");
 			}
 		}
 
@@ -278,13 +278,189 @@ namespace ya
 			}
 		}
 
-
-		if (Input::GetKeyPress(eKeyCode::D) && bShooting)
+		if (bMove == false && ani->AnimationName() == L"pRightIdle" && Input::GetMousePosition().x < 0)
 		{
-			if (bMove == false || ani->AnimationName() == L"pRightMove")
+			animator->Play(L"pLeftIdle");
+		}
+		else if (bMove == false && ani->AnimationName() == L"pLeftIdle" && Input::GetMousePosition().x > 0)
+		{
+			animator->Play(L"pRightIdle");
+		}
+
+
+		if (Input::GetKeyPress(eKeyCode::W) && bShooting)
+		{
+			if (bMove == false || ani->AnimationName() == L"pRightMove" && Input::GetMousePosition().x > 0)
 			{
 				bMove = true;
 				animator->Play(L"pRightAttackMove");
+			}
+			else if (bMove == false || ani->AnimationName() == L"pLeftMove" && Input::GetMousePosition().x < 0)
+			{
+				bMove = true;
+				animator->Play(L"pLeftAttackMove");
+			}
+			else if (bMove == false || ani->AnimationName() == L"pRightIdle" && Input::GetMousePosition().x < 0)
+			{
+				bMove = true;
+				animator->Play(L"pRightAttackMove");
+			}
+			else if (bMove == false || ani->AnimationName() == L"pLeftIdle" && Input::GetMousePosition().x < 0)
+			{
+				bMove = true;
+				animator->Play(L"pLeftAttackMove");
+			}
+			else if (bMove == false || ani->AnimationName() == L"pLeftAttackMove" && Input::GetMousePosition().x > 0)
+			{
+				bMove = true;
+				animator->Play(L"pRightAttackMove");
+			}
+			else if (bMove == false || ani->AnimationName() == L"pRightAttackMove" && Input::GetMousePosition().x < 0)
+			{
+				bMove = true;
+				animator->Play(L"pLeftAttackMove");
+			}
+
+			Vector3 pos = tr->GetPosition();
+			pos.y += mSpeed * Time::DeltaTime();
+			tr->SetPosition(pos);
+		}
+		else if (Input::GetKeyPress(eKeyCode::W) && bShooting == false)
+		{
+			if (bMove == false && Input::GetMousePosition().x > 0)
+			{
+				bMove = true;
+				animator->Play(L"pRightMove");
+			}
+			else if (bMove == false && Input::GetMousePosition().x < 0)
+			{
+				bMove = true;
+				animator->Play(L"pLeftMove");
+			}
+			else if (bMove && ani->AnimationName() == L"pLeftAttackMove")
+			{
+				bMove = false;
+			}
+			else if (bMove && ani->AnimationName() == L"pRightAttackMove")
+			{
+				bMove = false;
+			}
+			else if (bMove && ani->AnimationName() == L"pRightMove" && Input::GetMousePosition().x < 0 
+				&& Input::GetKeyState(eKeyCode::A) == eKeyState::NONE 
+				&& Input::GetKeyState(eKeyCode::D) == eKeyState::NONE)
+			{
+				animator->Play(L"pLeftMove");
+			}
+			else if (bMove && ani->AnimationName() == L"pLeftMove" && Input::GetMousePosition().x > 0 
+				&& Input::GetKeyState(eKeyCode::A) == eKeyState::NONE 
+				&& Input::GetKeyState(eKeyCode::D) == eKeyState::NONE)
+			{
+				animator->Play(L"pRightMove");
+			}
+
+			Vector3 pos = tr->GetPosition();
+			pos.y += mSpeed * Time::DeltaTime();
+			tr->SetPosition(pos);
+		}
+
+
+
+		if (Input::GetKeyPress(eKeyCode::S) && bShooting)
+		{
+			if (bMove == false || ani->AnimationName() == L"pRightMove" && Input::GetMousePosition().x > 0)
+			{
+				bMove = true;
+				animator->Play(L"pRightAttackMove");
+			}
+			else if (bMove == false || ani->AnimationName() == L"pLeftMove" && Input::GetMousePosition().x < 0)
+			{
+				bMove = true;
+				animator->Play(L"pLeftAttackMove");
+			}
+			else if (bMove == false || ani->AnimationName() == L"pRightIdle" && Input::GetMousePosition().x < 0)
+			{
+				bMove = true;
+				animator->Play(L"pRightAttackMove");
+			}
+			else if (bMove == false || ani->AnimationName() == L"pLeftIdle" && Input::GetMousePosition().x < 0)
+			{
+				bMove = true;
+				animator->Play(L"pLeftAttackMove");
+			}
+			else if (bMove == false || ani->AnimationName() == L"pLeftAttackMove" && Input::GetMousePosition().x > 0)
+			{
+				bMove = true;
+				animator->Play(L"pRightAttackMove");
+			}
+			else if (bMove == false || ani->AnimationName() == L"pRightAttackMove" && Input::GetMousePosition().x < 0)
+			{
+				bMove = true;
+				animator->Play(L"pLeftAttackMove");
+			}
+
+			Vector3 pos = tr->GetPosition();
+			pos.y -= mSpeed * Time::DeltaTime();
+			tr->SetPosition(pos);
+		}
+		else if (Input::GetKeyPress(eKeyCode::S) && bShooting == false)
+		{
+			if (bMove == false && Input::GetMousePosition().x > 0)
+			{
+				bMove = true;
+				animator->Play(L"pRightMove");
+			}
+			else if (bMove == false && Input::GetMousePosition().x < 0)
+			{
+				bMove = true;
+				animator->Play(L"pLeftMove");
+			}
+			else if (bMove && ani->AnimationName() == L"pLeftAttackMove")
+			{
+				bMove = false;
+			}
+			else if (bMove && ani->AnimationName() == L"pRightAttackMove")
+			{
+				bMove = false;
+			}
+			else if (bMove && ani->AnimationName() == L"pRightMove" && Input::GetMousePosition().x < 0
+				&& Input::GetKeyState(eKeyCode::A) == eKeyState::NONE
+				&& Input::GetKeyState(eKeyCode::D) == eKeyState::NONE)
+			{
+				animator->Play(L"pLeftMove");
+			}
+			else if (bMove && ani->AnimationName() == L"pLeftMove" && Input::GetMousePosition().x > 0
+				&& Input::GetKeyState(eKeyCode::A) == eKeyState::NONE
+				&& Input::GetKeyState(eKeyCode::D) == eKeyState::NONE)
+			{
+				animator->Play(L"pRightMove");
+			}
+
+			Vector3 pos = tr->GetPosition();
+			pos.y -= mSpeed * Time::DeltaTime();
+			tr->SetPosition(pos);
+		}
+
+		if (Input::GetKeyPress(eKeyCode::D) && bShooting)
+		{
+			if (bMove == false || ani->AnimationName() == L"pRightMove" && Input::GetMousePosition().x > 0)
+			{
+				bMove = true;
+				animator->Play(L"pRightAttackMove");
+			}
+			else if (bMove == false || ani->AnimationName() == L"pRightMove" && Input::GetMousePosition().x < 0)
+			{
+				bMove = true;
+				animator->Play(L"pLeftAttackMove");
+			}
+			else if (bMove == false || ani->AnimationName() == L"pLeftAttackMove" && Input::GetMousePosition().x > 0)
+			{
+				bMove = true;
+				animator->Play(L"pRightAttackMove");
+			}
+			else if (bMove == false || ani->AnimationName() == L"pRightAttackMove" && Input::GetMousePosition().x < 0)
+			{
+				bMove = true;
+				animator->Play(L"pLeftAttackMove");
 			}
 
 			Vector3 pos = tr->GetPosition();
@@ -298,6 +474,14 @@ namespace ya
 				bMove = true;
 				animator->Play(L"pRightMove");
 			}
+			else if (bMove && ani->AnimationName() == L"pLeftAttackMove")
+			{
+				bMove = false;
+			}
+			else if (bMove && ani->AnimationName() == L"pRightAttackMove")
+			{
+				bMove = false;
+			}
 
 			Vector3 pos = tr->GetPosition();
 			pos.x += mSpeed * Time::DeltaTime();
@@ -306,7 +490,22 @@ namespace ya
 
 		if (Input::GetKeyPress(eKeyCode::A) && bShooting)
 		{
-			if (bMove == false || ani->AnimationName() == L"pLeftMove")
+			if (bMove == false || ani->AnimationName() == L"pLeftMove" && Input::GetMousePosition().x > 0)
+			{
+				bMove = true;
+				animator->Play(L"pRightAttackMove");
+			}
+			else if (bMove == false || ani->AnimationName() == L"pLeftMove" && Input::GetMousePosition().x < 0)
+			{
+				bMove = true;
+				animator->Play(L"pLeftAttackMove");
+			}
+			else if (bMove == false || ani->AnimationName() == L"pLeftAttackMove" && Input::GetMousePosition().x > 0)
+			{
+				bMove = true;
+				animator->Play(L"pRightAttackMove");
+			}
+			else if (bMove == false || ani->AnimationName() == L"pRightAttackMove" && Input::GetMousePosition().x < 0)
 			{
 				bMove = true;
 				animator->Play(L"pLeftAttackMove");
@@ -323,69 +522,20 @@ namespace ya
 				bMove = true;
 				animator->Play(L"pLeftMove");
 			}
+			else if (bMove && ani->AnimationName() == L"pLeftAttackMove")
+			{
+				bMove = false;
+			}
+			else if (bMove && ani->AnimationName() == L"pRightAttackMove")
+			{
+				bMove = false;
+			}
 
 			Vector3 pos = tr->GetPosition();
 			pos.x -= mSpeed * Time::DeltaTime();
 			tr->SetPosition(pos);
 		}
 
-		if (Input::GetKeyDown(eKeyCode::W) && ani->AnimationName() == L"pRightIdle")
-		{
-			animator->Play(L"pRightMove");
-		}
-		else if (Input::GetKeyDown(eKeyCode::W) && ani->AnimationName() == L"pLeftIdle") 
-		{
-			animator->Play(L"pLeftMove");
-		}
-		else if (Input::GetKeyPress(eKeyCode::W))
-		{
-			if (bMove == false)
-			{
-				bMove = true;
-			}
-			Vector3 pos = tr->GetPosition();
-			pos.y += mSpeed * Time::DeltaTime();
-			tr->SetPosition(pos);
-		}
-		else if (Input::GetKeyUp(eKeyCode::W) && ani->AnimationName() == L"pRightMove")
-		{
-			animator->Play(L"pRightIdle");
-			bMove = false;
-		}
-		else if (Input::GetKeyUp(eKeyCode::W) && ani->AnimationName() == L"pLeftMove")
-		{
-			animator->Play(L"pLeftIdle");
-			bMove = false;
-		}
-
-		if (Input::GetKeyDown(eKeyCode::S) && ani->AnimationName() == L"pRightIdle")
-		{
-			animator->Play(L"pRightMove");
-		}
-		else if (Input::GetKeyDown(eKeyCode::S) && ani->AnimationName() == L"pLeftIdle")
-		{
-			animator->Play(L"pLeftMove");
-		}
-		else if (Input::GetKeyPress(eKeyCode::S))
-		{
-			if (bMove == false)
-			{
-				bMove = true;
-			}
-			Vector3 pos = tr->GetPosition();
-			pos.y -= mSpeed * Time::DeltaTime();
-			tr->SetPosition(pos);
-		}
-		else if (Input::GetKeyUp(eKeyCode::S) && ani->AnimationName() == L"pRightMove")
-		{
-			animator->Play(L"pRightIdle");
-			bMove = false;
-		}
-		else if (Input::GetKeyUp(eKeyCode::S) && ani->AnimationName() == L"pLeftMove")
-		{
-			animator->Play(L"pLeftIdle");
-			bMove = false;
-		}
 
 
 

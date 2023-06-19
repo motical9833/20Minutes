@@ -9,7 +9,7 @@ namespace ya
 	{
 	public:
 		MonsterScript();
-		MonsterScript(int hp);
+		MonsterScript(int hp,eLayerType layer);
 		~MonsterScript();
 
 		virtual void Initalize() override;
@@ -58,6 +58,8 @@ namespace ya
 		void DropExpMarble();
 		void ClashwithPlayer();
 
+		void HitEvent();
+
 	protected:
 
 		float mSpeed;
@@ -91,5 +93,6 @@ namespace ya
 
 		Player* player;
 		Animator* animator;
+		eLayerType mLayer;
 	};
 }

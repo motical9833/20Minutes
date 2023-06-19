@@ -58,6 +58,9 @@ namespace ya
 		void Reset();
 		void GameReset();
 		void ThunderEnchantOn() { bThunder = true; };
+
+		void AttackBoss(Collider2D* collider);
+		void AttackMonster(Collider2D* collider);
 	private:
 		float mSpeed;
 		float mSpeedMul;

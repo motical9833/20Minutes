@@ -4,7 +4,7 @@
 #include "yaConstantBuffer.h"
 #include "yaMesh.h"
 #include "yaTexture.h"
-
+#include "yaResources.h"
 
 extern ya::Application application;
 
@@ -67,7 +67,7 @@ namespace ya::graphics
 		// Create Rendertarget View
 		//hr = mDevice->CreateRenderTargetView(mRenderTargetTexture.Get(), nullptr, mRenderTargetView.GetAddressOf());
 
-
+		Resources::Insert<Texture>(L"RenderTargetTexture", mRenderTargetTexture);
 
 		D3D11_TEXTURE2D_DESC depthBuffer = {};
 		depthBuffer.BindFlags = D3D11_BIND_FLAG::D3D11_BIND_DEPTH_STENCIL;

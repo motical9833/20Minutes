@@ -30,6 +30,7 @@ namespace ya
 		void SetPosition(Vector3 position) { mPosition = position; };
 		void SetRotation(Vector3 degree) { mRotation = degree; };
 		void SetScale(Vector3 scale) { mScale = scale; };
+		void SetFollowParents(bool bValue) { bFollowParents = bValue; }
 
 		Vector3 Foward() { return mFoward; }
 		Vector3 Right() { return mRight; }
@@ -55,5 +56,7 @@ namespace ya
 		Vector3 mScale;
 		Matrix mWorld;
 		Matrix mNoScaleWorld;
+
+		bool bFollowParents;
 	};
 }

@@ -12,8 +12,13 @@
 #include "yaSkillManager.h"
 #include "yaReloadBarScript.h"
 #include "yaMonsterFactoryScript.h"
+#include "yaConstantBuffer.h"
+#include "yaRenderer.h"
+#include "yaAudioSource.h"
+#include "yaMonsterEyeLightScript.h"
+#include "yaSoundObjectScript.h"
 
-#define monsterSpeed 1
+#define monsterSpeed 1.7f
 
 namespace ya
 {
@@ -45,7 +50,7 @@ namespace ya
 	{
 
 	}
-	MonsterScript::MonsterScript(int hp)
+	MonsterScript::MonsterScript(int hp,eLayerType layer)
 		: mCurrentHp(hp)
 		, mMaxHp(hp)
 		, mSpeed(monsterSpeed)
@@ -69,6 +74,7 @@ namespace ya
 		, ignitionMaxCnt(10)
 		, mDir{}
 		, player(nullptr)
+		, mLayer(layer)
 	{
 	}
 	MonsterScript::~MonsterScript()
@@ -77,10 +83,15 @@ namespace ya
 	}
 	void MonsterScript::Initalize()
 	{
-
 		animator = GetOwner()->GetComponent<Animator>();
 		animator->GetCompleteEvent(L"DeathAnimation") = std::bind(&MonsterScript::End, this);
 		mColliderSize = GetOwner()->GetComponent<Collider2D>()->GetSize();
+
+		if (GetOwner()->GetLayerType() == eLayerType::Tree)
+			return;
+
+		animator->GetCompleteEvent(L"m_RightHit") = std::bind(&MonsterScript::HitEvent, this);
+		animator->GetCompleteEvent(L"m_LeftHit") = std::bind(&MonsterScript::HitEvent, this);
 	}
 	void MonsterScript::Update()
 	{
@@ -103,6 +114,19 @@ namespace ya
 					TakeDamage(damage);
 				}
 
+				if (GetOwner()->GetComponent<Transform>()->GetPosition().x > player->GetComponent<Transform>()->GetPosition().x
+					&& GetOwner()->GetLayerType() != eLayerType::Tree)
+				{
+					animator->Play(L"m_Left", true);
+					GetOwner()->GetComponent<Transform>()->GetChiled(2)->GetOwner()->GetScript<MonsterEyeLightScript>()->SetLeft();
+				}
+				else if (GetOwner()->GetComponent<Transform>()->GetPosition().x < player->GetComponent<Transform>()->GetPosition().x
+					&& GetOwner()->GetLayerType() != eLayerType::Tree)
+				{
+					animator->Play(L"m_Right", true);
+					GetOwner()->GetComponent<Transform>()->GetChiled(2)->GetOwner()->GetScript<MonsterEyeLightScript>()->SetRight();
+				}
+
 				animator->PlayAgain();
 				Transform* tr = GetOwner()->GetComponent<Transform>();
 				tr->GetChiled(0)->GetOwner()->Death();
@@ -114,13 +138,19 @@ namespace ya
 		else
 		{
 			Animation* ani = animator->GetActiveAnimation();
-			if (GetOwner()->GetComponent<Transform>()->GetPosition().x > player->GetComponent<Transform>()->GetPosition().x && ani->AnimationName() == L"m_Right")
+			if (GetOwner()->GetComponent<Transform>()->GetPosition().x > player->GetComponent<Transform>()->GetPosition().x 
+				&& ani->AnimationName() == L"m_Right"
+				&& GetOwner()->GetLayerType() != eLayerType::Tree)
 			{
 				animator->Play(L"m_Left",true);
+				GetOwner()->GetComponent<Transform>()->GetChiled(2)->GetOwner()->GetScript<MonsterEyeLightScript>()->SetLeft();
 			}
-			else if (GetOwner()->GetComponent<Transform>()->GetPosition().x < player->GetComponent<Transform>()->GetPosition().x && ani->AnimationName() == L"m_Left")
+			else if (GetOwner()->GetComponent<Transform>()->GetPosition().x < player->GetComponent<Transform>()->GetPosition().x 
+				&& ani->AnimationName() == L"m_Left" 
+				&& GetOwner()->GetLayerType() != eLayerType::Tree)
 			{
 				animator->Play(L"m_Right", true);
+				GetOwner()->GetComponent<Transform>()->GetChiled(2)->GetOwner()->GetScript<MonsterEyeLightScript>()->SetRight();
 			}
 
 			if (bClash)
@@ -230,14 +260,20 @@ namespace ya
 	}
 	void MonsterScript::End()
 	{
-		//GetOwner()->GetComponent<Collider2D>()->SetSize(mColliderSize);
-		//mCurrentHp = mMaxHp;
-		//Animator* ani = GetOwner()->GetComponent<Animator>();
-		//Respawn();
 		this->GetOwner()->Death();
 	}
 	void MonsterScript::TakeDamage(int damage)
 	{
+		mSpeed = 0;
+
+		if (GetOwner()->GetLayerType() == eLayerType::Monster)
+		{
+			if (GetOwner()->GetComponent<Animator>()->GetActiveAnimation()->AnimationName() == L"m_Right")
+				GetOwner()->GetComponent<Animator>()->Play(L"m_RightHit", false);
+			else if (GetOwner()->GetComponent<Animator>()->GetActiveAnimation()->AnimationName() == L"m_Left")
+				GetOwner()->GetComponent<Animator>()->Play(L"m_LeftHit", false);
+		}
+
 		if (bCurseActivate)
 		{
 			bCurseActivate = false;
@@ -271,6 +307,16 @@ namespace ya
 	}
 	void MonsterScript::TakeDamage(int damage, eLayerType type)
 	{
+		mSpeed = 0;
+
+		if (GetOwner()->GetLayerType() == eLayerType::Monster)
+		{
+			if (GetOwner()->GetComponent<Animator>()->GetActiveAnimation()->AnimationName() == L"m_Right")
+				GetOwner()->GetComponent<Animator>()->Play(L"m_RightHit", false);
+			else if (GetOwner()->GetComponent<Animator>()->GetActiveAnimation()->AnimationName() == L"m_Left")
+				GetOwner()->GetComponent<Animator>()->Play(L"m_LeftHit", false);
+		}
+
 		if (bCurseActivate)
 		{
 			bCurseActivate = false;
@@ -318,7 +364,13 @@ namespace ya
 		mSpeed = monsterSpeed;
 		ani->Play(L"m_Right", true);
 		this->GetOwner()->GetComponent<Collider2D>()->SetScriptOff(false);
-		this->GetOwner()->SetLayerType(eLayerType::Monster);
+		GetOwner()->SetLayerType(mLayer);
+
+		if (GetOwner()->GetLayerType() != eLayerType::Tree)
+		{
+			GetOwner()->GetComponent<Transform>()->GetChiled(2)->GetOwner()->Life();
+			GetOwner()->GetComponent<Transform>()->GetChiled(2)->GetOwner()->GetComponent<Animator>()->Play(L"m_Right", true);
+		}
 	}
 	void MonsterScript::GameReset()
 	{
@@ -341,14 +393,30 @@ namespace ya
 		if (mCurrentHp <= 0)
 		{
 			SceneManager::GetPlayScene()->GetMonsterFactory()->GetScript<MonsterFactoryScript>()->CurrentMonsterCntDec();
+			GetOwner()->GetComponent<Transform>()->GetChiled(2)->GetOwner()->Death();
 			DropExpMarble();
 			Animator* ani = GetOwner()->GetComponent<Animator>();
-			this->GetOwner()->GetComponent<Collider2D>()->SetScriptOff(true);
-			this->GetOwner()->SetLayerType(eLayerType::None);
+			GetOwner()->GetComponent<Collider2D>()->SetScriptOff(true);
 			ani->Play(L"DeathAnimation", false);
+			GetOwner()->SetLayerType(eLayerType::None);
 			Transform* tr = GetOwner()->GetComponent<Transform>();
 			tr->GetChiled(0)->GetOwner()->Death();
 			tr->GetChiled(1)->GetOwner()->GetScript<CurseScript>()->Reset();
+
+
+			if (mLayer == eLayerType::MonsterBoomer)
+			{
+				for (size_t i = 0; i < SceneManager::GetPlayScene()->GetBoomerExplosions().size(); i++)
+				{
+					if (SceneManager::GetPlayScene()->GetBoomerExplosions()[i]->IsDead() == false)
+						continue;
+
+					SceneManager::GetPlayScene()->GetBoomerExplosions()[i]->Life();
+					SceneManager::GetPlayScene()->GetBoomerExplosions()[i]->GetComponent<Transform>()->SetPosition(GetOwner()->GetComponent<Transform>()->GetPosition());
+					SceneManager::GetPlayScene()->GetBoomerSound()[i]->GetScript<SoundObjectScript>()->ObjectOn();
+					break;
+				}
+			}
 
 			if (bKillClip)
 			{
@@ -366,15 +434,32 @@ namespace ya
 	{
 		if (mCurrentHp <= 0 && GetOwner()->GetComponent<Transform>()->GetChiled(0)->GetOwner()->GetState() != GameObject::Dead)
 		{
-
+			SceneManager::GetPlayScene()->GetMonsterFactory()->GetScript<MonsterFactoryScript>()->CurrentMonsterCntDec();
+			GetOwner()->GetComponent<Transform>()->GetChiled(2)->GetOwner()->Death();
 			DropExpMarble();
 			Animator* ani = GetOwner()->GetComponent<Animator>();
-			this->GetOwner()->GetComponent<Collider2D>()->SetScriptOff(true);
-			this->GetOwner()->SetLayerType(eLayerType::None);
+			GetOwner()->GetComponent<Collider2D>()->SetScriptOff(true);
+			GetOwner()->SetLayerType(eLayerType::None);
 			ani->Play(L"DeathAnimation", false);
 			Transform* tr = GetOwner()->GetComponent<Transform>();
 			tr->GetChiled(0)->GetOwner()->Death();
 			tr->GetChiled(1)->GetOwner()->GetScript<CurseScript>()->Reset();
+
+			if (mLayer == eLayerType::MonsterBoomer)
+			{
+				for (size_t i = 0; i < SceneManager::GetPlayScene()->GetBoomerExplosions().size(); i++)
+				{
+					if (SceneManager::GetPlayScene()->GetBoomerExplosions()[i]->IsDead() == false)
+						continue;
+
+					SceneManager::GetPlayScene()->GetBoomerExplosions()[i]->Life();
+					SceneManager::GetPlayScene()->GetBoomerExplosions()[i]->GetComponent<Transform>()->SetPosition(GetOwner()->GetComponent<Transform>()->GetPosition());
+					SceneManager::GetPlayScene()->GetBoomerSound()[i]->GetScript<SoundObjectScript>()->ObjectOn();
+
+					break;
+				}
+			}
+
 
 			if (bKillClip)
 			{
@@ -504,5 +589,18 @@ namespace ya
 
 		bClash = true;
 		mSpeed = 15.0f;
+	}
+	void MonsterScript::HitEvent()
+	{
+		if (GetOwner()->GetComponent<Transform>()->GetPosition().x < player->GetComponent<Transform>()->GetPosition().x)
+		{
+			animator->Play(L"m_Right", true);
+		}
+		else if (GetOwner()->GetComponent<Transform>()->GetPosition().x > player->GetComponent<Transform>()->GetPosition().x)
+		{
+			animator->Play(L"m_Left", true);
+		}
+
+		mSpeed = monsterSpeed;
 	}
 }

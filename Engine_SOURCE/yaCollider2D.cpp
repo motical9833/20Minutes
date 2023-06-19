@@ -2,6 +2,7 @@
 #include "yaGameObject.h"
 #include "yaRenderer.h"
 #include "yaScript.h"
+#include "yaThunderScript.h"
 
 namespace ya
 {

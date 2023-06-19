@@ -26,11 +26,13 @@ namespace ya
 		virtual void OnExit() override;
 
 		Player* GetPlayer() { return player; }
+		GameObject* GetPlaySceneCamera() { return pSceneCamera; }
 		void ChoosePlayers(int num);
 		Weapon* GetWeapon() { return pWeapon; }
 		Scene* GetScene() { return this; }
 		std::vector<Bullet*> GetBullet() { return bullets; }
 		std::vector<GameObject*> GetThunders() { return thunders; }
+		std::vector<GameObject*> GetThundersEffect() { return thundersEffect; }
 		std::vector<GameObject*> GetGale() { return gales; }
 		std::vector<Bullet*> GetGhostBullets() { return ghostBullets; }
 		std::vector<Bullet*> GetDragonFires() { return dragonFires; }
@@ -38,17 +40,23 @@ namespace ya
 		std::vector<GameObject*> Getspears() { return spears; }
 		std::vector<GameObject*> GetHpObjects() { return hpObjects; }
 		std::vector<GameObject*> GetIcicles() { return icicles; }
+		std::vector<GameObject*> GetIcicleSounds() { return icicleSounds; }
 		std::vector<GameObject*> GetCurses() { return curses; }
 		std::vector<GameObject*> GetExpMarble() { return expMarbles; }
 		GameObject* GetGhostPet() { return ghostPet; }
 		GameObject* GetGhostPetRotObj() { return ghostPetRotobject; }
 		GameObject* GetMagicLens() { return magicLens; }
 		GameObject* GetExpGauge() { return expGauge; }
+		GameObject* GetBulletFireLight() { return bulletFireLight; }
 
 		std::vector<Monster*> GetBrainMonsters() { return mBrainMonsters; }
 		std::vector<Monster*> GetTreeMonsters() { return mTreeMonsters; }
 		std::vector<Monster*> GetEyeMonsters() { return mEyeMonsters; }
 		std::vector<Monster*> GetBoomerMonsters() { return mBoomerMonsters; }
+		std::vector<Monster*> GetBossMonsters() { return mBossMonsters; }
+		std::vector<Monster*> getBigBoomerMonsters() { return mBigBoomerMonsters; }
+		std::vector<GameObject*> GetBoomerExplosions() { return boomersExplosions; }
+		std::vector<GameObject*> GetBoomerSound() { return boomersSounds; }
 
 		void ThunderBugOn() { for (size_t i = 0; i < thunderBugs.size(); i++) { thunderBugs[i]->Life(); } }
 
@@ -77,10 +85,14 @@ namespace ya
 		void CreateWeapon();
 		void CreateFirePos();
 		void CreateBrainMonster();
-		void CreateTreeMonster();
+		void CreateBrainEyeEffect();
+		void CreateTreeMonster(Vector3 pos);
 		void CreateEyeMonster();
+		void CreateEyeMonsterEffect();
 		void CreateBommerMonster();
+		void CreateBommerEyeEffect();
 		void CreateBossMonster();
+		void CreateBossEffect();
 
 		void CreateDragonPet();
 		void CreateDragonPetBullet();
@@ -155,6 +167,7 @@ namespace ya
 		std::vector<GameObject*> hpObjects;
 		std::vector<Bullet*> bullets;
 		std::vector<GameObject*> thunders;
+		std::vector<GameObject*> thundersEffect;
 		std::vector<GameObject*> gales;
 		std::vector<GameObject*> freezes;
 		std::vector<GameObject*> curses;
@@ -162,6 +175,7 @@ namespace ya
 		std::vector<GameObject*> spears;
 		std::vector<GameObject*> thunderBugs;
 		std::vector<GameObject*> icicles;
+		std::vector<GameObject*> icicleSounds;
 		std::vector<GameObject*> expMarbles;
 		std::vector<GameObject*> uiObjects;
 		std::vector<GameObject*> uiFrames;
@@ -185,17 +199,25 @@ namespace ya
 		GameObject* playerPointLight;
 		GameObject* playerSubPointLight;
 		GameObject* directionalLight;
+		GameObject* bulletFireLight;
 		GameObject* expGauge;
 
 		std::vector<Bullet*> ghostBullets;
 		std::vector<Bullet*> dragonFires;
 		Bullet* bullet;
 
-		std::vector<Monster*> mBrainMonsters;		
+		std::vector<Monster*> mBrainMonsters;	
+		std::vector<GameObject*> mBrainMonsterEyes;
 		std::vector<Monster*> mTreeMonsters;
 		std::vector<Monster*> mEyeMonsters;
+		std::vector<GameObject*> mEyeMonsterEyes;
 		std::vector<Monster*> mBoomerMonsters;
+		std::vector<GameObject*> mBoomerMonsterEyes;
+		std::vector<Monster*> mBigBoomerMonsters;
+		std::vector<GameObject*> boomersExplosions;
+		std::vector<GameObject*> boomersSounds;
 		std::vector<Monster*> mBossMonsters;
+		std::vector<GameObject*> mBossMonsterEffects;
 
 		std::vector<GameObject*> hpUiObj;
 

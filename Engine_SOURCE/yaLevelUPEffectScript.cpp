@@ -5,6 +5,7 @@
 #include "yaPlayScene.h"
 #include "yaPlayerLevelScript.h"
 #include "yaPlayerScript.h"
+#include "yaAudioSource.h"
 
 namespace ya
 {
@@ -44,6 +45,7 @@ namespace ya
 		{
 			SceneManager::GetPlayScene()->SetReroll(true);
 		}
+		SceneManager::GetPlayScene()->GetSoundObjects(5)->GetComponent<AudioSource>()->Play();
 		SceneManager::GetPlayScene()->LevelUPUI();
 		GetOwner()->Death();
 	}

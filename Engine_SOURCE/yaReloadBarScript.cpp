@@ -65,6 +65,6 @@ namespace ya
 		{
 			SceneManager::GetPlayScene()->GetReloadUI()[i]->Death();
 		}
-		GetOwner()->GetComponent<Transform>()->SetPosition(Vector3(-1.0f, 0.8f, 10.0f));
+		GetOwner()->GetComponent<Transform>()->SetPosition(Vector3(-1.0f, 0.6f, 9.0f));
 	}
 }

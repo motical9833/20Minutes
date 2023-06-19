@@ -32,10 +32,12 @@ float4 main(VSOut In) : SV_Target
         if (UV.x < leftTop.x || UV.y < leftTop.y || UV.x > leftTop.x + spriteSize.x || UV.y > leftTop.y + spriteSize.y)
             discard;
          
+        //UV.x = -UV.x;
         color = atlasTexture.Sample(anisotropicSampler, UV);
     }
     else
     {
+        //UV.x = -UV.x;
         color = defaultTexture.Sample(anisotropicSampler, In.UV);
     }
     

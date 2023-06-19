@@ -4,6 +4,7 @@
 #include "yaSceneManager.h"
 #include "yaPaintShader.h"
 #include "yaParticleShader.h"
+#include "yaTime.h"
 
 namespace ya::renderer
 {
@@ -20,6 +21,7 @@ namespace ya::renderer
 	std::vector<LightAttribute> lights; 
 	StructedBuffer* lightsBuffer = nullptr;
 
+	std::shared_ptr<Texture> postProcessTexture = nullptr;
 
 	void LoadMesh()
 	{
@@ -247,6 +249,15 @@ namespace ya::renderer
 		fadeShader->Create(eShaderStage::PS, L"FadeEffectPS.hlsl", "main");
 
 		Resources::Insert<Shader>(L"FadeShader", fadeShader);
+
+
+#pragma region POST PROCESS SHADER
+		std::shared_ptr<Shader> postProcessShader = std::make_shared<Shader>();
+		postProcessShader->Create(eShaderStage::VS, L"PostProcessVS.hlsl", "main");
+		postProcessShader->Create(eShaderStage::PS, L"PostProcessPS.hlsl", "main");
+		postProcessShader->SetDSState(eDSType::NoWrite);
+		Resources::Insert<Shader>(L"PostProcessShader", postProcessShader);
+#pragma endregion
 	}
 
 	void SetUpState()
@@ -356,6 +367,13 @@ namespace ya::renderer
 			, fadeShader->GetVSBlobBufferPointer()
 			, fadeShader->GetVSBlobBufferSize()
 			, fadeShader->GetInputLayoutAddressOf());
+
+
+		std::shared_ptr<Shader> postProcessShader = Resources::Find<Shader>(L"PostProcessShader");
+		GetDevice()->CreateInputLayout(arrLayoutDesc, 3
+			, postProcessShader->GetVSBlobBufferPointer()
+			, postProcessShader->GetVSBlobBufferSize()
+			, postProcessShader->GetInputLayoutAddressOf());
 
 
 #pragma endregion
@@ -551,10 +569,16 @@ namespace ya::renderer
 
 		Resources::Load<Texture>(L"MonsterSprite", L"BrainMonster_0.png");
 		Resources::Load<Texture>(L"BrainMonster", L"Monster\\BrainMonster.png");
+		Resources::Load<Texture>(L"BrainMonsterEye", L"Monster\\BrainMonsterEye.png");
 		Resources::Load<Texture>(L"TreeSprite", L"Monster\\T_TreeMonster.png");
 		Resources::Load<Texture>(L"EyeMonsterSprite", L"Monster\\EyeMonster.png");
+		Resources::Load<Texture>(L"EyeMonsterEye", L"Monster\\EyeMonsterEye.png");
 		Resources::Load<Texture>(L"BoomerMonsterSprite", L"Monster\\BigBoomer.png");
+		Resources::Load<Texture>(L"BoomerMonster", L"Monster\\BoomerMonster.png");
+		Resources::Load<Texture>(L"BoomerMonsterEye", L"Monster\\BoomerMonsterEye.png");
+		Resources::Load<Texture>(L"BoomerExplosion", L"Monster\\ExplosionFX.png");
 		Resources::Load<Texture>(L"Boss_ShubNiggurat", L"Monster\\Boss_ShubNiggurat.png");
+		Resources::Load<Texture>(L"Boss_ShubNigguratEye", L"Monster\\Boss_ShubNigguratEye.png");
 		Resources::Load<Texture>(L"Boss_Shoggoth", L"Monster\\Boss_Shoggoth.png");
 		Resources::Load<Texture>(L"Boss_ShoggothLaser", L"Monster\\T_ShoggothLaser.png");
 		Resources::Load<Texture>(L"Boss_ShoggothLaserWindup", L"Monster\\T_ShoggothLaserWindup.png");
@@ -935,6 +959,9 @@ namespace ya::renderer
 		Resources::Load<Texture>(L"Weapon_6", L"UI\\Weapon\\GrenadeLauncherStill.png");
 		Resources::Load<Texture>(L"Weapon_7", L"UI\\Weapon\\BowStill.png");
 
+		Resources::Load<Texture>(L"noise_03", L"noise\\noise_03.jpg");
+		Resources::Load<Texture>(L"noise_04", L"noise\\noise_04.jpg");
+
 #pragma endregion
 #pragma region DYNAMIC TEXTURE
 		std::shared_ptr<Texture> uavTexture = std::make_shared<Texture>();
@@ -942,7 +969,12 @@ namespace ya::renderer
 			, D3D11_BIND_SHADER_RESOURCE | D3D11_BIND_UNORDERED_ACCESS);
 		Resources::Insert<Texture>(L"PaintTexture", uavTexture);
 
-		
+
+		//noise
+		postProcessTexture = std::make_shared<Texture>();
+		postProcessTexture->Create(1600, 900, DXGI_FORMAT_R8G8B8A8_UNORM, D3D11_BIND_SHADER_RESOURCE);
+		postProcessTexture->BindShaderResource(eShaderStage::PS, 60);
+
 #pragma endregion
 	}
 
@@ -973,21 +1005,28 @@ namespace ya::renderer
 #pragma region DEFAULT MATERIAL
 		CreateMaterial(L"MonsterSprite", L"MonsterShader", eRenderingMode::Transparent, L"MonsterMaterial");
 
-		CreateMaterial(L"BrainMonster", L"MonsterShader", eRenderingMode::Transparent, L"BrainMonsterMaterial");
+		CreateMaterial(L"BrainMonster", L"MonsterShader", eRenderingMode::Opaque, L"BrainMonsterMaterial");
+		CreateMaterial(L"BrainMonsterEye", L"UISpriteShader", eRenderingMode::Transparent, L"BrainMonsterEyeMaterial");
 #pragma endregion
 #pragma region MONSTERS MATERIAL
 		// TreeMonster
 		CreateMaterial(L"TreeSprite", L"MonsterShader", eRenderingMode::Transparent, L"TreeMaterial");
 
 		// EyeMonster
-		CreateMaterial(L"EyeMonsterSprite", L"MonsterShader", eRenderingMode::Transparent, L"EyeMonsterMaterial");
+		CreateMaterial(L"EyeMonsterSprite", L"MonsterShader", eRenderingMode::Opaque, L"EyeMonsterMaterial");
+		CreateMaterial(L"EyeMonsterEye", L"UISpriteShader", eRenderingMode::Transparent, L"EyeMonsterEyeMaterial");
 
 		// BoomerMonster
 		CreateMaterial(L"BoomerMonsterSprite", L"MonsterShader", eRenderingMode::Transparent, L"BoomerMonsterMaterial");
 
+		CreateMaterial(L"BoomerMonster", L"MonsterShader", eRenderingMode::Opaque, L"BoomerMaterial");
+		CreateMaterial(L"BoomerMonsterEye", L"UISpriteShader", eRenderingMode::Transparent, L"BoomerEyeMaterial");
+
+		//BoomerExplosion
 		//Resources::Load<Texture>(L"Boss_ShubNiggurat", L"Monster\\Boss_ShubNiggurat.png");
 
-		CreateMaterial(L"Boss_ShubNiggurat", L"MonsterShader", eRenderingMode::Transparent, L"ShubNigguratMaterial");
+		CreateMaterial(L"Boss_ShubNiggurat", L"MonsterShader", eRenderingMode::Opaque, L"ShubNigguratMaterial");
+		CreateMaterial(L"Boss_ShubNigguratEye", L"UISpriteShader", eRenderingMode::Transparent, L"ShubNigguratEyeMaterial");
 
 		CreateMaterial(L"Boss_Shoggoth", L"MonsterShader", eRenderingMode::Transparent, L"ShoggothMaterial");
 		CreateMaterial(L"Boss_ShoggothLaser", L"MonsterShader", eRenderingMode::Transparent, L"LaserMaterial");
@@ -1154,6 +1193,13 @@ namespace ya::renderer
 		CreateMaterial(L"LevelUP", L"SpriteShader", eRenderingMode::Transparent, L"LevelUPEffectMaterial");
 
 		CreateMaterial(L"ExpObj", L"SpriteShader", eRenderingMode::Transparent, L"ExpObjectMaterial");
+
+		std::shared_ptr<Shader> postProcessShader = Resources::Find<Shader>(L"PostProcessShader");
+		std::shared_ptr<Material> postProcessMaterial = std::make_shared<Material>();
+		postProcessMaterial->SetRenderingMode(eRenderingMode::PostProcess);
+		postProcessMaterial->SetShader(postProcessShader);
+		Resources::Insert<Material>(L"PostProcessMaterial", postProcessMaterial);
+
 #pragma endregion
 	}
 
@@ -1246,9 +1292,11 @@ namespace ya::renderer
 		cb->BindSRV(eShaderStage::VS);
 		cb->BindSRV(eShaderStage::PS);
 	}
+
+	float noiseTime = 10.0f;
 	void BindNoiseTexture()
 	{
-		std::shared_ptr<Texture> noise = Resources::Find<Texture>(L"noise_01");
+		std::shared_ptr<Texture> noise = Resources::Find<Texture>(L"noise_04");
 		noise->BindShaderResource(eShaderStage::VS, 16);
 		noise->BindShaderResource(eShaderStage::HS, 16);
 		noise->BindShaderResource(eShaderStage::DS, 16);
@@ -1259,6 +1307,8 @@ namespace ya::renderer
 		NoiseCB info = {};
 		info.noiseSize.x = noise->GetWidth();
 		info.noiseSize.y = noise->GetHeight();
+		noiseTime -= Time::DeltaTime();
+		info.noiseTime = noiseTime;
 
 		ConstantBuffer* cb = renderer::constantBuffers[(UINT)eCBType::Noise];
 		cb->Setdata(&info);
@@ -1268,5 +1318,20 @@ namespace ya::renderer
 		cb->BindSRV(eShaderStage::GS);
 		cb->BindSRV(eShaderStage::PS);
 		cb->BindSRV(eShaderStage::CS);
+	}
+
+	void CopyRenderTarget()
+	{
+		std::shared_ptr<Texture> renderTarget = Resources::Find<Texture>(L"RenderTargetTexture");
+
+		ID3D11ShaderResourceView* srv = nullptr;
+		GetDevice()->BindShaderResource(eShaderStage::PS, 60, &srv);
+
+		ID3D11Texture2D* dest = postProcessTexture->GetTexture().Get();
+		ID3D11Texture2D* source = renderTarget->GetTexture().Get();
+
+		GetDevice()->CopyResource(dest, source);
+
+		postProcessTexture->BindShaderResource(eShaderStage::PS, 60);
 	}
 }

@@ -52,8 +52,9 @@ namespace ya::renderer
 		Vector2 size;
 		Vector2 offset;
 		Vector2 atlasSize;
-
 		UINT type;
+		float time;
+		bool bValue;
 	};
 
 	CBUFFER(LightCB, CBSLOT_NUMBEROFLIGHT)
@@ -81,6 +82,7 @@ namespace ya::renderer
 	CBUFFER(NoiseCB, CBSLOT_NOISE)
 	{
 		Vector4 noiseSize;
+		float noiseTime;
 	};
 
 	CBUFFER(FadeInOutCB, CBSLOT_FADEEFFECT)
@@ -118,5 +120,6 @@ namespace ya::renderer
 	void PushLightAttribute(LightAttribute lightAttribute);
 	void BindLights();
 	void BindNoiseTexture();
+	void CopyRenderTarget();
 }
 

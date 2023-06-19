@@ -77,12 +77,25 @@ namespace ya
 	void ThunderScript::End()
 	{
 		Reset();
+
+		if (bEnergized)
+		{
+			srand((unsigned int)std::time(NULL));
+
+			int random = rand() & 100 + 1;
+
+			if (random <= 20)
+			{
+				SceneManager::GetPlayScene()->GetWeapon()->GetScript<WeaponScript>()->BulletSupply(3);
+			}
+		}
 	}
 	void ThunderScript::Reset()
 	{
 		this->GetOwner()->Death();
 		this->GetOwner()->GetComponent<Transform>()->SetPosition(Vector3::Zero);
-		this->GetOwner()->GetComponent<Transform>()->SetScale(Vector3(1.0f, 5.0f, 1.0f));
+		this->GetOwner()->GetComponent<Transform>()->SetRotation(Vector3::Zero);
+		this->GetOwner()->GetComponent<Transform>()->SetScale(Vector3(2.0f, 10.0f, 1.0f));
 		Animator* animator = GetOwner()->GetComponent<Animator>();
 		animator->Play(L"ThunderAni", false);
 		time = 0;
@@ -91,7 +104,8 @@ namespace ya
 	{
 		this->GetOwner()->Death();
 		this->GetOwner()->GetComponent<Transform>()->SetPosition(Vector3::Zero);
-		this->GetOwner()->GetComponent<Transform>()->SetScale(Vector3(1.0f, 5.0f, 1.0f));
+		this->GetOwner()->GetComponent<Transform>()->SetRotation(Vector3::Zero);
+		this->GetOwner()->GetComponent<Transform>()->SetScale(Vector3(2.0f, 10.0f, 1.0f));
 		Animator* animator = GetOwner()->GetComponent<Animator>();
 		animator->Play(L"ThunderAni", false);
 		time = 0;

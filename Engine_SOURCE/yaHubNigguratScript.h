@@ -27,6 +27,10 @@ namespace ya
 		virtual void OnCollisionStay(Collider2D* collider) override;
 		virtual void OnCollisionExit(Collider2D* collider) override;
 
+		void TakeDamage(int damage);
+
+		void DieChack();
+		void DieChack(eLayerType type);
 
 		void ChargeEnd();
 		void AttackEnd();
@@ -36,7 +40,10 @@ namespace ya
 		void Move();
 		void Charge();
 		void Attack();
+		void HitEvent();
 
+		void Respawn();
+		void GameReset();
 	private:
 
 		bool bAttack;

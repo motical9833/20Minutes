@@ -24,7 +24,9 @@ namespace ya::enums
 		Tile,
 		Tree,
 		Monster,
+		MonsterBoomer,
 		Boss,
+		Explosion,
 		Player,
 		Bullet,
 		Skill,
@@ -34,7 +36,8 @@ namespace ya::enums
 		Particle,
 		ColliderChack,
 		UI,
-		End = 16,
+		PostProcess,
+		End = 20,
 	};
 
 	enum class eComponentType

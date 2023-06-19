@@ -47,6 +47,11 @@
 #include "yaAudioListener.h"
 #include "yaAudioSource.h"
 #include "yaHubNigguratScript.h"
+#include "yaBommerSoundEffectScript.h"
+#include "yaSoundObjectScript.h"
+#include "yaTreePosScript.h"
+#include "yaMonsterEyeLightScript.h"
+#include "yaFireLightScript.h"
 
 #include <random>
 
@@ -78,11 +83,15 @@ namespace ya
 
 	void PlayScene::Initalize()
 	{
-
+		Resources::Load<AudioClip>(L"LightningSound", L"..\\Resources\\Sound\\Lightning Spelll.wav");
+		Resources::Load<AudioClip>(L"MonsterHit", L"..\\Resources\\Sound\\MonsterHit.wav");
 		//paint Shader
-		std::shared_ptr<PaintShader> paintShader = Resources::Find<PaintShader>(L"PaintShader");
-		paintShader->SetTarget(Resources::Find<Texture>(L"PaintTexture"));
-		paintShader->OnExcute();
+		//std::shared_ptr<PaintShader> paintShader = Resources::Find<PaintShader>(L"PaintShader");
+		//paintShader->SetTarget(Resources::Find<Texture>(L"PaintTexture"));
+		//paintShader->OnExcute();
+
+				//post process object
+
 
 		GameObject* cursorObject = object::Instantiate<GameObject>(eLayerType::UI, this);
 		SpriteRenderer* cursorRender = cursorObject->AddComponent<SpriteRenderer>();
@@ -109,6 +118,8 @@ namespace ya
 			sublightComp->SetRadius(6.0f);
 			sublightComp->SetDiffuse(Vector4(0.5f, 0.5f, 0.5f, 1.0f));
 
+
+
 			directionalLight = object::Instantiate<GameObject>(eLayerType::UI, this);
 			directionalLight->GetComponent<Transform>()->SetPosition(Vector3(0.0f, 0.0f, 0.0f));
 			Light* directLightComp = directionalLight->AddComponent<Light>();
@@ -116,7 +127,7 @@ namespace ya
 			directLightComp->SetType(eLightType::Directional);
 			directLightComp->SetRadius(1.0f);
 			//directLightComp->SetDiffuse(Vector4(0.047f, 0.015f, 0.168f, -0.5f));
-			directLightComp->SetDiffuse(Vector4(-0.8f, -0.8f, -0.8f, 1.0f));
+			directLightComp->SetDiffuse(Vector4(-0.9f, -0.9f, -0.9f, 1.0f));
 		}
 
 
@@ -206,6 +217,29 @@ namespace ya
 			players.push_back(playerObj);
 		}
 
+		Transform* playerTr;
+		playerTr = players[0]->GetComponent<Transform>();
+
+		//post process object
+		{
+			GameObject* obj = object::Instantiate<GameObject>(eLayerType::PostProcess);
+			obj->SetName(L"PostProcessGameObject");
+			playerTr = obj->GetComponent<Transform>();
+			playerTr->SetPosition(Vector3(1.0f, 0.0f, 0.0f));
+			playerTr->SetScale(Vector3(4.0f, 4.0f, 1.0f));
+
+			Collider2D* collider = obj->AddComponent<Collider2D>();
+			collider->SetType(eColliderType::Rect);
+			//collider->SetSize(Vector2(1.0f, 0.5f));
+
+			SpriteRenderer* mr = obj->AddComponent<SpriteRenderer>();
+			std::shared_ptr<Material> mateiral = Resources::Find<Material>(L"PostProcessMaterial");
+			mr->SetMaterial(mateiral);
+			std::shared_ptr<Mesh> mesh = Resources::Find<Mesh>(L"RectMesh");
+			mr->SetMesh(mesh);
+		}
+
+
 		CreateWeapon();
 		CreateFirePos();
 
@@ -213,13 +247,18 @@ namespace ya
 		{
 			CreateBrainMonster();
 			CreateEyeMonster();
-			for (size_t i = 0; i < 9; i++)
-			{
-				CreateTreeMonster();
-			}
 			CreateBommerMonster();
 			CreateBossMonster();
+
+			CreateTreeMonster(Vector3(-13.0f,8.0f,0.0f));
+			CreateTreeMonster(Vector3(15.0f, 7.8f, 0.0f));
+			CreateTreeMonster(Vector3(-11.0f, 0.2f, 0.0f));
+			CreateTreeMonster(Vector3(12.0f, -0.7f, 0.0f));
+			CreateTreeMonster(Vector3(-10.0f, -8.7f, 0.0f));
+			CreateTreeMonster(Vector3(9.0f, -9.5f, 0.0f));
 		}
+
+		Resources::Load<AudioClip>(L"MonsterHit", L"..\\Resources\\Sound\\MonsterHit.wav");
 
 		for (size_t i = 0; i < 1000; i++)
 		{
@@ -245,6 +284,7 @@ namespace ya
 			bulletAnimator->Play(L"BulletAni", true);
 			bulletAnimator->ResetStop();
 			bullets[i]->AddComponent<BulletScript>();
+			bullets[i]->AddComponent<AudioSource>()->SetClip(Resources::Find<AudioClip>(L"MonsterHit"));
 			pWeapon->GetScript<WeaponScript>()->SetBullets(bullets[i]->GetComponent<Transform>());
 		}
 
@@ -310,21 +350,44 @@ namespace ya
 		Resources::Load<AudioClip>(L"ReloadSound", L"..\\Resources\\Sound\\Weapon_Shotgun_Reload.wav");
 		Resources::Load<AudioClip>(L"ButMousePos", L"..\\Resources\\Sound\\ButMousePos.wav");
 		Resources::Load<AudioClip>(L"UIClick", L"..\\Resources\\Sound\\UIClick.wav");
+		Resources::Load<AudioClip>(L"LevelUPSound", L"..\\Resources\\Sound\\LevelUPSound.wav");
+		Resources::Load<AudioClip>(L"LevelUPUIOpen", L"..\\Resources\\Sound\\LevelUPUIOpen.wav");
 
 		CreateSoundobject(L"GetExpSound");
 		CreateSoundobject(L"ReloadSound");
 		CreateSoundobject(L"ButMousePos");
 		CreateSoundobject(L"UIClick");
+		CreateSoundobject(L"LevelUPSound");
+		CreateSoundobject(L"LevelUPUIOpen");
+		CreateBrainEyeEffect();
+		CreateBommerEyeEffect();
+		CreateEyeMonsterEffect();
+		CreateBossEffect();
 
 		CollisionManager::CollisionLayerCheck(eLayerType::Player, eLayerType::Monster, true);
+		CollisionManager::CollisionLayerCheck(eLayerType::Player, eLayerType::MonsterBoomer, true);
+		CollisionManager::CollisionLayerCheck(eLayerType::Player, eLayerType::Boss, true);
 		CollisionManager::CollisionLayerCheck(eLayerType::Player, eLayerType::Tree, true);
-		CollisionManager::CollisionLayerCheck(eLayerType::Monster, eLayerType::Monster, true);
+		CollisionManager::CollisionLayerCheck(eLayerType::Player, eLayerType::Explosion, true);
 		CollisionManager::CollisionLayerCheck(eLayerType::Player, eLayerType::ExpMarble, true);
+		CollisionManager::CollisionLayerCheck(eLayerType::Monster, eLayerType::Monster, true);
+		CollisionManager::CollisionLayerCheck(eLayerType::Monster, eLayerType::Explosion, true);
+		CollisionManager::CollisionLayerCheck(eLayerType::MonsterBoomer, eLayerType::MonsterBoomer, true);
+		CollisionManager::CollisionLayerCheck(eLayerType::MonsterBoomer, eLayerType::Explosion, true);
+		CollisionManager::CollisionLayerCheck(eLayerType::Boss, eLayerType::Explosion, true);
 		CollisionManager::CollisionLayerCheck(eLayerType::Bullet, eLayerType::Monster, true);
+		CollisionManager::CollisionLayerCheck(eLayerType::Bullet, eLayerType::MonsterBoomer, true);
+		CollisionManager::CollisionLayerCheck(eLayerType::Bullet, eLayerType::Boss, true);
 		CollisionManager::CollisionLayerCheck(eLayerType::Skill, eLayerType::Monster, true);
+		CollisionManager::CollisionLayerCheck(eLayerType::Skill, eLayerType::MonsterBoomer, true);
+		CollisionManager::CollisionLayerCheck(eLayerType::Skill, eLayerType::Boss, true);
 		CollisionManager::CollisionLayerCheck(eLayerType::ColliderChack, eLayerType::Monster, true);
+		CollisionManager::CollisionLayerCheck(eLayerType::ColliderChack, eLayerType::MonsterBoomer, true);
+		CollisionManager::CollisionLayerCheck(eLayerType::ColliderChack, eLayerType::Boss, true);
 		CollisionManager::CollisionLayerCheck(eLayerType::ColliderChack, eLayerType::ExpMarble, true);
 		CollisionManager::CollisionLayerCheck(eLayerType::Skill_Smite, eLayerType::Monster, true);
+		CollisionManager::CollisionLayerCheck(eLayerType::Skill_Smite, eLayerType::MonsterBoomer, true);
+		CollisionManager::CollisionLayerCheck(eLayerType::Skill_Smite, eLayerType::Boss, true);
 		CollisionManager::CollisionLayerCheck(eLayerType::Skill, eLayerType::Bullet, true);
 		Scene::Initalize();
 	}
@@ -408,13 +471,6 @@ namespace ya
 
 		Scene::Update();
 
-		if (Input::GetKeyDown(eKeyCode::P))
-		{
-			mBrainMonsters[0]->GetScript<MonsterScript>()->Respawn();
-			mBrainMonsters[0]->Life();
-		}
-
-
 		if (Input::GetKeyDown(eKeyCode::LBTN))
 		{
 			Vector3 pos = Input::GetMousePosition();
@@ -461,9 +517,6 @@ namespace ya
 		pSceneCamera->GetScript<CameraScript>()->SetTarget(player);
 		playerPointLight->GetComponent<Transform>()->SetParent(player->GetComponent<Transform>());
 
-		//Transform* mainCameraTr = pSceneCamera->GetComponent<Transform>();
-		//mainCameraTr->SetParent(player->GetComponent<Transform>());
-
 		Transform* weaponTr = pWeapon->GetComponent<Transform>();
 		weaponTr->SetParent(player->GetComponent<Transform>());
 		weaponTr->SetScale(Vector3(5.0f, 5.0f, 1.0f));
@@ -476,6 +529,9 @@ namespace ya
 		holyShield->GetComponent<Transform>()->SetParent(player->GetComponent<Transform>());
 		muzzleFlash->GetScript<MuzzleFlashScript>()->GetPlayer();
 		muzzleFlash->GetComponent<Transform>()->SetParent(player->GetComponent<Transform>());
+
+		bulletFireLight->GetScript<FireLightScript>()->GetPlayer();
+		bulletFireLight->GetComponent<Transform>()->SetParent(player->GetComponent<Transform>());
 
 		for (size_t i = 0; i < mBrainMonsters.size(); i++)
 		{
@@ -492,6 +548,10 @@ namespace ya
 		for (size_t i = 0; i < mBoomerMonsters.size(); i++)
 		{
 			mBoomerMonsters[i]->GetScript<MonsterScript>()->SetPlayer(players[num]);
+		}
+		for (size_t i = 0; i < mBigBoomerMonsters.size(); i++)
+		{
+			mBigBoomerMonsters[i]->GetScript<MonsterScript>()->SetPlayer(players[num]);
 		}
 		for (size_t i = 0; i < mBossMonsters.size(); i++)
 		{
@@ -516,6 +576,7 @@ namespace ya
 		Animator* weaponAni = pWeapon->AddComponent<Animator>();
 		std::shared_ptr<Texture> revolverTexture = Resources::Load<Texture>(L"W_RevolverSprite", L"Weapon\\T_Revolver_SS.png");
 		weaponAni->Create(L"Revolver", revolverTexture, Vector2(0.0f, 0.0f), Vector2(16.0f, 15.0f), Vector2::Zero, 5, 0.0f);
+		weaponAni->Create(L"RevolverLeft", revolverTexture, Vector2(0.0f, 15.0f), Vector2(16.0f, 15.0f), Vector2::Zero, 5, 0.0f);
 		weaponAni->Play(L"Revolver", true);
 		pWeapon->AddComponent<WeaponScript>();
 
@@ -533,6 +594,16 @@ namespace ya
 		muzzleFlash->Death();
 		muzzleFlash->AddComponent<AudioSource>()->SetClip(Resources::Find<AudioClip>(L"FireSound"));
 		muzzleFlash->AddComponent<MuzzleFlashScript>();
+
+
+		bulletFireLight = object::Instantiate<GameObject>(eLayerType::UI, this);
+		bulletFireLight->GetComponent<Transform>()->SetPosition(Vector3(0.0f, 0.0f, 0.0f));
+		Light* fireLightComp = bulletFireLight->AddComponent<Light>();
+		fireLightComp->SetType(eLightType::Point);
+		fireLightComp->SetRadius(8.0f);
+		fireLightComp->SetDiffuse(Vector4(0.25f, 0.25f, 0.25f, 1.0f));
+		bulletFireLight->AddComponent<FireLightScript>();
+		bulletFireLight->Death();
 	}
 
 	void PlayScene::CreateFirePos()
@@ -563,7 +634,7 @@ namespace ya
 			Monster* m_Brain = object::Instantiate<Monster>(eLayerType::Monster, this);
 			m_Brain->SetLayerType(eLayerType::Monster);
 			m_Brain->SetName(L"brain");
-			M_DefaultTr(m_Brain, Vector3(-2.0f, 0.0f, 0.0f), Vector3(2.0f, 2.0f, 1.0f));
+			M_DefaultTr(m_Brain, Vector3(-2.0f, 0.0f, 0.0f), Vector3(3.0f, 3.0f, 1.0f));
 			CreateCollider(m_Brain, eColliderType::Rect, Vector2(0.5f, 0.5f));
 			CreateSpriteRenderer(m_Brain, L"BrainMonsterMaterial");
 			Animator* mAnimator = m_Brain->AddComponent<Animator>();
@@ -571,36 +642,45 @@ namespace ya
 			std::shared_ptr<Texture> deathTexture = Resources::Find<Texture>(L"M_DeathFX");
 			mAnimator->Create(L"m_Right", mTexture, Vector2(0.0f, 0.0f), Vector2(64.0f, 64.0f), Vector2::Zero, 4, 0.1f);
 			mAnimator->Create(L"m_Left", mTexture, Vector2(0.0f, 64.0f), Vector2(64.0f, 64.0f), Vector2::Zero, 4, 0.1f);
+		    mAnimator->Create(L"m_RightHit", mTexture, Vector2(0.0f, 128.0f), Vector2(64.0f, 64.0f), Vector2::Zero, 1, 0.1f);
+			mAnimator->Create(L"m_LeftHit", mTexture, Vector2(0.0f, 192.0f), Vector2(64.0f, 64.0f), Vector2::Zero, 1, 0.1f);
 			mAnimator->Create(L"DeathAnimation", deathTexture, Vector2(0.0f, 0.0f), Vector2(40.0f, 40.0f), Vector2::Zero, 4, 0.1f);
 			mAnimator->Play(L"m_Left", true);
-			m_Brain->AddComponent<MonsterScript>(10);
+			m_Brain->AddComponent<AudioSource>()->SetClip(Resources::Find<AudioClip>(L"MonsterHit"));
+			m_Brain->AddComponent<MonsterScript>(60,eLayerType::Monster);
 			m_Brain->Death();
 			mBrainMonsters.push_back(m_Brain);
 		}
 	}
 
-	void PlayScene::CreateTreeMonster()
+	void PlayScene::CreateBrainEyeEffect()
+	{
+		for (size_t i = 0; i < mBrainMonsters.size(); i++)
+		{
+			GameObject* eye = object::Instantiate<Monster>(eLayerType::None, this);
+			eye->SetLayerType(eLayerType::None);
+			eye->SetName(L"brainEye");
+			eye->GetComponent<Transform>()->SetScale(Vector3(3.0f, 3.0f, 1.0f));
+			eye->GetComponent<Transform>()->SetParent(mBrainMonsters[i]->GetComponent<Transform>());
+			eye->GetComponent<Transform>()->SetPosition(Vector3(0.0f, 0.0f, 0.0f));
+			CreateSpriteRenderer(eye, L"BrainMonsterEyeMaterial");
+			Animator* eyeAni = eye->AddComponent<Animator>();
+			std::shared_ptr<Texture> m_EyeTexture = Resources::Find<Texture>(L"BrainMonsterEye");
+			eyeAni->Create(L"m_Right", m_EyeTexture, Vector2(0.0f, 0.0f), Vector2(64.0f, 64.0f), Vector2::Zero, 3, 0.1f);
+			eyeAni->Create(L"m_Left", m_EyeTexture, Vector2(0.0f, 64.0f), Vector2(64.0f, 64.0f), Vector2::Zero, 3, 0.1f);
+			eyeAni->Play(L"m_Right", true);
+			eye->AddComponent<MonsterEyeLightScript>(Vector3(0.0f, 0.0f, 0.0f), Vector3(0.0f, 0.0f, 0.0f));
+			eye->Death();
+			mBrainMonsterEyes.push_back(eye);
+		}
+	}
+
+	void PlayScene::CreateTreeMonster(Vector3 pos)
 	{
 		Monster* m_tree = object::Instantiate<Monster>(eLayerType::Tree, this);
 		m_tree->SetLayerType(eLayerType::Tree);
 		m_tree->SetName(L"tree");
-		M_DefaultTr(m_tree, Vector3(2.0f, 2.0f, 0.0f), Vector3(2.0f, 2.0f, 1.0f));
-
-		std::random_device rd;
-		std::mt19937 rng(rd());
-
-		int minX = -20;
-		int maxX = 20;
-		int minY = -20;
-		int maxY = 20;
-
-		std::uniform_int_distribution<int> uniX(minX, maxX);
-		std::uniform_int_distribution<int> uniY(minY, maxY);
-
-		int randomX = uniX(rng);
-		int randomY = uniY(rng);
-
-		m_tree->GetComponent<Transform>()->SetPosition(Vector3(randomX,randomY,0.0f));
+		M_DefaultTr(m_tree, pos, Vector3(3.0f, 3.0f, 1.0f));
 		CreateCollider(m_tree, eColliderType::Rect, Vector2(0.7f, 0.9f));
 		CreateSpriteRenderer(m_tree, L"TreeMaterial");
 		Animator* treeAnimator = m_tree->AddComponent<Animator>();
@@ -611,6 +691,7 @@ namespace ya
 		treeAnimator->Create(L"DeathAnimation", deathTexture, Vector2(0.0f, 0.0f), Vector2(40.0f, 40.0f), Vector2::Zero, 4, 0.1f);
 		treeAnimator->Play(L"m_Right", true);
 		m_tree->AddComponent<MonsterScript>();
+		m_tree->AddComponent<TreePosScript>();
 		mTreeMonsters.push_back(m_tree);
 	}
 
@@ -629,41 +710,145 @@ namespace ya
 			std::shared_ptr<Texture> deathTexture = Resources::Find<Texture>(L"M_DeathFX");
 			m_EyeAnimator->Create(L"m_Right", m_EyeTexture, Vector2(0.0f, 0.0f), Vector2(40.0f, 40.0f), Vector2::Zero, 3, 0.1f);
 			m_EyeAnimator->Create(L"m_Left", m_EyeTexture, Vector2(0.0f, 40.0f), Vector2(40.0f, 40.0f), Vector2::Zero, 3, 0.1f);
+			m_EyeAnimator->Create(L"m_RightHit", m_EyeTexture, Vector2(0.0f, 80.0f), Vector2(40.0f, 40.0f), Vector2::Zero, 1, 0.1f);
+			m_EyeAnimator->Create(L"m_LeftHit", m_EyeTexture, Vector2(0.0f, 120.0f), Vector2(40.0f, 40.0f), Vector2::Zero, 1, 0.1f);
 			m_EyeAnimator->Create(L"DeathAnimation", deathTexture, Vector2(0.0f, 0.0f), Vector2(40.0f, 40.0f), Vector2::Zero, 4, 0.1f);
-			m_EyeAnimator->Play(L"m_Left", true);
-			eyeMonster->AddComponent<MonsterScript>(400);
+			m_EyeAnimator->Play(L"m_Right", true);
+			eyeMonster->AddComponent<AudioSource>()->SetClip(Resources::Find<AudioClip>(L"MonsterHit"));
+			eyeMonster->AddComponent<MonsterScript>(80,eLayerType::Monster);
 			eyeMonster->Death();
 			mEyeMonsters.push_back(eyeMonster);
 		}
 	}
 
+	void PlayScene::CreateEyeMonsterEffect()
+	{
+
+		//m_EyeAnimator->Create(L"m_Right", m_EyeTexture, Vector2(0.0f, 0.0f), Vector2(40.0f, 40.0f), Vector2::Zero, 3, 0.1f);
+		//m_EyeAnimator->Create(L"m_Left", m_EyeTexture, Vector2(0.0f, 40.0f), Vector2(40.0f, 40.0f), Vector2::Zero, 3, 0.1f);
+
+		for (size_t i = 0; i < mEyeMonsters.size(); i++)
+		{
+			GameObject* eye = object::Instantiate<Monster>(eLayerType::None, this);
+			eye->SetLayerType(eLayerType::None);
+			eye->SetName(L"EyeMonsterEye");
+			eye->GetComponent<Transform>()->SetScale(Vector3(3.0f, 3.0f, 1.0f));
+			eye->GetComponent<Transform>()->SetParent(mEyeMonsters[i]->GetComponent<Transform>());
+			eye->GetComponent<Transform>()->SetPosition(Vector3(0.0f, 0.0f, 0.0f));
+			CreateSpriteRenderer(eye, L"EyeMonsterEyeMaterial");
+			Animator* eyeAni = eye->AddComponent<Animator>();
+			std::shared_ptr<Texture> EyeMonsterEyeTex = Resources::Find<Texture>(L"EyeMonsterEye");
+			eyeAni->Create(L"m_Right", EyeMonsterEyeTex, Vector2(0.0f, 0.0f), Vector2(40.0f, 40.0f), Vector2::Zero, 3, 0.1f);
+			eyeAni->Create(L"m_Left", EyeMonsterEyeTex, Vector2(0.0f, 40.0f), Vector2(40.0f, 40.0f), Vector2::Zero, 3, 0.1f);
+			eyeAni->Play(L"m_Right", true);
+			eye->AddComponent<MonsterEyeLightScript>(Vector3(0.0f, 0.0f, 0.0f), Vector3(0.0f, 0.0f, 0.0f));
+			eye->Death();
+			mEyeMonsterEyes.push_back(eye);
+		}
+	}
+
 	void PlayScene::CreateBommerMonster()
 	{
-		for (size_t i = 0; i < 100; i++)
+		Resources::Load<AudioClip>(L"BommerDeath", L"..\\Resources\\Sound\\Spell_Explosion_Magic_02.wav");
+
+		for (size_t i = 0; i < 30; i++)
 		{
-			Monster* mBoomer = object::Instantiate<Monster>(eLayerType::Monster, this);
-			mBoomer->SetLayerType(eLayerType::Monster);
-			mBoomer->SetName(L"BigBoomer");
-			M_DefaultTr(mBoomer, Vector3(4.0f, 0.0f, 0.0f), Vector3(2.0f, 2.0f, 1.0f));
+			Monster* mBoomer = object::Instantiate<Monster>(eLayerType::MonsterBoomer, this);
+			mBoomer->SetLayerType(eLayerType::MonsterBoomer);
+			M_DefaultTr(mBoomer, Vector3(4.0f, 0.0f, 0.0f), Vector3(3.0f, 3.0f, 1.0f));
 			CreateCollider(mBoomer, eColliderType::Rect, Vector2(0.5f, 0.5f));
-			CreateSpriteRenderer(mBoomer, L"BoomerMonsterMaterial");
+			CreateSpriteRenderer(mBoomer, L"BoomerMaterial");
 			Animator* boomerAnimator = mBoomer->AddComponent<Animator>();
-			std::shared_ptr<Texture> boomerTexture = Resources::Find<Texture>(L"BoomerMonsterSprite");
-			std::shared_ptr<Texture> deathTexture = Resources::Find<Texture>(L"M_DeathFX");
-			boomerAnimator->Create(L"m_Right", boomerTexture, Vector2(0.0f, 0.0f), Vector2(64.0f, 64.0f), Vector2::Zero, 4, 0.2f);
-			boomerAnimator->Create(L"m_Left", boomerTexture, Vector2(0.0f, 58.5f), Vector2(64.0f, 64.0f), Vector2::Zero, 4, 0.2f);
-			boomerAnimator->Create(L"DeathAnimation", deathTexture, Vector2(0.0f, 0.0f), Vector2(40.0f, 40.0f), Vector2::Zero, 4, 0.1f);
-			boomerAnimator->Play(L"m_Left", true);
-			mBoomer->AddComponent<MonsterScript>(500);
+			std::shared_ptr<Texture> boomerTexture = Resources::Find<Texture>(L"BoomerMonster");
+			std::shared_ptr<Texture> deathTexture = Resources::Find<Texture>(L"BoomerExplosion");
+			boomerAnimator->Create(L"m_Right", boomerTexture, Vector2(0.0f, 0.0f), Vector2(32.0f, 32.0f), Vector2::Zero, 3, 0.2f);
+			boomerAnimator->Create(L"m_Left", boomerTexture, Vector2(0.0f, 32.0f), Vector2(32.0f, 32.0f), Vector2::Zero, 3, 0.2f);
+			boomerAnimator->Create(L"m_RightHit", boomerTexture, Vector2(0.0f, 64.0f), Vector2(32.0f, 32.0f), Vector2::Zero, 1, 0.1f);
+			boomerAnimator->Create(L"m_LeftHit", boomerTexture, Vector2(0.0f, 96.5f), Vector2(32.0f, 32.0f), Vector2::Zero, 1, 0.1f);
+			boomerAnimator->Create(L"DeathAnimation", deathTexture, Vector2(0.0f, 0.0f), Vector2(96.0f, 96.0f), Vector2::Zero, 6, 0.1f);
+			boomerAnimator->Play(L"m_Right", true);
+			mBoomer->AddComponent<AudioSource>()->SetClip(Resources::Find<AudioClip>(L"MonsterHit"));
+			mBoomer->AddComponent<MonsterScript>(10,eLayerType::MonsterBoomer);
 			mBoomer->Death();
 			mBoomerMonsters.push_back(mBoomer);
+		}
+
+		//bigBoomer
+		for (size_t i = 0; i < 10; i++)
+		{
+			Monster* mBigBoomer = object::Instantiate<Monster>(eLayerType::MonsterBoomer, this);
+			mBigBoomer->SetLayerType(eLayerType::MonsterBoomer);
+			mBigBoomer->SetName(L"BigBoomer");
+			M_DefaultTr(mBigBoomer, Vector3(1.0f, 0.0f, 0.0f), Vector3(4.0f, 4.0f, 1.0f));
+			CreateCollider(mBigBoomer, eColliderType::Rect, Vector2(0.5f, 0.5f));
+			CreateSpriteRenderer(mBigBoomer, L"BoomerMonsterMaterial");
+			Animator* boomerAnimator = mBigBoomer->AddComponent<Animator>();
+			std::shared_ptr<Texture> BigboomerTexture = Resources::Find<Texture>(L"BoomerMonsterSprite");
+			std::shared_ptr<Texture> BigboomerdeathTexture = Resources::Find<Texture>(L"M_DeathFX");
+			boomerAnimator->Create(L"m_Right", BigboomerTexture, Vector2(0.0f, 0.0f), Vector2(64.0f, 64.0f), Vector2::Zero, 4, 0.2f);
+			boomerAnimator->Create(L"m_Left", BigboomerTexture, Vector2(0.0f, 58.5f), Vector2(64.0f, 64.0f), Vector2::Zero, 4, 0.2f);
+			boomerAnimator->Create(L"m_RightHit", BigboomerTexture, Vector2(0.0f, 117.0f), Vector2(64.0f, 64.0f), Vector2::Zero, 1, 0.1f);
+			boomerAnimator->Create(L"m_LeftHit", BigboomerTexture, Vector2(0.0f, 175.5f), Vector2(64.0f, 64.0f), Vector2::Zero, 1, 0.1f);
+			boomerAnimator->Create(L"DeathAnimation", BigboomerdeathTexture, Vector2(0.0f, 0.0f), Vector2(40.0f, 40.0f), Vector2::Zero, 4, 0.1f);
+			boomerAnimator->Play(L"m_Right", true);
+			mBigBoomer->AddComponent<AudioSource>()->SetClip(Resources::Find<AudioClip>(L"MonsterHit"));
+			mBigBoomer->AddComponent<MonsterScript>(100, eLayerType::MonsterBoomer);
+			mBigBoomer->Death();
+			mBigBoomerMonsters.push_back(mBigBoomer);
+		}
+		//mBigBoomerMonsters[0]->Life();
+
+		for (size_t i = 0; i < 30; i++)
+		{
+			GameObject* explosion = object::Instantiate<GameObject>(eLayerType::Explosion, this);
+			CreateCollider(explosion, eColliderType::Rect, Vector2(3.0f, 3.0f));
+			explosion->SetLayerType(eLayerType::Explosion);
+			explosion->GetComponent<Transform>()->SetPosition(Vector3::Zero);
+			explosion->AddComponent<BommerSoundEffectScript>();
+			explosion->Death();
+			boomersExplosions.push_back(explosion);
+		}
+
+		for (size_t i = 0; i < 30; i++)
+		{
+			GameObject* sound = object::Instantiate<GameObject>(eLayerType::None, this);
+			sound->SetLayerType(eLayerType::Explosion);
+			sound->GetComponent<Transform>()->SetPosition(Vector3::Zero);
+			sound->AddComponent<AudioSource>()->SetClip(Resources::Find<AudioClip>(L"BommerDeath"));
+			sound->AddComponent<SoundObjectScript>();
+			sound->Death();
+			boomersSounds.push_back(sound);
+		}
+	}
+
+	void PlayScene::CreateBommerEyeEffect()
+	{
+		for (size_t i = 0; i < mBoomerMonsters.size(); i++)
+		{
+			GameObject* eye = object::Instantiate<Monster>(eLayerType::None, this);
+			eye->SetLayerType(eLayerType::None);
+			eye->SetName(L"boomerEye");
+			eye->GetComponent<Transform>()->SetScale(Vector3(3.0f, 3.0f, 1.0f));
+			eye->GetComponent<Transform>()->SetParent(mBoomerMonsters[i]->GetComponent<Transform>());
+			eye->GetComponent<Transform>()->SetPosition(Vector3(0.0f, 0.0f, 0.0f));
+			CreateSpriteRenderer(eye, L"BoomerEyeMaterial");
+			Animator* eyeAni = eye->AddComponent<Animator>();
+			std::shared_ptr<Texture> bmmoerEyeTex = Resources::Find<Texture>(L"BoomerMonsterEye");
+			eyeAni->Create(L"m_Right", bmmoerEyeTex, Vector2(0.0f, 0.0f), Vector2(32.0f, 32.0f), Vector2::Zero, 3, 0.2f);
+			eyeAni->Create(L"m_Left", bmmoerEyeTex, Vector2(0.0f, 32.0f), Vector2(32.0f, 32.0f), Vector2::Zero, 3, 0.2f);
+			eyeAni->Play(L"m_Right", true);
+			eye->AddComponent<MonsterEyeLightScript>(Vector3(0.0f, 0.0f, 0.0f), Vector3(0.0f, 0.0f, 0.0f));
+			eye->Death();
+			mBoomerMonsterEyes.push_back(eye);
 		}
 	}
 
 	void PlayScene::CreateBossMonster()
 	{
-		Monster* hubNiggurat = object::Instantiate<Monster>(eLayerType::Monster, this);
-		hubNiggurat->SetLayerType(eLayerType::Monster);
+		Resources::Load<AudioClip>(L"BossCharge", L"..\\Resources\\Sound\\BossCharge.wav");
+
+		Monster* hubNiggurat = object::Instantiate<Monster>(eLayerType::Boss, this);
+		hubNiggurat->SetLayerType(eLayerType::Boss);
 		hubNiggurat->SetName(L"hubNiggurat");
 		Transform* bossTr = hubNiggurat->GetComponent<Transform>();
 		bossTr->SetPosition(Vector3(10.0f, 0.0f, 0.0f));
@@ -679,10 +864,40 @@ namespace ya
 		hubAnimator->Create(L"Boss_LeftMove", hubNigguratTexture, Vector2(0.0f, 280.0f), Vector2(96.0f, 96.0f), Vector2::Zero, 3, 0.2f);
 		hubAnimator->Create(L"Boss_LeftCharge", hubNigguratTexture, Vector2(0.0f, 376.0f), Vector2(96.0f, 96.0f), Vector2::Zero, 5, 0.2f);
 		hubAnimator->Create(L"Boss_LeftAttack", hubNigguratTexture, Vector2(0.0f, 472.0f), Vector2(96.0f, 96.0f), Vector2::Zero, 3, 0.2f);
+		hubAnimator->Create(L"m_RightHit", hubNigguratTexture, Vector2(0.0f, 568.0f), Vector2(96.0f, 96.0f), Vector2::Zero, 1, 0.1f);
+		hubAnimator->Create(L"m_LeftHit", hubNigguratTexture, Vector2(0.0f, 664.0f), Vector2(96.0f, 96.0f), Vector2::Zero, 1, 0.1f);
 		hubAnimator->Create(L"DeathAnimation", deathTexture, Vector2(0.0f, 0.0f), Vector2(40.0f, 40.0f), Vector2::Zero, 4, 0.1f);
 		hubAnimator->Play(L"Boss_RightMove", true);
+		hubNiggurat->AddComponent<AudioSource>()->SetClip(Resources::Find<AudioClip>(L"BossCharge"));
 		hubNiggurat->AddComponent<HubNigguratScript>(1000);
+		hubNiggurat->Death();
 		mBossMonsters.push_back(hubNiggurat);
+	}
+
+	void PlayScene::CreateBossEffect()
+	{
+		GameObject* effect = object::Instantiate<Monster>(eLayerType::None, this);
+		effect->SetLayerType(eLayerType::None);
+		effect->SetName(L"bossEffect");
+		effect->GetComponent<Transform>()->SetParent(mBossMonsters[0]->GetComponent<Transform>());
+		effect->GetComponent<Transform>()->SetPosition(Vector3(0.0f, 0.0f, 0.0f));
+		effect->GetComponent<Transform>()->SetScale(Vector3(3.0f, 3.0f, 1.0f));
+		CreateSpriteRenderer(effect, L"ShubNigguratEyeMaterial");
+		Animator* effectAni = effect->AddComponent<Animator>();
+		std::shared_ptr<Texture> bossEffectTex = Resources::Find<Texture>(L"Boss_ShubNigguratEye");
+		effectAni->Create(L"m_Right", bossEffectTex, Vector2(0.0f, 0.0f), Vector2(96.0f, 96.0f), Vector2::Zero, 3, 0.2f);
+		effectAni->Create(L"m_RightCharge", bossEffectTex, Vector2(0.0f, 88.0f), Vector2(96.0f, 96.0f), Vector2::Zero, 5, 0.2f);
+		effectAni->Create(L"m_RightAttack", bossEffectTex, Vector2(0.0f, 184.0f), Vector2(96.0f, 96.0f), Vector2::Zero, 3, 0.2f);
+		effectAni->Create(L"m_Left", bossEffectTex, Vector2(0.0f, 280.0f), Vector2(96.0f, 96.0f), Vector2::Zero, 3, 0.2f);
+		effectAni->Create(L"m_LeftCharge", bossEffectTex, Vector2(0.0f, 376.0f), Vector2(96.0f, 96.0f), Vector2::Zero, 5, 0.2f);
+		effectAni->Create(L"m_LeftAttack", bossEffectTex, Vector2(0.0f, 472.0f), Vector2(96.0f, 96.0f), Vector2::Zero, 3, 0.2f);
+		effectAni->Create(L"m_RightHit", bossEffectTex, Vector2(0.0f, 568.0f), Vector2(96.0f, 96.0f), Vector2::Zero, 1, 0.1f);
+		effectAni->Create(L"m_LeftHit", bossEffectTex, Vector2(0.0f, 664.0f), Vector2(96.0f, 96.0f), Vector2::Zero, 1, 0.1f);
+		effectAni->Play(L"m_Right", true);
+		effect->AddComponent<MonsterEyeLightScript>(Vector3(0.0f, 0.0f, 0.0f), Vector3(0.0f, 0.0f, 0.0f));
+		effect->Death();
+		mBossMonsterEffects.push_back(effect);
+
 	}
 
 	void PlayScene::CreateDragonPet()
@@ -831,12 +1046,8 @@ namespace ya
 		{
 			GameObject* thunderObject = object::Instantiate<GameObject>(eLayerType::Skill, this);
 			thunderObject->SetLayerType(eLayerType::Skill);
-			thunderObject->GetComponent<Transform>()->SetScale(Vector3(1.0f, 5.0f, 1.0f));
+			thunderObject->GetComponent<Transform>()->SetScale(Vector3(2.0f, 10.0f, 1.0f));
 			thunderObject->GetComponent<Transform>()->SetPosition(Vector3::Zero);
-			Collider2D* thunderCollider = thunderObject->AddComponent<Collider2D>();
-			thunderCollider->SetType(eColliderType::Rect);
-			thunderCollider->SetSize(Vector2(0.2f, 1.0f));
-			thunderCollider->SetCenter(Vector2(0.0f, 0.0f));
 			SpriteRenderer* render = thunderObject->AddComponent<SpriteRenderer>();
 			std::shared_ptr<Material> thunderMaterial = Resources::Find<Material>(L"ThunderMaterial");
 			render->SetMaterial(thunderMaterial);
@@ -847,6 +1058,7 @@ namespace ya
 			thunderAnimator->Create(L"ThunderAni", thunderTexture, Vector2::Zero, Vector2(32.0f, 450.0f), Vector2::Zero, 8, 0.05f);
 			thunderAnimator->Play(L"ThunderAni", false);
 			thunderObject->AddComponent<ThunderScript>();
+			thunderObject->AddComponent<AudioSource>()->SetClip(Resources::Find<AudioClip>(L"LightningSound"));
 			thunderObject->Death();
 			thunders.push_back(thunderObject);
 		}
@@ -854,14 +1066,16 @@ namespace ya
 
 	void PlayScene::CreateGale()
 	{
+		Resources::Load<AudioClip>(L"Spell_WindSound", L"..\\Resources\\Sound\\Spell_Wind_02.wav");
 		for (size_t i = 0; i < 20; i++)
 		{
 			gales.push_back(CreateSkillObject(eColliderType::Rect, eLayerType::Skill, L"GaleMaterial"));
 			Animator* galesAnimator = gales[i]->AddComponent<Animator>();
-			gales[i]->GetComponent<Transform>()->SetScale(Vector3(2.0f, 2.0f, 1.0f));
+			gales[i]->GetComponent<Transform>()->SetScale(Vector3(3.0f, 3.0f, 1.0f));
 			std::shared_ptr<Texture> galesTexture = Resources::Find<Texture>(L"S_Gale");
 			galesAnimator->Create(L"galeAni", galesTexture, Vector2::Zero, Vector2(96.0f, 96.0f), Vector2::Zero, 3, 0.01f);
 			galesAnimator->Play(L"galeAni", true);
+			gales[i]->AddComponent<AudioSource>()->SetClip(Resources::Find<AudioClip>(L"Spell_WindSound"));
 			gales[i]->Death();
 			gales[i]->AddComponent<GaleScript>();
 		}
@@ -926,7 +1140,9 @@ namespace ya
 
 	void PlayScene::CreateIcicle()
 	{
-		for (size_t i = 0; i < 100; i++)
+		Resources::Load<AudioClip>(L"Spell_IceSpear", L"..\\Resources\\Sound\\Spell_IceSpear_03.wav");
+
+		for (size_t i = 0; i < 20; i++)
 		{
 			GameObject* icicle = CreateSkillObject(eColliderType::Rect, eLayerType::Skill, L"IcicleMaterial");
 			icicle->SetLayerType(eLayerType::Skill);
@@ -935,6 +1151,14 @@ namespace ya
 			icicle->AddComponent<IcicleScript>();
 			icicle->Death();
 			icicles.push_back(icicle);
+		}
+
+		for (size_t i = 0; i < 20; i++)
+		{
+			GameObject* icicleSound = object::Instantiate<GameObject>(eLayerType::None, this);
+			icicleSound->AddComponent<AudioSource>()->SetClip(Resources::Find<AudioClip>(L"Spell_IceSpear"));
+			icicleSound->AddComponent<SoundObjectScript>();
+			icicleSounds.push_back(icicleSound);
 		}
 	}
 
@@ -1030,8 +1254,8 @@ namespace ya
 		{
 			GameObject* hpObject = object::Instantiate<GameObject>(eLayerType::UI, this);
 			hpObject->SetLayerType(eLayerType::UI);
-			hpObject->GetComponent<Transform>()->SetPosition(Vector3(-9.0f + (float)i, 5.7f, 11.0f));
-			hpObject->GetComponent<Transform>()->SetScale(Vector3(3.0f, 3.0f, 1.0f));
+			hpObject->GetComponent<Transform>()->SetPosition(Vector3(-7.0f + ((float)i * 0.8f), 4.7f, 9.0f));
+			hpObject->GetComponent<Transform>()->SetScale(Vector3(2.5f, 2.5f, 1.0f));
 			SpriteRenderer* render = hpObject->AddComponent<SpriteRenderer>();
 			std::shared_ptr<Material> hpMaterial = Resources::Find<Material>(L"HpMaterial");
 			render->SetMaterial(hpMaterial);
@@ -1240,8 +1464,8 @@ namespace ya
 		GameObject* expBar = object::Instantiate<GameObject>(eLayerType::UI, this);
 		expBar->SetLayerType(eLayerType::UI);
 		expBar->GetComponent<Transform>()->SetParent(parent->GetComponent<Transform>());
-		expBar->GetComponent<Transform>()->SetPosition(Vector3(0.0f, 5.5f, 10.0f));
-		expBar->GetComponent<Transform>()->SetScale(Vector3(21.0f, 0.5f, 1.0f));
+		expBar->GetComponent<Transform>()->SetPosition(Vector3(0.0f, 5.0f, 9.0f));
+		expBar->GetComponent<Transform>()->SetScale(Vector3(19.0f, 0.5f, 1.0f));
 		SpriteRenderer* expBarRender = expBar->AddComponent<SpriteRenderer>();
 		std::shared_ptr<Material> expBarMat = Resources::Find<Material>(L"LevelGaugeZeroMaterial");
 		expBarRender->SetMaterial(expBarMat);
@@ -1251,7 +1475,7 @@ namespace ya
 		expGauge = object::Instantiate<GameObject>(eLayerType::UI, this);
 		expGauge->SetLayerType(eLayerType::UI);
 		expGauge->GetComponent<Transform>()->SetParent(parent->GetComponent<Transform>());
-		expGauge->GetComponent<Transform>()->SetPosition(Vector3(-10.0f, 5.5f, 10.0f));
+		expGauge->GetComponent<Transform>()->SetPosition(Vector3(-10.0f, 5.0f, 9.0f));
 		expGauge->GetComponent<Transform>()->SetScale(Vector3(0.0f, 0.5f, 1.0f));
 		SpriteRenderer* gaugeRender = expGauge->AddComponent<SpriteRenderer>();
 		std::shared_ptr<Material> gaugeMat = Resources::Find<Material>(L"LevelGaugeMaterial");
@@ -1263,7 +1487,7 @@ namespace ya
 		GameObject* reloadBarObject = object::Instantiate<GameObject>(eLayerType::UI, this);
 		reloadBarObject->SetLayerType(eLayerType::UI);
 		reloadBarObject->GetComponent<Transform>()->SetParent(parent->GetComponent<Transform>());
-		reloadBarObject->GetComponent<Transform>()->SetPosition(Vector3(0.0f, 0.8f, 10.0f));
+		reloadBarObject->GetComponent<Transform>()->SetPosition(Vector3(0.0f, 0.6f, 9.0f));
 		reloadBarObject->GetComponent<Transform>()->SetScale(Vector3(2.1f,0.5f,1.0f));
 		SpriteRenderer* render = reloadBarObject->AddComponent<SpriteRenderer>();
 		std::shared_ptr<Material> material = Resources::Find<Material>(L"ReloadBarMaterial");
@@ -1276,7 +1500,7 @@ namespace ya
 		GameObject* reloadButObject = object::Instantiate<GameObject>(eLayerType::UI, this);
 		reloadButObject->SetLayerType(eLayerType::UI);
 		reloadButObject->GetComponent<Transform>()->SetParent(parent->GetComponent<Transform>());
-		reloadButObject->GetComponent<Transform>()->SetPosition(Vector3(-1.0f, 0.8f, 10.0f));
+		reloadButObject->GetComponent<Transform>()->SetPosition(Vector3(-1.0f, 0.6f, 9.0f));
 		reloadButObject->GetComponent<Transform>()->SetScale(Vector3(0.2f, 0.5f, 1.0f));
 		SpriteRenderer* butRender = reloadButObject->AddComponent<SpriteRenderer>();
 		std::shared_ptr<Material> ButMaterial = Resources::Find<Material>(L"ReloadButMaterial");
@@ -1341,6 +1565,8 @@ namespace ya
 		int b = mBoomerMonsters.size();
 		int c = mEyeMonsters.size();
 		int d = mBossMonsters.size();
+		int e = mBigBoomerMonsters.size();
+
 		for (size_t i = 0; i < mBrainMonsters.size(); i++)
 		{
 			freezes[i]->GetComponent<Transform>()->SetParent(mBrainMonsters[i]->GetComponent<Transform>());
@@ -1357,6 +1583,10 @@ namespace ya
 		{
 			freezes[a + b + c + i]->GetComponent<Transform>()->SetParent(mBossMonsters[i]->GetComponent<Transform>());
 		}
+		for (size_t i = 0; i < mBigBoomerMonsters.size(); i++)
+		{
+			freezes[a + b + c + d + i]->GetComponent<Transform>()->SetParent(mBigBoomerMonsters[i]->GetComponent<Transform>());
+		}
 	}
 
 	void PlayScene::CurseAddToMonster()
@@ -1365,6 +1595,8 @@ namespace ya
 		int b = mBoomerMonsters.size();
 		int c = mEyeMonsters.size();
 		int d = mBossMonsters.size();
+		int e = mBigBoomerMonsters.size();
+
 		for (size_t i = 0; i < mBrainMonsters.size(); i++)
 		{
 			curses[i]->GetComponent<Transform>()->SetParent(mBrainMonsters[i]->GetComponent<Transform>());
@@ -1380,6 +1612,10 @@ namespace ya
 		for (size_t i = 0; i < mBossMonsters.size(); i++)
 		{
 			curses[a + b + c + i]->GetComponent<Transform>()->SetParent(mBossMonsters[i]->GetComponent<Transform>());
+		}
+		for (size_t i = 0; i < mBigBoomerMonsters.size(); i++)
+		{
+			curses[a + b + c + d + i]->GetComponent<Transform>()->SetParent(mBigBoomerMonsters[i]->GetComponent<Transform>());
 		}
 	}
 
@@ -1566,6 +1802,10 @@ namespace ya
 		for (size_t i = 0; i < mTreeMonsters.size(); i++)
 		{
 			mTreeMonsters[i]->Stop();
+		}
+		for (size_t i = 0; i < mBossMonsters.size(); i++)
+		{
+			mBossMonsters[i]->Stop();
 		}
 		player->Stop();
 		pWeapon->Stop();
@@ -1836,6 +2076,10 @@ namespace ya
 		{
 			mTreeMonsters[i]->Start();
 		}
+		for (size_t i = 0; i < mBossMonsters.size(); i++)
+		{
+			mBossMonsters[i]->Start();
+		}
 		player->Start();
 		pWeapon->Start();
 
@@ -1896,7 +2140,7 @@ namespace ya
 		GameObject* iconObj = object::Instantiate<GameObject>(eLayerType::UI, this);
 		iconObj->SetLayerType(eLayerType::UI);
 		iconObj->GetComponent<Transform>()->SetParent(parent->GetComponent<Transform>());
-		iconObj->GetComponent<Transform>()->SetPosition(Vector3(-10.0f , 3.7f, 10.0f));
+		iconObj->GetComponent<Transform>()->SetPosition(Vector3(-9.0f , 3.2f, 9.0f));
 		iconObj->GetComponent<Transform>()->SetScale(Vector3(1.0f, 1.0f, 1.0f));
 		SpriteRenderer* iconRender = iconObj->AddComponent<SpriteRenderer>();
 		std::shared_ptr<Material> iconMaterial = Resources::Find<Material>(L"AmmoIconMaterial");

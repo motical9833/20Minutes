@@ -60,6 +60,7 @@ namespace ya
 		renderOpaque();
 		renderCutout();
 		renderTransparent();
+		renderPostProcess();
 	}
 
 	void Camera::CreateViewMatrix()
@@ -126,6 +127,7 @@ namespace ya
 		mOpaqueGameObjects.clear();
 		mCutoutGameObjects.clear();
 		mTransparentGameObjects.clear();
+		mPostProcessGameObjects.clear();
 
 		Scene* scene = SceneManager::GetActiveScene();
 		for (size_t i = 0; i < (UINT)eLayerType::End; i++)
@@ -178,6 +180,18 @@ namespace ya
 		}
 	}
 
+	void Camera::renderPostProcess()
+	{
+
+		for (GameObject* obj : mPostProcessGameObjects)
+		{
+			if (obj == nullptr)
+				continue;
+			renderer::CopyRenderTarget();
+			obj->Render();
+		}
+	}
+
 	void Camera::pushGameObjectToRenderingModes(GameObject* gameObj)
 	{
 		BaseRenderer* renderer
@@ -201,6 +215,9 @@ namespace ya
 			break;
 		case ya::graphics::eRenderingMode::Transparent:
 			mTransparentGameObjects.push_back(gameObj);
+			break;
+		case ya::graphics::eRenderingMode::PostProcess:
+			mPostProcessGameObjects.push_back(gameObj);
 			break;
 		default:
 			break;

@@ -2,6 +2,7 @@
 #include "yaRenderer.h"
 #include "yaCamera.h"
 #include "yaTime.h"
+#include "yaGameObject.h"
 
 namespace ya
 {
@@ -16,6 +17,7 @@ namespace ya
 		, mPosition(Vector3::One)
 		, mParent(nullptr)
 		, mChiled{}
+		, bFollowParents(false)
 	{
 		
 	}

@@ -23,11 +23,8 @@ namespace ya
 
 	void CameraScript::Update()
 	{
-
 		Transform* tr = GetOwner()->GetComponent<Transform>();
-
-		tr->SetPosition(target->GetComponent<Transform>()->GetPosition() + Vector3(0.0f, 0.0f, -10.0f));
-
+		tr->SetPosition(target->GetComponent<Transform>()->GetPosition() + Vector3(0.0f, 0.0f, -12.0f));
 	}
 	void CameraScript::Render()
 	{

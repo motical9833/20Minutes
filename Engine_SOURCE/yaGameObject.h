@@ -132,6 +132,27 @@ namespace ya
 
 			return comp;
 		}
+		template <typename T>
+		T* AddComponent(int a, eLayerType b)
+		{
+			T* comp = new T(a, b);
+			eComponentType order = comp->GetOrder();
+
+			if (order != eComponentType::Script)
+			{
+				mComponents[(UINT)order] = comp;
+				mComponents[(UINT)order]->SetOwner(this);
+			}
+			else
+			{
+				mScripts.push_back(dynamic_cast<Script*>(comp));
+				comp->SetOwner(this);
+			}
+
+			comp->Initalize();
+
+			return comp;
+		}
 
 
 		void AddComponent(Component* comp);
@@ -200,7 +221,11 @@ namespace ya
 		
 		bool IsDontDestroy() { return mbDontDestroy; }
 		void DontDestroy(bool enable) { mbDontDestroy = enable; }
-		eLayerType GetLayerType() { return mType; }
+		eLayerType GetLayerType() 
+		{
+			int a = 0;
+			return mType;
+		}
 		void SetLayerType(eLayerType type) { mType = type; }
 
 		void SetSTOP() { bStop = true; }

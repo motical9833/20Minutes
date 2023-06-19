@@ -404,6 +404,11 @@
       <Filter>Component\Script\Contents\Monster</Filter>
     </ClCompile>
     <ClCompile Include="yaFontWrapper.cpp" />
+    <ClCompile Include="yaBommerSoundEffectScript.cpp" />
+    <ClCompile Include="yaSoundObjectScript.cpp" />
+    <ClCompile Include="yaTreePosScript.cpp" />
+    <ClCompile Include="yaMonsterEyeLightScript.cpp" />
+    <ClCompile Include="yaFireLightScript.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CommonInclude.h">
@@ -655,9 +660,6 @@
     <ClInclude Include="yaWeapon.h">
       <Filter>Component\Script\Contents\GameObject</Filter>
     </ClInclude>
-    <ClInclude Include="yaLevelUPEffectScript.h">
-      <Filter>Component\Script\Contents\Effect</Filter>
-    </ClInclude>
     <ClInclude Include="yaMuzzleFlashScript.h">
       <Filter>Component\Script\Contents\Effect</Filter>
     </ClInclude>
@@ -690,6 +692,14 @@
       <Filter>Component\Script\Contents\Monster</Filter>
     </ClInclude>
     <ClInclude Include="yaFontWrapper.h" />
+    <ClInclude Include="yaLevelUPEffectScript.h">
+      <Filter>Component\Script\Contents\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="yaBommerSoundEffectScript.h" />
+    <ClInclude Include="yaSoundObjectScript.h" />
+    <ClInclude Include="yaTreePosScript.h" />
+    <ClInclude Include="yaMonsterEyeLightScript.h" />
+    <ClInclude Include="yaFireLightScript.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="yaMath.inl">

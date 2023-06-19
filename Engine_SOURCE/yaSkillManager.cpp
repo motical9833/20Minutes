@@ -14,6 +14,9 @@
 #include "yaWeaponScript.h"
 #include "yaBulletScript.h"
 #include "yaDragonPetScript.h"
+#include "yaAudioSource.h"
+
+#include<random>
 
 namespace ya
 {
@@ -101,7 +104,6 @@ namespace ya
 	}
 	void SkillManager::ThunderEnchant(Vector3 Enchantobject)
 	{
-
 		for (size_t i = 0; i < SceneManager::GetPlayScene()->GetThunders().size(); i++)
 		{
 			if (SceneManager::GetPlayScene()->GetThunders()[i] == nullptr)
@@ -110,7 +112,32 @@ namespace ya
 			if (SceneManager::GetPlayScene()->GetThunders()[i]->IsDead() == false)
 				continue;
 
-			SceneManager::GetPlayScene()->GetThunders()[i]->GetComponent<Transform>()->SetPosition(Enchantobject);
+			std::random_device rd;
+			std::mt19937 rng(rd());
+
+			int min = 0;
+			int max = 2;
+
+			std::uniform_int_distribution<int> value(min, max);
+
+			int random = value(rng);
+
+			switch (random)
+			{
+			case 0:
+				SceneManager::GetPlayScene()->GetThunders()[i]->GetComponent<Transform>()->SetPosition(Enchantobject);
+				break;
+			case 1:
+				SceneManager::GetPlayScene()->GetThunders()[i]->GetComponent<Transform>()->SetPosition(Enchantobject + Vector3(-2.5f, -0.5f, 0.0f));
+				SceneManager::GetPlayScene()->GetThunders()[i]->GetComponent<Transform>()->SetRotation(Vector3(0.0f, 0.0f, 0.5f));
+				break;
+			case 2:
+				SceneManager::GetPlayScene()->GetThunders()[i]->GetComponent<Transform>()->SetPosition(Enchantobject + Vector3(2.5f, -0.5f, 0.0f));
+				SceneManager::GetPlayScene()->GetThunders()[i]->GetComponent<Transform>()->SetRotation(Vector3(0.0f, 0.0f, -0.5f));
+				break;
+			}	
+
+			SceneManager::GetPlayScene()->GetThunders()[i]->GetComponent<AudioSource>()->Play();
 			SceneManager::GetPlayScene()->GetThunders()[i]->Life();
 			break;
 		}
@@ -125,9 +152,10 @@ namespace ya
 			if (SceneManager::GetPlayScene()->GetGale()[i]->IsDead() == false)
 				continue;
 
+			SceneManager::GetPlayScene()->GetGale()[i]->Life();
 			SceneManager::GetPlayScene()->GetGale()[i]->GetComponent<Transform>()->SetPosition(pos);
 			SceneManager::GetPlayScene()->GetGale()[i]->GetScript<GaleScript>()->SetDir(dir);
-			SceneManager::GetPlayScene()->GetGale()[i]->Life();
+			SceneManager::GetPlayScene()->GetGale()[i]->GetComponent<AudioSource>()->Play();
 			break;
 		}
 	}

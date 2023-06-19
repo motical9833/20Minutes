@@ -32,25 +32,24 @@ float4 main(VSOut In) : SV_Target
        if (UV.x < leftTop.x || UV.y < leftTop.y || UV.x > leftTop.x  + spriteSize.x || UV.y > leftTop.y + spriteSize.y)
            discard;
          
+        //UV.x = -UV.x;
         color = atlasTexture.Sample(anisotropicSampler, UV);
     }
     else 
     {
+        //UV.x = -UV.x;
         color = defaultTexture.Sample(anisotropicSampler, In.UV);
-        //color.w = 0.5f;
     }
     
     
-    LightColor lightColor = (LightColor)0.0f;
+    if (color.a <= 0.0f)
+        discard;
+    
+    LightColor lightColor = (LightColor) 0.0f;
     for (int i = 0; i < numberOfLight; i++)
     {
         CalculateLight(lightColor, In.WorldPos.xyz, i);
     }
-    
-    //if(numberOfLight <= 0)
-    //{
-    //    lightColor = (LightColor) 1.0f;
-    //}``
     color *= lightColor.diffuse;
     
     //loat4 color = (float) 0.0f;
@@ -58,5 +57,6 @@ float4 main(VSOut In) : SV_Target
    //color = defaultTexture.Sample(anisotropicSampler, 0);  
     
     //color = defaultTexture.Sample(anisotropicSampler, In.UV);
+    
     return color;
 }

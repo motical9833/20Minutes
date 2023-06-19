@@ -5,6 +5,13 @@
 #include "yaPlayScene.h"
 #include "yaAnimator.h"
 #include "yaTime.h"
+#include "yaCurseScript.h"
+#include "yaWeaponScript.h"
+#include "yaReloadBarScript.h"
+#include "yaMonsterFactoryScript.h"
+#include "yaSkillManager.h"
+#include "yaMonsterEyeLightScript.h"
+#include "yaAudioSource.h"
 
 #define monsterSpeed 2
 
@@ -18,7 +25,7 @@ namespace ya
 
 	}
 	HubNigguratScript::HubNigguratScript(int hp)
-		:MonsterScript(hp)
+		:MonsterScript(hp,eLayerType::Boss)
 		, mCoolTime(0.0f)
 		, bAttack(false)
 	{
@@ -40,6 +47,8 @@ namespace ya
 		animator->GetCompleteEvent(L"Boss_LeftAttack") = std::bind(&HubNigguratScript::AttackEnd, this);
 		animator->GetCompleteEvent(L"Boss_RightAttack") = std::bind(&HubNigguratScript::AttackEnd, this);
 
+		animator->GetCompleteEvent(L"m_RightHit") = std::bind(&HubNigguratScript::HitEvent, this);
+		animator->GetCompleteEvent(L"m_LeftHit") = std::bind(&HubNigguratScript::HitEvent, this);
 	}
 	void HubNigguratScript::Update()
 	{
@@ -51,7 +60,7 @@ namespace ya
 			mSpeed = 0;
 			freezeTime += Time::DeltaTime();
 
-			if (freezeTime >= 3.0f)
+			if (freezeTime >= 0.3f)
 			{
 				if (bFrostbite)
 				{
@@ -154,6 +163,110 @@ namespace ya
 	{
 
 	}
+	void HubNigguratScript::TakeDamage(int damage)
+	{
+		if (GetOwner()->GetComponent<Animator>()->GetActiveAnimation()->AnimationName() == L"Boss_RightMove")
+		{
+			GetOwner()->GetComponent<Animator>()->Play(L"m_RightHit", false);
+			GetOwner()->GetComponent<Transform>()->GetChiled(2)->GetOwner()->GetScript<MonsterEyeLightScript>()->SetRightHit();
+		}
+		else if (GetOwner()->GetComponent<Animator>()->GetActiveAnimation()->AnimationName() == L"Boss_LeftMove")
+		{
+			GetOwner()->GetComponent<Animator>()->Play(L"m_LeftHit", false);
+			GetOwner()->GetComponent<Transform>()->GetChiled(2)->GetOwner()->GetScript<MonsterEyeLightScript>()->SetLeftHit();
+		}
+
+		mSpeed = 0;
+
+		if (bCurseActivate)
+		{
+			bCurseActivate = false;
+			beCursed = false;
+			Transform* tr = GetOwner()->GetComponent<Transform>();
+			tr->GetChiled(1)->GetOwner()->GetScript<CurseScript>()->Reset();
+
+			if (mCurrentHp == NULL)
+				return;
+
+			mCurrentHp -= damage * curseMul;
+			RitualStack();
+			DieChack();
+		}
+		else
+		{
+			if (mCurrentHp == NULL)
+				return;
+
+			if (beCursed)
+			{
+				mCurrentHp -= damage * 1.1f + 1;
+			}
+			else
+			{
+				mCurrentHp -= damage;
+			}
+
+			DieChack();
+		}
+	}
+	void HubNigguratScript::DieChack()
+	{
+		if (mCurrentHp <= 0)
+		{
+			SceneManager::GetPlayScene()->GetMonsterFactory()->GetScript<MonsterFactoryScript>()->CurrentMonsterCntDec();
+			GetOwner()->GetComponent<Transform>()->GetChiled(2)->GetOwner()->Death();
+			DropExpMarble();
+			Animator* ani = GetOwner()->GetComponent<Animator>();
+			GetOwner()->GetComponent<Collider2D>()->SetScriptOff(true);
+			ani->Play(L"DeathAnimation", false);
+			GetOwner()->SetLayerType(eLayerType::None);
+			Transform* tr = GetOwner()->GetComponent<Transform>();
+			tr->GetChiled(0)->GetOwner()->Death();
+			tr->GetChiled(1)->GetOwner()->GetScript<CurseScript>()->Reset();
+
+
+			if (bKillClip)
+			{
+				SceneManager::GetPlayScene()->GetWeapon()->GetScript<WeaponScript>()->SetKillCntInc();
+				SceneManager::GetPlayScene()->GetReloadUI()[1]->GetScript<ReloadBarScript>()->SetKillClip(0.15f);
+			}
+
+			if (bDieBullet)
+			{
+				DieBullet();
+			}
+		}
+	}
+	void HubNigguratScript::DieChack(eLayerType type)
+	{
+		if (mCurrentHp <= 0 && GetOwner()->GetComponent<Transform>()->GetChiled(0)->GetOwner()->GetState() != GameObject::Dead)
+		{
+			SceneManager::GetPlayScene()->GetMonsterFactory()->GetScript<MonsterFactoryScript>()->CurrentMonsterCntDec();
+			GetOwner()->GetComponent<Transform>()->GetChiled(2)->GetOwner()->Death();
+			DropExpMarble();
+			Animator* ani = GetOwner()->GetComponent<Animator>();
+			GetOwner()->GetComponent<Collider2D>()->SetScriptOff(true);
+			GetOwner()->SetLayerType(eLayerType::None);
+			ani->Play(L"DeathAnimation", false);
+			Transform* tr = GetOwner()->GetComponent<Transform>();
+			tr->GetChiled(0)->GetOwner()->Death();
+			tr->GetChiled(1)->GetOwner()->GetScript<CurseScript>()->Reset();
+
+			if (bKillClip)
+			{
+				SceneManager::GetPlayScene()->GetWeapon()->GetScript<WeaponScript>()->SetKillCntInc();
+				SceneManager::GetPlayScene()->GetReloadUI()[1]->GetScript<ReloadBarScript>()->SetKillClip(0.15f);
+			}
+
+			if (type == eLayerType::Skill_Smite)
+				SceneManager::GetPlayScene()->GetSkillManager()->GetScript<SkillManager>()->SmiteKillCnt();
+
+			if (bDieBullet)
+			{
+				DieBullet();
+			}
+		}
+	}
 	void HubNigguratScript::ChargeEnd()
 	{
 		Animation* ani = animator->GetActiveAnimation();
@@ -164,10 +277,12 @@ namespace ya
 		if (ani->AnimationName() == L"Boss_RightCharge")
 		{
 			animator->Play(L"Boss_RightAttack", false);
+			GetOwner()->GetComponent<Transform>()->GetChiled(2)->GetOwner()->GetScript<MonsterEyeLightScript>()->SetRightAttack();
 		}
 		else if (ani->AnimationName() == L"Boss_LeftCharge")
 		{
 			animator->Play(L"Boss_LeftAttack", false);
+			GetOwner()->GetComponent<Transform>()->GetChiled(2)->GetOwner()->GetScript<MonsterEyeLightScript>()->SetLeftAttack();
 		}
 
 		bAttack = true;
@@ -183,10 +298,12 @@ namespace ya
 		if (GetOwner()->GetComponent<Transform>()->GetPosition().x < player->GetComponent<Transform>()->GetPosition().x)
 		{
 			animator->Play(L"Boss_RightMove", true);
+			GetOwner()->GetComponent<Transform>()->GetChiled(2)->GetOwner()->GetScript<MonsterEyeLightScript>()->SetRight();
 		}
 		else if (GetOwner()->GetComponent<Transform>()->GetPosition().x > player->GetComponent<Transform>()->GetPosition().x)
 		{
 			animator->Play(L"Boss_LeftMove", true);
+			GetOwner()->GetComponent<Transform>()->GetChiled(2)->GetOwner()->GetScript<MonsterEyeLightScript>()->SetLeft();
 		}
 
 		bAttack = false;
@@ -210,10 +327,12 @@ namespace ya
 		if (GetOwner()->GetComponent<Transform>()->GetPosition().x > player->GetComponent<Transform>()->GetPosition().x && ani->AnimationName() == L"Boss_RightMove")
 		{
 			animator->Play(L"Boss_LeftMove", true);
+			GetOwner()->GetComponent<Transform>()->GetChiled(2)->GetOwner()->GetScript<MonsterEyeLightScript>()->SetLeft();
 		}
 		else if (GetOwner()->GetComponent<Transform>()->GetPosition().x < player->GetComponent<Transform>()->GetPosition().x && ani->AnimationName() == L"Boss_LeftMove")
 		{
 			animator->Play(L"Boss_RightMove", true);
+			GetOwner()->GetComponent<Transform>()->GetChiled(2)->GetOwner()->GetScript<MonsterEyeLightScript>()->SetRight();
 		}
 
 		if (bClash)
@@ -247,13 +366,17 @@ namespace ya
 		{
 			mCoolTime = 0;
 
-			if (ani->AnimationName() == L"Boss_RightMove")
+			if (ani->AnimationName() == L"Boss_RightMove" || ani->AnimationName() == L"Boss_RightHit")
 			{
 				animator->Play(L"Boss_RightCharge", false);
+				GetOwner()->GetComponent<Transform>()->GetChiled(2)->GetOwner()->GetScript<MonsterEyeLightScript>()->SetRightCharge();
+				GetOwner()->GetComponent<AudioSource>()->Play();
 			}
-			else if (ani->AnimationName() == L"Boss_LeftMove")
+			else if (ani->AnimationName() == L"Boss_LeftMove" || ani->AnimationName() == L"Boss_LeftHit")
 			{
 				animator->Play(L"Boss_LeftCharge", false);
+				GetOwner()->GetComponent<AudioSource>()->Play();
+				GetOwner()->GetComponent<Transform>()->GetChiled(2)->GetOwner()->GetScript<MonsterEyeLightScript>()->SetLeftCharge();
 			}
 
 			state = States::CHARGE;
@@ -318,5 +441,48 @@ namespace ya
 			mSpeed = monsterSpeed;	
 			state = States::MOVE;
 		}
+	}
+	void HubNigguratScript::HitEvent()
+	{
+		if (GetOwner()->GetComponent<Transform>()->GetPosition().x < player->GetComponent<Transform>()->GetPosition().x)
+		{
+			animator->Play(L"Boss_RightMove", true);
+			GetOwner()->GetComponent<Transform>()->GetChiled(2)->GetOwner()->GetScript<MonsterEyeLightScript>()->SetRight();
+		}
+		else if (GetOwner()->GetComponent<Transform>()->GetPosition().x > player->GetComponent<Transform>()->GetPosition().x)
+		{
+			animator->Play(L"Boss_LeftMove", true);
+			GetOwner()->GetComponent<Transform>()->GetChiled(2)->GetOwner()->GetScript<MonsterEyeLightScript>()->SetLeft();
+		}
+
+		mSpeed = monsterSpeed;
+	}
+	void HubNigguratScript::Respawn()
+	{
+		GetOwner()->GetComponent<Collider2D>()->SetSize(mColliderSize);
+		Animator* ani = GetOwner()->GetComponent<Animator>();
+		GetOwner()->Life();
+		mSpeed = monsterSpeed;
+		ani->Play(L"Boss_RightMove", true);
+		this->GetOwner()->GetComponent<Collider2D>()->SetScriptOff(false);
+		GetOwner()->SetLayerType(mLayer);
+		GetOwner()->GetComponent<Transform>()->GetChiled(2)->GetOwner()->Life();
+		GetOwner()->GetComponent<Transform>()->GetChiled(2)->GetOwner()->GetComponent<Animator>()->Play(L"m_Right", true);
+	}
+	void HubNigguratScript::GameReset()
+	{
+		Respawn();
+		bFreeze = false;
+		bFrostbite = false;
+		bCurseActivate = false;
+		beCursed = false;
+		freezeTime = 0.0f;
+		bDieBullet = false;
+		curseMul = 2.0f;
+		bWitherOn = false;
+		bRitualOn = false;
+		bIgnition = false;
+		ignitionCnt = 0;
+		ignitionMaxCnt = 10;
 	}
 }

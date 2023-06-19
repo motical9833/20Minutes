@@ -4,8 +4,8 @@
 #include "yaGameObject.h"
 #include "yaPlayScene.h"
 #include "yaLevelUPEffectScript.h"
-
 #include "yaInput.h"
+#include "yaAudioSource.h"
 
 namespace ya
 {
@@ -70,6 +70,7 @@ namespace ya
 	}
 	void PlayerLevelScript::LevelUP()
 	{
+		SceneManager::GetPlayScene()->GetSoundObjects(4)->GetComponent<AudioSource>()->Play();
 		mLevel++;
 		mLevelUpExp += 5.0f;
 		mCurrentExp = 0.0f;
@@ -79,7 +80,7 @@ namespace ya
 	void PlayerLevelScript::GetExp()
 	{
 		mCurrentExp++;
-		float gaugeX = mCurrentExp / mLevelUpExp * 42.0f;
+		float gaugeX = mCurrentExp / mLevelUpExp * 38.0f;
 		gaugeObj->GetComponent<Transform>()->SetScale(Vector3(gaugeX, 0.5f, 1.0f));
 
 		if (mCurrentExp == mLevelUpExp)

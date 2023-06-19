@@ -11,6 +11,9 @@
 #include "yaMonsterScript.h"
 #include "yaSkillManager.h"
 #include "yaPlayScene.h"
+#include "yaHubNigguratScript.h"
+#include "yaAudioSource.h"
+
 
 namespace ya
 {
@@ -115,132 +118,15 @@ namespace ya
 	}
 	void BulletScript::OnCollisionEnter(Collider2D* collider)
 	{
-		if (collider->GetOwner()->GetLayerType() == eLayerType::Monster && collider->GetOwner()->GetState() == (UINT)GameObject::eState::Active)
+		if (collider->GetOwner()->GetLayerType() == eLayerType::Monster || collider->GetOwner()->GetLayerType() == eLayerType::MonsterBoomer && collider->GetOwner()->GetState() == (UINT)GameObject::eState::Active)
 		{
-			if (collider->GetOwner()->GetScript<MonsterScript>()->GetCurrentHP() <= (collider->GetOwner()->GetScript<MonsterScript>()->GetMaxHP() * 0.2f) && bAssassin)
-			{
-				collider->GetOwner()->GetScript<MonsterScript>()->TakeDamage(9999);
-				return;
-			}
-
-			Freeze(collider);
-
-			if (collider->GetOwner()->GetScript<MonsterScript>()->GetcurseAtivate() == true)
-			{
-
-				int damage = std::round(mDamage * mDamageMul * 2) + 1;
-
-				collider->GetOwner()->GetScript<MonsterScript>()->TakeDamage(damage);
-
-
-				if (bIgnitionBullet)
-					collider->GetOwner()->GetScript<MonsterScript>()->Ignition((damage / 3) + 1);
-			}
-			else
-			{
-				Curse(collider);
-
-				if (bDieBullet)
-				{
-					int damage = std::round(mDamage * mDamageMul * 0.1f) + 1;
-					collider->GetOwner()->GetScript<MonsterScript>()->TakeDamage(damage);
-					GetOwner()->GetComponent<Transform>()->SetScale(Vector3(1.5f, 1.5f, 1.0f));
-
-					if (bIgnitionBullet)
-						collider->GetOwner()->GetScript<MonsterScript>()->Ignition((damage / 3) + 1);
-				}
-				else
-				{
-					int damage = std::round(mDamage * mDamageMul) + 1;
-					collider->GetOwner()->GetScript<MonsterScript>()->TakeDamage(damage);
-
-					if(bIgnitionBullet)
-					collider->GetOwner()->GetScript<MonsterScript>()->Ignition((damage/3) +1);
-				}
-			}
-
-			if (bThunder)
-				SceneManager::GetPlayScene()->GetSkillManager()->GetScript<SkillManager>()->ThunderEnchant(collider->GetOwner()->GetComponent<Transform>()->GetPosition() + Vector3(0.0f,2.0f,0.0f));
-
-			if (bBounceTrigger)
-			{
-				bBounce = true;
-				mBounceCnt--;
-				if (mBounceCnt <= 0)
-					bBounceTrigger = false;
-			}
-			else
-			{
-				mPenetrate--;
-
-				if (mPenetrate <= 0)
-				{
-					Animator* animator = GetOwner()->GetComponent<Animator>();
-					animator->Play(L"BulletAni", false);
-					animator->Start();
-				}
-			}
+			GetOwner()->GetComponent<AudioSource>()->Play();
+			AttackMonster(collider);
 		}
 		else if (collider->GetOwner()->GetLayerType() == eLayerType::Boss && collider->GetOwner()->GetState() == (UINT)GameObject::eState::Active)
 		{
-			Freeze(collider);
-
-			if (collider->GetOwner()->GetScript<MonsterScript>()->GetcurseAtivate() == true)
-			{
-
-				int damage = std::round(mDamage * mDamageMul * 2) + 1;
-
-				collider->GetOwner()->GetScript<MonsterScript>()->TakeDamage(damage);
-
-
-				if (bIgnitionBullet)
-					collider->GetOwner()->GetScript<MonsterScript>()->Ignition((damage / 3) + 1);
-			}
-			else
-			{
-				Curse(collider);
-
-				if (bDieBullet)
-				{
-					int damage = std::round(mDamage * mDamageMul * 0.1f) + 1;
-					collider->GetOwner()->GetScript<MonsterScript>()->TakeDamage(damage);
-					GetOwner()->GetComponent<Transform>()->SetScale(Vector3(1.5f, 1.5f, 1.0f));
-
-					if (bIgnitionBullet)
-						collider->GetOwner()->GetScript<MonsterScript>()->Ignition((damage / 3) + 1);
-				}
-				else
-				{
-					int damage = std::round(mDamage * mDamageMul) + 1;
-					collider->GetOwner()->GetScript<MonsterScript>()->TakeDamage(damage);
-
-					if (bIgnitionBullet)
-						collider->GetOwner()->GetScript<MonsterScript>()->Ignition((damage / 3) + 1);
-				}
-			}
-
-			if (bThunder)
-				SceneManager::GetPlayScene()->GetSkillManager()->GetScript<SkillManager>()->ThunderEnchant(collider->GetOwner()->GetComponent<Transform>()->GetPosition() + Vector3(0.0f, 2.0f, 0.0f));
-
-			if (bBounceTrigger)
-			{
-				bBounce = true;
-				mBounceCnt--;
-				if (mBounceCnt <= 0)
-					bBounceTrigger = false;
-			}
-			else
-			{
-				mPenetrate--;
-
-				if (mPenetrate <= 0)
-				{
-					Animator* animator = GetOwner()->GetComponent<Animator>();
-					animator->Play(L"BulletAni", false);
-					animator->Start();
-				}
-			}
-
+			GetOwner()->GetComponent<AudioSource>()->Play();
+			AttackBoss(collider);
 		}
 	}
 	void BulletScript::OnCollisionStay(Collider2D* collider)
@@ -338,5 +224,137 @@ namespace ya
 		bPlayerhit = false;
 		bIgnitionBullet = false;
 		bMagicLensOn = false;
+	}
+	void BulletScript::AttackBoss(Collider2D* collider)
+	{
+		Freeze(collider);
+
+		if (collider->GetOwner()->GetScript<HubNigguratScript>()->GetcurseAtivate() == true)
+		{
+
+			int damage = std::round(mDamage * mDamageMul * 2) + 1;
+
+			collider->GetOwner()->GetScript<HubNigguratScript>()->TakeDamage(damage);
+
+
+			if (bIgnitionBullet)
+				collider->GetOwner()->GetScript<HubNigguratScript>()->Ignition((damage / 3) + 1);
+		}
+		else
+		{
+			Curse(collider);
+
+			if (bDieBullet)
+			{
+				int damage = std::round(mDamage * mDamageMul * 0.1f) + 1;
+				collider->GetOwner()->GetScript<HubNigguratScript>()->TakeDamage(damage);
+				GetOwner()->GetComponent<Transform>()->SetScale(Vector3(1.5f, 1.5f, 1.0f));
+
+				if (bIgnitionBullet)
+					collider->GetOwner()->GetScript<HubNigguratScript>()->Ignition((damage / 3) + 1);
+			}
+			else
+			{
+				int damage = std::round(mDamage * mDamageMul) + 1;
+				collider->GetOwner()->GetScript<HubNigguratScript>()->TakeDamage(damage);
+
+				if (bIgnitionBullet)
+					collider->GetOwner()->GetScript<HubNigguratScript>()->Ignition((damage / 3) + 1);
+			}
+		}
+
+		if (bThunder)
+		{
+			SceneManager::GetPlayScene()->GetSkillManager()->GetScript<SkillManager>()->ThunderEnchant(collider->GetOwner()->GetComponent<Transform>()->GetPosition() + Vector3(0.0f, 5.0f, 0.0f));
+			collider->GetOwner()->GetScript<MonsterScript>()->TakeDamage(20);
+		}
+
+		if (bBounceTrigger)
+		{
+			bBounce = true;
+			mBounceCnt--;
+			if (mBounceCnt <= 0)
+				bBounceTrigger = false;
+		}
+		else
+		{
+			mPenetrate--;
+
+			if (mPenetrate <= 0)
+			{
+				Animator* animator = GetOwner()->GetComponent<Animator>();
+				animator->Play(L"BulletAni", false);
+				animator->Start();
+			}
+		}
+	}
+	void BulletScript::AttackMonster(Collider2D* collider)
+	{
+		if (collider->GetOwner()->GetScript<MonsterScript>()->GetCurrentHP() <= (collider->GetOwner()->GetScript<MonsterScript>()->GetMaxHP() * 0.2f) && bAssassin)
+		{
+			collider->GetOwner()->GetScript<MonsterScript>()->TakeDamage(9999);
+			return;
+		}
+
+		Freeze(collider);
+
+		if (collider->GetOwner()->GetScript<MonsterScript>()->GetcurseAtivate() == true)
+		{
+
+			int damage = std::round(mDamage * mDamageMul * 2) + 1;
+
+			collider->GetOwner()->GetScript<MonsterScript>()->TakeDamage(damage);
+
+
+			if (bIgnitionBullet)
+				collider->GetOwner()->GetScript<MonsterScript>()->Ignition((damage / 3) + 1);
+		}
+		else
+		{
+			Curse(collider);
+
+			if (bDieBullet)
+			{
+				int damage = std::round(mDamage * mDamageMul * 0.1f) + 1;
+				collider->GetOwner()->GetScript<MonsterScript>()->TakeDamage(damage);
+				GetOwner()->GetComponent<Transform>()->SetScale(Vector3(1.5f, 1.5f, 1.0f));
+
+				if (bIgnitionBullet)
+					collider->GetOwner()->GetScript<MonsterScript>()->Ignition((damage / 3) + 1);
+			}
+			else
+			{
+				int damage = std::round(mDamage * mDamageMul) + 1;
+				collider->GetOwner()->GetScript<MonsterScript>()->TakeDamage(damage);
+
+				if (bIgnitionBullet)
+					collider->GetOwner()->GetScript<MonsterScript>()->Ignition((damage / 3) + 1);
+			}
+		}
+
+		if (bThunder)
+		{
+			SceneManager::GetPlayScene()->GetSkillManager()->GetScript<SkillManager>()->ThunderEnchant(collider->GetOwner()->GetComponent<Transform>()->GetPosition() + Vector3(0.0f, 5.0f, 0.0f));
+			collider->GetOwner()->GetScript<MonsterScript>()->TakeDamage(20);
+		}
+
+		if (bBounceTrigger)
+		{
+			bBounce = true;
+			mBounceCnt--;
+			if (mBounceCnt <= 0)
+				bBounceTrigger = false;
+		}
+		else
+		{
+			mPenetrate--;
+
+			if (mPenetrate <= 0)
+			{
+				Animator* animator = GetOwner()->GetComponent<Animator>();
+				animator->Play(L"BulletAni", false);
+				animator->Start();
+			}
+		}
 	}
 }

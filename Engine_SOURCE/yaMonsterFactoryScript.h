@@ -16,15 +16,22 @@ namespace ya
 		virtual void Render();
 
 		void MonsterSpawn();
-		Vector3 MonsterPos(Vector3 pos);
+		void BoomerSpawn(int remainder);
+		void EyeMonsterSpawn(int remainder);
+		void BossSpawn();
+		Vector3 MonsterSpawnPos(Vector3 pos);
 		void CurrentMonsterCntDec() { currentMonsterCnt--; }
+
+		void Reset();
 	private:
 		float mTime;
+		float mCurrentTime;
 
 		Vector3 playerPos;
 		int level;
 
 		int maxMonsterCnt;
 		int currentMonsterCnt;
+		int spawnCnt;
 	};
 }

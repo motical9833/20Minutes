@@ -173,6 +173,7 @@ copy "$(SolutionDir)fmodstudio.dll" "$(SolutionDir)\x64\Release\"</Command>
     <ClInclude Include="yaAudioListener.h" />
     <ClInclude Include="yaAudioSource.h" />
     <ClInclude Include="yaBgEyeScript.h" />
+    <ClInclude Include="yaBommerSoundEffectScript.h" />
     <ClInclude Include="yaBubbleUIScript.h" />
     <ClInclude Include="yaBullet.h" />
     <ClInclude Include="yaBulletScript.h" />
@@ -196,9 +197,11 @@ copy "$(SolutionDir)fmodstudio.dll" "$(SolutionDir)\x64\Release\"</Command>
     <ClInclude Include="yaEngine.h" />
     <ClInclude Include="yaEntity.h" />
     <ClInclude Include="yaEnums.h" />
+    <ClInclude Include="yaFireLightScript.h" />
     <ClInclude Include="yaFmod.h" />
     <ClInclude Include="yaFontWrapper.h" />
     <ClInclude Include="yaHubNigguratScript.h" />
+    <ClInclude Include="yaMonsterEyeLightScript.h" />
     <ClInclude Include="yaMonsterFactoryScript.h" />
     <ClInclude Include="yaReloadBarScript.h" />
     <ClInclude Include="yaExpMarbleObject.h" />
@@ -249,6 +252,7 @@ copy "$(SolutionDir)fmodstudio.dll" "$(SolutionDir)\x64\Release\"</Command>
     <ClInclude Include="yaShader.h" />
     <ClInclude Include="yaSkillManager.h" />
     <ClInclude Include="yaSmiteScript.h" />
+    <ClInclude Include="yaSoundObjectScript.h" />
     <ClInclude Include="yaSpearScript.h" />
     <ClInclude Include="yaSpriteRenderer.h" />
     <ClInclude Include="yaStageOneTileManager.h" />
@@ -260,6 +264,7 @@ copy "$(SolutionDir)fmodstudio.dll" "$(SolutionDir)\x64\Release\"</Command>
     <ClInclude Include="yaTitleScene.h" />
     <ClInclude Include="yaTitleUIManager.h" />
     <ClInclude Include="yaTransform.h" />
+    <ClInclude Include="yaTreePosScript.h" />
     <ClInclude Include="yaUIPanalMoveScript.h" />
     <ClInclude Include="yaUpgradeScript.h" />
     <ClInclude Include="yaWeapon.h" />
@@ -273,6 +278,7 @@ copy "$(SolutionDir)fmodstudio.dll" "$(SolutionDir)\x64\Release\"</Command>
     <ClCompile Include="yaAudioListener.cpp" />
     <ClCompile Include="yaAudioSource.cpp" />
     <ClCompile Include="yaBgEyeScript.cpp" />
+    <ClCompile Include="yaBommerSoundEffectScript.cpp" />
     <ClCompile Include="yaBubbleUIScript.cpp" />
     <ClCompile Include="yaBullet.cpp" />
     <ClCompile Include="yaBulletScript.cpp" />
@@ -293,9 +299,11 @@ copy "$(SolutionDir)fmodstudio.dll" "$(SolutionDir)\x64\Release\"</Command>
     <ClCompile Include="yaDragonFireScript.cpp" />
     <ClCompile Include="yaDragonPetScript.cpp" />
     <ClCompile Include="yaEntity.cpp" />
+    <ClCompile Include="yaFireLightScript.cpp" />
     <ClCompile Include="yaFmod.cpp" />
     <ClCompile Include="yaFontWrapper.cpp" />
     <ClCompile Include="yaHubNigguratScript.cpp" />
+    <ClCompile Include="yaMonsterEyeLightScript.cpp" />
     <ClCompile Include="yaMonsterFactoryScript.cpp" />
     <ClCompile Include="yaReloadBarScript.cpp" />
     <ClCompile Include="yaExpMarbleObject.cpp" />
@@ -344,6 +352,7 @@ copy "$(SolutionDir)fmodstudio.dll" "$(SolutionDir)\x64\Release\"</Command>
     <ClCompile Include="yaShader.cpp" />
     <ClCompile Include="yaSkillManager.cpp" />
     <ClCompile Include="yaSmiteScript.cpp" />
+    <ClCompile Include="yaSoundObjectScript.cpp" />
     <ClCompile Include="yaSpearScript.cpp" />
     <ClCompile Include="yaSpriteRenderer.cpp" />
     <ClCompile Include="yaStageOneTileManager.cpp" />
@@ -355,6 +364,7 @@ copy "$(SolutionDir)fmodstudio.dll" "$(SolutionDir)\x64\Release\"</Command>
     <ClCompile Include="yaTitleScene.cpp" />
     <ClCompile Include="yaTitleUIManager.cpp" />
     <ClCompile Include="yaTransform.cpp" />
+    <ClCompile Include="yaTreePosScript.cpp" />
     <ClCompile Include="yaUIPanalMoveScript.cpp" />
     <ClCompile Include="yaUpgradeScript.cpp" />
     <ClCompile Include="yaWeapon.cpp" />
