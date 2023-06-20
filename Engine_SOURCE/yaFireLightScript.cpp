@@ -49,7 +49,7 @@ namespace ya
 
 		dir.Normalize();
 
-		GetOwner()->GetComponent<Transform>()->SetPosition(dir / 1.2f);
+		GetOwner()->GetComponent<Transform>()->SetPosition(dir / 1.2f + player->GetComponent<Transform>()->GetPosition());
 	}
 	void FireLightScript::FixedUpdate()
 	{

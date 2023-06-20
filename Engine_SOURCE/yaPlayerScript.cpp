@@ -9,6 +9,7 @@
 #include "yaSceneManager.h"
 #include "yaPlayScene.h"
 #include "yaRenderer.h"
+#include "yaAudioSource.h"
 
 namespace ya
 {
@@ -50,8 +51,8 @@ namespace ya
 		, hitBuffTime(0.0f)
 		, regenerationTime(0.0f)
 		, slowTime(0.0f)
-		, mSpeed(6.0f)
-		, mslowSpeed(2.5f)
+		, mSpeed(3.0f)
+		, mslowSpeed(1.5f)
 		, mSpeedMul(1.0f)
 		, mslowSPeedMul(1.0f)
 		, mScaleMul(1.0f)
@@ -100,21 +101,21 @@ namespace ya
 	{
 	    Move();
 
-		float time = Time::DeltaTime();
+		testTime += Time::DeltaTime();
 
-		testTime += time / 2;
-
-		ConstantBuffer* cbBuffer = renderer::constantBuffers[(UINT)eCBType::FadeInOut];
-		renderer::FadeInOutCB fadeData;
-
-		if (fadeData.alpha < 1)
+		if (bMove && bShooting == false && testTime >= 1.0f)
 		{
-			fadeData.alpha = testTime;
+			SceneManager::GetPlayScene()->GetSoundObjects(6)->GetComponent<Transform>()->SetPosition(GetOwner()->GetComponent<Transform>()->GetPosition());
+			SceneManager::GetPlayScene()->GetSoundObjects(6)->GetComponent<AudioSource>()->Play();
+			testTime = 0;
+		}
+		else if (bMove && bShooting && testTime >= 2.0f)
+		{
+			SceneManager::GetPlayScene()->GetSoundObjects(6)->GetComponent<Transform>()->SetPosition(GetOwner()->GetComponent<Transform>()->GetPosition());
+			SceneManager::GetPlayScene()->GetSoundObjects(6)->GetComponent<AudioSource>()->Play();
+			testTime = 0;
 		}
 
-		cbBuffer->Setdata(&fadeData);
-		cbBuffer->BindSRV(eShaderStage::VS);
-		cbBuffer->BindSRV(eShaderStage::PS);
 
 
 		if (bHitImmune)
@@ -614,6 +615,7 @@ namespace ya
 			return;
 		}
 
+		GetOwner()->GetComponent<AudioSource>()->Play();
 		SceneManager::GetPlayScene()->GetSkillManager()->GetScript<SkillManager>()->IntheWindReset();
 		SceneManager::GetPlayScene()->GetHpObjects()[mCurrentHP-1]->GetComponent<Animator>()->Play(L"heartArrest");
 		mCurrentHP -= damage;

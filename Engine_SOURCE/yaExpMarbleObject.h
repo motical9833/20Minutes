@@ -20,18 +20,22 @@ namespace ya
 		virtual void OnCollisionExit(Collider2D* collider) override;
 
 
+		void Move(bool& bValue);
 		void Start();
 		void Action();
 		void End();
 		void GameReset();
 		void Reset();
-
+		float Distance(Vector3 myPos, Vector3 targetPos);
 
 	private:
 
 		bool bTarget;
+		bool btricky;
+
 		float mTime;
 		float mSpeed;
+
 
 		Vector3 mDir;
 		GameObject* mTarget;

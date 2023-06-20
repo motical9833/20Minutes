@@ -85,6 +85,8 @@ namespace ya
 	{
 		Resources::Load<AudioClip>(L"LightningSound", L"..\\Resources\\Sound\\Lightning Spelll.wav");
 		Resources::Load<AudioClip>(L"MonsterHit", L"..\\Resources\\Sound\\MonsterHit.wav");
+		Resources::Load<AudioClip>(L"Footsteps_Casual_Grass_01", L"..\\Resources\\Sound\\Footsteps_Casual_Grass_01.wav");
+		Resources::Load<AudioClip>(L"PlayerHit", L"..\\Resources\\Sound\\PlayerHit.wav");
 		//paint Shader
 		//std::shared_ptr<PaintShader> paintShader = Resources::Find<PaintShader>(L"PaintShader");
 		//paintShader->SetTarget(Resources::Find<Texture>(L"PaintTexture"));
@@ -193,6 +195,7 @@ namespace ya
 			std::shared_ptr<Mesh> pMesh = Resources::Find<Mesh>(L"RectMesh");
 			pMr->SetMesh(pMesh);
 			playerObj->AddComponent<Animator>();
+			playerObj->AddComponent<AudioSource>()->SetClip(Resources::Find<AudioClip>(L"PlayerHit"));
 
 			switch (i)
 			{
@@ -353,12 +356,15 @@ namespace ya
 		Resources::Load<AudioClip>(L"LevelUPSound", L"..\\Resources\\Sound\\LevelUPSound.wav");
 		Resources::Load<AudioClip>(L"LevelUPUIOpen", L"..\\Resources\\Sound\\LevelUPUIOpen.wav");
 
+
+
 		CreateSoundobject(L"GetExpSound");
 		CreateSoundobject(L"ReloadSound");
 		CreateSoundobject(L"ButMousePos");
 		CreateSoundobject(L"UIClick");
 		CreateSoundobject(L"LevelUPSound");
 		CreateSoundobject(L"LevelUPUIOpen");
+		CreateSoundobject(L"Footsteps_Casual_Grass_01");
 		CreateBrainEyeEffect();
 		CreateBommerEyeEffect();
 		CreateEyeMonsterEffect();
@@ -647,7 +653,7 @@ namespace ya
 			mAnimator->Create(L"DeathAnimation", deathTexture, Vector2(0.0f, 0.0f), Vector2(40.0f, 40.0f), Vector2::Zero, 4, 0.1f);
 			mAnimator->Play(L"m_Left", true);
 			m_Brain->AddComponent<AudioSource>()->SetClip(Resources::Find<AudioClip>(L"MonsterHit"));
-			m_Brain->AddComponent<MonsterScript>(60,eLayerType::Monster);
+			m_Brain->AddComponent<MonsterScript>(40,eLayerType::Monster);
 			m_Brain->Death();
 			mBrainMonsters.push_back(m_Brain);
 		}
@@ -715,7 +721,7 @@ namespace ya
 			m_EyeAnimator->Create(L"DeathAnimation", deathTexture, Vector2(0.0f, 0.0f), Vector2(40.0f, 40.0f), Vector2::Zero, 4, 0.1f);
 			m_EyeAnimator->Play(L"m_Right", true);
 			eyeMonster->AddComponent<AudioSource>()->SetClip(Resources::Find<AudioClip>(L"MonsterHit"));
-			eyeMonster->AddComponent<MonsterScript>(80,eLayerType::Monster);
+			eyeMonster->AddComponent<MonsterScript>(60,eLayerType::Monster);
 			eyeMonster->Death();
 			mEyeMonsters.push_back(eyeMonster);
 		}
@@ -768,7 +774,7 @@ namespace ya
 			boomerAnimator->Create(L"DeathAnimation", deathTexture, Vector2(0.0f, 0.0f), Vector2(96.0f, 96.0f), Vector2::Zero, 6, 0.1f);
 			boomerAnimator->Play(L"m_Right", true);
 			mBoomer->AddComponent<AudioSource>()->SetClip(Resources::Find<AudioClip>(L"MonsterHit"));
-			mBoomer->AddComponent<MonsterScript>(10,eLayerType::MonsterBoomer);
+			mBoomer->AddComponent<MonsterScript>(30,eLayerType::MonsterBoomer);
 			mBoomer->Death();
 			mBoomerMonsters.push_back(mBoomer);
 		}
@@ -869,7 +875,7 @@ namespace ya
 		hubAnimator->Create(L"DeathAnimation", deathTexture, Vector2(0.0f, 0.0f), Vector2(40.0f, 40.0f), Vector2::Zero, 4, 0.1f);
 		hubAnimator->Play(L"Boss_RightMove", true);
 		hubNiggurat->AddComponent<AudioSource>()->SetClip(Resources::Find<AudioClip>(L"BossCharge"));
-		hubNiggurat->AddComponent<HubNigguratScript>(1000);
+		hubNiggurat->AddComponent<HubNigguratScript>(500);
 		hubNiggurat->Death();
 		mBossMonsters.push_back(hubNiggurat);
 	}
