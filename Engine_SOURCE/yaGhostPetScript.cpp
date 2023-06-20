@@ -7,6 +7,7 @@
 #include "yaInput.h"
 #include "yaTime.h"
 #include "yaColliderCheckScript.h"
+#include "yaAudioSource.h"
 
 namespace ya
 {
@@ -90,6 +91,8 @@ namespace ya
 
 		if (mAttackTime >= (3 * mAttackSpeedMul +1))
 		{
+			GetOwner()->GetComponent<AudioSource>()->Play();
+
 			Transform* tr = GetOwner()->GetComponent<Transform>();
 
 			Vector3 a = tr->GetPosition();

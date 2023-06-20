@@ -482,6 +482,7 @@ namespace ya
 		animator->Pause();
 		Transform* tr = GetOwner()->GetComponent<Transform>();
 		tr->GetChiled(0)->GetOwner()->Life();
+		tr->GetChiled(0)->GetOwner()->GetComponent<AudioSource>()->Play();
 		freezeTime = 0;
 	}
 	void MonsterScript::Curse()

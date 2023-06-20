@@ -16,6 +16,8 @@
 #include "yaMagicLensScript.h"
 #include "yaSpearScript.h"
 #include "yaReloadBarScript.h"
+#include "yaAudioSource.h"
+
 namespace ya
 {
 	UpgradeScript::UpgradeScript()
@@ -675,6 +677,7 @@ namespace ya
 			return;
 
 		pscene->GetShield()->Life();
+		pscene->GetSoundObjects(7)->GetComponent<AudioSource>()->Play();
 
 		bupgrade[7][0] = true;
 	}

@@ -215,6 +215,7 @@ namespace ya
 	{
 		GameObject* shield = SceneManager::GetPlayScene()->GetShield();
 		shield->Life();
+		shield->GetComponent<AudioSource>()->Play();
 		SceneManager::GetPlayScene()->GetPlayer()->GetScript<PlayerScript>()->ShieldOn();
 
 		if(bDivineBlessing)

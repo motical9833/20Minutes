@@ -87,6 +87,7 @@ namespace ya
 		Resources::Load<AudioClip>(L"MonsterHit", L"..\\Resources\\Sound\\MonsterHit.wav");
 		Resources::Load<AudioClip>(L"Footsteps_Casual_Grass_01", L"..\\Resources\\Sound\\Footsteps_Casual_Grass_01.wav");
 		Resources::Load<AudioClip>(L"PlayerHit", L"..\\Resources\\Sound\\PlayerHit.wav");
+
 		//paint Shader
 		//std::shared_ptr<PaintShader> paintShader = Resources::Find<PaintShader>(L"PaintShader");
 		//paintShader->SetTarget(Resources::Find<Texture>(L"PaintTexture"));
@@ -355,7 +356,7 @@ namespace ya
 		Resources::Load<AudioClip>(L"UIClick", L"..\\Resources\\Sound\\UIClick.wav");
 		Resources::Load<AudioClip>(L"LevelUPSound", L"..\\Resources\\Sound\\LevelUPSound.wav");
 		Resources::Load<AudioClip>(L"LevelUPUIOpen", L"..\\Resources\\Sound\\LevelUPUIOpen.wav");
-
+		Resources::Load<AudioClip>(L"Shield_Magic", L"..\\Resources\\Sound\\Shield_Magic.wav");
 
 
 		CreateSoundobject(L"GetExpSound");
@@ -365,6 +366,7 @@ namespace ya
 		CreateSoundobject(L"LevelUPSound");
 		CreateSoundobject(L"LevelUPUIOpen");
 		CreateSoundobject(L"Footsteps_Casual_Grass_01");
+		CreateSoundobject(L"Shield_Magic");
 		CreateBrainEyeEffect();
 		CreateBommerEyeEffect();
 		CreateEyeMonsterEffect();
@@ -774,7 +776,7 @@ namespace ya
 			boomerAnimator->Create(L"DeathAnimation", deathTexture, Vector2(0.0f, 0.0f), Vector2(96.0f, 96.0f), Vector2::Zero, 6, 0.1f);
 			boomerAnimator->Play(L"m_Right", true);
 			mBoomer->AddComponent<AudioSource>()->SetClip(Resources::Find<AudioClip>(L"MonsterHit"));
-			mBoomer->AddComponent<MonsterScript>(30,eLayerType::MonsterBoomer);
+			mBoomer->AddComponent<MonsterScript>(10,eLayerType::MonsterBoomer);
 			mBoomer->Death();
 			mBoomerMonsters.push_back(mBoomer);
 		}
@@ -952,6 +954,8 @@ namespace ya
 
 	void PlayScene::CreateGhostPet()
 	{
+		Resources::Load<AudioClip>(L"Spell_Water_02", L"..\\Resources\\Sound\\Spell_Water_02.wav");
+
 		ghostPet = CreateSkillObject(eLayerType::Skill, L"DragonMaterial");
 		ghostPet->SetLayerType(eLayerType::Skill);
 		ghostPet->GetComponent<Transform>()->SetScale(Vector3(3.0f, 3.0f, 1.0f));
@@ -960,6 +964,7 @@ namespace ya
 		ghostPetAnimator->Create(L"ghostPetIdle", ghostPetTexture, Vector2::Zero, Vector2(16.0f, 16.0f), Vector2::Zero, 6, 0.1f);
 		ghostPetAnimator->Create(L"ghostPetAttack", ghostPetTexture, Vector2(0, 16.0f), Vector2(16.0f, 16.0f), Vector2::Zero, 4, 0.1f);
 		ghostPetAnimator->Play(L"ghostPetIdle", true);
+		ghostPet->AddComponent<AudioSource>()->SetClip(Resources::Find<AudioClip>(L"Spell_Water_02"));
 		ghostPet->AddComponent<GhostPetScript>();
 		ghostPet->Death();
 	}
@@ -1204,6 +1209,8 @@ namespace ya
 
 	void PlayScene::CreateFreezes()
 	{
+		Resources::Load<AudioClip>(L"Spell_Freeze", L"..\\Resources\\Sound\\Spell_Freeze.wav");
+
 		for (size_t i = 0; i < 1000; i++)
 		{
 			GameObject* freeze = object::Instantiate<GameObject>(eLayerType::Skill, this);
@@ -1221,6 +1228,7 @@ namespace ya
 
 			freezeAnimator->Create(L"freezeAni", freezeTexture, Vector2::Zero, Vector2(64.0f, 64.0f), Vector2::Zero, 5, 0.1f);
 			freezeAnimator->Play(L"freezeAni", true);
+			freeze->AddComponent<AudioSource>()->SetClip(Resources::Find<AudioClip>(L"Spell_Freeze"));
 			freeze->Death();
 			freezes.push_back(freeze);
 		}
