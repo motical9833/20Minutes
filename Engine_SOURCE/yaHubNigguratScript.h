@@ -44,6 +44,7 @@ namespace ya
 
 		void Respawn();
 		void GameReset();
+		void GameEnd();
 	private:
 
 		bool bAttack;

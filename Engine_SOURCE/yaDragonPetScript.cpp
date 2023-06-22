@@ -84,8 +84,15 @@ namespace ya
 	}
 	void DragonPetScript::GameReset()
 	{
+		GetOwner()->Death();
 		bHatch = false;
 		bAttack = false;
+		mSpeed = 1.0f;
+		mWidth = 1.0f;
+		mTime = 0.0f;
+		mAttackTime = 0.0f;
+		mincubatorTime = 0.0f;
+		mAttackSpeedMul = 0.0f;
 	}
 	void DragonPetScript::Attack()
 	{

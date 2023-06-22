@@ -75,7 +75,7 @@ namespace ya
 	}
 	void WeaponScript::Update()
 	{
-		if (pScene->GetUIOn())
+		if (SceneManager::GetPlayScene()->GetUIOn())
 			return;
 
 		Cheat();
@@ -103,6 +103,7 @@ namespace ya
 				currentBullet = maxBullet;
 				time = 0.0f;
 				killClip = 0.0f;
+				BulletUIReset();
 			}
 		}
 		if (currentBullet > 0)
@@ -112,7 +113,6 @@ namespace ya
 				SceneManager::GetPlayScene()->GetReloadUI()[1]->GetScript<ReloadBarScript>()->UIOff();
 				mAnimator->ResetStop();
 				Fire();
-				BackFire();
 				if (currentBullet <= 0)
 				{
 					ReloadSkill();
@@ -384,6 +384,8 @@ namespace ya
 				}
 			}
 			currentBullet--;
+			BackFire();
+			BulletUIReset();
 		}
 	}
 	void WeaponScript::WeaponRotate()
@@ -424,6 +426,40 @@ namespace ya
 
 	}
 
+	void WeaponScript::BulletUIReset()
+	{
+		for (size_t i = 0; i < 10; i++)
+		{
+			SceneManager::GetPlayScene()->GetBulletUITexts()[i]->Death();
+		}
+
+		if (currentBullet >= 10)
+		{
+			SceneManager::GetPlayScene()->GetBulletUITexts()[currentBullet]->Life();
+			SceneManager::GetPlayScene()->GetBulletUITexts()[currentBullet % 10]->Life();
+		}
+		SceneManager::GetPlayScene()->GetBulletUITexts()[currentBullet]->Life();
+	}
+
+	void WeaponScript::MaxBulletUISetting()
+	{
+		for (size_t i = 0; i < 20; i++)
+		{
+			SceneManager::GetPlayScene()->GetBulletUITexts()[i + 20]->Death();
+		}
+
+		if (maxBullet >= 10)
+		{
+			SceneManager::GetPlayScene()->GetBulletUITexts()[maxBullet + 20]->Life();
+			SceneManager::GetPlayScene()->GetBulletUITexts()[maxBullet % 10 + 20]->Life();
+		}
+		else
+		{
+			SceneManager::GetPlayScene()->GetBulletUITexts()[30]->Life();
+			SceneManager::GetPlayScene()->GetBulletUITexts()[maxBullet + 20]->Life();
+		}
+	}
+
 	void WeaponScript::Reset()
 	{
 		float speed = 10.0f;
@@ -443,6 +479,8 @@ namespace ya
 	{
 		fireRotmul = 1.0f;
 		fireDelayTimeMul = 1.0f;
+		fireDelayTime = 0.3f;
+		reloadTimeMul = 1.0f;
 		bReload = false;
 		bReloading = false;
 		bBounceTrigger = false;
@@ -455,6 +493,7 @@ namespace ya
 		bCurseTrigger = false;
 		bHolyAttack = false;
 		bGaleTrigger = false;
+		bIceShard = false;
 
 		time = 0.0f;
 		rateFireTime = 0.0f;
@@ -466,8 +505,11 @@ namespace ya
 		currentBullet = 6;
 		oneShotFire = 1;
 		allFireBulletCnt = 0;
-		fanFireCnt = 0;
+		fanFireCnt = 1;
 		ritualStack = 0;
+
+		BulletUIReset();
+		MaxBulletUISetting();
 	}
 
 	void WeaponScript::Cheat()

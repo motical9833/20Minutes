@@ -155,9 +155,11 @@ namespace ya
 	}
 	void GhostPetScript::GameReset()
 	{
+		GetOwner()->Death();
 		mTime = 0.0f;
 		mAttackTime = 0.0f;
 		bVengefulGhost = false;
 		bTargetToMouse = false;
+		mAttackSpeedMul = 1.0f;
 	}
 }

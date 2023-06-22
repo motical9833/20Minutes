@@ -94,6 +94,8 @@ namespace ya
 	void HolyShieldScript::GameReset()
 	{
 		bDivinWrath = false;
+		rotTime = 0.0f;
+		GetOwner()->Death();
 	}
 	void HolyShieldScript::Break()
 	{

@@ -99,6 +99,9 @@ namespace ya
 
 	void PlayerScript::Update()
 	{
+		if (SceneManager::GetPlayScene()->GetUIOn())
+			return;
+
 	    Move();
 
 		testTime += Time::DeltaTime();
@@ -578,7 +581,8 @@ namespace ya
 	}
 	void PlayerScript::GameReset()
 	{
-		mMaxHP = 3;
+		mCurrentHP = mMaxHP;
+		HPReset();
 		bHitImmune = false;
 		bMove = false;
 		immuneTime = 0.0f;
@@ -587,6 +591,17 @@ namespace ya
 		bAngerPointTrigger = false;
 		bRegeneration = false;
 		bShooting = false;
+		dodgeRate = 0;
+		hitBuffTime = 0;
+		regenerationTime = 0;
+		slowTime = 0.0f;
+		mSpeed = 3.0f;
+		mslowSpeed = 1.5f;
+		mSpeedMul = 1.0f;
+		mslowSPeedMul = 1.0f;
+		mScaleMul = 1.0f;
+		bIdle = false;
+		bReflex = false;
 	}
 	void PlayerScript::IdleAniStart()
 	{
@@ -598,6 +613,7 @@ namespace ya
 	}
 	void PlayerScript::TakeDamage(int damage)
 	{
+
 		if (Evasion() == true)
 			return;
 
@@ -616,13 +632,17 @@ namespace ya
 		}
 
 		GetOwner()->GetComponent<AudioSource>()->Play();
+
 		SceneManager::GetPlayScene()->GetSkillManager()->GetScript<SkillManager>()->IntheWindReset();
 		SceneManager::GetPlayScene()->GetHpObjects()[mCurrentHP-1]->GetComponent<Animator>()->Play(L"heartArrest");
 		mCurrentHP -= damage;
 		bHitImmune = true;
 
 		if (mCurrentHP <= 0)
+		{
 			this->GetOwner()->Death();
+			SceneManager::GetPlayScene()->DeadEndUIOn();
+		}
 	}
 	void PlayerScript::SetScaleMul(float value)
 	{

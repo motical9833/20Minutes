@@ -1,6 +1,8 @@
 #include "yaAnimation.h"
 #include "yaTime.h"
 #include "yaRenderer.h"
+#include "yaSceneManager.h"
+#include "yaPlayScene.h"
 
 namespace ya
 {
@@ -25,6 +27,9 @@ namespace ya
 
 	UINT Animation::Update()
 	{
+		if (SceneManager::GetPlayScene()->GetUIOn())
+			return -1;
+
 		if (mbComplete)
 			return -1;
 

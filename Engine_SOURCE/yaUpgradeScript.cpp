@@ -194,6 +194,7 @@ namespace ya
 
 		pscene->GetWeapon()->GetScript<WeaponScript>()->SetFireDelayTimeDec(0.15f);
 		pscene->GetWeapon()->GetScript<WeaponScript>()->SetMaxBullet(1);
+		pscene->GetWeapon()->GetScript<WeaponScript>()->MaxBulletUISetting();
 
 		for (size_t i = 0; i < pscene->GetBullet().size(); i++)
 		{
@@ -296,6 +297,7 @@ namespace ya
 		pscene->GetWeapon()->GetScript<WeaponScript>()->SetReloadTimeRed(0.1f);
 		pscene->GetReloadUI()[1]->GetScript<ReloadBarScript>()->SetReloadUITimeMul(0.1f);
 		pscene->GetWeapon()->GetScript<WeaponScript>()->SetMaxBullet(2);
+		pscene->GetWeapon()->GetScript<WeaponScript>()->MaxBulletUISetting();
 		bupgrade[14][1] = true;
 	}
 	//T2 재장전 속도 5%, 재장전 후 1초동안 총알 피해량 50%
@@ -1624,6 +1626,17 @@ namespace ya
 		case 3:
 			Culling();
 			break;
+		}
+	}
+
+	void UpgradeScript::GameReset()
+	{
+		for (size_t i = 0; i < 25; i++)
+		{
+			for (size_t j = 0; j < 4; j++)
+			{
+				bupgrade[i][j] = false;
+			}
 		}
 	}
 

@@ -856,6 +856,10 @@ namespace ya
 		{
 			selectPanals[i]->GetScript<SelectPanalScript>()->Reset();
 		}
+		for (size_t i = 0; i < faceTextObjes.size(); i++)
+		{
+			faceTextObjes[i]->Death();
+		}
 		faceParent->GetScript<UIPanalMoveScript>()->Reset();
 		bgEye->GetScript<BgEyeScript>()->Reset();
 		logo->GetScript<logoScript>()->Reset();

@@ -21,6 +21,10 @@ namespace ya
 		, currentMonsterCnt(0)
 		, playerPos{}
 		, spawnCnt(0)
+		, gameTime(0.0f)
+		, minute(0)
+		, seconds(0)
+		, tenSeconds(0)
 	{
 
 	}
@@ -34,6 +38,54 @@ namespace ya
 	}
 	void MonsterFactoryScript::Update()
 	{
+		if (SceneManager::GetPlayScene()->GetUIOn())
+			return;
+
+		gameTime += Time::DeltaTime();
+
+		if (gameTime >= 1.0f)
+		{
+			if (minute > 9)
+			{
+				int a = 0;
+			}
+
+
+			if (seconds >= 9)
+			{
+				SceneManager::GetPlayScene()->GetTimerObjects()[seconds]->Death();
+				seconds = 0;
+				SceneManager::GetPlayScene()->GetTimerObjects()[seconds]->Life();
+
+
+				if (tenSeconds >= 5)
+				{
+					SceneManager::GetPlayScene()->GetTimerObjects()[10 + tenSeconds]->Death();
+					tenSeconds = 0;
+					SceneManager::GetPlayScene()->GetTimerObjects()[10 + tenSeconds]->Life();
+
+					SceneManager::GetPlayScene()->GetTimerObjects()[20 + minute]->Death();
+					minute++;
+					SceneManager::GetPlayScene()->GetTimerObjects()[20 + minute]->Life();
+				}
+				else
+				{
+					SceneManager::GetPlayScene()->GetTimerObjects()[10 + tenSeconds]->Death();
+					tenSeconds++;
+					SceneManager::GetPlayScene()->GetTimerObjects()[10 + tenSeconds]->Life();
+				}
+			}
+			else
+			{
+				SceneManager::GetPlayScene()->GetTimerObjects()[seconds]->Death();
+				seconds++;
+				SceneManager::GetPlayScene()->GetTimerObjects()[seconds]->Life();
+			}
+
+			gameTime = 0;
+		}
+
+
 		if (SceneManager::GetPlayScene()->GetUIOn())
 			return;
 
@@ -53,7 +105,7 @@ namespace ya
 		{
 			level++;
 			mCurrentTime = 0.0f;
-			if (level == 5)
+			if (level == 10)
 			{
 				BossSpawn();
 			}
@@ -165,13 +217,17 @@ namespace ya
 
 		return Vector3(x,y,0.0f);
 	}
-	void MonsterFactoryScript::Reset()
+	void MonsterFactoryScript::GameReset()
 	{
 		mTime = 0.0f;
 		mCurrentTime = 0.0f;
-		level = 1;
+		level = 0;
 		maxMonsterCnt = 50;
 		currentMonsterCnt = 0;
 		spawnCnt = 0;
+		gameTime = 0.0f;
+		minute = 0;
+		seconds = 0;
+		tenSeconds = 0;
 	}
 }

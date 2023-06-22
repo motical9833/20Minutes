@@ -57,6 +57,10 @@ namespace ya
 		std::vector<Monster*> getBigBoomerMonsters() { return mBigBoomerMonsters; }
 		std::vector<GameObject*> GetBoomerExplosions() { return boomersExplosions; }
 		std::vector<GameObject*> GetBoomerSound() { return boomersSounds; }
+		std::vector<GameObject*> GetTimerObjects() { return timerObj; }
+		std::vector<GameObject*> GetLevelTexts() { return levelTexts; }
+		std::vector<GameObject*> GetBulletUITexts() { return bulletTexts; }
+		std::vector<GameObject*> GetExitUIs() { return exitUIs; }
 
 		void ThunderBugOn() { for (size_t i = 0; i < thunderBugs.size(); i++) { thunderBugs[i]->Life(); } }
 
@@ -72,6 +76,7 @@ namespace ya
 		GameObject* GetSoundObjects(int number) { return soundObj[number]; }
 		GameObject* GetMonsterFactory() { return monsterFactoryManager; }
 		bool GetUIOn() { return uiOn; }
+		bool GetBoolUIOns(int number) { return uiOns[number]; }
 
 		std::vector<GameObject*> GetIcon() { return iconObjects; }
 		std::vector<GameObject*> GetIcons() { return icons; }
@@ -118,10 +123,15 @@ namespace ya
 		void CreateAbilityIcon(GameObject* parent);
 		void CreateLevelUpEffect();
 		void CreateUIPanal(/*GameObject* parent*/Vector3 pos, Vector3 scale);
-		void CreateUIObject(const std::wstring& key/*,GameObject* parent*/, Vector3 pos, Vector3 scale);
+		void CreateUIObject(const std::wstring& key, Vector3 pos, Vector3 scale);
+		void CreateUIObject(const std::wstring& key, std::vector<GameObject*>& array, Vector3 pos, Vector3 scale);
 		void CreatePowerUpFrame(/*GameObject* parent, */Vector3 pos, Vector3 scale);
 		void CreateSkillUI(GameObject* parent);
-		void CreateSkillIcon(const std::wstring& key/*, GameObject* parent*/, Vector3 pos, Vector3 scale);
+		void CreateSkillIcon(const std::wstring& key, Vector3 pos, Vector3 scale);
+		void CreatetimerObject(const std::wstring& key, Vector3 pos, Vector3 scale);
+		void CreateLevelUI(const std::wstring& key, Vector3 pos, Vector3 scale);
+		void CreateLevelText(const std::wstring& key, Vector3 pos, Vector3 scale);
+		void CreateBulletText(const std::wstring& key, Vector3 pos, Vector3 scale);
 		void CreateIconText(const std::wstring& key, Vector3 pos, Vector3 scale);
 		void CreateExpBar(GameObject* parent);
 		void CreateCollider(auto* monster, eColliderType type,Vector2 size);
@@ -131,6 +141,8 @@ namespace ya
 		void CreateSoundobject(const std::wstring& key);
 		GameObject* CreateSkillObject(eColliderType type, eLayerType layertype, const std::wstring& materialKey);
 		GameObject* CreateSkillObject(eLayerType layertype, const std::wstring& materialKey);
+		void CreateExitUI();
+		void CreateEndUI();
 		void M_DefaultTr(auto* object, Vector3 pos, Vector3 scale);
 
 		void FreezeAddToMonster();
@@ -143,16 +155,25 @@ namespace ya
 
 		void LevelUPUI();
 		void UiButton(Vector3 pos);
+		void EscUIButton(Vector3 pos);
+		void EscUIOn();
+		void EscUIClick(int number);
+		void EscUIMousePoint(int number);
 		void AbilityUIClick(int number);
 		void AbilityUIMousePoint(int number);
 		void AbilityTreeClick(int ablityNum, int treeNum);
 		void AbilityTreeClickReset();
+		void EndUIButton(Vector3 pos);
+		void EndUIClick(int number);
+		void EndUIMousePoint(int number);
+		void SurvivalEndUIOn();
+		void DeadEndUIOn();
 		void SelectAbility();
 
 		Vector3 UiMousePos();
 
 		void CreateStageOneTile(Vector3 pos);
-
+		void ReturnTitleScene();
 	private:
 		Player* player;
 		std::vector<Player*> players;
@@ -184,8 +205,11 @@ namespace ya
 		std::vector<GameObject*> iconTexts;
 		std::vector<GameObject*> reloadUI;
 		std::vector<GameObject*> soundObj;
-		
-	
+		std::vector<GameObject*> timerObj;
+		std::vector<GameObject*> levelTexts;
+		std::vector<GameObject*> bulletTexts;
+		std::vector<GameObject*> exitUIs;
+		std::vector<GameObject*> endUIs;
 
 		GameObject* holyShield;
 		GameObject* magicLens;
@@ -226,6 +250,7 @@ namespace ya
 
 		int click[5][2];
 		bool uiOn;
+		bool uiOns[3];
 		bool bReroll;
 	};
 }

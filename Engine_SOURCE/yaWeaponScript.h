@@ -64,6 +64,8 @@ namespace ya
 		void Action();
 		void End();
 
+		void BulletUIReset();
+		void MaxBulletUISetting();
 		void Reset();
 		void GameReset();
 

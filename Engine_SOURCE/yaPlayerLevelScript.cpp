@@ -14,6 +14,7 @@ namespace ya
 	int mLevelUpExp;
 	PlayerLevelScript::PlayerLevelScript()
 		:mLevel(1)
+		, leveltenStack(0)
 		, mCurrentExp(0.0f)
 		, mLevelUpExp(5.0f)
 	{
@@ -67,15 +68,29 @@ namespace ya
 		mLevel = 1;
 		mCurrentExp = 0.0f;
 		mLevelUpExp = 5.0f;
+		leveltenStack = 0;
+
+		for (size_t i = 0; i < SceneManager::GetPlayScene()->GetLevelTexts().size(); i++)
+		{
+			SceneManager::GetPlayScene()->GetLevelTexts()[i]->Death();
+		}
+
+		SceneManager::GetPlayScene()->GetLevelTexts()[0]->Life();
 	}
 	void PlayerLevelScript::LevelUP()
 	{
 		SceneManager::GetPlayScene()->GetSoundObjects(4)->GetComponent<AudioSource>()->Play();
+
 		mLevel++;
+		if (mLevel % 10 == 0)
+			leveltenStack++;
+
 		mLevelUpExp += 5.0f;
 		mCurrentExp = 0.0f;
 		gaugeObj->GetComponent<Transform>()->SetScale(Vector3(0.0f, 0.5f, 1.0f));
 		SceneManager::GetPlayScene()->GetLevelUPEffect()->GetScript<LevelUPEffectScript>()->LevelUPEffect();
+
+		LevelUICont(mLevel);
 	}
 	void PlayerLevelScript::GetExp()
 	{
@@ -85,5 +100,23 @@ namespace ya
 
 		if (mCurrentExp == mLevelUpExp)
 			LevelUP();
+	}
+	void PlayerLevelScript::LevelUICont(int level)
+	{
+		for (size_t i = 0; i < SceneManager::GetPlayScene()->GetLevelTexts().size(); i++)
+		{
+			SceneManager::GetPlayScene()->GetLevelTexts()[i]->Death();
+		}
+
+
+		if (level >= 10)
+		{
+			SceneManager::GetPlayScene()->GetLevelTexts()[10 + leveltenStack]->Life();
+			SceneManager::GetPlayScene()->GetLevelTexts()[level % 10]->Life();
+		}
+		else
+		{
+			SceneManager::GetPlayScene()->GetLevelTexts()[level]->Life();
+		}
 	}
 }

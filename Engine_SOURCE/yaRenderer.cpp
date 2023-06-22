@@ -915,11 +915,50 @@ namespace ya::renderer
 		Resources::Load<Texture>(L"RefreshWhite", L"UI\\RefreshWhite.png");
 		Resources::Load<Texture>(L"SelectPanalRed", L"UI\\SelectPanalRed.png");
 		Resources::Load<Texture>(L"SelectPanalWhite", L"UI\\SelectPanalWhite.png");
+		Resources::Load<Texture>(L"FollowingRed", L"UI\\FollowingRed.png");
+		Resources::Load<Texture>(L"FollowingWhite", L"UI\\FollowingWhite.png");
+		Resources::Load<Texture>(L"GiveUPRed", L"UI\\GiveUPRed.png");
+		Resources::Load<Texture>(L"GiveUpWhite", L"UI\\GiveUpWhite.png");
+
+		Resources::Load<Texture>(L"Survival", L"UI\\Survival.png");
+		Resources::Load<Texture>(L"DeadRed", L"UI\\DeadRed.png");
+		Resources::Load<Texture>(L"ReStartRed", L"UI\\ReStartRed.png");
+		Resources::Load<Texture>(L"ReStartWhite", L"UI\\ReStartWhite.png");
+		Resources::Load<Texture>(L"MainMenuRed", L"UI\\MainMenuRed.png");
+		Resources::Load<Texture>(L"MainMenuWhite", L"UI\\MainMenuWhite.png");
 
 
 		Resources::Load<Texture>(L"RuneRed", L"UI\\RuneRed.png");
 		Resources::Load<Texture>(L"RuneWhite", L"UI\\RuneWhite.png");
 		Resources::Load<Texture>(L"CoinTextBox", L"UI\\CoinTextBox.png");
+
+		Resources::Load<Texture>(L"LevelText", L"UI\\LevelText.png");
+
+		Resources::Load<Texture>(L"BulletText_0", L"UI\\BulletText\\Bullet_Zero.png");
+		Resources::Load<Texture>(L"BulletText_1", L"UI\\BulletText\\Bullet_One.png");
+		Resources::Load<Texture>(L"BulletText_2", L"UI\\BulletText\\Bullet_Two.png");
+		Resources::Load<Texture>(L"BulletText_3", L"UI\\BulletText\\Bullet_three.png");
+		Resources::Load<Texture>(L"BulletText_4", L"UI\\BulletText\\Bullet_four.png");
+		Resources::Load<Texture>(L"BulletText_5", L"UI\\BulletText\\Bullet_five.png");
+		Resources::Load<Texture>(L"BulletText_6", L"UI\\BulletText\\Bullet_six.png");
+		Resources::Load<Texture>(L"BulletText_7", L"UI\\BulletText\\Bullet_seven.png");
+		Resources::Load<Texture>(L"BulletText_8", L"UI\\BulletText\\Bullet_eight.png");
+		Resources::Load<Texture>(L"BulletText_9", L"UI\\BulletText\\Bullet_nine.png");
+		Resources::Load<Texture>(L"BulletUISlash", L"UI\\BulletText\\BulletUISlash.png");
+
+		Resources::Load<Texture>(L"Time_0", L"UI\\TimeAndLevel\\Time_0.png");
+		Resources::Load<Texture>(L"Time_1", L"UI\\TimeAndLevel\\Time_1.png");
+		Resources::Load<Texture>(L"Time_2", L"UI\\TimeAndLevel\\Time_2.png");
+		Resources::Load<Texture>(L"Time_3", L"UI\\TimeAndLevel\\Time_3.png");
+		Resources::Load<Texture>(L"Time_4", L"UI\\TimeAndLevel\\Time_4.png");
+		Resources::Load<Texture>(L"Time_5", L"UI\\TimeAndLevel\\Time_5.png");
+		Resources::Load<Texture>(L"Time_6", L"UI\\TimeAndLevel\\Time_6.png");
+		Resources::Load<Texture>(L"Time_7", L"UI\\TimeAndLevel\\Time_7.png");
+		Resources::Load<Texture>(L"Time_8", L"UI\\TimeAndLevel\\Time_8.png");
+		Resources::Load<Texture>(L"Time_9", L"UI\\TimeAndLevel\\Time_9.png");
+		Resources::Load<Texture>(L"Time_spot", L"UI\\TimeAndLevel\\Time_spot.png");
+
+
 
 		Resources::Load<Texture>(L"Map_0", L"UI\\DarkforestNone.png");
 		Resources::Load<Texture>(L"Map_1", L"UI\\DarkforestSelect.png");
@@ -1102,6 +1141,20 @@ namespace ya::renderer
 
 
 		CreateMaterial(L"Cursor", L"UISpriteShader", eRenderingMode::Transparent, L"CursorMaterial");
+
+		CreateMaterial(L"LevelText", L"UISpriteShader", eRenderingMode::Opaque, L"LevelTextMaterial");
+		CreateMaterial(L"FollowingRed", L"UISpriteShader", eRenderingMode::Opaque, L"FollowingRedMaterial");
+		CreateMaterial(L"FollowingWhite", L"UISpriteShader", eRenderingMode::Opaque, L"FollowingWhiteMaterial");
+		CreateMaterial(L"GiveUPRed", L"UISpriteShader", eRenderingMode::Opaque, L"GiveUPRedMaterial");
+		CreateMaterial(L"GiveUpWhite", L"UISpriteShader", eRenderingMode::Opaque, L"GiveUpWhiteMaterial");
+
+		CreateMaterial(L"Survival", L"UISpriteShader", eRenderingMode::Opaque, L"SurvivalMaterial");
+		CreateMaterial(L"DeadRed", L"UISpriteShader", eRenderingMode::Opaque, L"DeadRedMaterial");
+		CreateMaterial(L"ReStartRed", L"UISpriteShader", eRenderingMode::Opaque, L"ReStartRedMaterial");
+		CreateMaterial(L"ReStartWhite", L"UISpriteShader", eRenderingMode::Opaque, L"ReStartWhiteMaterial");
+		CreateMaterial(L"MainMenuRed", L"UISpriteShader", eRenderingMode::Opaque, L"MainMenuRedMaterial");
+		CreateMaterial(L"MainMenuWhite", L"UISpriteShader", eRenderingMode::Opaque, L"MainMenuWhiteMaterial");
+
 #pragma endregion
 #pragma region FACE MATERIAL
 
@@ -1154,6 +1207,28 @@ namespace ya::renderer
 
 			CreateMaterial(text, L"UISpriteShader", eRenderingMode::Opaque, text + L"Material");
 		}
+
+		for (size_t i = 0; i < 10; i++)
+		{
+			const std::wstring text = L"BulletText_" + std::to_wstring(i);
+
+
+			CreateMaterial(text, L"UISpriteShader", eRenderingMode::Opaque, text + L"Material");
+		}
+
+		CreateMaterial(L"BulletUISlash", L"UISpriteShader", eRenderingMode::Opaque, L"BulletUISlashMaterial");
+
+
+		for (size_t i = 0; i < 10; i++)
+		{
+			const std::wstring text = L"Time_" + std::to_wstring(i);
+
+
+			CreateMaterial(text, L"UISpriteShader", eRenderingMode::Opaque, text + L"Material");
+		}
+		CreateMaterial(L"Time_spot", L"UISpriteShader", eRenderingMode::Opaque, L"Time_spotMaterial");
+
+
 
 		CreateMaterial(L"AmmoIcon", L"UISpriteShader", eRenderingMode::Opaque, L"AmmoIconMaterial");
 

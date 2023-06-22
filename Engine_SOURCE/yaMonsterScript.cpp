@@ -264,9 +264,9 @@ namespace ya
 	}
 	void MonsterScript::TakeDamage(int damage)
 	{
-		mSpeed = 0;
+		mSpeed = -10.0f;
 
-		if (GetOwner()->GetLayerType() == eLayerType::Monster)
+		if (GetOwner()->GetLayerType() == eLayerType::Monster || GetOwner()->GetLayerType() == eLayerType::MonsterBoomer)
 		{
 			if (GetOwner()->GetComponent<Animator>()->GetActiveAnimation()->AnimationName() == L"m_Right")
 				GetOwner()->GetComponent<Animator>()->Play(L"m_RightHit", false);
@@ -390,8 +390,10 @@ namespace ya
 	}
 	void MonsterScript::DieChack()
 	{
+
 		if (mCurrentHp <= 0)
 		{
+			mSpeed = 0;
 			SceneManager::GetPlayScene()->GetMonsterFactory()->GetScript<MonsterFactoryScript>()->CurrentMonsterCntDec();
 			GetOwner()->GetComponent<Transform>()->GetChiled(2)->GetOwner()->Death();
 			DropExpMarble();

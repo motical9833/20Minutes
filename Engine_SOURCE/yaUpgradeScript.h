@@ -193,7 +193,7 @@ namespace ya
 		void TrainerTree(int step);
 		void FrenzyTree(int step);
 
-
+		void GameReset();
 
 		void UpgradeSkill(int num, int num2);
 		std::array<std::array<bool, 4>, 25> GetUpgradeBool() { return bupgrade; }

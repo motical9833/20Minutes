@@ -1,5 +1,6 @@
 #pragma once
 #include "yaScript.h"
+#include "yaGameObject.h"
 
 namespace ya
 {
@@ -27,11 +28,14 @@ namespace ya
 
 		void LevelUP();
 		void GetExp();
+		void LevelUICont(int level);
 
 	private:
 		GameObject* gaugeObj;
 
 		int mLevel;
+		int leveltenStack;
+
 		float mCurrentExp;
 		float mLevelUpExp;
 	};

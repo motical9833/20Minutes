@@ -485,4 +485,8 @@ namespace ya
 		ignitionCnt = 0;
 		ignitionMaxCnt = 10;
 	}
+	void HubNigguratScript::GameEnd()
+	{
+		SceneManager::GetPlayScene()->SurvivalEndUIOn();
+	}
 }

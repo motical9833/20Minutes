@@ -2,7 +2,6 @@
 #include "yaComponent.h"
 #include "yaCollider2D.h"
 
-
 namespace ya
 {
 	class Script : public Component

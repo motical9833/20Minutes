@@ -404,11 +404,21 @@
       <Filter>Component\Script\Contents\Monster</Filter>
     </ClCompile>
     <ClCompile Include="yaFontWrapper.cpp" />
-    <ClCompile Include="yaBommerSoundEffectScript.cpp" />
-    <ClCompile Include="yaSoundObjectScript.cpp" />
-    <ClCompile Include="yaTreePosScript.cpp" />
-    <ClCompile Include="yaMonsterEyeLightScript.cpp" />
-    <ClCompile Include="yaFireLightScript.cpp" />
+    <ClCompile Include="yaMonsterEyeLightScript.cpp">
+      <Filter>Component\Script\Contents</Filter>
+    </ClCompile>
+    <ClCompile Include="yaSoundObjectScript.cpp">
+      <Filter>Component\Script\Contents</Filter>
+    </ClCompile>
+    <ClCompile Include="yaTreePosScript.cpp">
+      <Filter>Component\Script\Contents</Filter>
+    </ClCompile>
+    <ClCompile Include="yaBommerSoundEffectScript.cpp">
+      <Filter>Component\Script\Contents</Filter>
+    </ClCompile>
+    <ClCompile Include="yaFireLightScript.cpp">
+      <Filter>Component\Script\Contents</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CommonInclude.h">
@@ -695,11 +705,21 @@
     <ClInclude Include="yaLevelUPEffectScript.h">
       <Filter>Component\Script\Contents\Effect</Filter>
     </ClInclude>
-    <ClInclude Include="yaBommerSoundEffectScript.h" />
-    <ClInclude Include="yaSoundObjectScript.h" />
-    <ClInclude Include="yaTreePosScript.h" />
-    <ClInclude Include="yaMonsterEyeLightScript.h" />
-    <ClInclude Include="yaFireLightScript.h" />
+    <ClInclude Include="yaTreePosScript.h">
+      <Filter>Component\Script\Contents</Filter>
+    </ClInclude>
+    <ClInclude Include="yaMonsterEyeLightScript.h">
+      <Filter>Component\Script\Contents</Filter>
+    </ClInclude>
+    <ClInclude Include="yaSoundObjectScript.h">
+      <Filter>Component\Script\Contents</Filter>
+    </ClInclude>
+    <ClInclude Include="yaBommerSoundEffectScript.h">
+      <Filter>Component\Script\Contents</Filter>
+    </ClInclude>
+    <ClInclude Include="yaFireLightScript.h">
+      <Filter>Component\Script\Contents</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="yaMath.inl">

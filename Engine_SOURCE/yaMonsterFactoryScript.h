@@ -22,10 +22,11 @@ namespace ya
 		Vector3 MonsterSpawnPos(Vector3 pos);
 		void CurrentMonsterCntDec() { currentMonsterCnt--; }
 
-		void Reset();
+		void GameReset();
 	private:
 		float mTime;
 		float mCurrentTime;
+		float gameTime;
 
 		Vector3 playerPos;
 		int level;
@@ -33,5 +34,8 @@ namespace ya
 		int maxMonsterCnt;
 		int currentMonsterCnt;
 		int spawnCnt;
+		int minute;
+		int seconds;
+		int tenSeconds;
 	};
 }

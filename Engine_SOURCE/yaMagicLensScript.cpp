@@ -77,9 +77,15 @@ namespace ya
 	}
 	void MagicLensScript::GameReset()
 	{
+		GetOwner()->Death();
 		bIgnitionLens = false;
+		bRefraction = false;
 		mScaleValue = 1.3f;
 		mDamageInc = 0.3f;
+		mTime = 0.0f;
+		mSpeed = 0.7f;
+		mWidth = 0.8f;
+		mHeight = 0.8;
 	}
 	void MagicLensScript::FocalPoint()
 	{
