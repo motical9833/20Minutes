@@ -165,18 +165,18 @@ namespace ya
 	}
 	void HubNigguratScript::TakeDamage(int damage)
 	{
-		if (GetOwner()->GetComponent<Animator>()->GetActiveAnimation()->AnimationName() == L"Boss_RightMove")
-		{
-			GetOwner()->GetComponent<Animator>()->Play(L"m_RightHit", false);
-			GetOwner()->GetComponent<Transform>()->GetChiled(2)->GetOwner()->GetScript<MonsterEyeLightScript>()->SetRightHit();
-		}
-		else if (GetOwner()->GetComponent<Animator>()->GetActiveAnimation()->AnimationName() == L"Boss_LeftMove")
-		{
-			GetOwner()->GetComponent<Animator>()->Play(L"m_LeftHit", false);
-			GetOwner()->GetComponent<Transform>()->GetChiled(2)->GetOwner()->GetScript<MonsterEyeLightScript>()->SetLeftHit();
-		}
+		//if (GetOwner()->GetComponent<Animator>()->GetActiveAnimation()->AnimationName() == L"Boss_RightMove")
+		//{
+		//	GetOwner()->GetComponent<Animator>()->Play(L"m_RightHit", false);
+		//	GetOwner()->GetComponent<Transform>()->GetChiled(2)->GetOwner()->GetScript<MonsterEyeLightScript>()->SetRightHit();
+		//}
+		//else if (GetOwner()->GetComponent<Animator>()->GetActiveAnimation()->AnimationName() == L"Boss_LeftMove")
+		//{
+		//	GetOwner()->GetComponent<Animator>()->Play(L"m_LeftHit", false);
+		//	GetOwner()->GetComponent<Transform>()->GetChiled(2)->GetOwner()->GetScript<MonsterEyeLightScript>()->SetLeftHit();
+		//}
 
-		mSpeed = 0;
+		//mSpeed = 0;
 
 		if (bCurseActivate)
 		{
@@ -207,6 +207,39 @@ namespace ya
 			}
 
 			DieChack();
+		}
+	}
+	void HubNigguratScript::TakeDamage(int damage, eLayerType type)
+	{
+		if (bCurseActivate)
+		{
+			bCurseActivate = false;
+			beCursed = false;
+			Transform* tr = GetOwner()->GetComponent<Transform>();
+			tr->GetChiled(1)->GetOwner()->GetScript<CurseScript>()->Reset();
+
+			if (mCurrentHp == NULL)
+				return;
+
+			mCurrentHp -= damage * curseMul;
+			RitualStack();
+			DieChack(type);
+		}
+		else
+		{
+			if (mCurrentHp == NULL)
+				return;
+
+			if (beCursed)
+			{
+				mCurrentHp -= damage * 1.3f + 1;
+			}
+			else
+			{
+				mCurrentHp -= damage;
+			}
+
+			DieChack(type);
 		}
 	}
 	void HubNigguratScript::DieChack()
@@ -447,16 +480,16 @@ namespace ya
 	}
 	void HubNigguratScript::HitEvent()
 	{
-		if (GetOwner()->GetComponent<Transform>()->GetPosition().x < player->GetComponent<Transform>()->GetPosition().x)
-		{
-			animator->Play(L"Boss_RightMove", true);
-			GetOwner()->GetComponent<Transform>()->GetChiled(2)->GetOwner()->GetScript<MonsterEyeLightScript>()->SetRight();
-		}
-		else if (GetOwner()->GetComponent<Transform>()->GetPosition().x > player->GetComponent<Transform>()->GetPosition().x)
-		{
-			animator->Play(L"Boss_LeftMove", true);
-			GetOwner()->GetComponent<Transform>()->GetChiled(2)->GetOwner()->GetScript<MonsterEyeLightScript>()->SetLeft();
-		}
+		//if (GetOwner()->GetComponent<Transform>()->GetPosition().x < player->GetComponent<Transform>()->GetPosition().x)
+		//{
+		//	animator->Play(L"Boss_RightMove", true);
+		//	GetOwner()->GetComponent<Transform>()->GetChiled(2)->GetOwner()->GetScript<MonsterEyeLightScript>()->SetRight();
+		//}
+		//else if (GetOwner()->GetComponent<Transform>()->GetPosition().x > player->GetComponent<Transform>()->GetPosition().x)
+		//{
+		//	animator->Play(L"Boss_LeftMove", true);
+		//	GetOwner()->GetComponent<Transform>()->GetChiled(2)->GetOwner()->GetScript<MonsterEyeLightScript>()->SetLeft();
+		//}
 
 		mSpeed = monsterSpeed;
 	}

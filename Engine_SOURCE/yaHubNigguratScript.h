@@ -28,6 +28,7 @@ namespace ya
 		virtual void OnCollisionExit(Collider2D* collider) override;
 
 		void TakeDamage(int damage);
+		void TakeDamage(int damage, eLayerType type);
 
 		void DieChack();
 		void DieChack(eLayerType type);
