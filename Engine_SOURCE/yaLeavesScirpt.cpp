@@ -39,6 +39,7 @@ namespace ya
 			if (std::abs(originPos.x) >= std::abs(GetOwner()->GetComponent<Transform>()->GetPosition().x))
 			{
 				bStop = true;
+				GetOwner()->GetComponent<Transform>()->SetPosition(originPos);
 			}
 		}
 		else if (bStop == false && bMove == true)
@@ -54,6 +55,7 @@ namespace ya
 			if (std::abs(targetPos.x) <= std::abs(GetOwner()->GetComponent<Transform>()->GetPosition().x))
 			{
 				bStop = true;
+				GetOwner()->GetComponent<Transform>()->SetPosition(targetPos);
 			}
 		}
 	}
