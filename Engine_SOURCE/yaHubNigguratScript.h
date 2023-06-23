@@ -45,8 +45,8 @@ namespace ya
 		void Respawn();
 		void GameReset();
 		void GameEnd();
+		void DeadEvent();
 	private:
-
 		bool bAttack;
 
 		float mCoolTime;

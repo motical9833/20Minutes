@@ -22,7 +22,7 @@ namespace ya
 		,mSpeedMul(1.0f)
 		,time(0.0f)
 		,crashTime(0.0f)
-		,mDamage(10)
+		,mDamage(20)
 		,mIgnitionDamage(0)
 		,mDamageMul(1.0f)
 		,mScaleMul(1.0f)

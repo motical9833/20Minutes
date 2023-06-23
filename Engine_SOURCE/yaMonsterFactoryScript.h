@@ -21,12 +21,17 @@ namespace ya
 		void BossSpawn();
 		Vector3 MonsterSpawnPos(Vector3 pos);
 		void CurrentMonsterCntDec() { currentMonsterCnt--; }
+		void SetBossDead() { bBossDead = true; }
 
 		void GameReset();
 	private:
+		bool bBossDead;
+
 		float mTime;
 		float mCurrentTime;
 		float gameTime;
+		float bossDeadTime;
+		float spawnTime;
 
 		Vector3 playerPos;
 		int level;

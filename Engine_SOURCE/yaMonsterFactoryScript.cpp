@@ -16,6 +16,8 @@ namespace ya
 	MonsterFactoryScript::MonsterFactoryScript()
 		:mTime(0.0f)
 		,mCurrentTime(0.0f)
+		, bossDeadTime(0.0f)
+		, spawnTime(1.5f)
 		, level(0)
 		, maxMonsterCnt(50)
 		, currentMonsterCnt(0)
@@ -25,6 +27,7 @@ namespace ya
 		, minute(0)
 		, seconds(0)
 		, tenSeconds(0)
+		, bBossDead(false)
 	{
 
 	}
@@ -40,6 +43,17 @@ namespace ya
 	{
 		if (SceneManager::GetPlayScene()->GetUIOn())
 			return;
+
+		if (bBossDead)
+		{
+			bossDeadTime += Time::DeltaTime();
+
+			if (bossDeadTime >= 3.0f)
+			{
+				SceneManager::GetPlayScene()->SurvivalEndUIOn();
+			}
+			return;
+		}
 
 		gameTime += Time::DeltaTime();
 
@@ -94,18 +108,22 @@ namespace ya
 
 		mTime += Time::DeltaTime();
 		mCurrentTime += Time::DeltaTime();
-		if (mTime >= 2.0f)
+		if (mTime >= spawnTime)
 		{
 			playerPos = SceneManager::GetPlayScene()->GetPlayer()->GetComponent<Transform>()->GetPosition();
 			MonsterSpawn();
 			mTime = 0;
 		}
 
-		if (mCurrentTime >= 60.0f)
+		if (mCurrentTime >=60.0f)
 		{
 			level++;
+
+			if (spawnTime >= 0.5f)
+				spawnTime -= 0.25f;
+
 			mCurrentTime = 0.0f;
-			if (level == 10)
+			if (level == 5)
 			{
 				BossSpawn();
 			}
@@ -142,11 +160,11 @@ namespace ya
 			break;
 		case 2:
 			BoomerSpawn(4);
-			EyeMonsterSpawn(4);
+			EyeMonsterSpawn(3);
 			break;
 		case 3:
 			BoomerSpawn(4);
-			EyeMonsterSpawn(3);
+			EyeMonsterSpawn(2);
 			break;
 		case 4:
 			BoomerSpawn(4);
@@ -229,5 +247,7 @@ namespace ya
 		minute = 0;
 		seconds = 0;
 		tenSeconds = 0;
+		bBossDead = false;
+		bossDeadTime = 0.0f;
 	}
 }

@@ -59,6 +59,7 @@ namespace ya
 		void ClashwithPlayer();
 
 		void HitEvent();
+		void BossDead();
 
 	protected:
 
@@ -83,6 +84,7 @@ namespace ya
 		bool bKillClip;
 		bool bIgnition;
 		bool bClash;
+		bool bBossDead;
 
 		float freezeTime;
 		float ignitionTime;

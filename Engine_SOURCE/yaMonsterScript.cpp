@@ -47,6 +47,7 @@ namespace ya
 		, ignitionMaxCnt(10)
 		, mDir{}
 		, player(nullptr)
+		, bBossDead(false)
 	{
 
 	}
@@ -75,6 +76,7 @@ namespace ya
 		, mDir{}
 		, player(nullptr)
 		, mLayer(layer)
+		, bBossDead(false)
 	{
 	}
 	MonsterScript::~MonsterScript()
@@ -164,7 +166,7 @@ namespace ya
 
 				GetOwner()->GetComponent<Transform>()->SetPosition(pos);
 
-				if (clashTime >= 0.1f)
+				if (clashTime >= 0.1f && bBossDead == false)
 				{
 					bClash = false;
 					mSpeed = monsterSpeed;
@@ -245,6 +247,11 @@ namespace ya
 				mPos.y -= 0.01f;
 			}
 		}
+		
+		if (collider->GetOwner()->GetLayerType() == eLayerType::Bullet)
+		{
+			mSpeed = -10.0f;
+		}
 	}
 	void MonsterScript::OnCollisionExit(Collider2D* collider)
 	{
@@ -261,11 +268,10 @@ namespace ya
 	void MonsterScript::End()
 	{
 		this->GetOwner()->Death();
+		GetOwner()->GetComponent<Animator>()->Play(L"m_Left", true);
 	}
 	void MonsterScript::TakeDamage(int damage)
 	{
-		mSpeed = -10.0f;
-
 		if (GetOwner()->GetLayerType() == eLayerType::Monster || GetOwner()->GetLayerType() == eLayerType::MonsterBoomer)
 		{
 			if (GetOwner()->GetComponent<Animator>()->GetActiveAnimation()->AnimationName() == L"m_Right")
@@ -359,17 +365,17 @@ namespace ya
 	{
 		GetOwner()->GetComponent<Collider2D>()->SetSize(mColliderSize);
 		Animator* ani = GetOwner()->GetComponent<Animator>();
+		ani->Play(L"m_Left", true);
 		mCurrentHp = mMaxHp;
 		this->GetOwner()->Life();
 		mSpeed = monsterSpeed;
-		ani->Play(L"m_Right", true);
 		this->GetOwner()->GetComponent<Collider2D>()->SetScriptOff(false);
 		GetOwner()->SetLayerType(mLayer);
 
 		if (GetOwner()->GetLayerType() != eLayerType::Tree)
 		{
 			GetOwner()->GetComponent<Transform>()->GetChiled(2)->GetOwner()->Life();
-			GetOwner()->GetComponent<Transform>()->GetChiled(2)->GetOwner()->GetComponent<Animator>()->Play(L"m_Right", true);
+			GetOwner()->GetComponent<Transform>()->GetChiled(2)->GetOwner()->GetComponent<Animator>()->Play(L"m_Left", true);
 		}
 	}
 	void MonsterScript::GameReset()
@@ -385,8 +391,10 @@ namespace ya
 		bWitherOn = false;
 		bRitualOn = false;
 		bIgnition = false;
+		bBossDead = false;
 		ignitionCnt = 0;
 		ignitionMaxCnt = 10;
+		bBossDead = false;
 	}
 	void MonsterScript::DieChack()
 	{
@@ -587,7 +595,7 @@ namespace ya
 	}
 	void MonsterScript::ClashwithPlayer()
 	{
-		if (mCurrentHp == NULL)
+		if (mCurrentHp == NULL && bBossDead == false)
 			return;
 
 		bClash = true;
@@ -605,5 +613,10 @@ namespace ya
 		}
 
 		mSpeed = monsterSpeed;
+	}
+	void MonsterScript::BossDead()
+	{
+		mSpeed = -2.0f;
+		bBossDead = true;
 	}
 }

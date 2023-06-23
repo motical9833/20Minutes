@@ -81,10 +81,6 @@ namespace ya
 		Cheat();
 		rateFireTime += Time::DeltaTime();
 
-		if (mTransform->GetParent()->GetOwner()->IsDead() == true)
-		{
-			GetOwner()->Death();
-		}
 		if (bReload && pScene->GetPlayer()->GetScript<PlayerScript>()->GetShooting() == false)
 		{
 			Reload();
@@ -205,7 +201,7 @@ namespace ya
 					bullets[i]->GetOwner()->GetScript<BulletScript>()->Setdir(rot);
 					bullets[i]->SetParent(nullptr);
 					bullets[i]->GetOwner()->GetComponent<Animator>()->ResetStop();
-
+					pScene->GetMuzzleFlash()->GetComponent<AudioSource>()->Play();
 					bullets[i]->GetOwner()->Life();
 
 					fanFireCnt++;
@@ -462,7 +458,7 @@ namespace ya
 
 	void WeaponScript::Reset()
 	{
-		float speed = 10.0f;
+		//float speed = 10.0f;
 		oneShotFire = 1;
 		fireDelayTime = 0.3f;
 		maxBullet = 6;
@@ -510,6 +506,7 @@ namespace ya
 
 		BulletUIReset();
 		MaxBulletUISetting();
+		GetOwner()->GetComponent<Transform>()->SetPosition(Vector3::Zero);
 	}
 
 	void WeaponScript::Cheat()

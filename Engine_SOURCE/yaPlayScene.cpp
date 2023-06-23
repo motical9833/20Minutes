@@ -190,7 +190,7 @@ namespace ya
 			pTr->SetScale(Vector3(4.0f, 4.0f, 1.0f));
 			Collider2D* pCollider = playerObj->AddComponent<Collider2D>();
 			pCollider->SetType(eColliderType::Rect);
-			pCollider->SetSize(Vector2(0.2f, 0.2f));
+			pCollider->SetSize(Vector2(0.15f, 0.15f));
 			SpriteRenderer* pMr = playerObj->AddComponent<SpriteRenderer>();
 			std::shared_ptr<Material> mateiral = Resources::Find<Material>(L"PlayerMaterial");
 			pMr->SetMaterial(mateiral);
@@ -437,7 +437,8 @@ namespace ya
 		Resources::Load<AudioClip>(L"Shield_Magic", L"..\\Resources\\Sound\\Shield_Magic.wav");
 		Resources::Load<AudioClip>(L"YouWin", L"..\\Resources\\Sound\\YouWin.wav");
 		Resources::Load<AudioClip>(L"YouLose", L"..\\Resources\\Sound\\YouLose.wav");
-
+		Resources::Load<AudioClip>(L"Big_Weapon_Whoosh", L"..\\Resources\\Sound\\Big_Weapon_Whoosh.wav");
+		Resources::Load<AudioClip>(L"BossCharge", L"..\\Resources\\Sound\\BossCharge.wav");
 
 		CreateSoundobject(L"GetExpSound");
 		CreateSoundobject(L"ReloadSound");
@@ -449,6 +450,8 @@ namespace ya
 		CreateSoundobject(L"Shield_Magic");
 		CreateSoundobject(L"YouWin");
 		CreateSoundobject(L"YouLose");
+		CreateSoundobject(L"Big_Weapon_Whoosh");
+		CreateSoundobject(L"BossCharge");
 		CreateBrainEyeEffect();
 		CreateBommerEyeEffect();
 		CreateEyeMonsterEffect();
@@ -928,7 +931,7 @@ namespace ya
 		hubAnimator->Create(L"DeathAnimation", deathTexture, Vector2(0.0f, 0.0f), Vector2(40.0f, 40.0f), Vector2::Zero, 4, 0.1f);
 		hubAnimator->Play(L"Boss_RightMove", true);
 		hubNiggurat->AddComponent<AudioSource>()->SetClip(Resources::Find<AudioClip>(L"BossCharge"));
-		hubNiggurat->AddComponent<HubNigguratScript>(10000);
+		hubNiggurat->AddComponent<HubNigguratScript>(2000);
 		hubNiggurat->Death();
 		mBossMonsters.push_back(hubNiggurat);
 	}
@@ -1149,6 +1152,7 @@ namespace ya
 		scythe = CreateSkillObject(eColliderType::Rect, eLayerType::Skill, L"ScytheMaterial");
 		scythe->SetLayerType(eLayerType::Skill);
 		scythe->Death();
+		scythe->AddComponent<AudioSource>()->SetClip(Resources::Find<AudioClip>(L"MonsterHit"));
 		scythe->AddComponent<ScytheScript>();
 	}
 
@@ -1419,7 +1423,7 @@ namespace ya
 		array.push_back(uiLeader);
 	}
 
-	void PlayScene::CreatePowerUpFrame(/*GameObject* parent, */Vector3 pos, Vector3 scale)
+	void PlayScene::CreatePowerUpFrame(Vector3 pos, Vector3 scale)
 	{
 		GameObject* frame = object::Instantiate<GameObject>(eLayerType::UI, this);
 		frame->SetLayerType(eLayerType::UI);
@@ -2465,8 +2469,6 @@ namespace ya
 	{
 		pSceneCamera->GetComponent<AudioSource>()->Play();
 		SceneManager::LoadScene(eSceneType::Tilte);
-		//player->GetComponent<Transform>()->SetPosition(Vector3(0.0f, 0.0f, 0.0f));
-		pWeapon->GetScript<WeaponScript>()->Reset();
 		//player->Life();
 
 		for (size_t i = 0; i < players.size(); i++)
@@ -2474,7 +2476,6 @@ namespace ya
 			players[i]->GetComponent<Transform>()->SetPosition(Vector3::Zero);
 			players[i]->GetScript<PlayerScript>()->GameReset();
 		}
-		//player->GetScript<PlayerScript>()->GameReset();
 		pWeapon->Life();
 		pWeapon->GetScript<WeaponScript>()->GameReset();
 		mBoomerMonsters[0]->GetScript<MonsterScript>()->GameReset();
@@ -2488,6 +2489,8 @@ namespace ya
 		monsterFactoryManager->GetScript<MonsterFactoryScript>()->GameReset();
 		magicLens->GetScript<MagicLensScript>()->GameReset();
 		upgradeobj->GetScript<UpgradeScript>()->GameReset();
+		expGauge->GetComponent<Transform>()->SetScale(Vector3(0.0f, 0.5f, 1.0f));
+		scythe->GetScript<ScytheScript>()->GameReset();
 
 		for (size_t i = 0; i < timerObj.size(); i++)
 		{

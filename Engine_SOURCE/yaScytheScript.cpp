@@ -4,15 +4,16 @@
 #include "yaPlayScene.h"
 #include "yaMonsterScript.h"
 #include "yaTime.h"
+#include "yaAudioSource.h"
 
 namespace ya
 {
 	ScytheScript::ScytheScript()
-		:mSpeed(2.0f)
-		, mWidth(1.5f)
-		, mHeight(1.5f)
+		:mSpeed(3.5f)
+		, mWidth(3.0f)
+		, mHeight(3.0f)
 		, mTime(0.0f)
-		, mDamage(20)
+		, mDamage(40)
 	{
 
 	}
@@ -26,6 +27,9 @@ namespace ya
 	}
 	void ScytheScript::Update()
 	{
+		if (SceneManager::GetPlayScene()->GetUIOn())
+			return;
+
 		Circularmotion();
 	}
 	void ScytheScript::Render()
@@ -36,6 +40,7 @@ namespace ya
 	{
 		if (collider->GetOwner()->GetLayerType() == eLayerType::Monster && collider->GetOwner()->GetState() == (UINT)GameObject::eState::Active)
 		{
+			GetOwner()->GetComponent<AudioSource>()->Play();
 			collider->GetOwner()->GetScript<MonsterScript>()->TakeDamage(mDamage);
 		}
 	}
@@ -62,6 +67,15 @@ namespace ya
 	void ScytheScript::Reset()
 	{
 
+	}
+	void ScytheScript::GameReset()
+	{
+		mSpeed = 3.5f;
+		mWidth = 3.0f;
+		mHeight = 3.0f;
+		mTime = 0.0f;
+		mDamage = 40;
+		GetOwner()->Death();
 	}
 	void ScytheScript::Circularmotion()
 	{

@@ -149,6 +149,8 @@ namespace ya
 	}
 	void ExpMarbleObject::GameReset()
 	{
+		mTime = 0.0f;
+		mSpeed = 10.0f;
 		mDir = Vector3::Zero;
 		GetOwner()->GetComponent<Transform>()->SetPosition(Vector3::Zero);
 		mTarget = nullptr;

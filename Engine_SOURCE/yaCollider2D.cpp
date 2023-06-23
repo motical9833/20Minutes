@@ -103,7 +103,7 @@ namespace ya
 			meshAttribute.scale = scale;
 			meshAttribute.type = mType;
 
-			renderer::debugMeshes.push_back(meshAttribute);
+			//renderer::debugMeshes.push_back(meshAttribute);
 		}
 	}
 

@@ -75,7 +75,7 @@ namespace ya
 			SceneManager::GetPlayScene()->GetLevelTexts()[i]->Death();
 		}
 
-		SceneManager::GetPlayScene()->GetLevelTexts()[0]->Life();
+		SceneManager::GetPlayScene()->GetLevelTexts()[1]->Life();
 	}
 	void PlayerLevelScript::LevelUP()
 	{

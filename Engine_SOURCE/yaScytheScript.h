@@ -21,6 +21,7 @@ namespace ya
 		void Action();
 		void End();
 		void Reset();
+		void GameReset();
 
 		void Circularmotion();
 

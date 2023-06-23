@@ -223,7 +223,8 @@ namespace ya
 			Transform* tr = GetOwner()->GetComponent<Transform>();
 			tr->GetChiled(0)->GetOwner()->Death();
 			tr->GetChiled(1)->GetOwner()->GetScript<CurseScript>()->Reset();
-
+			DeadEvent();
+			SceneManager::GetPlayScene()->GetMonsterFactory()->GetScript<MonsterFactoryScript>()->SetBossDead();
 
 			if (bKillClip)
 			{
@@ -251,6 +252,7 @@ namespace ya
 			Transform* tr = GetOwner()->GetComponent<Transform>();
 			tr->GetChiled(0)->GetOwner()->Death();
 			tr->GetChiled(1)->GetOwner()->GetScript<CurseScript>()->Reset();
+			DeadEvent();
 
 			if (bKillClip)
 			{
@@ -272,6 +274,7 @@ namespace ya
 		Animation* ani = animator->GetActiveAnimation();
 		attackPos = player->GetComponent<Transform>()->GetPosition();
 
+		SceneManager::GetPlayScene()->GetSoundObjects(10)->GetComponent<AudioSource>()->Play();
 		state = States::ATTACK;
 
 		if (ani->AnimationName() == L"Boss_RightCharge")
@@ -362,7 +365,7 @@ namespace ya
 
 			GetOwner()->GetComponent<Transform>()->SetPosition(pos);
 		}
-		if(Distance(pos,player->GetComponent<Transform>()->GetPosition()) <= 7.0f && mCoolTime >= 0.5f)
+		if(Distance(pos,player->GetComponent<Transform>()->GetPosition()) <= 7.0f && mCoolTime >= 1.5f)
 		{
 			mCoolTime = 0;
 
@@ -370,12 +373,12 @@ namespace ya
 			{
 				animator->Play(L"Boss_RightCharge", false);
 				GetOwner()->GetComponent<Transform>()->GetChiled(2)->GetOwner()->GetScript<MonsterEyeLightScript>()->SetRightCharge();
-				GetOwner()->GetComponent<AudioSource>()->Play();
+				SceneManager::GetPlayScene()->GetSoundObjects(11)->GetComponent<AudioSource>()->Play();
 			}
 			else if (ani->AnimationName() == L"Boss_LeftMove" || ani->AnimationName() == L"Boss_LeftHit")
 			{
 				animator->Play(L"Boss_LeftCharge", false);
-				GetOwner()->GetComponent<AudioSource>()->Play();
+				SceneManager::GetPlayScene()->GetSoundObjects(11)->GetComponent<AudioSource>()->Play();
 				GetOwner()->GetComponent<Transform>()->GetChiled(2)->GetOwner()->GetScript<MonsterEyeLightScript>()->SetLeftCharge();
 			}
 
@@ -488,5 +491,24 @@ namespace ya
 	void HubNigguratScript::GameEnd()
 	{
 		SceneManager::GetPlayScene()->SurvivalEndUIOn();
+	}
+	void HubNigguratScript::DeadEvent()
+	{
+		for (size_t i = 0; i < SceneManager::GetPlayScene()->GetBrainMonsters().size(); i++)
+		{
+			SceneManager::GetPlayScene()->GetBrainMonsters()[i]->GetScript<MonsterScript>()->BossDead();
+		}
+		for (size_t i = 0; i < SceneManager::GetPlayScene()->GetBoomerMonsters().size(); i++)
+		{
+			SceneManager::GetPlayScene()->GetBoomerMonsters()[i]->GetScript<MonsterScript>()->BossDead();
+		}
+		for (size_t i = 0; i < SceneManager::GetPlayScene()->GetEyeMonsters().size(); i++)
+		{
+			SceneManager::GetPlayScene()->GetEyeMonsters()[i]->GetScript<MonsterScript>()->BossDead();
+		}
+		for (size_t i = 0; i < SceneManager::GetPlayScene()->getBigBoomerMonsters().size(); i++)
+		{
+			SceneManager::GetPlayScene()->getBigBoomerMonsters()[i]->GetScript<MonsterScript>()->BossDead();
+		}
 	}
 }

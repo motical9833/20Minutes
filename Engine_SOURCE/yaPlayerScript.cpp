@@ -581,6 +581,7 @@ namespace ya
 	}
 	void PlayerScript::GameReset()
 	{
+		mMaxHP = 4;
 		mCurrentHP = mMaxHP;
 		HPReset();
 		bHitImmune = false;
