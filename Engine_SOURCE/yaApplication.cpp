@@ -6,7 +6,7 @@
 #include "yaResources.h"
 #include "yaCollisionManager.h"
 #include "yaFmod.h"
-
+#include "yaUIManager.h"
 
 namespace ya
 {
@@ -29,6 +29,7 @@ namespace ya
 		Input::Initialize();
 		CollisionManager::Initialize();
 		renderer::Initialize();
+		UIManager::Initalize();
 		SceneManager::Initalize();
 	}
 
@@ -38,6 +39,7 @@ namespace ya
 	{
 		Time::Update();
 		Input::Update();
+		UIManager::Update();
 		CollisionManager::Update();
 		SceneManager::Update();
 	}
@@ -58,6 +60,7 @@ namespace ya
 
 		//SceneManager::Render();
 		renderer::Render();
+		UIManager::Render();
 		CollisionManager::Render();
 		//graphicDevice->Render();
 		//graphicDevice->Present();
@@ -101,7 +104,6 @@ namespace ya
 
 			ValidationMode vaildationMode = ValidationMode::Disabled;
 			graphicDevice = std::make_unique<GraphicDevice_DX11>();
-			//graphics::GetDevice() = graphicDevice.get();
 		}
 
 		RECT rt = { 0, 0, (LONG)width , (LONG)height };

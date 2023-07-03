@@ -103,6 +103,24 @@ namespace ya::enums
 		End, 
 	};
 
+	enum class eUIType
+	{
+		HUD,
+		BUTTERN,
+		TITLE_MAINMENU,
+		TITLE_CHARACTERSELECT,
+		TITLE_MAPSELECT,
+
+		HP,
+		BULLETCURRENT,
+		CURRENTTIME,
+		EXPBAR,
+		SKILLSELECT,
+		OPTION,
+
+		END,
+	};
+
 	//struct Ray
 	//{
 	//	Vector3 origin;

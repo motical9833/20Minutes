@@ -88,8 +88,7 @@ namespace ya
 	{
 		mAttackTime += Time::DeltaTime();
 
-
-		if (mAttackTime >= (3 * mAttackSpeedMul +1))
+		if (mAttackTime >= (3 * mAttackSpeedMul +1) && SceneManager::GetPlayScene()->GetColliderChack()->GetScript<ColliderCheckScript>()->GetMonsters().size() != 0)
 		{
 			GetOwner()->GetComponent<AudioSource>()->Play();
 
@@ -98,9 +97,6 @@ namespace ya
 			Vector3 a = tr->GetPosition();
 
 			Vector3 b = SceneManager::GetPlayScene()->GetColliderChack()->GetScript<ColliderCheckScript>()->GetMonsterPos();
-
-			if (SceneManager::GetPlayScene()->GetColliderChack()->GetScript<ColliderCheckScript>()->GetMonsters().size() == 0)
-				return;
 
 			Vector3 dir = b - a;
 

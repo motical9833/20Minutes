@@ -4,6 +4,7 @@
 #include "yaGameObject.h"
 #include "yaSceneManager.h"
 #include "yaTransform.h"
+#include "yaUiBase.h"
 
 namespace ya::object
 {
@@ -18,6 +19,16 @@ namespace ya::object
 
 
 		return gameObj;
+	}
+	template <typename T>
+	static T* Instantiate(enums::eUIType type, Scene* scene)
+	{
+		T* uiObject = new T(type);
+		Layer& layer = scene->GetLayer(eLayerType::UI);
+		layer.AddGameObject(uiObject);
+		uiObject->Initalize();
+
+		return uiObject;
 	}
 
 	template <typename T>

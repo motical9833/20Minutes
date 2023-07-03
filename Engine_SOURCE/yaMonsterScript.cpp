@@ -17,6 +17,7 @@
 #include "yaAudioSource.h"
 #include "yaMonsterEyeLightScript.h"
 #include "yaSoundObjectScript.h"
+#include "yaColliderCheckScript.h"
 
 #define monsterSpeed 1.7f
 
@@ -26,6 +27,8 @@ namespace ya
 		:mCurrentHp(NULL)
 		, mMaxHp(NULL)
 		, mSpeed(NULL)
+		,animator(NULL)
+		, mLayer(eLayerType::Tree)
 		, mDamage(1)
 		, mIgnitionDamage(0)
 		, mColliderSize{}
@@ -41,6 +44,7 @@ namespace ya
 		, bRitualOn(false)
 		, bIgnition(false)
 		, bClash(false)
+		, beCursed(false)
 		, curseMul(2.0f)
 		, mTime(0.0f)
 		, ignitionCnt(0)
@@ -55,6 +59,7 @@ namespace ya
 		: mCurrentHp(hp)
 		, mMaxHp(hp)
 		, mSpeed(monsterSpeed)
+		, animator(NULL)
 		, mDamage(1)
 		, mIgnitionDamage(0)
 		, mColliderSize{}
@@ -69,6 +74,8 @@ namespace ya
 		, bRitualOn(false)
 		, bIgnition(false)
 		, bClash(false)
+		, beCursed(false)
+		, bWitherOn(false)
 		, curseMul(2.0f)
 		, mTime(0.0f)
 		, ignitionCnt(0)
@@ -268,6 +275,7 @@ namespace ya
 	void MonsterScript::End()
 	{
 		this->GetOwner()->Death();
+		SceneManager::GetPlayScene()->GetColliderChack()->GetScript<ColliderCheckScript>()->DeathChack();
 		GetOwner()->GetComponent<Animator>()->Play(L"m_Left", true);
 	}
 	void MonsterScript::TakeDamage(int damage)

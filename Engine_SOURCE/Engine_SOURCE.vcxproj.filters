@@ -133,6 +133,15 @@
     <Filter Include="Component\Script\Contents\Monster">
       <UniqueIdentifier>{9fd4a877-1d45-48af-9bfa-2fe93d9b58d7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Component\Script\Contents\UI\Manager">
+      <UniqueIdentifier>{86940bfb-104e-4947-88a6-0e4b05b9db89}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component\Script\Contents\UI\Base">
+      <UniqueIdentifier>{82621cf0-b517-4dbe-85af-244eea22fbf7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component\Script\Contents\UI\Object">
+      <UniqueIdentifier>{579283da-2d3c-4be3-8451-f6bcf3500600}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="yaApplication.cpp">
@@ -418,6 +427,21 @@
     </ClCompile>
     <ClCompile Include="yaFireLightScript.cpp">
       <Filter>Component\Script\Contents</Filter>
+    </ClCompile>
+    <ClCompile Include="yaUIManager.cpp">
+      <Filter>Component\Script\Contents\UI\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="yaUiBase.cpp">
+      <Filter>Component\Script\Contents\UI\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="yaPanal.cpp">
+      <Filter>Component\Script\Contents\UI\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="yaButton.cpp">
+      <Filter>Component\Script\Contents\UI\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="yaHUD.cpp">
+      <Filter>Component\Script\Contents\UI\Object</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -719,6 +743,21 @@
     </ClInclude>
     <ClInclude Include="yaFireLightScript.h">
       <Filter>Component\Script\Contents</Filter>
+    </ClInclude>
+    <ClInclude Include="yaUIManager.h">
+      <Filter>Component\Script\Contents\UI\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="yaUiBase.h">
+      <Filter>Component\Script\Contents\UI\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="yaPanal.h">
+      <Filter>Component\Script\Contents\UI\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="yaButton.h">
+      <Filter>Component\Script\Contents\UI\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="yaHUD.h">
+      <Filter>Component\Script\Contents\UI\Object</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

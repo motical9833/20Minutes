@@ -9,10 +9,10 @@ namespace ya
 		Monster();
 		virtual ~Monster();
 
-		virtual void Initalize();
-		virtual void Update();
-		virtual void FixedUpdate();
-		virtual void Render();
+		void Initalize() override;
+		void Update() override;
+		void FixedUpdate() override;
+		void Render() override;
 
 		void Stop() { bStop = true; }
 		void Start() { bStop = false; }

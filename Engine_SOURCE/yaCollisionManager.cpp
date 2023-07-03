@@ -26,9 +26,11 @@ namespace ya
 	}
 	void CollisionManager::FixedUpdate()
 	{
+
 	}
 	void CollisionManager::Render()
 	{
+
 	}
 	void CollisionManager::CollisionLayerCheck(eLayerType left, eLayerType right, bool enable)
 	{

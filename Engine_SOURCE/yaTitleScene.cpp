@@ -30,7 +30,8 @@
 #include "yaCursorUIScript.h"
 #include "yaAudioListener.h"
 #include "yaAudioSource.h"
-
+#include "yaUiBase.h"
+#include "yaHUD.h"
 
 #define SHANA 0
 #define ABBY 1
@@ -65,6 +66,10 @@ namespace ya
 			lightComp->SetType(eLightType::Directional);
 			lightComp->SetDiffuse(Vector4(1.0f, 1.0f, 1.0f, 1.0f));
 		}
+
+		//HUD* hud = object::Instantiate<HUD>(enums::eUIType::HUD,this);
+		//hud->Active();
+
 
 		GameObject* cursorObject = object::Instantiate<GameObject>(eLayerType::UI, this);
 		SpriteRenderer* cursorRender = cursorObject->AddComponent<SpriteRenderer>();

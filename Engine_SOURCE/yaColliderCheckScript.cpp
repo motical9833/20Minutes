@@ -34,13 +34,9 @@ namespace ya
 			for (Monster* monster  : monsters)
 			{
 				if (collider->GetID() == monster->GetComponent<Collider2D>()->GetID())
-				{
 					return;
-				}
 				else
-				{
 					continue;
-				}
 			}
 			monsters.push_back((Monster*)collider->GetOwner());
 		}
