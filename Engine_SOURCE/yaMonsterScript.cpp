@@ -402,7 +402,6 @@ namespace ya
 		bBossDead = false;
 		ignitionCnt = 0;
 		ignitionMaxCnt = 10;
-		bBossDead = false;
 	}
 	void MonsterScript::DieChack()
 	{
@@ -548,16 +547,18 @@ namespace ya
 
 		Vector3 a = tr->GetPosition();
 
-		Vector3 b = SceneManager::GetPlayScene()->GetPlayer()->GetComponent<Transform>()->GetPosition();
+		Vector3 b = SceneManager::GetPlayScene()->
+			GetPlayer()->GetComponent<Transform>()->GetPosition();
 
 
 		Vector3 dir = b - a;
 
 		Vector3 fabsDir = Vector3(dir.x, dir.y, 0);
 
-		double value = sqrt(pow(fabsDir.x, 2) + pow(fabsDir.y, 2)); //피타고라스 R값
+		double value = sqrt(pow(fabsDir.x, 2) + pow(fabsDir.y, 2));
 
-		Vector3 dirValue = Vector3(fabsDir.x / value, fabsDir.y / value, 0);
+		Vector3 dirValue = Vector3(fabsDir.x /
+			value, fabsDir.y / value, 0);
 
 		mDir = dirValue;
 	}

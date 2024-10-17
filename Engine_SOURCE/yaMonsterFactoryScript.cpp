@@ -100,6 +100,8 @@ namespace ya
 		}
 
 
+
+
 		if (SceneManager::GetPlayScene()->GetUIOn())
 			return;
 
@@ -129,6 +131,7 @@ namespace ya
 			}
 		}
 	}
+
 ;	void MonsterFactoryScript::FixedUpdate()
 	{
 
@@ -215,6 +218,12 @@ namespace ya
 	void MonsterFactoryScript::BossSpawn()
 	{
 		std::vector<Monster*> boss = SceneManager::GetPlayScene()->GetBossMonsters();
+
+		if (boss[0]->GetState() == 0)
+		{
+			return;
+		}
+
 		boss[0]->GetScript<HubNigguratScript>()->Respawn();
 		boss[0]->GetComponent<Transform>()->SetPosition(MonsterSpawnPos(playerPos));
 	}

@@ -678,7 +678,7 @@ namespace ya
 		if (bupgrade[7][0])
 			return;
 
-		pscene->GetShield()->Life();
+		pscene->GetSkillManager()->GetScript<SkillManager>()->HolyShield();
 		pscene->GetSoundObjects(7)->GetComponent<AudioSource>()->Play();
 
 		bupgrade[7][0] = true;

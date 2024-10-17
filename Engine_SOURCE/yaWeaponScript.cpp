@@ -316,6 +316,9 @@ namespace ya
 
 	void WeaponScript::Fire()
 	{
+		if (SceneManager::GetPlayScene()->GetUIOn())
+			return;
+
 		SceneManager::GetPlayScene()->GetBulletFireLight()->Life();
 
 		if (rateFireTime >= fireDelayTime * fireDelayTimeMul)
@@ -407,7 +410,6 @@ namespace ya
 		dir.Normalize();
 
 		GetOwner()->GetComponent<Transform>()->SetPosition(dir/2.0f);
-
 	}
 	void WeaponScript::Start()
 	{

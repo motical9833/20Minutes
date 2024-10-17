@@ -59,7 +59,6 @@ namespace ya
 
 
 		Animator* animator = GetOwner()->GetComponent<Animator>();
-		//멤버함수 이기 떄문에 어떤 함수인지 풀네임으로 적어줘야 한다.
 		animator->GetStartEvent(L"BulletAni") = std::bind(&BulletScript::Start, this);
 		animator->GetCompleteEvent(L"BulletAni") = std::bind(&BulletScript::Action, this);
 		animator->GetEndEvent(L"BulletAni") = std::bind(&BulletScript::End, this);
@@ -118,12 +117,14 @@ namespace ya
 	}
 	void BulletScript::OnCollisionEnter(Collider2D* collider)
 	{
-		if (collider->GetOwner()->GetLayerType() == eLayerType::Monster || collider->GetOwner()->GetLayerType() == eLayerType::MonsterBoomer && collider->GetOwner()->GetState() == (UINT)GameObject::eState::Active)
+		if (collider->GetOwner()->GetLayerType() == eLayerType::Monster || collider->GetOwner()->GetLayerType() ==
+			eLayerType::MonsterBoomer && collider->GetOwner()->GetState() == (UINT)GameObject::eState::Active)
 		{
 			GetOwner()->GetComponent<AudioSource>()->Play();
 			AttackMonster(collider);
 		}
-		else if (collider->GetOwner()->GetLayerType() == eLayerType::Boss && collider->GetOwner()->GetState() == (UINT)GameObject::eState::Active)
+		else if (collider->GetOwner()->GetLayerType() == eLayerType::Boss && collider->GetOwner()->GetState() == 
+			(UINT)GameObject::eState::Active)
 		{
 			GetOwner()->GetComponent<AudioSource>()->Play();
 			AttackBoss(collider);

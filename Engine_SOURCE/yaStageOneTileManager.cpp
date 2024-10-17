@@ -69,7 +69,6 @@ namespace ya
 				SetDown();
 			}
 		}
-
 	}
 	void StageOneTileManager::FixedUpdate()
 	{
@@ -158,13 +157,15 @@ namespace ya
 			SwapArrayTile(tiles, firstIdx, secondIdx, thirdIdx);
 		}
 	}
-	void StageOneTileManager::SwapArrayTile(std::vector<GameObject*>& array, int idx1, int idx2)
+	void StageOneTileManager::SwapArrayTile
+	(std::vector<GameObject*>& array, int idx1, int idx2)
 	{
 		GameObject* obj = array[idx1];
 		array[idx1] = array[idx2];
 		array[idx2] = obj;
 	}
-	void StageOneTileManager::SwapArrayTile(std::vector<GameObject*>& array, int idx1, int idx2, int idx3)
+	void StageOneTileManager::SwapArrayTile
+	(std::vector<GameObject*>& array, int idx1, int idx2, int idx3)
 	{          
 		GameObject* obj = array[idx1];
 		array[idx1] = array[idx2];  

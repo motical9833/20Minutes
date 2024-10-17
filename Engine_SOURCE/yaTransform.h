@@ -4,6 +4,7 @@
 using namespace ya::math;
 namespace ya
 {
+
 	class Transform : public Component
 	{
 	public:
@@ -15,11 +16,11 @@ namespace ya
 		virtual void FixedUpdate() override;
 		virtual void Render() override;
 
+#pragma region Methods
 		void SetConstantBuffer();
-
 		void SetParent(Transform* parent);
 		Transform* GetParent() { return mParent; }
-		void setChiled(Transform* chiled) { mChiled.push_back(chiled); }
+		void SetChiled(Transform* chiled) { mChiled.push_back(chiled); }
 		Transform* GetChiled(int num) { return mChiled[num]; }
 		std::vector<Transform*> GetChileds() { return mChiled; }
 
@@ -43,8 +44,10 @@ namespace ya
 		void RightMove();
 
 		Matrix& GetWorldMatrix() { return mWorld; }
-
+#pragma endregion
 	private:
+#pragma region variables
+
 		Transform* mParent;
 		std::vector<Transform*> mChiled;
 		Vector3 mFoward;
@@ -59,4 +62,6 @@ namespace ya
 
 		bool bFollowParents;
 	};
+#pragma endregion
 }
+

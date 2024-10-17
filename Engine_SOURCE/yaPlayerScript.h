@@ -79,7 +79,7 @@ namespace ya
 		float regenerationTime;
 		float slowTime;
 
-		float testTime;
+		float soundTime;
 
 		float mSpeed;
 		float mslowSpeed;

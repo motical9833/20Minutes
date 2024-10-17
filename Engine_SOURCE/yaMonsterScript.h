@@ -52,6 +52,7 @@ namespace ya
 		int GetCurrentHP() { return mCurrentHp; }
 		int GetMaxHP() { return mMaxHp; }
 		float GetSpeed() { return mSpeed; }
+		void SetSpeed(float speed) { mSpeed = speed; }
 		void GetDIr();
 		void TargetPosMove(Vector3 targetPos);
 		float Distance(Vector3 myPos, Vector3 targetPos);

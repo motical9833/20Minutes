@@ -166,7 +166,9 @@ namespace ya
 		}
 	}
 
-	void Animation::Create(const std::wstring& name, std::shared_ptr<Texture> atlas, Vector2 leftTop, Vector2 size, Vector2 offset, int loopcnt, int loopnumber, float atlasSizeX, float atlasSizeY, UINT spriteLegth, float duration)
+	void Animation::Create(const std::wstring& name, std::shared_ptr<Texture> atlas,
+		Vector2 leftTop, Vector2 size, Vector2 offset, int loopcnt, int loopnumber,
+		float atlasSizeX, float atlasSizeY, UINT spriteLegth, float duration)
 	{
 		mAnimationName = name;
 

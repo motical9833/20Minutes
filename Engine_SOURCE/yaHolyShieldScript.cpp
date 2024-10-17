@@ -15,6 +15,7 @@ namespace ya
 	HolyShieldScript::HolyShieldScript()
 		:player{}
 		,rotTime(0.0f)
+		, divinWrathTime(0.0f)
 		, bDivinWrath(false)
 	{
 

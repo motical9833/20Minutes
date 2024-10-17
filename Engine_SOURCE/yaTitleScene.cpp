@@ -33,6 +33,10 @@
 #include "yaUiBase.h"
 #include "yaHUD.h"
 
+
+#include "GLM/glm.hpp"
+#include "GLM/gtc/matrix_transform.hpp"
+
 #define SHANA 0
 #define ABBY 1
 #define DIAMOND 2
@@ -304,6 +308,7 @@ namespace ya
 		bgEyeAni->Create(L"bgEyeAniRunOnce", bgEyeTexture, Vector2(0.0f, 0.0f), Vector2(336.8f, 111.0f), Vector2::Zero, 336.0f, 224.0f, 3, 0.1f);
 		bgEyeAni->Play(L"bgEyeAnimation", false);
 		bgEye->AddComponent<BgEyeScript>();
+
 	}
 	void TitleScene::CreateUIManager()
 	{

@@ -29,17 +29,17 @@ namespace ya
 
 	void Transform::Initalize()
 	{
-		//cos(180);
+
 	}
 
 	void Transform::Update()
 	{
-		//실제 로직상 캐릭터이동 처리
+
 	}
 
 	void Transform::FixedUpdate()
 	{
-		//렌더링에 사용될 위치값들을 업데이트
+		//렌더링에 사용될 위치값 업데이트
 
 		// 월드 행렬 생성
 		
@@ -72,7 +72,7 @@ namespace ya
 		mLeft = Vector3::TransformNormal(Vector3::Left, rotation);
 		mUp = Vector3::TransformNormal(Vector3::Up, rotation);
 		
-		// 카메라 컴포넌트에서 세팅해준다
+		// 카메라 컴포넌트에서 세팅
 		// 뷰행렬 세팅
 		// 프로젝션 행렬 세팅
 
@@ -109,7 +109,7 @@ namespace ya
 		if (mParent == nullptr)
 			return;
 
-		mParent->setChiled(this);
+		mParent->SetChiled(this);
 	}
 
 	void Transform::LeftMove()

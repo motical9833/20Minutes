@@ -27,3 +27,4 @@ namespace ya
 		GameObject* mOwner;
 	};
 }
+

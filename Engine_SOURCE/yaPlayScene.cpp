@@ -113,14 +113,14 @@ namespace ya
 			Light* lightComp = playerPointLight->AddComponent<Light>();
 			lightComp->SetType(eLightType::Point);
 			lightComp->SetRadius(3.0f);
-			lightComp->SetDiffuse(Vector4(0.5f, 0.5f, 0.5f, 1.0f));
+			lightComp->SetDiffuse(Vector4(0.25f, 0.25f, 0.25f, 1.0f));
 
 			playerSubPointLight = object::Instantiate<GameObject>(eLayerType::UI, this);
 			playerSubPointLight->GetComponent<Transform>()->SetPosition(Vector3(0.0f, 0.0f, 0.0f));
 			Light* sublightComp = playerSubPointLight->AddComponent<Light>();
 			sublightComp->SetType(eLightType::Point);
 			sublightComp->SetRadius(6.0f);
-			sublightComp->SetDiffuse(Vector4(0.5f, 0.5f, 0.5f, 1.0f));
+			sublightComp->SetDiffuse(Vector4(0.25f, 0.25f, 0.25f, 1.0f));
 
 
 
@@ -131,7 +131,7 @@ namespace ya
 			directLightComp->SetType(eLightType::Directional);
 			directLightComp->SetRadius(1.0f);
 			//directLightComp->SetDiffuse(Vector4(0.047f, 0.015f, 0.168f, -0.5f));
-			directLightComp->SetDiffuse(Vector4(-0.9f, -0.9f, -0.9f, 1.0f));
+			directLightComp->SetDiffuse(Vector4(-0.65f, -0.65f, -0.65f, 1.0f));
 		}
 
 
@@ -267,6 +267,7 @@ namespace ya
 
 		for (size_t i = 0; i < 1000; i++)
 		{
+			//총알 오브젝트 생성
 			Bullet* bulletobj = object::Instantiate<Bullet>(eLayerType::Bullet, this);
 			bullets.push_back(bulletobj);
 			bullets[i]->SetLayerType(eLayerType::Bullet);
@@ -275,20 +276,29 @@ namespace ya
 			bullets[i]->GetComponent<Transform>()->SetPosition(Vector3(0.0f, 0.0f, 0.0f));
 			bullets[i]->GetComponent<Transform>()->SetPosition(Vector3(0.0f, 0.0f, 0.0f));
 			bullets[i]->GetComponent<Transform>()->SetScale(Vector3(2.0f, 2.0f, 1.0f));
+
+			//콜라이더 생성
 			Collider2D* bulletColloder = bullets[i]->AddComponent<Collider2D>();
 			bulletColloder->SetType(eColliderType::Rect);
 			bulletColloder->SetSize(Vector2(0.1f, 0.1f));
+
+			//스프라이트 생성
 			SpriteRenderer* render = bullets[i]->AddComponent<SpriteRenderer>();
 			std::shared_ptr<Material> bulletMaterial = Resources::Find<Material>(L"BulletMaterial");
 			render->SetMaterial(bulletMaterial);
 			std::shared_ptr<Mesh> bulletMesh = Resources::Find<Mesh>(L"RectMesh");
 			render->SetMesh(bulletMesh);
+
+			//충돌시 재생되는 애니메이션 생성
 			Animator* bulletAnimator = bullets[i]->AddComponent<Animator>();
 			std::shared_ptr<Texture> bulletTexture = Resources::Find<Texture>(L"BulletTexture");
-			bulletAnimator->Create(L"BulletAni", bulletTexture, Vector2(0.0f, 0.0f), Vector2(16.0f, 14.0f), Vector2::Zero, 2, 0.0f);
+			bulletAnimator->Create(L"BulletAni", bulletTexture, Vector2(0.0f, 0.0f),
+				Vector2(16.0f, 14.0f), Vector2::Zero, 2, 0.0f);
 			bulletAnimator->Play(L"BulletAni", true);
 			bulletAnimator->ResetStop();
 			bullets[i]->AddComponent<BulletScript>();
+
+			//MonsterHit 오디오
 			bullets[i]->AddComponent<AudioSource>()->SetClip(Resources::Find<AudioClip>(L"MonsterHit"));
 			pWeapon->GetScript<WeaponScript>()->SetBullets(bullets[i]->GetComponent<Transform>());
 		}
@@ -323,7 +333,7 @@ namespace ya
 		CreateExpMarble();
 		CreateHpUIobj();
 		CreateSkillUI(cameraUIObj);
-		CreateAbilityIcon(cameraUIObj);
+		CreateAbilityIcon(/*cameraUIObj*/);
 		CreateAmmoIcon(cameraUIObj);
 		CreateExpBar(cameraUIObj);
 		CreateGameManagers();
@@ -530,8 +540,8 @@ namespace ya
 		}
 
 
-		Transform* tr = pSceneCamera->GetComponent<Transform>();
-		Vector3 pos = tr->GetPosition();
+		//Transform* tr = pSceneCamera->GetComponent<Transform>();
+		//Vector3 pos = tr->GetPosition();
 
 		Scene::Update();
 
@@ -702,6 +712,7 @@ namespace ya
 			M_DefaultTr(m_Brain, Vector3(-2.0f, 0.0f, 0.0f), Vector3(3.0f, 3.0f, 1.0f));
 			CreateCollider(m_Brain, eColliderType::Rect, Vector2(0.5f, 0.5f));
 			CreateSpriteRenderer(m_Brain, L"BrainMonsterMaterial");
+
 			Animator* mAnimator = m_Brain->AddComponent<Animator>();
 			std::shared_ptr<Texture> mTexture = Resources::Find<Texture>(L"BrainMonster");
 			std::shared_ptr<Texture> deathTexture = Resources::Find<Texture>(L"M_DeathFX");
@@ -711,11 +722,35 @@ namespace ya
 			mAnimator->Create(L"m_LeftHit", mTexture, Vector2(0.0f, 192.0f), Vector2(64.0f, 64.0f), Vector2::Zero, 1, 0.1f);
 			mAnimator->Create(L"DeathAnimation", deathTexture, Vector2(0.0f, 0.0f), Vector2(40.0f, 40.0f), Vector2::Zero, 4, 0.1f);
 			mAnimator->Play(L"m_Left", true);
+
 			m_Brain->AddComponent<AudioSource>()->SetClip(Resources::Find<AudioClip>(L"MonsterHit"));
 			m_Brain->AddComponent<MonsterScript>(40,eLayerType::Monster);
 			m_Brain->Death();
 			mBrainMonsters.push_back(m_Brain);
 		}
+
+
+		//Monster* m_Brain = object::Instantiate<Monster>(eLayerType::Monster, this);
+		//m_Brain->SetLayerType(eLayerType::Monster);
+		//m_Brain->SetName(L"brain");
+		//M_DefaultTr(m_Brain, Vector3(-2.0f, 0.0f, 0.0f), Vector3(3.0f, 3.0f, 1.0f));
+		//CreateCollider(m_Brain, eColliderType::Rect, Vector2(0.5f, 0.5f));
+		//CreateSpriteRenderer(m_Brain, L"BrainMonsterMaterial");
+
+		//Animator* mAnimator = m_Brain->AddComponent<Animator>();
+		//std::shared_ptr<Texture> mTexture = Resources::Find<Texture>(L"BrainMonster");
+		//std::shared_ptr<Texture> deathTexture = Resources::Find<Texture>(L"M_DeathFX");
+		//mAnimator->Create(L"m_Right", mTexture, Vector2(0.0f, 0.0f), Vector2(64.0f, 64.0f), Vector2::Zero, 4, 0.1f);
+		//mAnimator->Create(L"m_Left", mTexture, Vector2(0.0f, 64.0f), Vector2(64.0f, 64.0f), Vector2::Zero, 4, 0.1f);
+		//mAnimator->Create(L"m_RightHit", mTexture, Vector2(0.0f, 128.0f), Vector2(64.0f, 64.0f), Vector2::Zero, 1, 0.1f);
+		//mAnimator->Create(L"m_LeftHit", mTexture, Vector2(0.0f, 192.0f), Vector2(64.0f, 64.0f), Vector2::Zero, 1, 0.1f);
+		//mAnimator->Create(L"DeathAnimation", deathTexture, Vector2(0.0f, 0.0f), Vector2(40.0f, 40.0f), Vector2::Zero, 4, 0.1f);
+		//mAnimator->Play(L"m_Left", true);
+
+		//m_Brain->AddComponent<AudioSource>()->SetClip(Resources::Find<AudioClip>(L"MonsterHit"));
+		//m_Brain->AddComponent<MonsterScript>(10000000, eLayerType::Monster);
+		//m_Brain->GetScript<MonsterScript>()->SetSpeed(0.0f);
+		//mBrainMonsters.push_back(m_Brain);
 	}
 
 	void PlayScene::CreateBrainEyeEffect()
@@ -1340,7 +1375,7 @@ namespace ya
 		}
 	}
 
-	void PlayScene::CreateAbilityIcon(GameObject* parent)
+	void PlayScene::CreateAbilityIcon(/*GameObject* parent*/)
 	{
 		for (size_t i = 0; i < 100; i++)
 		{

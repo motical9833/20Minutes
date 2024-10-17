@@ -120,7 +120,7 @@ namespace ya
 
 
 		void CreateHpUIobj();
-		void CreateAbilityIcon(GameObject* parent);
+		void CreateAbilityIcon(/*GameObject* parent*/);
 		void CreateLevelUpEffect();
 		void CreateUIPanal(/*GameObject* parent*/Vector3 pos, Vector3 scale);
 		void CreateUIObject(const std::wstring& key, Vector3 pos, Vector3 scale);

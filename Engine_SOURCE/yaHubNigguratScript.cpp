@@ -165,19 +165,6 @@ namespace ya
 	}
 	void HubNigguratScript::TakeDamage(int damage)
 	{
-		//if (GetOwner()->GetComponent<Animator>()->GetActiveAnimation()->AnimationName() == L"Boss_RightMove")
-		//{
-		//	GetOwner()->GetComponent<Animator>()->Play(L"m_RightHit", false);
-		//	GetOwner()->GetComponent<Transform>()->GetChiled(2)->GetOwner()->GetScript<MonsterEyeLightScript>()->SetRightHit();
-		//}
-		//else if (GetOwner()->GetComponent<Animator>()->GetActiveAnimation()->AnimationName() == L"Boss_LeftMove")
-		//{
-		//	GetOwner()->GetComponent<Animator>()->Play(L"m_LeftHit", false);
-		//	GetOwner()->GetComponent<Transform>()->GetChiled(2)->GetOwner()->GetScript<MonsterEyeLightScript>()->SetLeftHit();
-		//}
-
-		//mSpeed = 0;
-
 		if (bCurseActivate)
 		{
 			bCurseActivate = false;

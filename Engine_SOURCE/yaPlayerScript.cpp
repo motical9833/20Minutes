@@ -17,7 +17,7 @@ namespace ya
 		: Script()
 		, characterNumber(0)
 		, mCurrentHP(0)
-		, mMaxHP(3)
+		, mMaxHP(4)
 		, dodgeRate(0)
 		, immuneTime(0.0f)
 		, hitBuffTime(0.0f)
@@ -65,7 +65,7 @@ namespace ya
 		, bRegeneration(false)
 		, bShooting(false)
 		, bReflex(false)
-		, testTime(0.0f)
+		, soundTime(0.0f)
 	{
 
 	}
@@ -104,19 +104,19 @@ namespace ya
 
 	    Move();
 
-		testTime += Time::DeltaTime();
+		soundTime += Time::DeltaTime();
 
-		if (bMove && bShooting == false && testTime >= 1.0f)
+		if (bMove && bShooting == false && soundTime >= 1.0f)
 		{
 			SceneManager::GetPlayScene()->GetSoundObjects(6)->GetComponent<Transform>()->SetPosition(GetOwner()->GetComponent<Transform>()->GetPosition());
 			SceneManager::GetPlayScene()->GetSoundObjects(6)->GetComponent<AudioSource>()->Play();
-			testTime = 0;
+			soundTime = 0;
 		}
-		else if (bMove && bShooting && testTime >= 2.0f)
+		else if (bMove && bShooting && soundTime >= 2.0f)
 		{
 			SceneManager::GetPlayScene()->GetSoundObjects(6)->GetComponent<Transform>()->SetPosition(GetOwner()->GetComponent<Transform>()->GetPosition());
 			SceneManager::GetPlayScene()->GetSoundObjects(6)->GetComponent<AudioSource>()->Play();
-			testTime = 0;
+			soundTime = 0;
 		}
 
 
@@ -191,7 +191,7 @@ namespace ya
 
 			if (slowTime >= 0.5f)
 			{
-				mSpeed = 3;
+				mSpeed = 3.0f;
 				slowTime = 0;
 				bShooting = false;
 
